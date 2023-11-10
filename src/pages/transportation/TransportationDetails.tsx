@@ -1,60 +1,71 @@
-import PageHeader from "../../components/text/PageHeader";
 import BackgroundCard from "../../components/layout/BackgroundCard";
-import {Box, TextField} from "@mui/material";
-import NormalText from "../../components/text/NormalText";
 import DataCard from "../../components/layout/DataCard";
 import Headline from "../../components/text/Headline";
+import {Box, TextField} from "@mui/material";
+import NormalText from "../../components/text/NormalText";
 import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
 
-const CarEdit = () => {
+const TransportationDetails = () => {
     return (
         <Box>
-            <PageHeader text={'Új autó hozzáadása'}/>
             <BackgroundCard>
-                <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                    <NormalText text={'Kiválasztott típus'} />
-                    <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                </Box>
                 <DataCard>
-                    <Headline text={'Típus adatok'} />
+                    <Headline text={'Indulási adatok'} />
                     <Box sx={{display: 'flex', flexDirection: 'column'}}>
                         <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Kivitel'} />
+                            <NormalText text={'Ország'} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Teljesítmény'} />
+                            <NormalText text={'Irányítószám'} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Saját tömeg'} />
+                            <NormalText text={'Település'} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Ülések száma'} />
+                            <NormalText text={'Közterület neve'} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Üzemanyag'} />
+                            <NormalText text={'Közterület jellege'} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Hasznos teher'} />
+                            <NormalText text={'Házszám'} />
+                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+                            <NormalText text={'Indulási dátum'} />
+                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                            <NormalText text={'Indulási időpont'} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </Box>
                     </Box>
                 </DataCard>
                 <DataCard>
-                    <Headline text={'Egyéni adatok'} />
+                    <Headline text={'Érkezési adatok'} />
                     <Box sx={{display: 'flex', flexDirection: 'column'}}>
                         <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Rendszám'} />
+                            <NormalText text={'Ország'} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Forg.engedély száma'} />
+                            <NormalText text={'Irányítószám'} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Alvázszám'} />
+                            <NormalText text={'Település'} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Gyártási év'} />
+                            <NormalText text={'Közterület neve'} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Első nyilvántartásba vétel'} />
+                            <NormalText text={'Közterület jellege'} />
+                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                            <NormalText text={'Házszám'} />
+                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+                            <NormalText text={'Érkezés dátum'} />
+                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                            <NormalText text={'Érkezés időpont'} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </Box>
                     </Box>
+                </DataCard>
+                <DataCard>
+                    <Headline text={'Rakodási pont hozzáadása'} />
                 </DataCard>
                 <Box sx={{ display: 'inline', paddingLeft: 142}}>
                     <CancelButton text={'Mégsem'} />
@@ -65,4 +76,4 @@ const CarEdit = () => {
     );
 };
 
-export default CarEdit;
+export default TransportationDetails;

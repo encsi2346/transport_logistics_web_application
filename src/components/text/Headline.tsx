@@ -1,17 +1,21 @@
-import {Box, SxProps, Theme, Typography} from '@mui/material';
+import {Box, SxProps, Theme, Typography} from "@mui/material";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 700,
-    fontSize: '16px',
+    fontSize: '26px',
     lineHeight: '20px',
-    color: '#DD1C13'
+    color: '#DD1C13',
+    marginTop: '20px',
+    marginBottom: '20px',
+    marginLeft: '10px',
+    marginRight: '10px'
 }
 
 interface Props {
     text: string;
 }
 
-const PageHeader = ({ text }: Props) => {
+const Headline = ({ text }: Props) => {
     return (
         <>
             <Box>
@@ -21,4 +25,4 @@ const PageHeader = ({ text }: Props) => {
     );
 };
 
-export default PageHeader;
+export default Headline;

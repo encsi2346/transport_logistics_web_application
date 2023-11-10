@@ -1,17 +1,18 @@
-import {Box, SxProps, Theme} from "@mui/material";
 import {ReactNode} from "react";
+import {Box, SxProps, Theme} from "@mui/material";
 
 const backgroundStyle: SxProps<Theme> = {
-    backgroundColor: '#E3E3E3',
+    backgroundColor: '#ffffff',
     paddingLeft: '10px',
     paddingRight: '10px',
     paddingTop: '10px',
     paddingBottom: '10px',
-    marginBottom: '40px',
-    marginTop: '5px',
-    marginLeft: '5px',
-    marginRight: '5px',
+    marginBottom: '10px',
+    marginTop: '10px',
+    marginLeft: '20px',
+    marginRight: '20px',
     height: '100%',
+    width: 400,
     borderRadius: '19px'
 }
 
@@ -19,7 +20,7 @@ interface Props {
     children: ReactNode;
 }
 
-const DataCard = ({ children }: Props) => {
+const SmallBackgroundCard = ({ children }: Props) => {
     return (
         <Box sx={backgroundStyle}>
             {children}
@@ -27,4 +28,4 @@ const DataCard = ({ children }: Props) => {
     );
 };
 
-export default DataCard;
+export default SmallBackgroundCard;

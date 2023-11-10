@@ -1,4 +1,3 @@
-import PageHeader from "../../components/text/PageHeader";
 import BackgroundCard from "../../components/layout/BackgroundCard";
 import {Box, TextField} from "@mui/material";
 import NormalText from "../../components/text/NormalText";
@@ -7,10 +6,9 @@ import Headline from "../../components/text/Headline";
 import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
 
-const CarEdit = () => {
+const TransportationCarSelecting = () => {
     return (
         <Box>
-            <PageHeader text={'Új autó hozzáadása'}/>
             <BackgroundCard>
                 <Box sx={{ display: 'flex', flexDirection: 'row'}}>
                     <NormalText text={'Kiválasztott típus'} />
@@ -37,6 +35,10 @@ const CarEdit = () => {
                         </Box>
                     </Box>
                 </DataCard>
+                <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+                    <NormalText text={'Kiválasztott autó'} />
+                    <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                </Box>
                 <DataCard>
                     <Headline text={'Egyéni adatok'} />
                     <Box sx={{display: 'flex', flexDirection: 'column'}}>
@@ -65,4 +67,4 @@ const CarEdit = () => {
     );
 };
 
-export default CarEdit;
+export default TransportationCarSelecting;
