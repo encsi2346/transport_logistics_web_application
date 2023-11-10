@@ -1,12 +1,17 @@
-import PageHeader from "../../components/text/PageHeader";
-import BackgroundCard from "../../components/layout/BackgroundCard";
-import DataCard from "../../components/layout/DataCard";
+import PageHeader from "../../components/text/PageHeader.tsx";
+import BackgroundCard from "../../components/layout/BackgroundCard.tsx";
+import DataCard from "../../components/layout/DataCard.tsx";
 import {Box, TextField} from "@mui/material";
-import NormalText from "../../components/text/NormalText";
-import CancelButton from "../../components/button/CancelButton";
-import SaveButton from "../../components/button/SaveButton";
+import NormalText from "../../components/text/NormalText.tsx";
+import CancelButton from "../../components/button/CancelButton.tsx";
+import SaveButton from "../../components/button/SaveButton.tsx";
 
-const RequestEdit = () => {
+interface Props {
+    isEditing?: boolean;
+    isInputDisabled?: boolean;
+}
+
+const RequestEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     return (
         <Box>
             <PageHeader text={'Új kérés feladása'}/>

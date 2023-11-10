@@ -1,8 +1,8 @@
 import {Box, TextField} from "@mui/material";
-import PageHeader from "../../components/text/PageHeader";
-import FilterCard from "../../components/layout/FilterCard";
-import NoBackgroundCard from "../../components/layout/NoBackgroundCard";
-import UserTableComponent from "../../components/layout/UserTableComponent";
+import PageHeader from "../../components/text/PageHeader.tsx";
+import FilterCard from "../../components/layout/FilterCard.tsx";
+import NoBackgroundCard from "../../components/layout/NoBackgroundCard.tsx";
+import UserTableComponent from "../../components/layout/UserTableComponent.tsx";
 
 const UserList = () => {
     return (

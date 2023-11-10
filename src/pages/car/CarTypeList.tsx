@@ -1,8 +1,8 @@
-import PageHeader from "../../components/text/PageHeader";
-import FilterCard from "../../components/layout/FilterCard";
+import PageHeader from "../../components/text/PageHeader.tsx";
+import FilterCard from "../../components/layout/FilterCard.tsx";
 import {Box, TextField} from "@mui/material";
-import NoBackgroundCard from "../../components/layout/NoBackgroundCard";
-import CarTypeCard from "../../components/layout/CarTypeCard";
+import NoBackgroundCard from "../../components/layout/NoBackgroundCard.tsx";
+import CarTypeCard from "../../components/layout/CarTypeCard.tsx";
 
 const CarTypeList = () => {
     return (

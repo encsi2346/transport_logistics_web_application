@@ -1,9 +1,9 @@
-import PageHeader from "../../components/text/PageHeader";
-import FilterCard from "../../components/layout/FilterCard";
+import PageHeader from "../../components/text/PageHeader.tsx";
+import FilterCard from "../../components/layout/FilterCard.tsx";
 import {Box, TextField} from "@mui/material";
-import NewButton from "../../components/button/NewButton";
-import NoBackgroundCard from "../../components/layout/NoBackgroundCard";
-import GoodsTypeCard from "../../components/layout/GoodsTypeCard";
+import NewButton from "../../components/button/NewButton.tsx";
+import NoBackgroundCard from "../../components/layout/NoBackgroundCard.tsx";
+import GoodsTypeCard from "../../components/layout/GoodsTypeCard.tsx";
 
 const GoodsCategoryList = () => {
     return (

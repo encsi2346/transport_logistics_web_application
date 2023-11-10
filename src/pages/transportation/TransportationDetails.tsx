@@ -1,10 +1,10 @@
-import BackgroundCard from "../../components/layout/BackgroundCard";
-import DataCard from "../../components/layout/DataCard";
-import Headline from "../../components/text/Headline";
+import BackgroundCard from "../../components/layout/BackgroundCard.tsx";
+import DataCard from "../../components/layout/DataCard.tsx";
+import Headline from "../../components/text/Headline.tsx";
 import {Box, TextField} from "@mui/material";
-import NormalText from "../../components/text/NormalText";
-import CancelButton from "../../components/button/CancelButton";
-import SaveButton from "../../components/button/SaveButton";
+import NormalText from "../../components/text/NormalText.tsx";
+import CancelButton from "../../components/button/CancelButton.tsx";
+import SaveButton from "../../components/button/SaveButton.tsx";
 
 const TransportationDetails = () => {
     return (

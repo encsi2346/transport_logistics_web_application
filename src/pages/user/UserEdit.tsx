@@ -1,13 +1,18 @@
-import PageHeader from "../../components/text/PageHeader";
-import BackgroundCard from "../../components/layout/BackgroundCard";
-import DataCard from "../../components/layout/DataCard";
-import Headline from "../../components/text/Headline";
+import PageHeader from "../../components/text/PageHeader.tsx";
+import BackgroundCard from "../../components/layout/BackgroundCard.tsx";
+import DataCard from "../../components/layout/DataCard.tsx";
+import Headline from "../../components/text/Headline.tsx";
 import {Box, TextField} from "@mui/material";
-import NormalText from "../../components/text/NormalText";
-import CancelButton from "../../components/button/CancelButton";
-import SaveButton from "../../components/button/SaveButton";
+import NormalText from "../../components/text/NormalText.tsx";
+import CancelButton from "../../components/button/CancelButton.tsx";
+import SaveButton from "../../components/button/SaveButton.tsx";
 
-const UserEdit = () => {
+interface Props {
+    isEditing?: boolean;
+    isInputDisabled?: boolean;
+}
+
+const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     return (
         <Box>
             <PageHeader text={'Új alkalmazott felvétele'}/>

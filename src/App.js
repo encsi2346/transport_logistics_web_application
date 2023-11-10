@@ -1,11 +1,9 @@
-import React from 'react';
-import {Box} from "@mui/material";
+import Router from "./Router.tsx";
 
 const App = () => {
   return (
     <>
-        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        </Box>
+        <Router />
     </>
   );
 }

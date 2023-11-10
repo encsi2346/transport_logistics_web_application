@@ -1,8 +1,8 @@
 import {Box, TextField} from "@mui/material";
-import PageHeader from "../../components/text/PageHeader";
-import FilterCard from "../../components/layout/FilterCard";
-import NoBackgroundCard from "../../components/layout/NoBackgroundCard";
-import RequestTableComponent from "../../components/layout/RequestTableComponent";
+import PageHeader from "../../components/text/PageHeader.tsx";
+import FilterCard from "../../components/layout/FilterCard.tsx";
+import NoBackgroundCard from "../../components/layout/NoBackgroundCard.tsx";
+import RequestTableComponent from "../../components/layout/RequestTableComponent.tsx";
 
 const RequestList = () => {
     return (

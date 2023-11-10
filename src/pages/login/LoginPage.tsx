@@ -1,6 +1,6 @@
 import {Box, TextField, Typography} from "@mui/material";
-import SmallBackgroundCard from "../../components/layout/SmallBackgroundCard";
-import WideSaveButton from "../../components/button/WideSaveButton";
+import SmallBackgroundCard from "../../components/layout/SmallBackgroundCard.tsx";
+import WideSaveButton from "../../components/button/WideSaveButton.tsx";
 
 const LoginPage = () => {
     return (
