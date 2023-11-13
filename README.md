@@ -1,6 +1,6 @@
 # Transport logistics web application
 
-SZabó Enikő - Önálló laboratórium 2 (MSc)
+Szabó Enikő - Önálló laboratórium 2 (MSc)
 
 ## Figma UI-terv:
 
