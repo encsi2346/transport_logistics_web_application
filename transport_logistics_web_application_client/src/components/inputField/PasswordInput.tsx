@@ -4,11 +4,11 @@ import { IconButton, InputAdornment } from '@mui/material';
 import { MouseEvent, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
 
-import TextFieldElement, { TextFieldElementProps } from './TextFieldInput.tsx';
+import TextFieldElement, { TextFieldInputProps } from './TextFieldInput.tsx';
 
-export type PasswordElementProps<T extends FieldValues> = TextFieldElementProps<T>;
+export type PasswordInputProps<T extends FieldValues> = TextFieldInputProps<T>;
 
-export default function PasswordElement<T extends FieldValues>(props: PasswordElementProps<T>): JSX.Element {
+export default function PasswordInput<T extends FieldValues>(props: PasswordInputProps<T>): JSX.Element {
     const [password, setPassword] = useState<boolean>(true);
     return (
         <TextFieldElement

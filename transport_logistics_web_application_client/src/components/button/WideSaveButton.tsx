@@ -1,4 +1,5 @@
-import {Button, SxProps, Theme} from "@mui/material";
+import {Button} from "@mui/material";
+import type {SxProps, Theme} from "@mui/material";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'regular',
@@ -19,11 +20,23 @@ const titleStyle: SxProps<Theme> = {
 
 interface Props {
     text: string;
+    type?: string;
+    onClick?: () => void;
+    disabled?: boolean;
 }
 
-const WideSaveButton = ({ text }: Props) => {
+const WideSaveButton = ({ text, type, onClick, disabled }: Props) => {
     return (
-        <Button sx={titleStyle}>
+        <Button
+            type={type}
+            data-testid='save-button'
+            sx={titleStyle}
+            onClick={() => {
+                if(!disabled && onClick) {
+                    onClick();
+                }
+            }}
+        >
             {text}
         </Button>
     );

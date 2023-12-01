@@ -1,5 +1,5 @@
-import type { TextFieldProps } from '@mui/material';
-import { TextField } from '@mui/material';
+import type {TextFieldProps} from '@mui/material';
+import {TextField, useTheme} from '@mui/material';
 import { Control, Controller, ControllerProps, FieldError, FieldValues, Path } from 'react-hook-form';
 
 export type TextFieldInputProps<T extends FieldValues> = Omit<TextFieldProps, 'name'> & {
@@ -22,6 +22,8 @@ export default function TextFieldInput<T extends FieldValues>({
     externalError = false,
     ...rest
 }: TextFieldInputProps<T>): JSX.Element {
+    const { palette } = useTheme();
+    const isAuth = true /*Boolean(useSelector((state) => state.token))*/; //TODO
 
     if (required) {
         validation.required = 'REQUIRED';
@@ -37,6 +39,7 @@ export default function TextFieldInput<T extends FieldValues>({
                     {...rest}
                     name={name}
                     value={value ?? ''}
+                    variant="filled"
                     onChange={(event) => {
                         let value: string | number | undefined = event.target.value;
                         if (type === 'number') {
@@ -48,6 +51,20 @@ export default function TextFieldInput<T extends FieldValues>({
                     required={required}
                     type={type}
                     error={!!error || externalError}
+                    InputProps={{
+                        disableUnderline: 'true',
+                        style: {
+                            backgroundColor: isAuth ? `#ffffff` : `#ffffff`,
+                            borderRadius: '13px',
+                            color: `#000000`,
+                            textDecoration: 'none',
+                            height: 40,
+                            width: 250,
+                            fontSize: "15px",
+                            paddingLeft: 10,
+                            paddingBottom: 10
+                        }
+                    }}
                     helperText={
                         showErrorMessage
                             ? error
