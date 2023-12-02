@@ -4,8 +4,9 @@ import ForgottenPassword from "./pages/login/ForgottenPassword.tsx";
 import Layout from './components/layout/Layout.tsx';
 import UserRouting from './pages/user/UserRouting.tsx';
 import CarRouting from './pages/car/CarRouting.tsx';
-import GoodsRouting from "./pages/goods/GoodsRouting.tsx";
+import ProductsRouting from "./pages/product/ProductsRouting.tsx";
 import TransportationRouting from './pages/transportation/TransportationRouting.tsx';
+import Dashboard from "./pages/dashboard/Dashboard.tsx";
 
 const Router = () => {
     //const auth = useAuthentication();
@@ -30,10 +31,11 @@ const Router = () => {
 
             <Route>
                 <Route element={/*authenticatedElement(*/<Layout />/*)*/}>
-                    <Route path="user/*" element={<UserRouting />} />
-                    <Route path="car-type/*" element={<CarRouting />} />
-                    <Route path="goods-category/*" element={<GoodsRouting />} />
-                    <Route path="transportation/*" element={<TransportationRouting />} />
+                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="users/*" element={<UserRouting />} />
+                    <Route path="car-types/*" element={<CarRouting />} />
+                    <Route path="products-categories/*" element={<ProductsRouting />} />
+                    <Route path="transportations/*" element={<TransportationRouting />} />
                 </Route>
             </Route>
         </Routes>

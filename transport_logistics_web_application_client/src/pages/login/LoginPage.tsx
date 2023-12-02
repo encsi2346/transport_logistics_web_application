@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import {useState} from "react";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Navigate} from "react-router-dom";
-import { useTypeSafeTranslation } from "../../components/inputField/hook/useTypeSafeTranslation.tsx";
+import { useTypeSafeTranslation } from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
 
 const LoginPage = () => {
     const navigate = useNavigate();

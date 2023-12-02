@@ -12,7 +12,7 @@ interface Props {
     isInputDisabled?: boolean;
 }
 
-const GoodsItemEdit = ({ isEditing = false, isInputDisabled }: Props) => {
+const ProductsItemEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     return (
         <Box>
             <PageHeader text={'Új áru felvétele'}/>
@@ -53,4 +53,4 @@ const GoodsItemEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     );
 };
 
-export default GoodsItemEdit;
+export default ProductsItemEdit;

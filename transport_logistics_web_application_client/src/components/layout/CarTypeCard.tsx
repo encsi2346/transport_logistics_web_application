@@ -11,6 +11,7 @@ const cardStyle: SxProps<Theme> = {
     paddingLeft: '20px',
     paddingRight: '20px',
     boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
+    cursor: 'pointer' //TODO: create hover-effect
 }
 
 const textStyle: SxProps<Theme> = {
@@ -31,16 +32,23 @@ const iconStyle: SxProps<Theme> = {
 }
 
 interface Props {
-    carType: string;
+    brand: string;
+    type: string;
+    subType: string;
 }
 
-const CarTypeCard = ({ carType }: Props) => {
+const CarTypeCard = ({ brand, type, subType }: Props) => {
     return (
         <Box sx={cardStyle}>
             <Box sx={{display: 'flex', align: 'center', justifyContent: 'center'}}>
                 <LocalShippingIcon sx={iconStyle}/>
             </Box>
-            <Typography sx={textStyle}>{carType}</Typography>
+            <Typography sx={textStyle}>
+                {brand} {type}
+            </Typography>
+            <Typography>
+                {subType}
+            </Typography>
         </Box>
     );
 };

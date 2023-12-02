@@ -1,7 +1,7 @@
 import {Box, TextField} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
-import NoBackgroundCard from "../../components/layout/NoBackgroundCard";
+import ContentCard from "../../components/layout/ContentCard";
 import CarTableComponent from "../../components/layout/CarTableComponent";
 
 const CarList = () => {
@@ -16,9 +16,9 @@ const CarList = () => {
                     </Box>
                 </Box>
             </FilterCard>
-            <NoBackgroundCard>
+            <ContentCard>
                 <CarTableComponent />
-            </NoBackgroundCard>
+            </ContentCard>
         </Box>
     );
 };

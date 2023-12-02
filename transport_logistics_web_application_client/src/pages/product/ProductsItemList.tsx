@@ -2,10 +2,10 @@ import {Box, TextField} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader.tsx";
 import FilterCard from "../../components/layout/FilterCard.tsx";
 import NewButton from "../../components/button/NewButton.tsx";
-import NoBackgroundCard from "../../components/layout/NoBackgroundCard.tsx";
+import ContentCard from "../../components/layout/ContentCard.tsx";
 import GoodsTableComponent from "../../components/layout/GoodsTableComponent.tsx";
 
-const GoodsItemList = () => {
+const ProductsItemList = () => {
     return (
         <Box>
             <PageHeader text={'Raktárkészlet'}/>
@@ -19,11 +19,11 @@ const GoodsItemList = () => {
                     </Box>
                 </Box>
             </FilterCard>
-            <NoBackgroundCard>
+            <ContentCard>
                 <GoodsTableComponent />
-            </NoBackgroundCard>
+            </ContentCard>
         </Box>
     );
 };
 
-export default GoodsItemList;
+export default ProductsItemList;

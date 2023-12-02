@@ -1,6 +1,6 @@
 import {Route, Routes} from "react-router-dom";
-import CarTypeEdit from "./CarTypeEdit.tsx";
-import CarTypeList from "./CarTypeList.tsx";
+import CarTypeEdit from "../car-type/CarTypeEdit.tsx";
+import CarTypeList from "../car-type/CarTypeList.tsx";
 
 const CarRouting = () => {
     return (

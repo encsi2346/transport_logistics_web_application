@@ -11,6 +11,7 @@ const cardStyle: SxProps<Theme> = {
     paddingLeft: '20px',
     paddingRight: '20px',
     boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
+    cursor: 'pointer'
 }
 
 const mainTextStyle: SxProps<Theme> = {

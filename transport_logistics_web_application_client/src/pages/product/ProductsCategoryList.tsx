@@ -1,72 +1,47 @@
-import {Box, FormControl, Input, InputAdornment} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader.tsx";
 import FilterCard from "../../components/layout/FilterCard.tsx";
+import {Box, FormControl, Grid, Input, InputAdornment} from "@mui/material";
+import NewButton from "../../components/button/NewButton.tsx";
 import ContentCard from "../../components/layout/ContentCard.tsx";
-import {useForm} from "react-hook-form";
+import GoodsTypeCard from "../../components/layout/GoodsTypeCard.tsx";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
 import {useLocation} from "react-router-dom";
 import {useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import UserTableQuery from "./UserTableQuery.tsx";
-import useSelection from "../../components/inputField/hooks/useSelection.tsx";
 
-const UserList = () => {
+const ProductsCategoryList = () => {
     const { t } = useTypeSafeTranslation();
     const location = useLocation();
     const [search, setSearch] = useState('');
-    const [users, setUsers] = useState([
+    const [categories, setCategories] = useState([
         {
-            id: '1111',
-            fullName: 'Példa Elek',
-            position: 'Sofőr',
+            category: 'Kategória1',
+            availability: 'Készleten',
         },
         {
-            id: '1111',
-            fullName: 'Példa Elek',
-            position: 'Sofőr',
+            category: 'Kategória3',
+            availability: 'Készlethiány',
         },
         {
-            id: '1111',
-            fullName: 'Példa Elek',
-            position: 'Sofőr',
+            category: 'Kategória4',
+            availability: 'Készleten',
         },
         {
-            id: '1111',
-            fullName: 'Példa Elek',
-            position: 'Sofőr',
+            category: 'Kategória5',
+            availability: 'Készlethiány',
         },
         {
-            id: '1111',
-            fullName: 'Példa Elek',
-            position: 'Sofőr',
+            category: 'Kategória2',
+            availability: 'Készleten',
         },
     ]);
-    const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
-
-    const { control, reset, handleSubmit, setValue } = useForm({
-        defaultValues: {
-            taskIdIn: [],
-            onlyActives: false,
-        },
-    });
-
-    const onSubmit = handleSubmit((data) => {});
-
-    const onReset = () => {
-        reset();
-        onSubmit();
-    };
-
-    const handleDataChange = () => {
-        handleSelectionChange(selectionModel);
-    };
 
     return (
         <Box>
-            <PageHeader text={t('TEXT.USERS')}/>
+            <PageHeader text={t('TEXT.PRODUCT_CATEGORIES')}/>
             <FilterCard>
-                <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
+                <Box sx={{display: 'flex', flexDirection: 'row'}}>
                     <FormControl sx={{
                         marginTop: 1,
                         marginBottom: 5,
@@ -76,8 +51,8 @@ const UserList = () => {
                         gap: 2
                     }}>
                         <Input
-                            id="name"
-                            placeholder="Search name"
+                            id="category"
+                            placeholder="Search category"
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -104,8 +79,8 @@ const UserList = () => {
                             }}
                         />
                         <Input
-                            id="position"
-                            placeholder="Search position"
+                            id="availability"
+                            placeholder="Search availability"
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -132,28 +107,31 @@ const UserList = () => {
                             }}
                         />
                     </FormControl>
+                    <NewButton />
                 </Box>
             </FilterCard>
 
             <ContentCard>
-                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
-                    <UserTableQuery
-                        searchResults={
-                            users
-                                .filter((item) => {
-                                    return search.toLowerCase() === ''
-                                        ? item
-                                        : item.fullName.toLowerCase().includes(search);
-                                })
-                        }
-                        selectionModel={selectionModel}
-                        onSelectionChange={handleSelectionChange}
-                        onDataChange={handleDataChange}
-                    />
+                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                    <Grid container rowSpacing={3} columnSpacing={-75} >
+                        {categories
+                            .filter((item) => {
+                                return search.toLowerCase() === ''
+                                    ? item
+                                    : item.category.toLowerCase().includes(search);
+                            })
+                            .map((item, index) => {
+                                return (
+                                    <Grid item xs={4} key={item.category}>
+                                        <GoodsTypeCard category={item.category} availability={item.availability}/>
+                                    </Grid>
+                                );
+                            })}
+                    </Grid>
                 </Box>
             </ContentCard>
         </Box>
     );
 };
 
-export default UserList;
+export default ProductsCategoryList;

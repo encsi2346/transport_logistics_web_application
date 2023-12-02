@@ -17,7 +17,7 @@ interface Props {
     children: ReactNode;
 }
 
-const NoBackgroundCard = ({ children }: Props) => {
+const ContentCard = ({ children }: Props) => {
     return (
         <Box sx={backgroundStyle}>
             {children}
@@ -25,4 +25,4 @@ const NoBackgroundCard = ({ children }: Props) => {
     );
 };
 
-export default NoBackgroundCard;
+export default ContentCard;

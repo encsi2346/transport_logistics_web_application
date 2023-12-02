@@ -36,12 +36,20 @@ const SidebarItem = ({ link, isSidebarOpen, removeSelectionStyles = false }: Pro
             justifyContent={isSidebarOpen ? 'flex-start' : 'center'}
             minHeight="40px"
             height="40px"
+            padding="25px"
             pl={isSidebarOpen ? 3 : 0}
-            bgcolor={isActive ? 'primary.100' : 'inherit'}
-            boxShadow={isActive && isSidebarOpen ? 'inset -3px 0px 0px #7C9A2A' : 'none'}
-            sx={{ textDecoration: 'none', cursor: 'pointer' }}
+            bgcolor={isActive ? '#ffffff' : 'inherit'}
+            borderRadius={isActive ? '13px' : 0}
+            sx={{
+                textDecoration: 'none',
+                cursor: 'pointer',
+                color: '#ffffff',
+                '&:hover': {
+                    color: 'rgb(192,192,192)',
+                    borderRadius: '13px'
+                }
+            }}
             data-testid={link.route}
-            color='#ffffff'
         >
             {link.icon}
 

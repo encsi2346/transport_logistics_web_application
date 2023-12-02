@@ -1,4 +1,6 @@
-import {Box, SxProps, Theme, Typography} from "@mui/material";
+import {Box, Typography, useTheme} from "@mui/material";
+import {SxProps, Theme} from "@mui/material";
+
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 500,
@@ -19,7 +21,9 @@ const NormalText = ({ text }: Props) => {
     return (
         <>
             <Box>
-                <Typography sx={titleStyle}>{text}</Typography>
+                <Typography sx={titleStyle}>
+                    {text}
+                </Typography>
             </Box>
         </>
     );

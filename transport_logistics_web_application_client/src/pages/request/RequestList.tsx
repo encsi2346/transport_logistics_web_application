@@ -1,7 +1,7 @@
 import {Box, TextField} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader.tsx";
 import FilterCard from "../../components/layout/FilterCard.tsx";
-import NoBackgroundCard from "../../components/layout/NoBackgroundCard.tsx";
+import ContentCard from "../../components/layout/ContentCard.tsx";
 import RequestTableComponent from "../../components/layout/RequestTableComponent.tsx";
 
 const RequestList = () => {
@@ -16,9 +16,9 @@ const RequestList = () => {
                     </Box>
                 </Box>
             </FilterCard>
-            <NoBackgroundCard>
+            <ContentCard>
                 <RequestTableComponent />
-            </NoBackgroundCard>
+            </ContentCard>
         </Box>
     );
 };

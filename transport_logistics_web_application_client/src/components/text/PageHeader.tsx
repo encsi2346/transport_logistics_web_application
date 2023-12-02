@@ -1,4 +1,6 @@
-import {Box, SxProps, Theme, Typography} from '@mui/material';
+import {Box, Typography} from "@mui/material";
+import {SxProps, Theme} from "@mui/material";
+
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'light',
@@ -7,7 +9,7 @@ const titleStyle: SxProps<Theme> = {
     color: '#DD1C13',
     marginTop: '40px',
     marginBottom: '40px',
-    marginLeft: '20px',
+    marginLeft: '32px',
     marginRight: '20px'
 }
 
@@ -19,7 +21,9 @@ const PageHeader = ({ text }: Props) => {
     return (
         <>
             <Box>
-                <Typography sx={titleStyle}>{text}</Typography>
+                <Typography sx={titleStyle}>
+                    {text}
+                </Typography>
             </Box>
         </>
     );
