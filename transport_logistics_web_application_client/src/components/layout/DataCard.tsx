@@ -6,7 +6,7 @@ const backgroundStyle: SxProps<Theme> = {
     paddingLeft: '10px',
     paddingRight: '10px',
     paddingTop: '10px',
-    paddingBottom: '10px',
+    paddingBottom: '40px',
     marginBottom: '40px',
     marginTop: '5px',
     marginLeft: '5px',

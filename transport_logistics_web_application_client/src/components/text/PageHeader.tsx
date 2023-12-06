@@ -7,8 +7,8 @@ const titleStyle: SxProps<Theme> = {
     fontSize: '36px',
     lineHeight: '20px',
     color: '#DD1C13',
-    marginTop: '40px',
-    marginBottom: '40px',
+    marginTop: '70px',
+    marginBottom: '60px',
     marginLeft: '32px',
     marginRight: '20px'
 }

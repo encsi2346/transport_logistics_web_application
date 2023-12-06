@@ -4,15 +4,17 @@ import FilterCard from "../../components/layout/FilterCard.tsx";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import {useForm} from "react-hook-form";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import UserTableQuery from "./UserTableQuery.tsx";
 import useSelection from "../../components/inputField/hooks/useSelection.tsx";
+import SaveButton from "../../components/button/SaveButton.tsx";
 
 const UserList = () => {
     const { t } = useTypeSafeTranslation();
+    const navigate = useNavigate();
     const location = useLocation();
     const [search, setSearch] = useState('');
     const [users, setUsers] = useState([
@@ -132,6 +134,9 @@ const UserList = () => {
                             }}
                         />
                     </FormControl>
+                    <Box sx={{ display: 'inline', paddingLeft: 85}}>
+                        <SaveButton text={t('TEXT.NEW_USER')} onClick={() => navigate(`/users/new`)} />
+                    </Box>
                 </Box>
             </FilterCard>
 

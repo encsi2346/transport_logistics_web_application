@@ -71,8 +71,8 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         color: '#ffffff'
     },*/
     "& .MuiDataGrid-row:hover": {
-        backgroundColor: '#797979',
-        borderRadius: '25px',
+        //backgroundColor: '#797979',
+        //borderRadius: '25px',
     },
     '& .MuiDataGrid-cell:focus, ': {
         outline: 'none',

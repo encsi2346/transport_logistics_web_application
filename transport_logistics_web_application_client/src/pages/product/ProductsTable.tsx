@@ -1,6 +1,5 @@
 import type { GridActionsColDef, GridColDef, GridSelectionModel, GridSortModel } from '@mui/x-data-grid';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
 import StyledDataGrid, {handleDataGridCellClick, sharedDataGridProps} from "../../components/dataTable/StyledDataGrid.tsx";
 import {Pagination} from "../../components/inputField/hooks/usePagination.tsx";
 import {Sort} from "../../components/inputField/hooks/useSort.tsx";
@@ -8,6 +7,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {Tooltip} from "@mui/material";
 import {GridActionsCellItem, GridRowParams} from "@mui/x-data-grid";
 import EditIcon from '@mui/icons-material/Edit';
+import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
 
 interface Props {
     data?: string[];
@@ -23,7 +23,7 @@ interface Props {
     onSelectionChange?: (selection: GridSelectionModel) => void;
 }
 
-const UserTable = ({
+const ProductsTable = ({
    data,
    selectionModel,
    defaultPagination,
@@ -47,13 +47,13 @@ const UserTable = ({
             width: 170,
         },
         {
-            field: 'fullName',
-            headerName: `${t('TEXT.FULL_NAME')}`,
+            field: 'productName',
+            headerName: `${t('TEXT.PRODUCT_NAME')}`,
             width: 250,
         },
         {
-            field: 'position',
-            headerName: `${t('TEXT.POSITION')}`,
+            field: 'availability',
+            headerName: `${t('TEXT.AVAILABILITY')}`,
             width: 250,
         },
     ];
@@ -101,7 +101,7 @@ const UserTable = ({
             rowCount={data?.length ?? 0}
             checkboxSelection={allowSelection}
             selectionModel={selectionModel ?? []}
-            data-testid='user-table'
+            data-testid='products-table'
             onCellClick={(params, event) =>
                 allowNavigation ? handleDataGridCellClick(params, event, navigate, location.search) : null
             }
@@ -116,7 +116,7 @@ const UserTable = ({
             }}
             initialState={{
                 sorting: {
-                    sortModel: [{ field: defaultSort?.sortBy ?? 'fullName', sort: defaultSort?.sortDir ?? 'asc' }],
+                    sortModel: [{ field: defaultSort?.sortBy ?? 'productName', sort: defaultSort?.sortDir ?? 'asc' }],
                 },
                 pagination: { page: defaultPagination?.page, pageSize: defaultPagination?.pageSize },
             }}
@@ -124,4 +124,4 @@ const UserTable = ({
     );
 };
 
-export default UserTable;
+export default ProductsTable;

@@ -1,17 +1,18 @@
 import PageHeader from "../../components/text/PageHeader.tsx";
 import FilterCard from "../../components/layout/FilterCard.tsx";
 import {Box, FormControl, Grid, Input, InputAdornment} from "@mui/material";
-import NewButton from "../../components/button/NewButton.tsx";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import GoodsTypeCard from "../../components/layout/GoodsTypeCard.tsx";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import SaveButton from "../../components/button/SaveButton.tsx";
 
 const ProductsCategoryList = () => {
     const { t } = useTypeSafeTranslation();
+    const navigate = useNavigate();
     const location = useLocation();
     const [search, setSearch] = useState('');
     const [categories, setCategories] = useState([
@@ -41,7 +42,7 @@ const ProductsCategoryList = () => {
         <Box>
             <PageHeader text={t('TEXT.PRODUCT_CATEGORIES')}/>
             <FilterCard>
-                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
                     <FormControl sx={{
                         marginTop: 1,
                         marginBottom: 5,
@@ -52,7 +53,7 @@ const ProductsCategoryList = () => {
                     }}>
                         <Input
                             id="category"
-                            placeholder="Search category"
+                            placeholder={t('TEXT.SEARCH_PRODUCT_CATEGORY')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -80,7 +81,7 @@ const ProductsCategoryList = () => {
                         />
                         <Input
                             id="availability"
-                            placeholder="Search availability"
+                            placeholder={t('TEXT.SEARCH_AVAILABILITY')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -107,7 +108,9 @@ const ProductsCategoryList = () => {
                             }}
                         />
                     </FormControl>
-                    <NewButton />
+                    <Box sx={{ display: 'inline', paddingLeft: 85}}>
+                        <SaveButton text={t('TEXT.NEW_PRODUCT_CATEGORY')} onClick={() => navigate(`/products-categories/new`)} />
+                    </Box>
                 </Box>
             </FilterCard>
 

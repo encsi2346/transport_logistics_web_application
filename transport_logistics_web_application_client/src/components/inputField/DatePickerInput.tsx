@@ -27,16 +27,16 @@ export type DatePickerInputProps<T extends FieldValues, TDate> = Omit<
 };
 
 export default function DatePickerInput<TFieldValues extends FieldValues>({
-                                                                              parseError,
-                                                                              name,
-                                                                              required,
-                                                                              parseDate,
-                                                                              validation = {},
-                                                                              inputProps,
-                                                                              control,
-                                                                              showErrorMessage = true,
-                                                                              ...rest
-                                                                          }: DatePickerInputProps<TFieldValues, any>): JSX.Element {
+  parseError,
+  name,
+  required,
+  parseDate,
+  validation = {},
+  inputProps,
+  control,
+  showErrorMessage = true,
+  ...rest
+}: DatePickerInputProps<TFieldValues, any>): JSX.Element {
     const { palette } = useTheme();
 
     return (
@@ -68,13 +68,16 @@ export default function DatePickerInput<TFieldValues extends FieldValues>({
                         sx={{
                             disableUnderline: 'true',
                             textDecoration: 'none',
-                            backgroundColor: `${palette.component.medium}`,
+                            backgroundColor: `#ffffff`,
                             borderRadius: '13px',
                             border: 'none',
-                            color: `${palette.textColor.light}`,
-                            textDecoration: 'none',
+                            color: `#000000`,
                             height: 40,
-                            width: 300
+                            width: 250,
+                            fontSize: "15px",
+                            "& .MuiOutlinedInput-notchedOutline": {
+                                border: 'none'
+                            }
                         }}
                         onChange={(date: Date, validation) => {
                             onChange(date);

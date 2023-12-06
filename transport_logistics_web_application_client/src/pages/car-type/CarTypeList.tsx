@@ -56,7 +56,7 @@ const CarTypeList = () => {
                     }}>
                         <Input
                             id="brand"
-                            placeholder="Search brand"
+                            placeholder={t('TEXT.SEARCH_BRAND')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -84,7 +84,7 @@ const CarTypeList = () => {
                         />
                         <Input
                             id="fuel"
-                            placeholder="Search fuel"
+                            placeholder={t('TEXT.SEARCH_FUEL')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -112,7 +112,7 @@ const CarTypeList = () => {
                         />
                         <Input
                             id="numberOfSeats"
-                            placeholder="Search number of seats"
+                            placeholder={t('TEXT.SEARCH_OF_SEATS')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
