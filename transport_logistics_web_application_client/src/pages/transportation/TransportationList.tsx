@@ -150,7 +150,7 @@ const TransportationList = () => {
                         />
                     </FormControl>
                     <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('TEXT.NEW_TRANSPORTATION')} onClick={() => navigate(`/transportations/new`)} />
+                        <SaveButton text={t('TEXT.NEW_TRANSPORTATION')} onClick={() => navigate(`/transportations/new/edit`)} />
                     </Box>
                 </Box>
             </FilterCard>

@@ -9,11 +9,17 @@ import {useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import SaveButton from "../../components/button/SaveButton.tsx";
+import {useModal} from "@ebay/nice-modal-react";
+import ProductCategoryAddDialog from "./ProductCategoryAddDialog.tsx";
+import {useForm} from "react-hook-form";
+import {carTypeEditFormSchema, CarTypeEditFormSchema} from "../car-type/schemas/car-type-edit-form-schema.ts";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 const ProductsCategoryList = () => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const location = useLocation();
+    const addProductCategoryDialog = useModal(ProductCategoryAddDialog);
     const [search, setSearch] = useState('');
     const [categories, setCategories] = useState([
         {
@@ -37,6 +43,38 @@ const ProductsCategoryList = () => {
             availability: 'Készleten',
         },
     ]);
+
+    const {
+        control,
+        setValue,
+        reset,
+        handleSubmit,
+        formState: { isValid },
+    } = useForm<CarTypeEditFormSchema>({
+        defaultValues: {
+            carTypeName: '',
+            carFunctionalDesign: '',
+            performance: '',
+            ownWeight: '',
+            numberOfSeats: '',
+            fuel: '',
+            usefulWeight: '',
+        },
+        resolver: zodResolver(carTypeEditFormSchema()),
+        mode: 'all',
+    });
+
+    const openAddProductCategoryDialog = () => {
+        addProductCategoryDialog
+            .show({
+                title: t('TEXT.ADD_NEW_PRODUCT_CATEGORY'),
+                acceptText: t('TEXT.CREATE'),
+            })
+            .then((value) => {
+                setValue('carTypes', value as string[]);
+            })
+            .catch(() => null);
+    };
 
     return (
         <Box>
@@ -109,7 +147,7 @@ const ProductsCategoryList = () => {
                         />
                     </FormControl>
                     <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('TEXT.NEW_PRODUCT_CATEGORY')} onClick={() => navigate(`/products-categories/new`)} />
+                        <SaveButton text={t('TEXT.NEW_PRODUCT_CATEGORY')} onClick={openAddProductCategoryDialog} />
                     </Box>
                 </Box>
             </FilterCard>

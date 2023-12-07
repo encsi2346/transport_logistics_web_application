@@ -6,12 +6,20 @@ import CarTypeCard from "../../components/layout/CarTypeCard.tsx";
 import {useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
+import SaveButton from "../../components/button/SaveButton.tsx";
+import {useModal} from "@ebay/nice-modal-react";
+import CarTypeAddDialog from "./CarTypeAddDialog.tsx";
+import {useForm} from "react-hook-form";
+import {carTypeEditFormSchema, CarTypeEditFormSchema} from "./schemas/car-type-edit-form-schema.ts";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 const CarTypeList = () => {
     const { t } = useTypeSafeTranslation();
+    const navigate = useNavigate();
     const location = useLocation();
+    const addCarTypeDialog = useModal(CarTypeAddDialog);
     const [search, setSearch] = useState('');
     const [carTypes, setCartTypes] = useState([
         {
@@ -40,6 +48,33 @@ const CarTypeList = () => {
             subType: 'MAXI 250 L3H2 2.3 MJet 3.5'
         },
     ]);
+
+    const {
+        control,
+        setValue,
+        reset,
+        handleSubmit,
+        formState: { isValid },
+    } = useForm<CarTypeEditFormSchema>({
+        defaultValues: {
+            carTypes: '',
+        },
+        resolver: zodResolver(carTypeEditFormSchema()),
+        mode: 'all',
+    });
+
+
+    const openAddCarTypeDialog = () => {
+        addCarTypeDialog
+            .show({
+                title: t('TEXT.ADD_NEW_CAR_TYPE'),
+                acceptText: t('TEXT.CREATE'),
+            })
+            .then((value) => {
+                setValue('carTypes', value as string[]);
+            })
+            .catch(() => null);
+    };
 
     return (
         <Box>
@@ -139,6 +174,9 @@ const CarTypeList = () => {
                             }}
                         />
                     </FormControl>
+                    <Box sx={{ display: 'inline', paddingLeft: 85}}>
+                        <SaveButton text={t('TEXT.ADD_NEW_CAR_TYPE')} onClick={openAddCarTypeDialog} />
+                    </Box>
                 </Box>
             </FilterCard>
 

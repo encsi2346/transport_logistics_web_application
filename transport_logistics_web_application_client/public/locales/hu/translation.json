@@ -52,7 +52,6 @@
     "OPEN": "Megnyitás",
     "ACTIONS": "Műveletek",
     "VIEW": "Megtekintése",
-    "ADD_NEW_CAR_TYPE": "Új autótípus hozzáadása",
     "CAR_TYPE_DATA": "Típus adatok",
     "CAR_TYPE_NAME": "Típus neve",
     "CAR_FUNCTIONAL_DESIGN": "Kivitel",
@@ -106,6 +105,19 @@
     "ROADMAP": "Útvonal",
     "DRIVER": "Sofőr",
     "SHIPMENT": "Szállítmány",
-    "OVERVIEW": "Áttekintés"
+    "OVERVIEW": "Áttekintés",
+    "ADD_NEW_CAR_TYPE": "Új autótípus létrehozása",
+    "ADD_NEW_PRODUCT_CATEGORY": "Új termékkategória létrehozása",
+    "CREATE": "Létrehozás",
+    "PERSONAL_REQUESTS": "Személyes kérések",
+    "ADD_NEW_REQUEST": "Új kérés létrehozása",
+    "SUBJECT": "Tárgy",
+    "AFFECTED_WORKING_DAY": "Érintett munkanap",
+    "REASON": "Indoklás",
+    "STATUS": "Állapot",
+    "SELECT_MODE": "Téma választás:",
+    "SELECT_LANGUAGE": "Nyelv választás:",
+    "PASSENGER": "Utas",
+    "PRODUCT_CATEGORY": "Termékkategória"
   }
 }

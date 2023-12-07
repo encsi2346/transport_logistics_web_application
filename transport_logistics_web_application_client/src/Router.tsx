@@ -7,6 +7,7 @@ import CarRouting from './pages/car/CarRouting.tsx';
 import ProductsRouting from "./pages/product/ProductsRouting.tsx";
 import TransportationRouting from './pages/transportation/TransportationRouting.tsx';
 import Dashboard from "./pages/dashboard/Dashboard.tsx";
+import RequestRouting from "./pages/request/RequestRouting.tsx";
 
 const Router = () => {
     //const auth = useAuthentication();
@@ -36,6 +37,7 @@ const Router = () => {
                     <Route path="car-types/*" element={<CarRouting />} />
                     <Route path="products-categories/*" element={<ProductsRouting />} />
                     <Route path="transportations/*" element={<TransportationRouting />} />
+                    <Route path="requests/*" element={<RequestRouting />} />
                 </Route>
             </Route>
         </Routes>

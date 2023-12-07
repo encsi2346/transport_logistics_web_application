@@ -2,7 +2,17 @@ import PageHeader from "../../components/text/PageHeader.tsx";
 import BackgroundCard from "../../components/layout/BackgroundCard.tsx";
 import DataCard from "../../components/layout/DataCard.tsx";
 import Headline from "../../components/text/Headline.tsx";
-import {Box, Grid, IconButton, InputAdornment} from "@mui/material";
+import {
+    Box,
+    FormControl,
+    Grid,
+    IconButton,
+    InputAdornment,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    useTheme
+} from "@mui/material";
 import CancelButton from "../../components/button/CancelButton.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
 import TextFieldInput from "../../components/inputField/TextFieldInput.tsx";
@@ -17,6 +27,11 @@ import NormalText from "../../components/text/NormalText.tsx";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import DatePickerInput from "../../components/inputField/DatePickerInput.tsx";
 import {useNavigate, useParams} from "react-router-dom";
+import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
+import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import {setMode, setLanguage} from "../../state.ts";
 
 interface Props {
     isEditing?: boolean;
@@ -24,10 +39,42 @@ interface Props {
 }
 
 const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
-    const { t } = useTypeSafeTranslation();
+    //const { t } = useTypeSafeTranslation();
     const { id } = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
+    const [isProfilePage, setIsProfilePage] = useState(true);
+    const [t, i18n] = useTranslation();
+
+    const theme = useTheme();
+
+    const [languageValue, setLanguageValue] = useState(null);
+
+    const handleChangeLanguage = (event: SelectChangeEvent) => {
+        setLanguageValue(event.target.value as string);
+    }
+
+    useEffect(() => {
+        if (languageValue === null) {
+            const language = localStorage.getItem('language');
+            if (language) {
+                setLanguageValue(language);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        if (languageValue === null) return;
+        localStorage.setItem('language', languageValue);
+        i18n.changeLanguage(languageValue)
+            .then(() => {
+                console.log('Language changed');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [languageValue]);
 
     const gender = {
         0: 'TEXT.MEN',
@@ -108,11 +155,46 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     return (
         <Box>
             <PageHeader text={t('TEXT.ADD_NEW_USER')}/>
-            {inputDisabled && (
-                <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                    <SaveButton text={t('TEXT.EDIT')} onClick={handleEditClicked} />
+            <BackgroundCard>
+                <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
+                    <Box sx={{ display: 'block', justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 5}}>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+                            <NormalText text={t('TEXT.SELECT_MODE')} />
+                            <IconButton onClick={() => dispatch(setMode())} data-testid='mode-selector'>
+                                {theme.palette.mode === "dark" ? (
+                                    <DarkModeRoundedIcon sx={{ color: `#000000`, fontSize: "25px" }} />
+                                ) : (
+                                    <LightModeRoundedIcon sx={{ color: `#000000`, fontSize: "25px" }} />
+                                )}
+                            </IconButton>
+                        </Box>
+
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
+                            <NormalText text={t('TEXT.SELECT_LANGUAGE')} />
+                            <FormControl fullWidth>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    data-testid='select-language-input'
+                                    value={languageValue}
+                                    onChange={handleChangeLanguage}
+                                    sx={{color: '#000000', border: 'none', backgroundColor: '#ffffff'}}
+                                >
+                                    <MenuItem value={'hu'}>Hu</MenuItem>
+                                    <MenuItem value={'en'}>En</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </Box>
+
+                    {inputDisabled && (
+                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
+                            <SaveButton text={t('TEXT.EDIT')} onClick={handleEditClicked} />
+                        </Box>
+                    )}
                 </Box>
-            )}
+            </BackgroundCard>
+
             <BackgroundCard>
                 <DataCard>
                     <Headline text={t('TEXT.PERSONAL_DATA')} />

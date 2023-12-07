@@ -4,7 +4,7 @@ export const colorTokens = {
         0: "#FFFFFF",
         1: "#EEEEEE",
         2: "#DEDEDE",
-        3: "rgba(41, 0, 92, 0.12)",
+        3: "DD1C13",
         4: "rgba(41, 0, 92, 0.32)",
         5: "rgba(41, 0, 92, 0.84)",
         6: "#29005C",

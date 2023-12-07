@@ -60,10 +60,10 @@ const TransportationEdit = ({ isEditing = false }: Props) => {
             </BackgroundCard>
 
             <Box sx={{
-                marginTop: 10,
-                marginBottom: 10,
-                marginLeft: 10,
-                marginRight: 10
+                marginTop: 3,
+                marginBottom: 5,
+                marginLeft: 0,
+                marginRight: 0
             }}>
                 <TransportationCarSelector />
 

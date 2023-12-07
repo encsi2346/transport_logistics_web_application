@@ -54,7 +54,7 @@ export default function TextFieldInput<T extends FieldValues>({
                     InputProps={{
                         disableUnderline: 'true',
                         style: {
-                            backgroundColor: isAuth ? `#ffffff` : `#ffffff`,
+                            backgroundColor: isAuth ? `#ffbebe` : `#ffbebe`,
                             borderRadius: '13px',
                             color: `#000000`,
                             textDecoration: 'none',

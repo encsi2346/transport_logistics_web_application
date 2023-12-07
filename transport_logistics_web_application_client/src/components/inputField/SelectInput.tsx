@@ -17,19 +17,19 @@ export type SelectInputProps<T extends FieldValues> = Omit<TextFieldProps, 'name
 };
 
 export default function SelectInput<T extends FieldValues>({
-                                                               name,
-                                                               required,
-                                                               valueKey = 'id',
-                                                               labelKey = 'title',
-                                                               options = [],
-                                                               parseError,
-                                                               type,
-                                                               objectOnChange,
-                                                               validation = {},
-                                                               control,
-                                                               showErrorMessage = true,
-                                                               ...rest
-                                                           }: SelectInputProps<T>): JSX.Element {
+   name,
+   required,
+   valueKey = 'id',
+   labelKey = 'title',
+   options = [],
+   parseError,
+   type,
+   objectOnChange,
+   validation = {},
+   control,
+   showErrorMessage = true,
+   ...rest
+}: SelectInputProps<T>): JSX.Element {
     const { palette } = useTheme();
 
     if (required) {

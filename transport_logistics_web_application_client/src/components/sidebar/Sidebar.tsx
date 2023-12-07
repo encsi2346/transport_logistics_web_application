@@ -9,9 +9,8 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
 import {useTypeSafeTranslation} from "../inputField/hooks/useTypeSafeTranslation.tsx";
+import EmailIcon from '@mui/icons-material/Email';
 
 const iconProps = {
     sx: {
@@ -56,10 +55,16 @@ const Sidebar = ({ isSidebarOpen }: Props) => {
             route: '/products-categories',
         },
         {
+            icon: <EmailIcon {...iconProps} />,
+            label: t('TEXT.REQUESTS'),
+            route: '/requests/',
+        },
+        {
             icon: <PersonIcon {...iconProps} />,
             label: t('TEXT.PROFILE'),
             route: '/users/profile',
-        },        {
+        },
+        {
             icon: <LogoutIcon {...iconProps} />,
             label: t('TEXT.LOGOUT'),
             route: '/logout',
@@ -102,13 +107,6 @@ const Sidebar = ({ isSidebarOpen }: Props) => {
                 onClick={() => setIsOpen(!isOpen)}
             >
                 {isOpen ? <HomeIcon width="14px" height="14px" /> : <HomeIcon width="14px" height="14px" />}
-            </IconButton>
-
-            <IconButton
-                sx={{ ml: isOpen ? 2 : 3, color: 'text.primary', width: 'fit-content' }}
-                onClick={() => setIsOpen(!isOpen)}
-            >
-                {isOpen ? <LightModeIcon width="14px" height="14px" /> : <DarkModeIcon width="14px" height="14px" />}
             </IconButton>
 
             {navLinks
