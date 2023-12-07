@@ -7,8 +7,10 @@ const UserRouting = () => {
         <Routes>
             <Route path="/" element={<UserList />} />
             <Route path=":id" element={<UserEdit isInputDisabled isEditing />} />
+            <Route path="profile/:id" element={<UserEdit isInputDisabled isEditing />} />
             <Route path="/new" element={<UserEdit />} />
             <Route path="/edit/:id" element={<UserEdit isEditing />} />
+            <Route path="/profile/edit/:id" element={<UserEdit isEditing />} />
         </Routes>
     );
 };

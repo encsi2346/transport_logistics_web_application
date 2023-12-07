@@ -1,21 +1,21 @@
 import BackgroundCard from "../../components/layout/BackgroundCard.tsx";
-import DataCard from "../../components/layout/DataCard.tsx";
-import Headline from "../../components/text/Headline.tsx";
 import {Box, Grid, IconButton, InputAdornment} from "@mui/material";
 import NormalText from "../../components/text/NormalText.tsx";
+import DataCard from "../../components/layout/DataCard.tsx";
+import Headline from "../../components/text/Headline.tsx";
 import CancelButton from "../../components/button/CancelButton.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
 import {useNavigate} from "react-router-dom";
-import SelectInput from "../../components/inputField/SelectInput.tsx";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import SelectInput from "../../components/inputField/SelectInput.tsx";
 import TextFieldInput from "../../components/inputField/TextFieldInput.tsx";
 import DatePickerInput from "../../components/inputField/DatePickerInput.tsx";
 import {TransportationSteps} from "./enums/transportation-steps.ts";
 import {useTransportationStore} from "./stores/useTransportationStore.tsx";
-import useTransportationOverview from "./hooks/useTransportationOverview.tsx";
+import useTransportationCar from "./hooks/useTransportationCar.tsx";
 
-const TransportationOverview = () => {
+const TransportationCarSelector = () => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const thisStep = TransportationSteps.CAR;
@@ -26,13 +26,14 @@ const TransportationOverview = () => {
     const setCurrentStep = useTransportationStore((state) => state.setCurrentStep);
     const loadedTransportation = useTransportationStore((state) => state.loadedTransportation);
 
-    const { control, isValid, preValidationError, onSubmit} = useTransportationOverview();
+    const { control, isValid, preValidationError, onSubmit} = useTransportationCar();
 
     return (
         <form autoComplete='off' noValidate onSubmit={(e) => e.preventDefault()}>
             {!isActiveStep && (
                 <Box>
                     <BackgroundCard>
+                        {/*<StepIndicator thisStepNumber={thisStep} currentStepNumber={currentStep} />*/}
                         <Grid item container direction="column" spacing={2}>
                             <Grid item container direction="row" xs={4} md={8} spacing={6}>
                                 <Grid item xs={4} md={4}>
@@ -49,7 +50,7 @@ const TransportationOverview = () => {
                                             InputProps={{
                                                 endAdornment: (
                                                     <InputAdornment position='end'>
-                                                        <IconButton onClick={() => setValue('selectedCarType', undefined)} edge="end" >
+                                                        <IconButton >
                                                             <ClearRoundedIcon />
                                                         </IconButton>
                                                     </InputAdornment>
@@ -83,7 +84,7 @@ const TransportationOverview = () => {
                                                 InputProps={{
                                                     endAdornment: (
                                                         <InputAdornment position='end'>
-                                                            <IconButton onClick={() => setValue('carFunctionalDesign', undefined)} edge="end" >
+                                                            <IconButton>
                                                                 <ClearRoundedIcon />
                                                             </IconButton>
                                                         </InputAdornment>
@@ -141,7 +142,7 @@ const TransportationOverview = () => {
                                                 InputProps={{
                                                     endAdornment: (
                                                         <InputAdornment position='end'>
-                                                            <IconButton onClick={() => setValue('numberOfSeats', undefined)} edge="end" >
+                                                            <IconButton>
                                                                 <ClearRoundedIcon />
                                                             </IconButton>
                                                         </InputAdornment>
@@ -169,7 +170,7 @@ const TransportationOverview = () => {
                                                 InputProps={{
                                                     endAdornment: (
                                                         <InputAdornment position='end'>
-                                                            <IconButton onClick={() => setValue('fuel', undefined)} edge="end" >
+                                                            <IconButton>
                                                                 <ClearRoundedIcon />
                                                             </IconButton>
                                                         </InputAdornment>
@@ -217,7 +218,7 @@ const TransportationOverview = () => {
                                             InputProps={{
                                                 endAdornment: (
                                                     <InputAdornment position='end'>
-                                                        <IconButton onClick={() => setValue('selectedCar', undefined)} edge="end" >
+                                                        <IconButton>
                                                             <ClearRoundedIcon />
                                                         </IconButton>
                                                     </InputAdornment>
@@ -311,254 +312,10 @@ const TransportationOverview = () => {
                             </Grid>
                         </DataCard>
 
-                        <DataCard>
-                            <Headline text={t('TEXT.DEPARTURE_DATA')} />
-                            <Grid item container direction="column" spacing={2}>
-                                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.COUNTRY')} />
-                                            <TextFieldInput
-                                                placeholder={t('TEXT.COUNTRY')}
-                                                control={control}
-                                                name='country'
-                                                type='text'
-                                                data-testid='country-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.POSTCODE')} />
-                                            <TextFieldInput
-                                                placeholder={t('TEXT.POSTCODE')}
-                                                control={control}
-                                                name='postcode'
-                                                type='number'
-                                                data-testid='postcode-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.CITY')} />
-                                            <TextFieldInput
-                                                placeholder={t('TEXT.CITY')}
-                                                control={control}
-                                                name='city'
-                                                type='text'
-                                                data-testid='city-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.NAME_OF_PUBLIC_AREA')} />
-                                            <TextFieldInput
-                                                placeholder={t('TEXT.NAME_OF_PUBLIC_AREA')}
-                                                control={control}
-                                                name='nameOfPublicArea'
-                                                type='text'
-                                                data-testid='name-of-public-area-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.TYPE_OF_PUBLIC_AREA')} />
-                                            <TextFieldInput
-                                                placeholder={t('TEXT.TYPE_OF_PUBLIC_AREA')}
-                                                control={control}
-                                                name='typeOfPublicArea'
-                                                type='text'
-                                                data-testid='type-of-public-area-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.HOUSE_NUMBER')} />
-                                            <TextFieldInput
-                                                placeholder={t('TEXT.HOUSE_NUMBER')}
-                                                control={control}
-                                                name='houseNumber'
-                                                type='number'
-                                                data-testid='house-number-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.START_DATE')} />
-                                            <DatePickerInput
-                                                placeholder={t('TEXT.START_DATE')}
-                                                control={control}
-                                                name='startDate'
-                                                data-testid='start-date-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.START_TIME')} />
-                                            <DatePickerInput
-                                                placeholder={t('TEXT.START_TIME')}
-                                                control={control}
-                                                name='startTime'
-                                                data-testid='start-time-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </DataCard>
-
-                        <DataCard>
-                            <Headline text={t('TEXT.ARRIVAL_DATA')} />
-                            <Grid item container direction="column" spacing={2}>
-                                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.COUNTRY')} />
-                                            <TextFieldInput
-                                                placeholder={t('TEXT.COUNTRY')}
-                                                control={control}
-                                                name='country'
-                                                type='text'
-                                                data-testid='country-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.POSTCODE')} />
-                                            <TextFieldInput
-                                                placeholder={t('TEXT.POSTCODE')}
-                                                control={control}
-                                                name='postcode'
-                                                type='number'
-                                                data-testid='postcode-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.CITY')} />
-                                            <TextFieldInput
-                                                placeholder={t('TEXT.CITY')}
-                                                control={control}
-                                                name='city'
-                                                type='text'
-                                                data-testid='city-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.NAME_OF_PUBLIC_AREA')} />
-                                            <TextFieldInput
-                                                placeholder={t('TEXT.NAME_OF_PUBLIC_AREA')}
-                                                control={control}
-                                                name='nameOfPublicArea'
-                                                type='text'
-                                                data-testid='name-of-public-area-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.TYPE_OF_PUBLIC_AREA')} />
-                                            <TextFieldInput
-                                                placeholder={t('TEXT.TYPE_OF_PUBLIC_AREA')}
-                                                control={control}
-                                                name='typeOfPublicArea'
-                                                type='text'
-                                                data-testid='type-of-public-area-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.HOUSE_NUMBER')}/>
-                                            <TextFieldInput
-                                                placeholder={t('TEXT.HOUSE_NUMBER')}
-                                                control={control}
-                                                name='houseNumber'
-                                                type='number'
-                                                data-testid='house-number-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.END_DATE')} />
-                                            <DatePickerInput
-                                                placeholder={t('TEXT.END_DATE')}
-                                                control={control}
-                                                name='endDate'
-                                                data-testid='end-date-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.END_TIME')} />
-                                            <DatePickerInput
-                                                placeholder={t('TEXT.END_TIME')}
-                                                control={control}
-                                                name='endTime'
-                                                data-testid='end-Time-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </DataCard>
-
                         {!isStepDone && (
                             <Box sx={{ display: 'inline', paddingLeft: 150}}>
-                                <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={() => navigate(-1)}/>
-                                <SaveButton text={t('TEXT.SAVE')}  disabled={!isValid || !isActiveStep} onClick={onSubmit}/>
+                                <CancelButton text={t('TEXT.CANCEL')} disabled={!isActiveStep} onClick={() => navigate(-1)}/>
+                                <SaveButton text={t('TEXT.NEXT')}  disabled={!isValid || !isActiveStep} onClick={onSubmit}/>
                             </Box>
                         )}
                     </BackgroundCard>
@@ -568,4 +325,4 @@ const TransportationOverview = () => {
     );
 };
 
-export default TransportationOverview;
+export default TransportationCarSelector;

@@ -58,7 +58,7 @@ const Sidebar = ({ isSidebarOpen }: Props) => {
         {
             icon: <PersonIcon {...iconProps} />,
             label: t('TEXT.PROFILE'),
-            route: '/profile',
+            route: '/users/profile',
         },        {
             icon: <LogoutIcon {...iconProps} />,
             label: t('TEXT.LOGOUT'),

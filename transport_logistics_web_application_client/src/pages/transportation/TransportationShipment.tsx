@@ -6,12 +6,13 @@ import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeS
 import {useNavigate} from "react-router-dom";
 import {TransportationSteps} from "./enums/transportation-steps.ts";
 import {useTransportationStore} from "./stores/useTransportationStore.tsx";
-import useTransportationDriver from "./hooks/useTransportationDriver.tsx";
+import useTransportationShipment from "./hooks/useTransportationShipment.tsx";
 
-const TransportationDriver = () => {
+
+const TransportationShipment = () => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
-    const thisStep = TransportationSteps.DRIVER;
+    const thisStep = TransportationSteps.SHIPMENT;
     const currentStep = useTransportationStore((state) => state.currentStep);
     const isStepDone = currentStep > thisStep;
     const isActiveStep = thisStep === currentStep;
@@ -19,7 +20,7 @@ const TransportationDriver = () => {
     const setCurrentStep = useTransportationStore((state) => state.setCurrentStep);
     const loadedTransportation = useTransportationStore((state) => state.loadedTransportation);
 
-    const { control, isValid, preValidationError, onSubmit} = useTransportationDriver();
+    const { control, isValid, preValidationError, onSubmit} = useTransportationShipment();
 
     return (
         <form autoComplete='off' noValidate onSubmit={(e) => e.preventDefault()}>
@@ -39,4 +40,4 @@ const TransportationDriver = () => {
     );
 };
 
-export default TransportationDriver;
+export default TransportationShipment;

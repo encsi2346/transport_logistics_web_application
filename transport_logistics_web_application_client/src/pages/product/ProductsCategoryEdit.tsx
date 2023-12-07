@@ -119,7 +119,7 @@ const ProductsCategoryEdit = ({ isEditing = false, isInputDisabled }: Props) => 
                 </DataCard>
 
                 <Box sx={{ display: 'inline', paddingLeft: 130}}>
-                    <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)} />
+                    <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)}/>
                     <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} /*disabled={!isValid}*//>
                 </Box>
             </BackgroundCard>
