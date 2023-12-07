@@ -46,6 +46,10 @@ const TransportationDriver = () => {
             position: 'driver'
         },
     ])
+    // The content of the target box
+    const [contentFirst, setContentFirst] = useState<string>("Drop Something Here");
+    const [contentSecond, setContentSecond] = useState<string>("Drop Something Here");
+    const [contentThird, setContentThird] = useState<string>("Drop Something Here");
     const thisStep = TransportationSteps.DRIVER;
     const currentStep = useTransportationStore((state) => state.currentStep);
     const isStepDone = currentStep > thisStep;
@@ -58,6 +62,36 @@ const TransportationDriver = () => {
 
     const handleCancelClicked = () => {
         navigate('..');
+    };
+
+    // This function will be triggered when you start dragging
+    const dragStartHandler = (
+        event: React.DragEvent<HTMLDivElement>,
+        data: string
+    ) => {
+        event.dataTransfer.setData("text", data);
+    };
+
+    // This function will be triggered when dropping
+    const dropHandlerFirst = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        const data = event.dataTransfer.getData("text");
+        setContentFirst(data);
+    };
+    const dropHandlerSecond = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        const data = event.dataTransfer.getData("text");
+        setContentSecond(data);
+    };
+    const dropHandlerThird = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        const data = event.dataTransfer.getData("text");
+        setContentThird(data);
+    };
+
+    // This makes the third box become droppable
+    const allowDrop = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
     };
 
     return (
@@ -86,7 +120,31 @@ const TransportationDriver = () => {
                                 </BackgroundCard>
                                 <Grid item container direction="column" sx={{ marginTop: -53, marginLeft: 7}}>
                                     <Grid item xs={4} md={3}>
-                                        <Box sx={{ width: 190, height: 60, borderRadius: '17px', backgroundColor: '#c8c8c8'}}>
+                                        <Box
+                                            onDragStart={(event) => dragStartHandler(event, 'alma')}
+                                            draggable={true}
+                                            sx={{
+                                                width: 190,
+                                                height: 60,
+                                                borderRadius: '17px',
+                                                backgroundColor: '#c8c8c8',
+                                            }}
+                                        >
+                                            <Box sx={{ width: 15, height: 15, backgroundColor: '#07ea00', borderRadius: '30px', marginLeft: 2}}/>
+                                            <Typography sx={{ marginLeft: 7, marginTop: 1}}>Példa Alma</Typography>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={4} md={3}>
+                                        <Box
+                                            onDragStart={(event) => dragStartHandler(event, 'körte')}
+                                            draggable={true}
+                                            sx={{
+                                                width: 190,
+                                                height: 60,
+                                                borderRadius: '17px',
+                                                backgroundColor: '#c8c8c8',
+                                            }}
+                                        >
                                             <Box sx={{ width: 15, height: 15, backgroundColor: '#07ea00', borderRadius: '30px', marginLeft: 2}}/>
                                             <Typography sx={{ marginLeft: 7, marginTop: 1}}>Példa Alma</Typography>
                                         </Box>
@@ -99,21 +157,65 @@ const TransportationDriver = () => {
                                 <BackgroundCard>
                                     <Grid item container direction="row" sx={{ marginTop: 5, marginLeft: 15}}>
                                         <Grid item xs={4} md={3} sx={{ marginRight: -8}}>
-                                            <Box sx={{ width: 200, height: 350, backgroundColor: '#9e9e9e', borderColor: '#ff0000', borderStyle: 'dashed', borderWidth: 3}}>
+                                            <Box
+                                                sx={{
+                                                    width: 200,
+                                                    height: 350,
+                                                    backgroundColor: '#9e9e9e',
+                                                    borderColor: '#ff0000',
+                                                    borderStyle: 'dashed',
+                                                    borderWidth: 3
+                                                }}
+                                            >
                                                 <Grid item container direction="column">
                                                     <Grid item xs={4} md={3}>
-                                                        <Box sx={{ width: 170, height: 80, borderRadius: '17px', backgroundColor: '#4d4d4d', marginTop: 5, marginBottom: 1, marginLeft: 2}}>
-
+                                                        <Box
+                                                            onDragOver={allowDrop}
+                                                            onDrop={dropHandlerFirst}
+                                                            sx={{
+                                                                width: 170,
+                                                                height: 80,
+                                                                borderRadius: '17px',
+                                                                backgroundColor: '#4d4d4d',
+                                                                marginTop: 5,
+                                                                marginBottom: 1,
+                                                                marginLeft: 2
+                                                        }}>
+                                                            <Typography>{contentFirst}</Typography>
                                                         </Box>
                                                     </Grid>
                                                     <Grid item xs={4} md={3}>
-                                                        <Box sx={{ width: 170, height: 80, borderRadius: '17px', backgroundColor: '#4d4d4d', marginTop: 1, marginBottom: 1, marginLeft: 2}}>
-
+                                                        <Box
+                                                            onDragOver={allowDrop}
+                                                            onDrop={dropHandlerSecond}
+                                                            sx={{
+                                                                width: 170,
+                                                                height: 80,
+                                                                borderRadius: '17px',
+                                                                backgroundColor: '#4d4d4d',
+                                                                marginTop: 1,
+                                                                marginBottom: 1,
+                                                                marginLeft: 2
+                                                            }}
+                                                        >
+                                                            <Typography>{contentSecond}</Typography>
                                                         </Box>
                                                     </Grid>
                                                     <Grid item xs={4} md={3}>
-                                                        <Box sx={{ width: 170, height: 80, borderRadius: '17px', backgroundColor: '#4d4d4d', marginTop: 1, marginBottom: 1, marginLeft: 2}}>
-
+                                                        <Box
+                                                            onDragOver={allowDrop}
+                                                            onDrop={dropHandlerThird}
+                                                            sx={{
+                                                                width: 170,
+                                                                height: 80,
+                                                                borderRadius: '17px',
+                                                                backgroundColor: '#4d4d4d',
+                                                                marginTop: 1,
+                                                                marginBottom: 1,
+                                                                marginLeft: 2
+                                                            }}
+                                                        >
+                                                            <Typography>{contentThird}</Typography>
                                                         </Box>
                                                     </Grid>
                                                 </Grid>
