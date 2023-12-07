@@ -56,7 +56,7 @@ const TransportationEdit = ({ isEditing = false }: Props) => {
     return (
         <Box>
             <BackgroundCard>
-                <StepperComponent />
+                <StepperComponent currentStep={currentStep} />
             </BackgroundCard>
 
             <Box sx={{

@@ -56,9 +56,13 @@ const TransportationDriver = () => {
 
     const { control, isValid, preValidationError, onSubmit} = useTransportationDriver();
 
+    const handleCancelClicked = () => {
+        navigate('..');
+    };
+
     return (
         <form autoComplete='off' noValidate onSubmit={(e) => e.preventDefault()}>
-            {!isActiveStep && (
+            {isActiveStep && (
                 <Box>
                     <Grid item container direction="row">
                         <Grid item xs={4} md={3}>
@@ -123,7 +127,7 @@ const TransportationDriver = () => {
                                     </Grid>
                                     {!isStepDone && (
                                         <Box sx={{ display: 'block', paddingLeft: 95, marginTop: 3, marginBottom: -3}}>
-                                            <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={() => navigate(-1)}/>
+                                            <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
                                             <SaveButton text={t('TEXT.NEXT')}  disabled={!isValid || !isActiveStep} onClick={onSubmit}/>
                                         </Box>
                                     )}

@@ -18,7 +18,7 @@ import useTransportationOverview from "./hooks/useTransportationOverview.tsx";
 const TransportationOverview = () => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
-    const thisStep = TransportationSteps.CAR;
+    const thisStep = TransportationSteps.OVERVIEW;
     const currentStep = useTransportationStore((state) => state.currentStep);
     const isStepDone = currentStep > thisStep;
     const isActiveStep = thisStep === currentStep;
@@ -28,9 +28,13 @@ const TransportationOverview = () => {
 
     const { control, isValid, preValidationError, onSubmit} = useTransportationOverview();
 
+    const handleCancelClicked = () => {
+        navigate('..');
+    };
+
     return (
         <form autoComplete='off' noValidate onSubmit={(e) => e.preventDefault()}>
-            {!isActiveStep && (
+            {isActiveStep && (
                 <Box>
                     <BackgroundCard>
                         <Grid item container direction="column" spacing={2}>
@@ -556,14 +560,14 @@ const TransportationOverview = () => {
                         </DataCard>
 
                         {!isStepDone && (
-                            <Box sx={{ display: 'inline', paddingLeft: 150}}>
-                                <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={() => navigate(-1)}/>
+                            <Box sx={{ display: 'inline', paddingLeft: 130}}>
+                                <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
                                 <SaveButton text={t('TEXT.SAVE')}  disabled={!isValid || !isActiveStep} onClick={onSubmit}/>
                             </Box>
                         )}
                     </BackgroundCard>
                 </Box>
-            )};
+            )}
         </form>
     );
 };

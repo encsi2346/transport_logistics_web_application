@@ -28,9 +28,13 @@ const TransportationCarSelector = () => {
 
     const { control, isValid, preValidationError, onSubmit} = useTransportationCar();
 
+    const handleCancelClicked = () => {
+        navigate('..');
+    };
+
     return (
         <form autoComplete='off' noValidate onSubmit={(e) => e.preventDefault()}>
-            {!isActiveStep && (
+            {isActiveStep && (
                 <Box>
                     <BackgroundCard>
                         {/*<StepIndicator thisStepNumber={thisStep} currentStepNumber={currentStep} />*/}
@@ -313,14 +317,14 @@ const TransportationCarSelector = () => {
                         </DataCard>
 
                         {!isStepDone && (
-                            <Box sx={{ display: 'inline', paddingLeft: 150}}>
-                                <CancelButton text={t('TEXT.CANCEL')} disabled={!isActiveStep} onClick={() => navigate(-1)}/>
+                            <Box sx={{ display: 'inline', paddingLeft: 130}}>
+                                <CancelButton text={t('TEXT.CANCEL')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
                                 <SaveButton text={t('TEXT.NEXT')}  disabled={!isValid || !isActiveStep} onClick={onSubmit}/>
                             </Box>
                         )}
                     </BackgroundCard>
                 </Box>
-            )};
+            )}
         </form>
     );
 };

@@ -1,11 +1,94 @@
-import {Fragment, ReactNode, useState} from "react";
+import {Fragment, ReactNode, useEffect, useState} from "react";
 import {Box, Button, Typography} from "@mui/material";
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import {useTypeSafeTranslation} from "../inputField/hooks/useTypeSafeTranslation.tsx";
+import { styled } from '@mui/material/styles';
+import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
+import { StepIconProps } from '@mui/material/StepIcon';
+import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
+import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
 
-const StepperComponent = () => {
+const StepConnectorStyled = styled(StepConnector)(({ theme }) => ({
+    [`&.${stepConnectorClasses.alternativeLabel}`]: {
+        top: 10,
+        color: "#DD1C13",
+        fontSize: '18px',
+        fontWeight: 'bold',
+        left: 'calc(-50% + 16px)',
+        right: 'calc(-50% + 16px)',
+    },
+    [`&.${stepConnectorClasses.active}`]: {
+        [`& .${stepConnectorClasses.line}`]: {
+            borderColor: '#DD1C13',
+            borderStyle: 'dashed',
+            borderWidth: 1
+        },
+        color: "#DD1C13",
+        fontSize: '18px',
+        fontWeight: 'bold',
+    },
+    [`&.${stepConnectorClasses.completed}`]: {
+        [`& .${stepConnectorClasses.line}`]: {
+            borderColor: '#DD1C13',
+            borderWidth: 2
+        },
+        color: "#DD1C13",
+        fontSize: '18px',
+        fontWeight: 'bold',
+    },
+    [`& .${stepConnectorClasses.line}`]: {
+        borderColor: '#A3A3A3',
+        borderTopWidth: 3,
+        borderWidth: 2,
+        borderRadius: 1,
+        color: "#DD1C13",
+        fontSize: '18px',
+        fontWeight: 'bold',
+    },
+}));
+
+const StepIconRootStyled = styled('div')<{ ownerState: { active?: boolean } }>(
+    ({ theme, ownerState }) => ({
+        display: 'flex',
+        height: 25,
+        alignItems: 'center',
+        color: "#DD1C13",
+        fontSize: '18px',
+        fontWeight: 'bold',
+        ...(ownerState.active && {
+            color: '#DD1C13',
+        }),
+        '& .StepIcon-icon': {
+            color: '#DD1C13',
+            zIndex: 1,
+            width: 25,
+            height: 25,
+            fontSize: '18px',
+            fontWeight: 'bold',
+        },
+    }),
+);
+
+function StepIconStyled(props: StepIconProps) {
+    const { active, completed, className } = props;
+
+    return (
+        <StepIconRootStyled ownerState={{ active }} className={className}>
+            {completed ? (
+                <CheckCircleRoundedIcon className="StepIcon-icon" />
+            ) : (
+                <RadioButtonUncheckedRoundedIcon className="StepIcon-icon" />
+            )}
+        </StepIconRootStyled>
+    );
+}
+
+interface Props {
+    currentStep: number
+}
+const StepperComponent = ({ currentStep }: Props) => {
     const { t } = useTypeSafeTranslation();
     const steps = [
         `${t('TEXT.CAR')}`,
@@ -14,8 +97,13 @@ const StepperComponent = () => {
         `${t('TEXT.SHIPMENT')}`,
         `${t('TEXT.OVERVIEW')}`
     ];
-    const [activeStep, setActiveStep] = useState(0);
+    const [activeStep, setActiveStep] = useState(currentStep);
     const [skipped, setSkipped] = useState(new Set<number>());
+
+    useEffect(() => {
+        setActiveStep(currentStep);
+        console.log(currentStep);
+    }, [currentStep]);
 
     const isStepOptional = (step: number) => {
         return step === 1;
@@ -61,61 +149,19 @@ const StepperComponent = () => {
 
     return (
         <Box sx={{ width: '100%' }}>
-            <Stepper activeStep={activeStep}>
+            <Stepper activeStep={activeStep} connector={<StepConnectorStyled />}>
                 {steps.map((label, index) => {
                     const stepProps: { completed?: boolean } = {};
-                    const labelProps: {
-                        optional?: ReactNode;
-                    } = {};
-                    if (isStepOptional(index)) {
-                        labelProps.optional = (
-                            <Typography variant="caption">Optional</Typography>
-                        );
-                    }
                     if (isStepSkipped(index)) {
                         stepProps.completed = false;
                     }
                     return (
                         <Step key={label} {...stepProps}>
-                            <StepLabel {...labelProps}>{label}</StepLabel>
+                            <StepLabel StepIconComponent={StepIconStyled}>{label}</StepLabel>
                         </Step>
                     );
                 })}
             </Stepper>
-            {activeStep === steps.length ? (
-                <Fragment>
-                    <Typography sx={{ mt: 2, mb: 1 }}>
-                        All steps completed - you&apos;re finished
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                        <Box sx={{ flex: '1 1 auto' }} />
-                        <Button onClick={handleReset}>Reset</Button>
-                    </Box>
-                </Fragment>
-            ) : (
-                <Fragment>
-                    <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                        <Button
-                            color="inherit"
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
-                            sx={{ mr: 1 }}
-                        >
-                            Back
-                        </Button>
-                        <Box sx={{ flex: '1 1 auto' }} />
-                        {isStepOptional(activeStep) && (
-                            <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                                Skip
-                            </Button>
-                        )}
-                        <Button onClick={handleNext}>
-                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                        </Button>
-                    </Box>
-                </Fragment>
-            )}
         </Box>
     );
 };
