@@ -1,48 +1,24 @@
-import {Box, Typography} from "@mui/material";
 import BackgroundCard from "../../components/layout/BackgroundCard.tsx";
-import { format } from 'date-fns';
-import {useState} from "react";
+import TodayCard from "../../components/todayCard/todayCard.tsx";
+import {Box} from "@mui/material";
+import WorkedTime from "../../components/charts/DrivingTime.tsx";
+import DrivenKilometres from "../../components/charts/DrivenKilometres.tsx";
 
 const Dashboard = () => {
-    const [today, setToday] = useState(format(new Date(), 'yyyy.MM.dd.'));
-    const [time, setTime] = useState(format(new Date(), 'HH:mm'));
 
     return (
-        <Box sx={{
-            marginTop: 7,
-            marginBottom: 7,
-            marginLeft: 7,
-            marginRight: 7
-        }}>
-            <Box sx={{
-                width: 300,
-                height: 300,
-                backgroundColor: '#DD1C13',
-                color: "#ffffff",
-                borderRadius: '30px',
-                display: 'grid',
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <Box sx={{display: 'grid'}}>
-                    <Typography sx={{
-                        fontSize: '15px',
-                        fontWeight: 'bold',
-                        color: '#ffffff'
-                    }}>
-                        {today}
-                    </Typography>
+        <Box>
+            <BackgroundCard>
+                <TodayCard />
+                <Box sx={{ display: 'flex', marginTop: 20, marginBottom: 10}}>
+                    <Box sx={{ width: 500, height: 300, marginLeft: 8}}>
+                        <WorkedTime />
+                    </Box>
+                    <Box sx={{ width: 500, height: 300, marginLeft: 29}}>
+                        <DrivenKilometres />
+                    </Box>
                 </Box>
-                <Box sx={{display: 'grid'}}>
-                    <Typography sx={{
-                        fontSize: '15px',
-                        fontWeight: 'bold',
-                        color: '#ffffff'
-                    }}>
-                        {time}
-                    </Typography>
-                </Box>
-            </Box>
+            </BackgroundCard>
         </Box>
     );
 };

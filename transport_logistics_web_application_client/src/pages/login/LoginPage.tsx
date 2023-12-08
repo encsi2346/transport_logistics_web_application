@@ -126,15 +126,13 @@ const LoginPage = () => {
                                 </Typography>
                             </Box>
                             <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 3}}>
-                                {(loginFailed) ?
-                                    <Typography
-                                        sx={{
-                                            color: '#DD1C13',
-                                            fontWeight: 'bold'
-                                        }}
-                                    >
-                                        {t('TEXT.LOGIN_FAILED')}
-                                    </Typography>
+                                {(loginFailed)
+                                    ?
+                                        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                            <Typography sx={{ color: '#DD1C13', fontWeight: 'bold' }} >
+                                                {t('TEXT.LOGIN_FAILED')}
+                                            </Typography>
+                                        </Box>
                                     : null
                                 }
                                 <TextField

@@ -8,37 +8,26 @@ import ProductsRouting from "./pages/product/ProductsRouting.tsx";
 import TransportationRouting from './pages/transportation/TransportationRouting.tsx';
 import Dashboard from "./pages/dashboard/Dashboard.tsx";
 import RequestRouting from "./pages/request/RequestRouting.tsx";
+import {useSelector} from "react-redux";
 
 const Router = () => {
-    //const auth = useAuthentication();
-
-    const loading = (<span>Loading... please wait!</span>);
-
-    const toLogin = (<Navigate to="/login" />);
-
-    /*const authenticatedElement = (element : JSX.Element) => {
-        if (auth.isAuthenticated) {
-            return element;
-        } else {
-            return auth.isAuthenticated === false ? toLogin : loading;
-        }
-    }*/
+    const isAuth = Boolean(useSelector((state) => state.token));
 
     return (
         <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/forgotten-password" element={<ForgottenPassword />} />
             <Route path="/logout" element={<LoginPage />} />
 
             <Route>
-                <Route element={/*authenticatedElement(*/<Layout />/*)*/}>
-                    <Route path="dashboard" element={<Dashboard />} />
-                    <Route path="users/*" element={<UserRouting />} />
-                    <Route path="car-types/*" element={<CarRouting />} />
-                    <Route path="products-categories/*" element={<ProductsRouting />} />
-                    <Route path="transportations/*" element={<TransportationRouting />} />
-                    <Route path="requests/*" element={<RequestRouting />} />
+                <Route element={isAuth ? <Layout /> : <Navigate to="/login" />}>
+                    <Route path="/" element={isAuth ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+                    <Route path="dashboard" element={isAuth ? <Dashboard /> : <Navigate to="/login" />} />
+                    <Route path="users/*" element={isAuth ? <UserRouting /> : <Navigate to="/login" />} />
+                    <Route path="car-types/*" element={isAuth ? <CarRouting /> : <Navigate to="/login" />} />
+                    <Route path="products-categories/*" element={isAuth ? <ProductsRouting /> : <Navigate to="/login" />} />
+                    <Route path="transportations/*" element={isAuth ? <TransportationRouting /> : <Navigate to="/login" />} />
+                    <Route path="requests/*" element={isAuth ? <RequestRouting /> : <Navigate to="/login" />} />
                 </Route>
             </Route>
         </Routes>

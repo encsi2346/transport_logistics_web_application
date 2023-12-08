@@ -7,7 +7,7 @@
     "CATEGORY": "Kategória",
     "PRODUCT_CATEGORIES": "Termékkategóriák",
     "WELCOME": "Üdv újra itt!",
-    "LOGIN_FAILED": "A bejelentkezés nem sikerült",
+    "LOGIN_FAILED": "A bejelentkezés nem sikerült.",
     "EMAIL": "Email",
     "PASSWORD": "Jelszó",
     "LOGIN": "Bejelentkezés",
@@ -125,6 +125,14 @@
     "SIGN_IN": "Bejelentkezés",
     "REGISTER": "Regisztráció",
     "RESET_PASSWORD_MESSAGE": "Adja meg email címét, és küldünk Önnek egy jelszó visszaállító emailt.",
-    "SEND": "Küldés"
+    "SEND": "Küldés",
+    "JUNE": "Június",
+    "JULY": "Július",
+    "AUGUST": "Augusztus",
+    "SEPTEMBER": "Szeptember",
+    "OCTOBER": "Október",
+    "NOVEMBER": "November",
+    "DECEMBER": "December",
+    "DRIVING_TIME_PER_MONTH": "Vezetéssel töltött óra / Hónap"
   }
 }
