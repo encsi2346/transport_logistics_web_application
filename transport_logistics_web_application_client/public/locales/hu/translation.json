@@ -118,6 +118,8 @@
     "SELECT_MODE": "Téma választás:",
     "SELECT_LANGUAGE": "Nyelv választás:",
     "PASSENGER": "Utas",
-    "PRODUCT_CATEGORY": "Termékkategória"
+    "PRODUCT_CATEGORY": "Termékkategória",
+    "DASHBOARD": "Irányítópult",
+    "REQUESTS": "Kérések"
   }
 }

@@ -29,6 +29,7 @@ const Router = () => {
             <Route path="/" element={<Navigate to="/dashboard" />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/forgotten-password" element={<ForgottenPassword />} />
+            <Route path="/logout" element={<LoginPage />} />
 
             <Route>
                 <Route element={/*authenticatedElement(*/<Layout />/*)*/}>

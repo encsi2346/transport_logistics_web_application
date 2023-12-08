@@ -44,7 +44,7 @@ export const register = async (req, res) => {
           /*  firstName,
             familyName,*/
             email,
-            password,
+            password: passwordHash,
          /*   picturePath,
             gender,
             nationality,

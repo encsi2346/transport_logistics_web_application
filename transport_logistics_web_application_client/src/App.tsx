@@ -14,7 +14,7 @@ import useLocaleLoader from "./components/inputField/hooks/useLocaleLoader.tsx";
 //import {AuthProvider} from "./auth/AuthProvider.tsx";
 import "./App.css";
 
-export const BackendUrl = (window.Environment && window.Environment.BackendUrl) || 'https://localhost:5001';
+export const BackendUrl = (window.Environment && window.Environment.BackendUrl) || 'https://localhost:3001';
 
 const App = () => {
     const locale = useLocaleLoader();

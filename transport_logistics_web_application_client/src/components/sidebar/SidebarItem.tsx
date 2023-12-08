@@ -10,11 +10,10 @@ interface INavLink {
 
 interface Props {
     link: INavLink;
-    isSidebarOpen: boolean;
     removeSelectionStyles?: boolean;
 }
 
-const SidebarItem = ({ link, isSidebarOpen, removeSelectionStyles = false }: Props) => {
+const SidebarItem = ({ link, removeSelectionStyles = false }: Props) => {
     const location = useLocation();
     const path = useResolvedPath(link.route);
 
@@ -33,13 +32,15 @@ const SidebarItem = ({ link, isSidebarOpen, removeSelectionStyles = false }: Pro
             to={link.route}
             display="flex"
             alignItems="center"
-            justifyContent={isSidebarOpen ? 'flex-start' : 'center'}
+            justifyContent={'center'}
             minHeight="40px"
             height="40px"
-            padding="25px"
-            pl={isSidebarOpen ? 3 : 0}
+            marginTop={4}
+            padding={isActive ? "15px" : "25px"}
+            paddingTop={isActive ? "30px" : "25px"}
+            paddingBottom={isActive ? "30px" : "25px"}
             bgcolor={isActive ? '#ffffff' : 'inherit'}
-            borderRadius={isActive ? '13px' : 0}
+            borderRadius={isActive ? '10px' : 0}
             sx={{
                 textDecoration: 'none',
                 cursor: 'pointer',
@@ -52,12 +53,6 @@ const SidebarItem = ({ link, isSidebarOpen, removeSelectionStyles = false }: Pro
             data-testid={link.route}
         >
             {link.icon}
-
-            {isSidebarOpen && (
-                <Box ml={link.icon ? '10px' : '36px'} fontSize="14px">
-                    {link.label}
-                </Box>
-            )}
         </Box>
     );
 };

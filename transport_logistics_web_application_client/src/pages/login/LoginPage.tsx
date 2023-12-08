@@ -56,7 +56,7 @@ const LoginPage = () => {
     });
 
     //const auth = useAuthentication();
-    const [pageType, setPageType] = useState("register");
+    const [pageType, setPageType] = useState("login");
     const [loginFailed, setLoginFailed] = useState(false);
     const isLogin = pageType === "login";
     const isRegister = pageType === "register";
@@ -112,15 +112,19 @@ const LoginPage = () => {
             }
         );
         const loggedIn = await loggedInResponse.json();
+        const logStatus = loggedInResponse.status;
         onSubmitProps.resetForm();
-        if(loggedIn) {
+        console.log(logStatus);
+        if(logStatus === 200) {
             dispatch(
                 setLogin({
                     user: loggedIn.user,
                     token: loggedIn.token,
                 })
             );
-            navigate("/home");
+            navigate("/dashboard");
+        } else {
+            setLoginFailed(true);
         }
     }
 
@@ -141,7 +145,7 @@ const LoginPage = () => {
                   setFieldValue,
                   resetForm,
               }) => (
-                <form /*onSubmit={handleSubmit(onSubmit)}*/ onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                     <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
                         <SmallBackgroundCard>
                             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -191,7 +195,7 @@ const LoginPage = () => {
                                 Reset Password
                             </Typography>
                             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                <WideSaveButton text={t('TEXT.LOGIN')} control={control} type='submit' /*onClick={() => navigate("/dashboard")}*//>
+                                <WideSaveButton text={t('TEXT.LOGIN')} control={control} type='submit'/>
                             </Box>
                         </SmallBackgroundCard>
                     </Box>

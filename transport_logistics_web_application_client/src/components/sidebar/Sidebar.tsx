@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import { useLocation } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
-import { Drawer, IconButton } from '@mui/material';
+import {Drawer, IconButton, Tooltip} from '@mui/material';
 import SidebarItem from "./SidebarItem.tsx";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -11,6 +11,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {useTypeSafeTranslation} from "../inputField/hooks/useTypeSafeTranslation.tsx";
 import EmailIcon from '@mui/icons-material/Email';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 
 const iconProps = {
     sx: {
@@ -23,49 +24,64 @@ const iconProps = {
     },
 };
 
-interface Props {
-    isSidebarOpen: boolean;
-}
-
-const Sidebar = ({ isSidebarOpen }: Props) => {
+const Sidebar = () => {
     const { t } = useTypeSafeTranslation();
     const location = useLocation();
-    const [isOpen, setIsOpen] = useState(true);
-    const [openGroups, setOpenGroups] = useState<string[]>([]);
 
     const navLinks = [
         {
-            icon: <PeopleAltIcon {...iconProps} />,
+            icon:   <Tooltip title={t('TEXT.DASHBOARD')}>
+                        <HomeRoundedIcon {...iconProps} />
+                    </Tooltip>,
+            label: t('TEXT.DASHBOARD'),
+            route: '/dashboard',
+        },
+        {
+            icon:   <Tooltip title={t('TEXT.USERS')}>
+                        <PeopleAltIcon {...iconProps} />
+                    </Tooltip>,
             label: t('TEXT.USERS'),
             route: '/users',
         },
         {
-            icon: <ListAltIcon {...iconProps} />,
+            icon:   <Tooltip title={t('TEXT.TRANSPORTATION')}>
+                        <ListAltIcon {...iconProps} />
+                    </Tooltip>,
             label: t('TEXT.TRANSPORTATION'),
             route: '/transportations',
         },
         {
-            icon: <LocalShippingIcon {...iconProps} />,
+            icon:   <Tooltip title={t('TEXT.CAR_TYPES')}>
+                        <LocalShippingIcon {...iconProps} />
+                    </Tooltip>,
             label: t('TEXT.CAR_TYPES'),
             route: '/car-types',
         },
         {
-            icon: <Inventory2Icon {...iconProps} />,
+            icon:   <Tooltip title={t('TEXT.PRODUCT_CATEGORIES')}>
+                        <Inventory2Icon {...iconProps} />
+                    </Tooltip>,
             label: t('TEXT.PRODUCT_CATEGORIES'),
             route: '/products-categories',
         },
         {
-            icon: <EmailIcon {...iconProps} />,
+            icon:   <Tooltip title={t('TEXT.REQUESTS')}>
+                        <EmailIcon {...iconProps} />
+                    </Tooltip>,
             label: t('TEXT.REQUESTS'),
             route: '/requests/',
         },
         {
-            icon: <PersonIcon {...iconProps} />,
+            icon:   <Tooltip title={t('TEXT.PROFILE')}>
+                        <PersonIcon {...iconProps} />
+                    </Tooltip>,
             label: t('TEXT.PROFILE'),
             route: '/users/profile',
         },
         {
-            icon: <LogoutIcon {...iconProps} />,
+            icon:   <Tooltip title={t('TEXT.LOGOUT')}>
+                        <LogoutIcon {...iconProps} />
+                    </Tooltip>,
             label: t('TEXT.LOGOUT'),
             route: '/logout',
         },
@@ -75,11 +91,8 @@ const Sidebar = ({ isSidebarOpen }: Props) => {
         const locationPathname = location.pathname.toLowerCase();
 
         navLinks.some((navLink) => {
-            if (locationPathname === navLink.route || locationPathname.startsWith(navLink.route)) {
-                setOpenGroups([navLink.route]);
-                return true;
-            }
-            return false;
+            return locationPathname === navLink.route || locationPathname.startsWith(navLink.route);
+
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -87,31 +100,26 @@ const Sidebar = ({ isSidebarOpen }: Props) => {
     return (
         <Drawer
             id="sidebar"
-            sx={{ width: 60, transition: 'width 0.25s' }}
             PaperProps={{
                 sx: {
-                    width: isSidebarOpen ? 250 : 60,
-                    transition: 'width 0.25s',
+                    width: 70,
                     border: 'none',
+                    display: 'flex',
+                    justifyContent: 'start',
+                    alignItems: 'center',
                     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)',
                     position: 'fixed',
-                    minHeight: 100,
-                    height: 900,
+                    minHeight: '100%',
+                    height: '100%',
                     backgroundColor: '#DD1C13',
                 },
             }}
             variant="permanent"
         >
-            <IconButton
-                sx={{ ml: isOpen ? 2 : 3, color: 'text.primary', width: 'fit-content' }}
-                onClick={() => setIsOpen(!isOpen)}
-            >
-                {isOpen ? <HomeIcon width="14px" height="14px" /> : <HomeIcon width="14px" height="14px" />}
-            </IconButton>
 
             {navLinks
                 .map((group) => {
-                    return <SidebarItem key={group.route} link={group} isSidebarOpen={isOpen} />;
+                    return <SidebarItem key={group.route} link={group} />;
                 })}
         </Drawer>
     );
