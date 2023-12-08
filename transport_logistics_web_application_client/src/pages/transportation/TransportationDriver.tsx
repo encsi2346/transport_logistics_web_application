@@ -69,7 +69,7 @@ const TransportationDriver = () => {
         event: React.DragEvent<HTMLDivElement>,
         data: string
     ) => {
-        event.dataTransfer.setData("text", data);
+        event.dataTransfer.setData("text", data /*event.currentTarget.id*/);
     };
 
     // This function will be triggered when dropping
