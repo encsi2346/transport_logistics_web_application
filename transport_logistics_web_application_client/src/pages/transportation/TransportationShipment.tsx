@@ -88,6 +88,18 @@ const TransportationShipment = () => {
             id: "Box3",
             title: "Box3",
         },
+        {
+            id: "Box4",
+            title: "Box4",
+        },
+        {
+            id: "Box5",
+            title: "Box5",
+        },
+        {
+            id: "Box6",
+            title: "Box6",
+        },
     ]);
     const containersId = useMemo(() => containers.map((con) => con.id), [containers]);
     const [items, setItems] = useState<Item[]>([
@@ -125,18 +137,6 @@ const TransportationShipment = () => {
             id: "6",
             containerId: "itemContainer",
             productName: "Termék5",
-            amountOfProduct: "1200/836",
-        },
-        {
-            id: "7",
-            containerId: "itemContainer",
-            productName: "Termék6",
-            amountOfProduct: "1200/836",
-        },
-        {
-            id: "8",
-            containerId: "itemContainer",
-            productName: "Termék8",
             amountOfProduct: "1200/836",
         },
     ]);
