@@ -2,7 +2,6 @@ import {Box, FormControl, Input, InputAdornment} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader.tsx";
 import FilterCard from "../../components/layout/FilterCard.tsx";
 import ContentCard from "../../components/layout/ContentCard.tsx";
-import {useForm} from "react-hook-form";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useState} from "react";
@@ -15,50 +14,45 @@ import SaveButton from "../../components/button/SaveButton.tsx";
 const UserList = () => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
-    const location = useLocation();
     const [search, setSearch] = useState('');
     const [users, setUsers] = useState([
         {
             id: '1111',
             fullName: 'Példa Elek',
             position: 'Sofőr',
+            drivingLicenceCategories: 'A1, A2, B, C',
+            validityDateOfDrivingLicence: '2025.12.03'
         },
         {
             id: '1111',
-            fullName: 'Példa Elek',
+            fullName: 'Példa Teodor',
             position: 'Sofőr',
+            drivingLicenceCategories: 'B, C',
+            validityDateOfDrivingLicence: '2025.12.03'
         },
         {
             id: '1111',
-            fullName: 'Példa Elek',
+            fullName: 'Példa Kálmán',
             position: 'Sofőr',
+            drivingLicenceCategories: 'B, C, D',
+            validityDateOfDrivingLicence: '2024.08.02'
         },
         {
             id: '1111',
-            fullName: 'Példa Elek',
+            fullName: 'Példa Tivadar',
             position: 'Sofőr',
+            drivingLicenceCategories: 'B, C',
+            validityDateOfDrivingLicence: '2025.11.21'
         },
         {
             id: '1111',
-            fullName: 'Példa Elek',
+            fullName: 'Példa Zoltán',
             position: 'Sofőr',
+            drivingLicenceCategories: 'B',
+            validityDateOfDrivingLicence: '2025.12.03'
         },
     ]);
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
-
-    const { control, reset, handleSubmit, setValue } = useForm({
-        defaultValues: {
-            taskIdIn: [],
-            onlyActives: false,
-        },
-    });
-
-    const onSubmit = handleSubmit((data) => {});
-
-    const onReset = () => {
-        reset();
-        onSubmit();
-    };
 
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);

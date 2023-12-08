@@ -56,6 +56,7 @@ const StyledDataGrid = styled(DataGrid)(() => ({
     "& .MuiDataGrid-row": {
         backgroundColor: useSelector((state) => state.mode) === 'light' ? '#ffffff' : '#ffffff',
         borderRadius: '25px',
+        width: '100%',
         paddingTop: 30,
         paddingBottom: 30,
         paddingLeft: 20,
@@ -65,14 +66,9 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         color: '#000000',
         fontSize: 15
     },
-   /* '& .MuiDataGrid-row:nth-of-type(even):not(.Mui-selected):not(.MuiDataGrid-row:hover)': {
-        backgroundColor: useSelector((state) => state.mode) === 'light' ? 'rgba(41, 0, 92, 0.32)' : '#1a082a',
-        borderRadius: '13px',
-        color: '#ffffff'
-    },*/
     "& .MuiDataGrid-row:hover": {
-        //backgroundColor: '#797979',
-        //borderRadius: '25px',
+        backgroundColor: '#797979',
+        borderRadius: '25px',
     },
     '& .MuiDataGrid-cell:focus, ': {
         outline: 'none',
@@ -92,7 +88,9 @@ export default StyledDataGrid;
 
 export const sharedDataGridProps = {
     autoHeight: true,
+    autoWidth: true,
     height: '100%',
+    width: '100%',
     checkboxSelection: true,
     disableSelectionOnClick: true,
     disableColumnMenu: true,

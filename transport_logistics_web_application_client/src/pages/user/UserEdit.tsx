@@ -31,7 +31,7 @@ import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import {setMode, setLanguage} from "../../state.ts";
+import {setMode} from "../../state.ts";
 
 interface Props {
     isEditing?: boolean;
@@ -39,7 +39,6 @@ interface Props {
 }
 
 const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
-    //const { t } = useTypeSafeTranslation();
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -77,8 +76,8 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     }, [languageValue]);
 
     const gender = {
-        0: 'TEXT.MEN',
-        1: 'TEXT.WOMEN',
+        0: `${t('TEXT.MEN')}`,
+        1: `${t('TEXT.WOMEN')}`
     };
 
     const {
@@ -130,11 +129,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         //TODO
     };
 
-    useEffect(() => {
-        if (id) {
-            //TODO: get user
-        }
-    }, [id, reset]);
 
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
@@ -652,7 +646,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
                 <Box sx={{ display: 'inline', paddingLeft: 130}}>
                     <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)}/>
-                    <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} /*disabled={!isValid}*//>
+                    <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} />
                 </Box>
             </BackgroundCard>
         </Box>

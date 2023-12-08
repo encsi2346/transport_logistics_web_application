@@ -56,6 +56,16 @@ const UserTable = ({
             headerName: `${t('TEXT.POSITION')}`,
             width: 250,
         },
+        {
+            field: 'drivingLicenceCategories',
+            headerName: `${t('TEXT.DRIVING_LICENCE_CATEGORIES')}`,
+            width: 150,
+        },
+        {
+            field: 'validityDateOfDrivingLicence',
+            headerName: `${t('TEXT.VALIDITY_DATE_OF_DRIVING_LICENCE')}`,
+            width: 200,
+        },
     ];
 
     if (showActions) {
