@@ -120,6 +120,11 @@
     "PASSENGER": "Utas",
     "PRODUCT_CATEGORY": "Termékkategória",
     "DASHBOARD": "Irányítópult",
-    "REQUESTS": "Kérések"
+    "REQUESTS": "Kérések",
+    "RESET_PASSWORD": "Elfelejtett jelszó",
+    "SIGN_IN": "Bejelentkezés",
+    "REGISTER": "Regisztráció",
+    "RESET_PASSWORD_MESSAGE": "Adja meg email címét, és küldünk Önnek egy jelszó visszaállító emailt.",
+    "SEND": "Küldés"
   }
 }

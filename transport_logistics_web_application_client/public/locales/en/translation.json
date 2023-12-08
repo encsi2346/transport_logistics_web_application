@@ -116,6 +116,7 @@
     "REASON": "Reason",
     "STATUS": "Status",
     "SELECT_MODE": "Select Mode:",
-    "SELECT_LANGUAGE": "Select Language:"
+    "SELECT_LANGUAGE": "Select Language:",
+    "RESET_PASSWORD_MESSAGE": "Please enter your email address and we will send you an email for reset password"
   }
 }
