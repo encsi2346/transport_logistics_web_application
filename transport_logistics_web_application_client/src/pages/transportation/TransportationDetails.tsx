@@ -167,7 +167,7 @@ const TransportationDetails = () => {
                                             <TextFieldInput
                                                 placeholder={t('TEXT.COUNTRY')}
                                                 control={control}
-                                                name='country'
+                                                name='arrivalCountry'
                                                 type='text'
                                                 data-testid='country-input'
                                                 disabled={!isActiveStep}
@@ -181,7 +181,7 @@ const TransportationDetails = () => {
                                             <TextFieldInput
                                                 placeholder={t('TEXT.POSTCODE')}
                                                 control={control}
-                                                name='postcode'
+                                                name='arrivalPostcode'
                                                 type='number'
                                                 data-testid='postcode-input'
                                                 disabled={!isActiveStep}
@@ -195,7 +195,7 @@ const TransportationDetails = () => {
                                             <TextFieldInput
                                                 placeholder={t('TEXT.CITY')}
                                                 control={control}
-                                                name='city'
+                                                name='arrivalCity'
                                                 type='text'
                                                 data-testid='city-input'
                                                 disabled={!isActiveStep}
@@ -211,7 +211,7 @@ const TransportationDetails = () => {
                                             <TextFieldInput
                                                 placeholder={t('TEXT.NAME_OF_PUBLIC_AREA')}
                                                 control={control}
-                                                name='nameOfPublicArea'
+                                                name='arrivalNameOfPublicArea'
                                                 type='text'
                                                 data-testid='name-of-public-area-input'
                                                 disabled={!isActiveStep}
@@ -225,7 +225,7 @@ const TransportationDetails = () => {
                                             <TextFieldInput
                                                 placeholder={t('TEXT.TYPE_OF_PUBLIC_AREA')}
                                                 control={control}
-                                                name='typeOfPublicArea'
+                                                name='arrivalTypeOfPublicArea'
                                                 type='text'
                                                 data-testid='type-of-public-area-input'
                                                 disabled={!isActiveStep}
@@ -239,7 +239,7 @@ const TransportationDetails = () => {
                                             <TextFieldInput
                                                 placeholder={t('TEXT.HOUSE_NUMBER')}
                                                 control={control}
-                                                name='houseNumber'
+                                                name='arrivalHouseNumber'
                                                 type='number'
                                                 data-testid='house-number-input'
                                                 disabled={!isActiveStep}

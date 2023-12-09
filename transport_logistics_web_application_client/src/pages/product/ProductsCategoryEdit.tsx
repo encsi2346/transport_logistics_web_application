@@ -8,11 +8,14 @@ import CancelButton from "../../components/button/CancelButton.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useForm} from "react-hook-form";
-import {carTypeEditFormSchema, CarTypeEditFormSchema} from "../car-type/schemas/car-type-edit-form-schema.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import TextFieldInput from "../../components/inputField/TextFieldInput.tsx";
+import {
+    ProductCategoryEditFormSchema,
+    productCategoryEditFormSchema
+} from "./schemas/product-category-edit-form-schema.ts";
 
 interface Props {
     isEditing?: boolean;
@@ -27,21 +30,14 @@ const ProductsCategoryEdit = ({ isEditing = false, isInputDisabled }: Props) => 
 
     const {
         control,
-        setValue,
-        reset,
         handleSubmit,
         formState: { isValid },
-    } = useForm<CarTypeEditFormSchema>({
+    } = useForm<ProductCategoryEditFormSchema>({
         defaultValues: {
-            carTypeName: '',
-            carFunctionalDesign: '',
-            performance: '',
-            ownWeight: '',
-            numberOfSeats: '',
-            fuel: '',
-            usefulWeight: '',
+            productCategoryName: '',
+            productDescription: '',
         },
-        resolver: zodResolver(carTypeEditFormSchema(isEditing)),
+        resolver: zodResolver(productCategoryEditFormSchema(isEditing)),
         mode: 'all',
     });
 

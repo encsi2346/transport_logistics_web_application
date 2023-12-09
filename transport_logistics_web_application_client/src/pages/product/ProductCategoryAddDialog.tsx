@@ -11,12 +11,14 @@ import type {SxProps, Theme} from '@mui/material';
 import type { GridSelectionModel } from '@mui/x-data-grid';
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import BackgroundCard from "../../components/layout/BackgroundCard.tsx";
 import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation.tsx';
 import TextFieldInput from '../../components/inputField/TextFieldInput.tsx';
-import {CarTypeEditFormSchema, carTypeEditFormSchema} from '../car-type/schemas/car-type-edit-form-schema.ts';
+import {
+    productCategoryEditFormSchema,
+    ProductCategoryEditFormSchema
+} from "./schemas/product-category-edit-form-schema.ts";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -78,17 +80,12 @@ const ProductCategoryAddDialog = NiceModal.create(
             reset,
             handleSubmit,
             formState: { isValid },
-        } = useForm<CarTypeEditFormSchema>({
+        } = useForm<ProductCategoryEditFormSchema>({
             defaultValues: {
-                carTypeName: '',
-                carFunctionalDesign: '',
-                performance: '',
-                ownWeight: '',
-                numberOfSeats: '',
-                fuel: '',
-                usefulWeight: '',
+                productCategoryName: '',
+                productDescription: '',
             },
-            resolver: zodResolver(carTypeEditFormSchema()),
+            resolver: zodResolver(productCategoryEditFormSchema()),
             mode: 'all',
         });
 

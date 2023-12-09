@@ -13,15 +13,14 @@ import type {SxProps, Theme} from '@mui/material';
 import type { GridSelectionModel } from '@mui/x-data-grid';
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import BackgroundCard from "../../components/layout/BackgroundCard.tsx";
 import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation.tsx';
 import TextFieldInput from '../../components/inputField/TextFieldInput.tsx';
-import {CarTypeEditFormSchema, carTypeEditFormSchema} from '../car-type/schemas/car-type-edit-form-schema.ts';
 import DatePickerInput from "../../components/inputField/DatePickerInput.tsx";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SelectInput from "../../components/inputField/SelectInput.tsx";
+import {RequestEditFormSchema, requestEditFormSchema} from "./shemas/request-edit-form-schema.ts";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -81,10 +80,9 @@ const NewRequestAddDialog = NiceModal.create(
         const {
             control,
             setValue,
-            reset,
             handleSubmit,
             formState: { isValid },
-        } = useForm<CarTypeEditFormSchema>({
+        } = useForm<RequestEditFormSchema>({
             defaultValues: {
                 carTypeName: '',
                 carFunctionalDesign: '',
@@ -94,7 +92,7 @@ const NewRequestAddDialog = NiceModal.create(
                 fuel: '',
                 usefulWeight: '',
             },
-            resolver: zodResolver(carTypeEditFormSchema()), //TODO
+            resolver: zodResolver(requestEditFormSchema()),
             mode: 'all',
         });
 
