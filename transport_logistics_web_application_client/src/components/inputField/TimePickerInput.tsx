@@ -27,16 +27,16 @@ export type TimePickerInputProps<T extends FieldValues, TDate> = Omit<
 };
 
 export default function TimePickerInput<TFieldValues extends FieldValues>({
-                                                                              parseError,
-                                                                              name,
-                                                                              required,
-                                                                              parseDate,
-                                                                              validation = {},
-                                                                              inputProps,
-                                                                              control,
-                                                                              showErrorMessage = true,
-                                                                              ...rest
-                                                                          }: TimePickerInputProps<TFieldValues, any>): JSX.Element {
+  parseError,
+  name,
+  required,
+  parseDate,
+  validation = {},
+  inputProps,
+  control,
+  showErrorMessage = true,
+  ...rest
+}: TimePickerInputProps<TFieldValues, any>): JSX.Element {
     const { palette } = useTheme();
 
     return (

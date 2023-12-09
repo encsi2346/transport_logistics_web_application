@@ -1,4 +1,4 @@
-import {Box, Grid, IconButton, InputAdornment, Typography} from "@mui/material";
+import {Box, Grid, Typography} from "@mui/material";
 import BackgroundCard from "../../components/layout/BackgroundCard.tsx";
 import CancelButton from "../../components/button/CancelButton.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
@@ -7,10 +7,9 @@ import {useNavigate} from "react-router-dom";
 import {TransportationSteps} from "./enums/transportation-steps.ts";
 import {useTransportationStore} from "./stores/useTransportationStore.tsx";
 import useTransportationDriver from "./hooks/useTransportationDriver.tsx";
-import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SelectInput from "../../components/inputField/SelectInput.tsx";
 import {useState} from "react";
-
+//TODO
 const TransportationDriver = () => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
@@ -46,7 +45,6 @@ const TransportationDriver = () => {
             position: 'driver'
         },
     ])
-    // The content of the target box
     const [contentFirst, setContentFirst] = useState<string>("Drop Something Here");
     const [contentSecond, setContentSecond] = useState<string>("Drop Something Here");
     const [contentThird, setContentThird] = useState<string>("Drop Something Here");
@@ -64,7 +62,6 @@ const TransportationDriver = () => {
         navigate('..');
     };
 
-    // This function will be triggered when you start dragging
     const dragStartHandler = (
         event: React.DragEvent<HTMLDivElement>,
         data: string
@@ -72,7 +69,6 @@ const TransportationDriver = () => {
         event.dataTransfer.setData("text", data /*event.currentTarget.id*/);
     };
 
-    // This function will be triggered when dropping
     const dropHandlerFirst = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         const data = event.dataTransfer.getData("text");
@@ -89,7 +85,6 @@ const TransportationDriver = () => {
         setContentThird(data);
     };
 
-    // This makes the third box become droppable
     const allowDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
     };

@@ -50,10 +50,7 @@ const CarTypeList = () => {
     ]);
 
     const {
-        control,
         setValue,
-        reset,
-        handleSubmit,
         formState: { isValid },
     } = useForm<CarTypeEditFormSchema>({
         defaultValues: {

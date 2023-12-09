@@ -17,8 +17,6 @@ import {zodResolver} from "@hookform/resolvers/zod";
 
 const ProductsCategoryList = () => {
     const { t } = useTypeSafeTranslation();
-    const navigate = useNavigate();
-    const location = useLocation();
     const addProductCategoryDialog = useModal(ProductCategoryAddDialog);
     const [search, setSearch] = useState('');
     const [categories, setCategories] = useState([
@@ -45,10 +43,7 @@ const ProductsCategoryList = () => {
     ]);
 
     const {
-        control,
         setValue,
-        reset,
-        handleSubmit,
         formState: { isValid },
     } = useForm<CarTypeEditFormSchema>({
         defaultValues: {

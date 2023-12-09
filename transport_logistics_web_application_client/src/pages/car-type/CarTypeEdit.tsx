@@ -56,12 +56,6 @@ const CarTypeEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         //TODO
     };
 
-    useEffect(() => {
-        if (id) {
-            //TODO: get user
-        }
-    }, [id, reset]);
-
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
 
@@ -111,7 +105,7 @@ const CarTypeEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='carFunctionalDesign'
                                         data-testid='car-functional-design-input'
                                         disabled={inputDisabled}
-                                        //options={enumToOptions(userRoles)}
+                                        //options={enumToOptions(userRoles)} //TODO
                                         required
                                         InputProps={{
                                             endAdornment: (
@@ -199,7 +193,7 @@ const CarTypeEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         name='fuel'
                                         data-testid='fuel-input'
                                         disabled={inputDisabled}
-                                        //options={enumToOptions(userRoles)}
+                                        //options={enumToOptions(userRoles)} //TODO
                                         required
                                         InputProps={{
                                             endAdornment: (
@@ -238,7 +232,7 @@ const CarTypeEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
                 <Box sx={{ display: 'inline', paddingLeft: 130}}>
                     <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)} />
-                    <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} /*disabled={!isValid}*//>
+                    <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} />
                 </Box>
             </BackgroundCard>
         </Box>

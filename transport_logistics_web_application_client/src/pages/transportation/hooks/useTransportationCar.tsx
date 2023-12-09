@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {TransportationCarFormSchema, transportationCarFormSchema} from "../schemas/transportation-car-form-schema.ts";
 import {useTransportationStore} from "../stores/useTransportationStore.tsx";
@@ -11,9 +11,7 @@ const useTransportationCar = () => {
 
     const {
         control,
-        setValue,
         handleSubmit,
-        trigger,
         formState: { isValid },
     } = useForm<TransportationCarFormSchema>({
         resolver: zodResolver(transportationCarFormSchema),

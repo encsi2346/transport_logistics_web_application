@@ -73,7 +73,6 @@ const ProductsTable = ({
                         </Tooltip>
                     }
                     label={t('TEXT.EDIT')}
-                    //onClick={}
                     data-testid='edit-button'
                 />,
                 <GridActionsCellItem
@@ -84,7 +83,6 @@ const ProductsTable = ({
                         </Tooltip>
                     }
                     label={t('TEXT.VIEW')}
-                    //onClick={}
                     data-testid='open-button'
                 />,
             ],

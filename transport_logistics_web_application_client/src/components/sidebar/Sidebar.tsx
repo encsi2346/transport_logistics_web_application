@@ -1,7 +1,6 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import { useLocation } from "react-router-dom";
-import HomeIcon from '@mui/icons-material/Home';
-import {Drawer, IconButton, Tooltip} from '@mui/material';
+import {Drawer, Tooltip} from '@mui/material';
 import SidebarItem from "./SidebarItem.tsx";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';

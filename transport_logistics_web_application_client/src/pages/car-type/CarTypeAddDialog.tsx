@@ -17,13 +17,9 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {useEffect, useState} from "react";
 import {carTypeEditFormSchema, CarTypeEditFormSchema} from "./schemas/car-type-edit-form-schema.ts";
 import {useNavigate, useParams} from "react-router-dom";
-import PageHeader from "../../components/text/PageHeader.tsx";
 import BackgroundCard from "../../components/layout/BackgroundCard.tsx";
-import DataCard from "../../components/layout/DataCard.tsx";
-import Headline from "../../components/text/Headline.tsx";
 import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation.tsx';
 import TextFieldInput from '../../components/inputField/TextFieldInput.tsx';
-import NormalText from '../../components/text/NormalText.tsx';
 import SelectInput from "../../components/inputField/SelectInput.tsx";
 
 const titleStyle: SxProps<Theme> = {
@@ -80,7 +76,6 @@ const CarTypeAddDialog = NiceModal.create(
         const { t } = useTypeSafeTranslation();
         const { id } = useParams();
         const navigate = useNavigate();
-        //const auth = useAuthentication();
 
         const [projects, setProjects] = useState([]);
 
@@ -114,12 +109,6 @@ const CarTypeAddDialog = NiceModal.create(
         const updateCarType = (id, data) => {
             //TODO
         };
-
-        useEffect(() => {
-            if (id) {
-                //TODO: get user
-            }
-        }, [id, reset]);
 
         const onSubmit = handleSubmit((data) => {
             let submitData = data as any;
@@ -173,7 +162,7 @@ const CarTypeAddDialog = NiceModal.create(
                                                     control={control}
                                                     name='carFunctionalDesign'
                                                     data-testid='car-functional-design-input'
-                                                    //options={enumToOptions(userRoles)}
+                                                    //options={enumToOptions(userRoles)}  //TODO
                                                     required
                                                     InputProps={{
                                                         endAdornment: (
@@ -253,7 +242,7 @@ const CarTypeAddDialog = NiceModal.create(
                                                     control={control}
                                                     name='fuel'
                                                     data-testid='fuel-input'
-                                                    //options={enumToOptions(userRoles)}
+                                                    //options={enumToOptions(userRoles)} //TODO
                                                     required
                                                     InputProps={{
                                                         endAdornment: (

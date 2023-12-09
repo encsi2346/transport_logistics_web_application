@@ -18,7 +18,6 @@ import {useNavigate, useParams} from "react-router-dom";
 import BackgroundCard from "../../components/layout/BackgroundCard.tsx";
 import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation.tsx';
 import TextFieldInput from '../../components/inputField/TextFieldInput.tsx';
-import NormalText from '../../components/text/NormalText.tsx';
 import {CarTypeEditFormSchema, carTypeEditFormSchema} from '../car-type/schemas/car-type-edit-form-schema.ts';
 import DatePickerInput from "../../components/inputField/DatePickerInput.tsx";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
@@ -78,11 +77,6 @@ const NewRequestAddDialog = NiceModal.create(
         const { t } = useTypeSafeTranslation();
         const { id } = useParams();
         const navigate = useNavigate();
-        //const auth = useAuthentication();
-
-        const [projects, setProjects] = useState([]);
-
-        const [employees, setEmployees] = useState([]);
 
         const {
             control,
@@ -100,7 +94,7 @@ const NewRequestAddDialog = NiceModal.create(
                 fuel: '',
                 usefulWeight: '',
             },
-            resolver: zodResolver(carTypeEditFormSchema()),
+            resolver: zodResolver(carTypeEditFormSchema()), //TODO
             mode: 'all',
         });
 
@@ -113,11 +107,6 @@ const NewRequestAddDialog = NiceModal.create(
             //TODO
         };
 
-        useEffect(() => {
-            if (id) {
-                //TODO: get user
-            }
-        }, [id, reset]);
 
         const onSubmit = handleSubmit((data) => {
             let submitData = data as any;
@@ -198,7 +187,7 @@ const NewRequestAddDialog = NiceModal.create(
                                                 control={control}
                                                 name='status'
                                                 data-testid='status-input'
-                                                //options={enumToOptions(userRoles)}
+                                                //options={enumToOptions(userRoles)} //TODO
                                                 required
                                                 InputProps={{
                                                     endAdornment: (

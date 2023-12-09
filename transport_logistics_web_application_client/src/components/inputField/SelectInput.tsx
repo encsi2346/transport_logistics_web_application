@@ -75,9 +75,9 @@ export default function SelectInput<T extends FieldValues>({
                         InputProps={{
                             disableUnderline: 'true',
                             style: {
-                                backgroundColor: `${palette.component.medium}`,
+                                backgroundColor: '#ffffff',
                                 borderRadius: '13px',
-                                color: `${palette.textColor.light}`,
+                                color: '#000000',
                                 textDecoration: 'none',
                                 height: 40,
                                 width: 250,

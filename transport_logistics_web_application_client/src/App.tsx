@@ -11,7 +11,6 @@ import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import NiceModal from "@ebay/nice-modal-react";
 import "./i18n.ts";
 import useLocaleLoader from "./components/inputField/hooks/useLocaleLoader.tsx";
-//import {AuthProvider} from "./auth/AuthProvider.tsx";
 import "./App.css";
 
 export const BackendUrl = (window.Environment && window.Environment.BackendUrl) || 'https://localhost:3001';
@@ -29,12 +28,10 @@ const App = () => {
                 <ThemeProvider theme={theme}>
                     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={locale}>
                         <BrowserRouter>
-                            {/*<AuthProvider>*/}
-                                <NiceModal.Provider>
-                                    <CssBaseline/>
-                                    <Router isAuth={isAuth}/>
-                                </NiceModal.Provider>
-                            {/*</AuthProvider>*/}
+                            <NiceModal.Provider>
+                                <CssBaseline/>
+                                <Router isAuth={isAuth}/>
+                            </NiceModal.Provider>
                         </BrowserRouter>
                     </LocalizationProvider>
                 </ThemeProvider>

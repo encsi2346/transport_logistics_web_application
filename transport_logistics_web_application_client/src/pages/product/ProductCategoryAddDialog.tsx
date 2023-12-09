@@ -6,8 +6,6 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle, Grid,
-    IconButton,
-    InputAdornment
 } from '@mui/material';
 import type {SxProps, Theme} from '@mui/material';
 import type { GridSelectionModel } from '@mui/x-data-grid';
@@ -18,7 +16,6 @@ import {useNavigate, useParams} from "react-router-dom";
 import BackgroundCard from "../../components/layout/BackgroundCard.tsx";
 import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation.tsx';
 import TextFieldInput from '../../components/inputField/TextFieldInput.tsx';
-import NormalText from '../../components/text/NormalText.tsx';
 import {CarTypeEditFormSchema, carTypeEditFormSchema} from '../car-type/schemas/car-type-edit-form-schema.ts';
 
 const titleStyle: SxProps<Theme> = {
@@ -75,15 +72,9 @@ const ProductCategoryAddDialog = NiceModal.create(
         const { t } = useTypeSafeTranslation();
         const { id } = useParams();
         const navigate = useNavigate();
-        //const auth = useAuthentication();
-
-        const [projects, setProjects] = useState([]);
-
-        const [employees, setEmployees] = useState([]);
 
         const {
             control,
-            setValue,
             reset,
             handleSubmit,
             formState: { isValid },
@@ -109,12 +100,6 @@ const ProductCategoryAddDialog = NiceModal.create(
         const updateCarType = (id, data) => {
             //TODO
         };
-
-        useEffect(() => {
-            if (id) {
-                //TODO: get user
-            }
-        }, [id, reset]);
 
         const onSubmit = handleSubmit((data) => {
             let submitData = data as any;

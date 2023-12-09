@@ -24,8 +24,6 @@ const ItemContainer = ({
 
     const {
         setNodeRef,
-        attributes,
-        listeners,
         transform,
         transition,
         isDragging,
@@ -45,17 +43,12 @@ const ItemContainer = ({
 
     if (isDragging) {
         return (
-            <div
-                ref={setNodeRef}
-                style={style}
-                /*className="bg-columnBackgroundColor opacity-40 border-2 border-pink-500 w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col"*/
-            />
+            <div ref={setNodeRef} style={style} />
         );
     }
 
     return (
-        <div ref={setNodeRef} style={style} /* className="bg-columnBackgroundColor w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col"*/>
-            {/* Column task container <div className="flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto"> */}
+        <div ref={setNodeRef} style={style} >
                 <Grid item container direction="column" sx={{ marginTop: 3, marginLeft: 3, gap: 2}}>
                     <SortableContext items={itemsIds}>
                         {items.map((item) => (
@@ -66,7 +59,6 @@ const ItemContainer = ({
                         ))}
                     </SortableContext>
                 </Grid>
-            {/*</div>*/}
         </div>
     );
 }

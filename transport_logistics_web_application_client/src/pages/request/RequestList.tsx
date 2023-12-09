@@ -1,4 +1,4 @@
-import {Box, FormControl, Input, InputAdornment, TextField} from "@mui/material";
+import {Box, FormControl, Input, InputAdornment} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader.tsx";
 import FilterCard from "../../components/layout/FilterCard.tsx";
 import ContentCard from "../../components/layout/ContentCard.tsx";
@@ -18,8 +18,6 @@ import NewRequestAddDialog from "./NewRequestAddDialog.tsx";
 
 const RequestList = () => {
     const { t } = useTypeSafeTranslation();
-    const navigate = useNavigate();
-    const location = useLocation();
     const addNewRequestDialog = useModal(NewRequestAddDialog);
     const [search, setSearch] = useState('');
     const [requests, setRequests] = useState([
@@ -81,13 +79,6 @@ const RequestList = () => {
                 setValue('carTypes', value as string[]);
             })
             .catch(() => null);
-    };
-
-    const onSubmit = handleSubmit((data) => {});
-
-    const onReset = () => {
-        reset();
-        onSubmit();
     };
 
     const handleDataChange = () => {

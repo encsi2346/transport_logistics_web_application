@@ -35,17 +35,12 @@ const ItemCard = ({ item, deleteItem }: Props) => {
 
     if (isDragging) {
         return (
-            <div
-                ref={setNodeRef}
-                style={style}
-                /*className="opacity-30 bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl border-2 border-rose-500  cursor-grab relative"*/
-            />
+            <div ref={setNodeRef} style={style} />
         );
     }
 
     return (
         <div ref={setNodeRef} style={style} {...attributes} {...listeners}
-            /*className="bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative task"*/
             onMouseEnter={() => {
                 setMouseIsOver(true);
             }}
@@ -55,9 +50,6 @@ const ItemCard = ({ item, deleteItem }: Props) => {
         >
             <Grid item xs={4} md={3}>
                 <Box sx={{ width: 158, height: 60, borderRadius: '17px', backgroundColor: '#c8c8c8'}}>
-                    {/*<p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
-                        {item.content}
-                    </p>*/}
                     <Box sx={{ width: 15, height: 15, backgroundColor: '#07ea00', borderRadius: '30px', marginLeft: 2}}/>
 
                     <Typography sx={{ marginLeft: 6, marginTop: 0}}>{item.productName}</Typography>

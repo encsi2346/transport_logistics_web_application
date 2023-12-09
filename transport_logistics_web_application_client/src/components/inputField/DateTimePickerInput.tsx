@@ -27,16 +27,16 @@ export type DateTimePickerInputProps<T extends FieldValues, TDate> = Omit<
 };
 
 export default function DateTimePickerInput<TFieldValues extends FieldValues>({
-                                                                                  parseError,
-                                                                                  name,
-                                                                                  required,
-                                                                                  parseDate,
-                                                                                  validation = {},
-                                                                                  inputProps,
-                                                                                  control,
-                                                                                  showErrorMessage = true,
-                                                                                  ...rest
-                                                                              }: DateTimePickerInputProps<TFieldValues, any>): JSX.Element {
+  parseError,
+  name,
+  required,
+  parseDate,
+  validation = {},
+  inputProps,
+  control,
+  showErrorMessage = true,
+  ...rest
+}: DateTimePickerInputProps<TFieldValues, any>): JSX.Element {
     const { palette } = useTheme();
 
     return (
@@ -66,9 +66,9 @@ export default function DateTimePickerInput<TFieldValues extends FieldValues>({
                         value={value ? parseISO(value) : null}
                         onClose={onBlur}
                         sx={{
-                            backgroundColor: `${palette.component.medium}`,
+                            backgroundColor: '#ffffff',
                             borderRadius: '13px',
-                            color: `${palette.textColor.light}`,
+                            color: '#000000',
                             textDecoration: 'none',
                             height: 40,
                             width: 300

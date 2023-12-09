@@ -163,7 +163,7 @@ const TransportationList = () => {
                                 .filter((item) => {
                                     return search.toLowerCase() === ''
                                         ? item
-                                        : item.fullName.toLowerCase().includes(search);
+                                        : item.driverName.toLowerCase().includes(search);
                                 })
                         }
                         selectionModel={selectionModel}

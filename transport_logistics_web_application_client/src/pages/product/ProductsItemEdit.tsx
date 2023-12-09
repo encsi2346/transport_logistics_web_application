@@ -54,12 +54,6 @@ const ProductsItemEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         //TODO
     };
 
-    useEffect(() => {
-        if (id) {
-            //TODO: get user
-        }
-    }, [id, reset]);
-
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
 
@@ -71,10 +65,6 @@ const ProductsItemEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             createProductItem(submitData);
         }
     }, (errors) => {console.log(errors)});
-
-    const handleEditClicked = () => {
-        setInputDisabled(!inputDisabled);
-    };
 
     return (
         <Box>
@@ -194,7 +184,7 @@ const ProductsItemEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
                 <Box sx={{ display: 'inline', paddingLeft: 130}}>
                     <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)} />
-                    <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} /*disabled={!isValid}*//>
+                    <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} />
                 </Box>
             </BackgroundCard>
         </Box>

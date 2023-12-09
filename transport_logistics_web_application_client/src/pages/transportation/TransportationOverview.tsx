@@ -48,7 +48,7 @@ const TransportationOverview = () => {
                                             name='selectedCarType'
                                             data-testid='selected-car-type-input'
                                             disabled={!isActiveStep}
-                                            //options={enumToOptions(userRoles)}
+                                            //options={enumToOptions(userRoles)} //TODO
                                             required
                                             InputProps={{
                                                 endAdornment: (
@@ -82,7 +82,7 @@ const TransportationOverview = () => {
                                                 name='carFunctionalDesign'
                                                 data-testid='car-functional-design-input'
                                                 disabled={!isActiveStep}
-                                                //options={enumToOptions(userRoles)}
+                                                //options={enumToOptions(userRoles)} //TODO
                                                 required
                                                 InputProps={{
                                                     endAdornment: (
@@ -140,7 +140,7 @@ const TransportationOverview = () => {
                                                 name='numberOfSeats'
                                                 data-testid='number-of-seats-input'
                                                 disabled={!isActiveStep}
-                                                //options={enumToOptions(userRoles)}
+                                                //options={enumToOptions(userRoles)} //TODO
                                                 required
                                                 InputProps={{
                                                     endAdornment: (
@@ -168,7 +168,7 @@ const TransportationOverview = () => {
                                                 name='fuel'
                                                 data-testid='fuel-input'
                                                 disabled={!isActiveStep}
-                                                //options={enumToOptions(userRoles)}
+                                                //options={enumToOptions(userRoles)} //TODO
                                                 required
                                                 InputProps={{
                                                     endAdornment: (
@@ -216,7 +216,7 @@ const TransportationOverview = () => {
                                             name='selectedCar'
                                             data-testid='selected-car-input'
                                             disabled={!isActiveStep}
-                                            //options={enumToOptions(userRoles)}
+                                            //options={enumToOptions(userRoles)} //TODO
                                             required
                                             InputProps={{
                                                 endAdornment: (

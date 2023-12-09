@@ -22,8 +22,7 @@ export default function TextFieldInput<T extends FieldValues>({
     externalError = false,
     ...rest
 }: TextFieldInputProps<T>): JSX.Element {
-    const { palette } = useTheme();
-    const isAuth = true /*Boolean(useSelector((state) => state.token))*/; //TODO
+    const isAuth = true;
 
     if (required) {
         validation.required = 'REQUIRED';
@@ -54,7 +53,7 @@ export default function TextFieldInput<T extends FieldValues>({
                     InputProps={{
                         disableUnderline: 'true',
                         style: {
-                            backgroundColor: isAuth ? `#ffbebe` : `#ffbebe`,
+                            backgroundColor: `#ffffff`,
                             borderRadius: '13px',
                             color: `#000000`,
                             textDecoration: 'none',
