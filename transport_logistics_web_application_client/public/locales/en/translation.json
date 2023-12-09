@@ -117,6 +117,23 @@
     "STATUS": "Status",
     "SELECT_MODE": "Select Mode:",
     "SELECT_LANGUAGE": "Select Language:",
-    "RESET_PASSWORD_MESSAGE": "Please enter your email address and we will send you an email for reset password"
+    "PASSENGER": "Passenger",
+    "PRODUCT_CATEGORY": "Product Category",
+    "DASHBOARD": "Dashboard",
+    "REQUESTS": "Requests",
+    "RESET_PASSWORD": "Reset Password",
+    "SIGN_IN": "Sign in",
+    "REGISTER": "Register",
+    "RESET_PASSWORD_MESSAGE": "Please enter your email address and we will send you an email for reset password",
+    "SEND": "Send",
+    "JUNE": "June",
+    "JULY": "July",
+    "AUGUST": "August",
+    "SEPTEMBER": "September",
+    "OCTOBER": "October",
+    "NOVEMBER": "November",
+    "DECEMBER": "December",
+    "DRIVING_TIME_PER_MONTH": "Driving Time per Month",
+    "DRIVEN_KILOMETRES_PER_MONTH": "Driven Kilometres per Month"
   }
 }

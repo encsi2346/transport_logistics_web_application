@@ -25,7 +25,7 @@ const DrivenKilometres = () => {
         labels,
         type: 'bar',
         datasets: [{
-            label: t('TEXT.DRIVING_TIME_PER_MONTH'),
+            label: t('TEXT.DRIVEN_KILOMETRES_PER_MONTH'),
             data: [10000, 8572, 9360, 11604, 11203, 9933, 8742],
             backgroundColor: [
                 'rgb(102,209,255)'

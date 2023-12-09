@@ -133,6 +133,7 @@
     "OCTOBER": "Október",
     "NOVEMBER": "November",
     "DECEMBER": "December",
-    "DRIVING_TIME_PER_MONTH": "Vezetéssel töltött óra / Hónap"
+    "DRIVING_TIME_PER_MONTH": "Vezetéssel töltött óra / Hónap",
+    "DRIVEN_KILOMETRES_PER_MONTH": "Levezetett kilométer / Hónap"
   }
 }
