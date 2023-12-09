@@ -12,7 +12,7 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         display: 'none',
     },
     '& .MuiDataGrid-columnHeaders': {
-        backgroundColor: '#DD1C13' ,
+        backgroundColor:  useSelector((state) => state.mode) === 'light' ? '#DD1C13' : '#DD1C13' ,
         border: 'none',
         borderRadius: '25px',
         paddingLeft: 20,
@@ -67,7 +67,7 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         fontSize: 15
     },
     "& .MuiDataGrid-row:hover": {
-        backgroundColor: '#797979',
+        backgroundColor: useSelector((state) => state.mode) === 'light' ? '#b7b7b7' : '#ffffff',
         borderRadius: '25px',
     },
     '& .MuiDataGrid-cell:focus, ': {

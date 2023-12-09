@@ -1,4 +1,4 @@
-import {Button} from "@mui/material";
+import {Button, useTheme} from "@mui/material";
 import type {SxProps, Theme} from "@mui/material";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
@@ -14,11 +14,13 @@ const iconStyle: SxProps<Theme> = {
 }
 
 const NewButton = ({ onClick, disabled }: Props) => {
+    const theme = useTheme();
+
     return (
         <Button
             data-testid='new-button'
             sx={{
-                backgroundColor: '#DD1C13',
+                backgroundColor: `${theme.palette.component.dark}`,
                 borderRadius: '10px',
                 paddingTop: '10px',
                 paddingBottom: '10px',

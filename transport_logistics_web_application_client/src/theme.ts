@@ -3,11 +3,12 @@ export const colorTokens = {
     primary: {
         0: "#FFFFFF",
         1: "#EEEEEE",
-        2: "#DEDEDE",
-        3: "DD1C13",
-        4: "rgba(41, 0, 92, 0.32)",
-        5: "rgba(41, 0, 92, 0.84)",
-        6: "#29005C",
+        2: "#D9D9D9",
+        3: "#E3E3E3",
+        4: "#A3A3A3",
+        5: "#DD1C13",
+        6: "rgba(221, 28, 19, 0.48)",
+
     },
     secondary: {
         0: "#DEDEDE",
@@ -27,11 +28,6 @@ export const themeSettings = (mode) => {
             mode: mode,
             ...(mode === "light"
                 ? {
-                    // palette values for light mode
-                    textColor: {
-                        dark: colorTokens.primary[6],
-                        light: colorTokens.primary[0],
-                    },
                     component: {
                         darkMax: colorTokens.primary[6],
                         dark: colorTokens.primary[5],
@@ -41,16 +37,8 @@ export const themeSettings = (mode) => {
                         light: colorTokens.primary[1],
                         lightMin:colorTokens.primary[0],
                     },
-                    background: {
-                        default: colorTokens.primary[1],
-                    },
                 }
                 : {
-                    // palette values for dark mode
-                    textColor: {
-                        dark: colorTokens.secondary[6],
-                        light: colorTokens.secondary[0],
-                    },
                     component: {
                         darkMax: colorTokens.secondary[6],
                         dark: colorTokens.secondary[5],
@@ -59,9 +47,6 @@ export const themeSettings = (mode) => {
                         lightMax: colorTokens.secondary[2],
                         light: colorTokens.secondary[1],
                         lightMin:colorTokens.secondary[0],
-                    },
-                    background: {
-                        default: colorTokens.secondary[1],
                     },
                 }),
         },

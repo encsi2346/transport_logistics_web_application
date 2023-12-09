@@ -1,5 +1,4 @@
-import {Button} from "@mui/material";
-import type {SxProps, Theme} from "@mui/material";
+import {Button, useTheme} from "@mui/material";
 
 interface Props {
     text: string;
@@ -9,6 +8,8 @@ interface Props {
 }
 
 const CancelButton = ({ text, type, onClick, disabled }: Props) => {
+    const theme = useTheme();
+
     return (
         <Button
             type={type}
@@ -16,8 +17,8 @@ const CancelButton = ({ text, type, onClick, disabled }: Props) => {
             sx={{
                 fontWeight: 'regular',
                 fontSize: '14px',
-                color: '#ffffff',
-                backgroundColor: '#A3A3A3',
+                color: `${theme.palette.component.lightMin}`,
+                backgroundColor: `${theme.palette.component.darkMin}`,
                 borderRadius: '31px',
                 marginLeft: '20px',
                 marginRight: '20px',
