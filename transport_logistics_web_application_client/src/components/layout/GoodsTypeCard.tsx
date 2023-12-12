@@ -1,18 +1,5 @@
-import {Box, SxProps, Theme, Typography} from "@mui/material";
+import {Box, SxProps, Theme, Typography, useTheme} from "@mui/material";
 import MicrosoftIcon from '@mui/icons-material/Microsoft';
-
-const cardStyle: SxProps<Theme> = {
-    backgroundColor: '#ffffff',
-    borderRadius: '19px',
-    marginRight: '60px',
-    marginBottom: '40px',
-    paddingTop: '20px',
-    paddingBottom: '20px',
-    paddingLeft: '20px',
-    paddingRight: '20px',
-    boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
-    cursor: 'pointer'
-}
 
 const mainTextStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -43,8 +30,21 @@ interface Props {
 }
 
 const GoodsTypeCard = ({ category, availability }: Props) => {
+    const theme = useTheme();
+
     return (
-        <Box sx={cardStyle}>
+        <Box sx={{
+            backgroundColor: `${theme.palette.component.lightMin}`,
+            borderRadius: '19px',
+            marginRight: '60px',
+            marginBottom: '40px',
+            paddingTop: '20px',
+            paddingBottom: '20px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
+            boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
+            cursor: 'pointer'
+        }}>
             <Box sx={{display: 'flex', align: 'center', justifyContent: 'center'}}>
                 <MicrosoftIcon sx={iconStyle}/>
             </Box>

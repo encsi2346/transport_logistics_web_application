@@ -18,7 +18,7 @@ interface TransportationState {
 }
 
 export const useTransportationStore = create<TransportationState>((set) => ({
-    currentStep: TransportationSteps.CAR,
+    currentStep: TransportationSteps.DRIVER,
     transportation: {},
     loadedTransportation: { canModifyBaseData: true },
     submitCarForm: () =>

@@ -37,7 +37,7 @@ export default function DateTimePickerInput<TFieldValues extends FieldValues>({
   showErrorMessage = true,
   ...rest
 }: DateTimePickerInputProps<TFieldValues, any>): JSX.Element {
-    const { palette } = useTheme();
+    const theme = useTheme();
 
     return (
         <Controller
@@ -66,7 +66,7 @@ export default function DateTimePickerInput<TFieldValues extends FieldValues>({
                         value={value ? parseISO(value) : null}
                         onClose={onBlur}
                         sx={{
-                            backgroundColor: '#ffffff',
+                            backgroundColor: `${theme.palette.component.lightMin}`,
                             borderRadius: '13px',
                             color: '#000000',
                             textDecoration: 'none',

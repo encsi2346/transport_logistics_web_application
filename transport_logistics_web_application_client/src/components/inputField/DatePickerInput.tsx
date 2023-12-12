@@ -37,7 +37,7 @@ export default function DatePickerInput<TFieldValues extends FieldValues>({
   showErrorMessage = true,
   ...rest
 }: DatePickerInputProps<TFieldValues, any>): JSX.Element {
-    const { palette } = useTheme();
+    const theme = useTheme();
 
     return (
         <Controller
@@ -68,7 +68,7 @@ export default function DatePickerInput<TFieldValues extends FieldValues>({
                         sx={{
                             disableUnderline: 'true',
                             textDecoration: 'none',
-                            backgroundColor: `#ffffff`,
+                            backgroundColor: `${theme.palette.component.lightMin}`,
                             borderRadius: '13px',
                             border: 'none',
                             color: `#000000`,

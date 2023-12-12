@@ -113,7 +113,7 @@ const TransportationDriver = () => {
                                         }}
                                     />
                                 </BackgroundCard>
-                                <Grid item container direction="column" sx={{ marginTop: -53, marginLeft: 7}}>
+                                <Grid item container direction="column" sx={{ marginTop: -53, marginLeft: 7, gap: 2}}>
                                     <Grid item xs={4} md={3}>
                                         <Box
                                             onDragStart={(event) => dragStartHandler(event, 'alma')}

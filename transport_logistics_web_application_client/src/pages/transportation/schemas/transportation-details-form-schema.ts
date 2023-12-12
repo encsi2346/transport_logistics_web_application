@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const transportationDetailsFormSchema = z.object({
     country: z.string().min(1),
-    postcode: z.number().nullish,
+    postcode: z.number().nullish(),
     city: z.string().nullish(),
     nameOfPublicArea: z.string().nullish(),
     houseNumber: z.number().nullish(),

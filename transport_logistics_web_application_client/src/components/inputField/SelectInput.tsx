@@ -30,7 +30,7 @@ export default function SelectInput<T extends FieldValues>({
    showErrorMessage = true,
    ...rest
 }: SelectInputProps<T>): JSX.Element {
-    const { palette } = useTheme();
+    const theme = useTheme();
 
     if (required) {
         validation.required = 'REQUIRED';
@@ -75,7 +75,7 @@ export default function SelectInput<T extends FieldValues>({
                         InputProps={{
                             disableUnderline: 'true',
                             style: {
-                                backgroundColor: '#ffffff',
+                                backgroundColor: `${theme.palette.component.lightMin}`,
                                 borderRadius: '13px',
                                 color: '#000000',
                                 textDecoration: 'none',

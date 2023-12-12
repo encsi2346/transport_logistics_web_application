@@ -17,6 +17,8 @@ const useTransportationDetails = () => {
         handleSubmit,
         formState: { isValid },
     } = useForm<TransportationDetailsFormSchema>({
+        defaultValues: {
+        },
         resolver: zodResolver(transportationDetailsFormSchema),
         mode: 'all',
     });

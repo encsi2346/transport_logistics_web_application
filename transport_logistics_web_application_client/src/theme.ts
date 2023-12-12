@@ -11,13 +11,13 @@ export const colorTokens = {
 
     },
     secondary: {
-        0: "#DEDEDE",
+        0: "#c5c5c5",
         1: "#ffffff",
         2: "#DEDEDE",
-        3: "#909090",
-        4: "#000000",
-        5: "#00D5FA",
-        6: "#1a082a",
+        3: "#a4a4a4",
+        4: "#1c1c1c",
+        5: "#a40500",
+        6: "#000000",
     },
 };
 

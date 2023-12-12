@@ -37,7 +37,7 @@ export default function TimePickerInput<TFieldValues extends FieldValues>({
   showErrorMessage = true,
   ...rest
 }: TimePickerInputProps<TFieldValues, any>): JSX.Element {
-    const { palette } = useTheme();
+    const theme = useTheme();
 
     return (
         <Controller
@@ -66,7 +66,7 @@ export default function TimePickerInput<TFieldValues extends FieldValues>({
                         value={value ? parseISO(value) : null}
                         onClose={onBlur}
                         sx={{
-                            backgroundColor: `${palette.component.medium}`,
+                            backgroundColor: `${theme.palette.component.lightMin}`,
                             borderRadius: '13px',
                             color: `${palette.textColor.light}`,
                             textDecoration: 'none',

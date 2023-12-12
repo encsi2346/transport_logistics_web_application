@@ -22,7 +22,7 @@ export default function TextFieldInput<T extends FieldValues>({
     externalError = false,
     ...rest
 }: TextFieldInputProps<T>): JSX.Element {
-    const isAuth = true;
+    const theme = useTheme();
 
     if (required) {
         validation.required = 'REQUIRED';
@@ -53,7 +53,7 @@ export default function TextFieldInput<T extends FieldValues>({
                     InputProps={{
                         disableUnderline: 'true',
                         style: {
-                            backgroundColor: `#ffffff`,
+                            backgroundColor: `${theme.palette.component.lightMin}`,
                             borderRadius: '13px',
                             color: `#000000`,
                             textDecoration: 'none',

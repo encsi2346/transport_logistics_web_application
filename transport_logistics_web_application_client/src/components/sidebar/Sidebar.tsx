@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import { useLocation } from "react-router-dom";
-import {Drawer, Tooltip} from '@mui/material';
+import {Drawer, Tooltip, useTheme} from '@mui/material';
 import SidebarItem from "./SidebarItem.tsx";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -26,6 +26,7 @@ const iconProps = {
 const Sidebar = () => {
     const { t } = useTypeSafeTranslation();
     const location = useLocation();
+    const theme = useTheme();
 
     const navLinks = [
         {
@@ -110,7 +111,7 @@ const Sidebar = () => {
                     position: 'fixed',
                     minHeight: '100%',
                     height: '100%',
-                    backgroundColor: '#DD1C13',
+                    backgroundColor: `${theme.palette.component.dark}`,
                 },
             }}
             variant="permanent"

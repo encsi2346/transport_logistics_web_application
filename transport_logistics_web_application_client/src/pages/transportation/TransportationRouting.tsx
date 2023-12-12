@@ -11,14 +11,14 @@ const TransportationRouting = () => {
     return (
         <Routes>
             <Route path="/" element={<TransportationList />} />
-            <Route path=":id" element={<TransportationOverview isInputDisabled isEditing />} />
-            <Route path="/new" element={<TransportationCarSelector isInputDisabled isEditing />} />
-            <Route path="/new/car-selector" element={<TransportationCarSelector isInputDisabled isEditing />} />
-            <Route path="/new/details" element={<TransportationDetails isInputDisabled isEditing />} />
-            <Route path="/new/driver" element={<TransportationDriver isInputDisabled isEditing />} />
-            <Route path="/new/products-selector" element={<TransportationShipment isInputDisabled isEditing />} />
-            <Route path="/new/overview" element={<TransportationOverview isInputDisabled isEditing />} />
-            <Route path="/new/edit" element={<TransportationEdit isInputDisabled isEditing />} />
+            <Route path=":id" element={<TransportationOverview/>} />
+            <Route path="/new" element={<TransportationCarSelector/>} />
+            <Route path="/new/car-selector" element={<TransportationCarSelector/>} />
+            <Route path="/new/details" element={<TransportationDetails/>} />
+            <Route path="/new/driver" element={<TransportationDriver />} />
+            <Route path="/new/products-selector" element={<TransportationShipment />} />
+            <Route path="/new/overview" element={<TransportationOverview  />} />
+            <Route path="/new/edit" element={<TransportationEdit />} />
         </Routes>
     );
 };

@@ -19,10 +19,10 @@ const useTransportationCar = () => {
     });
 
     const onSubmit = handleSubmit((data) => {
-        if (loadedTransportation.canModifyBaseData) {
+        //if (loadedTransportation.canModifyBaseData) {
             submitCarForm();
-        } else {
-        }
+        //} else {
+        //}
     });
 
     return { control, isValid, preValidationError, onSubmit };
