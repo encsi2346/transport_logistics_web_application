@@ -68,7 +68,7 @@ router.get('/api/product-categories/:id', getProductCategory);
  *       400:
  *         description: Bad request.
  */
-router.post('/api/product-categories/addBook', createProductCategory);
+router.post('/api/product-categories/addProductCategory', createProductCategory);
 
 /**
  * @swagger

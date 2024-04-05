@@ -47,6 +47,42 @@ const options = {
                          },
                      },
                  },
+                 Product: {
+                     type: 'object',
+                     properties: {
+                         _id: {
+                             type: 'string',
+                             format: 'uuid',
+                         },
+                         name: {
+                             type: 'string',
+                         },
+                         description: {
+                             type: 'string',
+                         },
+                         category: {
+                             type: 'string',
+                         },
+                         articleNumber: {
+                             type: 'integer',
+                         },
+                         barcode: {
+                             type: 'integer',
+                         },
+                         selfWeight: {
+                             type: 'integer',
+                         },
+                         maxNumberOfItems: {
+                             type: 'integer',
+                         },
+                         currentNumberOfItems: {
+                             type: 'integer',
+                         },
+                         status: {
+                             type: 'string',
+                         },
+                     },
+                 },
              },
         },
     },
