@@ -12,8 +12,8 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import {registration} from "./controllers/auth.js";
 import swaggerUI from 'swagger-ui-express';
-import {swaggerSpec} from './swagger.js';
-import bookRoutes from "./routes/books.js";
+import {swaggerSpec} from './utils/swagger.js';
+import bookRoutes from "./routes/productCategories.js";
 
 /*CONFIGURATIONS*/
 const __filename = fileURLToPath(import.meta.url);
@@ -80,5 +80,5 @@ mongoose.connect(process.env.MONGO_URL, {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
     /*ADD DATA ONE TIME*/
     //User.insertMany(users);
-    //Book.insertMany(books);
+    //ProductCategory.insertMany(books);
 }).catch((error) => console.log(`${error} did not connect`));
