@@ -10,7 +10,10 @@ import path from "path";
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
-import {register} from "./controllers/auth.js";
+import {registration} from "./controllers/auth.js";
+import swaggerUI from 'swagger-ui-express';
+import {swaggerSpec} from './swagger.js';
+import bookRoutes from "./routes/books.js";
 
 /*CONFIGURATIONS*/
 const __filename = fileURLToPath(import.meta.url);
@@ -38,17 +41,35 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 /*ROUTES WITH FILES*/
-app.post("/auth/register", upload.single("picture"), register);
+app.post("/auth/register", upload.single("picture"), registration);
 //app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
 /*ROUTES*/
-app.use("/auth", authRoutes);
-app.use("/users", userRoutes);
+app.use(authRoutes);
+app.use(userRoutes);
+app.use(bookRoutes);
 //app.use("/dashboard", dashboardRoutes);
 //app.use("/transportations", transportationRoutes);
 //app.use("/requests", requestRoutes);
 //app.use("/car-types", carTypeRoutes);
 //app.use("/products-categories", productCategoryRoutes);
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec))
+
+/**
+ * @swagger
+ * /:
+ *  get:
+ *      summary: This api is used to check if get method is working or not
+ *      description: This api is used to check if get method is working or not
+ *      responses:
+ *          200:
+ *              description: To test Get method
+ */
+app.get('/', (req, resp) => {
+    resp.send('Welcome to mongodb API')
+})
+
 
 /*MANGOOSE SETUP*/
 const PORT = process.env.PORT || 6001;
@@ -57,7 +78,6 @@ mongoose.connect(process.env.MONGO_URL, {
     useUnifiedTopology: true,
 }).then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-
     /*ADD DATA ONE TIME*/
     //User.insertMany(users);
     //Post.insertMany(posts);
