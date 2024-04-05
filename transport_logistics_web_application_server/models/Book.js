@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const bookSchema = new mongoose.Schema({
-    id: Number,
     name: String
 });
 

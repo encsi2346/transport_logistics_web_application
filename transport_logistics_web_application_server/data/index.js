@@ -11,6 +11,13 @@ const userIds = [
     new mongoose.Types.ObjectId(),
 ];
 
+const bookIds = [
+    new mongoose.Types.ObjectId(),
+    new mongoose.Types.ObjectId(),
+    new mongoose.Types.ObjectId(),
+    new mongoose.Types.ObjectId(),
+];
+
 export const users = [
     {
         _id: userIds[0],
@@ -75,5 +82,24 @@ export const users = [
         email: "jessicadunn@gmail.com",
         password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
         picturePath: "p9.jpeg",
+    },
+];
+
+export const books = [
+    {
+        _id: bookIds[0],
+        name: "konyv1",
+    },
+    {
+        _id: bookIds[1],
+        name: "konyv2",
+    },
+    {
+        _id: bookIds[2],
+        name: "konyv3",
+    },
+    {
+        _id: bookIds[3],
+        name: "konyv4",
     },
 ];

@@ -35,9 +35,9 @@ const options = {
                  Book: {
                      type: 'object',
                      properties: {
-                         id: {
-                             type: 'integer',
-                             format: 'int64',
+                         _id: {
+                             type: 'string',
+                             format: 'uuid',
                          },
                          name: {
                              type: 'string',

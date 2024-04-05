@@ -33,7 +33,7 @@ router.get('/api/books', getAllBooks);
  *         required: true
  *         description: ID of the book to retrieve.
  *         schema:
- *           type: integer
+ *           type: string
  *     responses:
  *       200:
  *         description: The requested book.
@@ -68,7 +68,7 @@ router.get('/api/books/:id', getBook);
  *       400:
  *         description: Bad request.
  */
-router.get('/api/books/addBook', createBook);
+router.post('/api/books/addBook', createBook);
 
 /**
  * @swagger
@@ -82,7 +82,7 @@ router.get('/api/books/addBook', createBook);
  *         required: true
  *         description: ID of the book to update.
  *         schema:
- *           type: integer
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -101,7 +101,7 @@ router.get('/api/books/addBook', createBook);
  *       404:
  *         description: Book not found.
  */
-router.get('/api/books/:id', updateBook);
+router.put('/api/books/:id', updateBook);
 
 /**
  * @swagger
@@ -115,13 +115,13 @@ router.get('/api/books/:id', updateBook);
  *         required: true
  *         description: ID of the book to delete.
  *         schema:
- *           type: integer
+ *           type: string
  *     responses:
  *       200:
  *         description: Book deleted successfully.
  *       404:
  *         description: Book not found.
  */
-router.get('/api/books/:id', deleteBook);
+router.delete('/api/books/:id', deleteBook);
 
 export default router;

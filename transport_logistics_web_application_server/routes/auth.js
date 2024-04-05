@@ -27,7 +27,7 @@ const router = express.Router();
  *       500:
  *         description: Internal server error. Failed to register user.
  */
-router.post("/register", registration);
+router.post("/auth/register", registration);
 
 /**
  * @swagger
@@ -59,6 +59,6 @@ router.post("/register", registration);
  *       500:
  *         description: Internal server error. Failed to log in user.
  */
-router.post("/login", login);
+router.post("/auth/login", login);
 
 export default router;

@@ -3,7 +3,7 @@ import {
     getAllUsers,
     getUser,
 } from "../controllers/users.js";
-import { verifyToken} from "../middleware/auth.js";
+//import { verifyToken} from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ const router = express.Router();
  *         required: true
  *         description: ID of the user to retrieve.
  *         schema:
- *           type: integer
+ *           type: string
  *     responses:
  *       200:
  *         description: The requested user.
@@ -30,7 +30,8 @@ const router = express.Router();
  *       404:
  *         description: User not found.
  */
-router.get("/api/users/:id", verifyToken, getUser);
+//router.get("/api/users/:id", verifyToken, getUser);
+router.get("/api/users/:id", getUser);
 
 /**
  * @swagger
