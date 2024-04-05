@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/application/src/out" />
+    <output-test url="file://$MODULE_DIR$/application/src/test" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/application">
+      <sourceFolder url="file://$MODULE_DIR$/application/src" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="openjdk-17" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/application" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/application/src/main/java" />
+          <root url="file://$MODULE_DIR$/application/src/test/java" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+</module>
