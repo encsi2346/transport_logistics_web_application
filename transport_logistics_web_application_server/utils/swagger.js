@@ -83,6 +83,36 @@ const options = {
                          },
                      },
                  },
+                 CarType: {
+                     type: 'object',
+                     properties: {
+                         _id: {
+                             type: 'string',
+                             format: 'uuid',
+                         },
+                         name: {
+                             type: 'string',
+                         },
+                         design: {
+                             type: 'string',
+                         },
+                         performance: {
+                             type: 'integer',
+                         },
+                         selfWeight: {
+                             type: 'integer',
+                         },
+                         numberOfSeats: {
+                             type: 'integer',
+                         },
+                         fuel: {
+                             type: 'string',
+                         },
+                         usefulWeight: {
+                             type: 'integer',
+                         },
+                     },
+                 },
              },
         },
     },
