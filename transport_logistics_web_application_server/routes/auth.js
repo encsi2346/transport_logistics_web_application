@@ -8,6 +8,7 @@ const router = express.Router();
  * /auth/register:
  *   post:
  *     summary: Register a new user.
+ *     tags: [Authentication]
  *     description: Register a new user with the provided information.
  *     requestBody:
  *       required: true
@@ -34,6 +35,7 @@ router.post("/auth/register", registration);
  * /auth/login:
  *   post:
  *     summary: Log in as an existing user.
+ *     tags: [Authentication]
  *     description: Log in using the provided email and password.
  *     requestBody:
  *       required: true

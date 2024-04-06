@@ -8,6 +8,7 @@ const router = express.Router();
  * /api/car-types:
  *  get:
  *      summary: This get all car types from mongodb
+ *      tags: [CarTypes]
  *      description: this api is used to fetch data from mongodb
  *      responses:
  *          200:
@@ -26,6 +27,7 @@ router.get('/api/car-types', getAllCarTypes);
  * /api/car-types/{id}:
  *   get:
  *     summary: Get a car types by ID.
+ *     tags: [CarTypes]
  *     description: Retrieve a car types based on its ID.
  *     parameters:
  *       - in: path
@@ -51,6 +53,7 @@ router.get('/api/car-types/:id', getCarType);
  * /api/car-types/addCarType:
  *   post:
  *     summary: Add a new car types.
+ *     tags: [CarTypes]
  *     description: Add a new car types to the database.
  *     requestBody:
  *       required: true
@@ -75,6 +78,7 @@ router.post('/api/car-types/addCarType', createCarType);
  * /api/car-types/{id}:
  *   put:
  *     summary: Update a car types.
+ *     tags: [CarTypes]
  *     description: Update a car types in the database.
  *     parameters:
  *       - in: path
@@ -108,6 +112,7 @@ router.put('/api/car-types/:id', updateCarType);
  * /api/car-types/{id}:
  *   delete:
  *     summary: Delete a car types.
+ *     tags: [CarTypes]
  *     description: Delete a car types from the database.
  *     parameters:
  *       - in: path

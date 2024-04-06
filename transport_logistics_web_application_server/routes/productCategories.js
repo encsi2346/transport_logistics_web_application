@@ -8,6 +8,7 @@ const router = express.Router();
  * /api/product-categories:
  *  get:
  *      summary: This get all product categories from mongodb
+ *      tags: [ProductCategories]
  *      description: this api is used to fetch data from mongodb
  *      responses:
  *          200:
@@ -26,6 +27,7 @@ router.get('/api/product-categories', getAllProductCategories);
  * /api/product-categories/{id}:
  *   get:
  *     summary: Get a product category by ID.
+ *     tags: [ProductCategories]
  *     description: Retrieve a product category based on its ID.
  *     parameters:
  *       - in: path
@@ -51,6 +53,7 @@ router.get('/api/product-categories/:id', getProductCategory);
  * /api/product-categories/addProductCategory:
  *   post:
  *     summary: Add a new product category.
+ *     tags: [ProductCategories]
  *     description: Add a new product category to the database.
  *     requestBody:
  *       required: true
@@ -75,6 +78,7 @@ router.post('/api/product-categories/addProductCategory', createProductCategory)
  * /api/product-categories/{id}:
  *   put:
  *     summary: Update a product category.
+ *     tags: [ProductCategories]
  *     description: Update a product category in the database.
  *     parameters:
  *       - in: path
@@ -108,6 +112,7 @@ router.put('/api/product-categories/:id', updateProductCategory);
  * /api/product-categories/{id}:
  *   delete:
  *     summary: Delete a product category.
+ *     tags: [ProductCategories]
  *     description: Delete a product category from the database.
  *     parameters:
  *       - in: path

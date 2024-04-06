@@ -12,6 +12,7 @@ const router = express.Router();
  * /api/users/{id}:
  *   get:
  *     summary: Get a user by ID.
+ *     tags: [Users]
  *     description: Retrieve a user based on its ID.
  *     parameters:
  *       - in: path
@@ -38,6 +39,7 @@ router.get("/api/users/:id", getUser);
  * /api/users:
  *  get:
  *      summary: This get all users from mongodb
+ *      tags: [Users]
  *      description: this api is used to fetch data from mongodb
  *      responses:
  *          200:

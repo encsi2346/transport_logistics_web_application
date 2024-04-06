@@ -13,6 +13,33 @@ const options = {
                 url: 'http://localhost:3001/'
             }
         ],
+        tags: [
+            {
+                name: 'Authentication',
+                description: 'Operations related to authentication'
+            },
+            {
+                name: 'Users',
+                description: 'Operations related to users'
+            },
+            {
+                name: 'Cars',
+                description: 'Operations related to cars'
+            },
+            {
+                name: 'CarTypes',
+                description: 'Operations related to car types'
+            },
+            {
+                name: 'Products',
+                description: 'Operations related to products'
+            },
+            {
+                name: 'ProductCategories',
+                description: 'Operations related to product categories'
+            },
+
+        ],
          components: {
              schemas: {
                  User: {
@@ -109,6 +136,48 @@ const options = {
                              type: 'string',
                          },
                          usefulWeight: {
+                             type: 'integer',
+                         },
+                     },
+                 },
+                 Car: {
+                     type: 'object',
+                     properties: {
+                         _id: {
+                             type: 'string',
+                             format: 'uuid',
+                         },
+                         name: {
+                             type: 'string',
+                         },
+                         type: {
+                             type: 'string',
+                         },
+                         licencePlate: {
+                             type: 'string',
+                         },
+                         numberOfRegistrationLicence: {
+                             type: 'string',
+                         },
+                         chassisNumber: {
+                             type: 'string',
+                         },
+                         yearOfProduction: {
+                             type: 'integer',
+                         },
+                         dateOfFirstRegistration: {
+                             type: 'integer',
+                         },
+                         images: {
+                             type: 'string',
+                         },
+                         dateOfDatabaseRegistration: {
+                             type: 'integer',
+                         },
+                         dateOfLastTechnicalExamination: {
+                             type: 'integer',
+                         },
+                         dateOfLastService: {
                              type: 'integer',
                          },
                      },

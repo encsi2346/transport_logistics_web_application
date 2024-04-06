@@ -8,6 +8,7 @@ const router = express.Router();
  * /api/products:
  *  get:
  *      summary: This get all products from mongodb
+ *      tags: [Products]
  *      description: this api is used to fetch data from mongodb
  *      responses:
  *          200:
@@ -26,6 +27,7 @@ router.get('/api/products', getAllProduct);
  * /api/products/{id}:
  *   get:
  *     summary: Get a product by ID.
+ *     tags: [Products]
  *     description: Retrieve a product based on its ID.
  *     parameters:
  *       - in: path
@@ -51,6 +53,7 @@ router.get('/api/products/:id', getProduct);
  * /api/products/addProduct:
  *   post:
  *     summary: Add a new product.
+ *     tags: [Products]
  *     description: Add a new product to the database.
  *     requestBody:
  *       required: true
@@ -75,6 +78,7 @@ router.post('/api/products/addProduct', createProduct);
  * /api/products/{id}:
  *   put:
  *     summary: Update a product.
+ *     tags: [Products]
  *     description: Update a product in the database.
  *     parameters:
  *       - in: path
@@ -108,6 +112,7 @@ router.put('/api/products/:id', updateProduct);
  * /api/products/{id}:
  *   delete:
  *     summary: Delete a product.
+ *     tags: [Products]
  *     description: Delete a product from the database.
  *     parameters:
  *       - in: path
