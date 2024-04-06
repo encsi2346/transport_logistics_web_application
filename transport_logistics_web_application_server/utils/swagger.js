@@ -38,6 +38,10 @@ const options = {
                 name: 'ProductCategories',
                 description: 'Operations related to product categories'
             },
+            {
+                name: 'Service',
+                description: 'Operations related to service'
+            },
 
         ],
          components: {
@@ -185,6 +189,48 @@ const options = {
                          },
                          totalTransport: {
                              type: 'integer',
+                         },
+                     },
+                 },
+                 Service: {
+                     type: 'object',
+                     properties: {
+                         _id: {
+                             type: 'string',
+                             format: 'uuid',
+                         },
+                         appointment: {
+                             type: 'string',
+                         },
+                         nameOfServiceCompany: {
+                             type: 'string',
+                         },
+                         driverName: {
+                             type: 'string',
+                         },
+                         dateOfRecording: {
+                             type: 'string',
+                         },
+                         grossSumPrice: {
+                             type: 'integer',
+                         },
+                         netSumPrice: {
+                             type: 'integer',
+                         },
+                         VAT: {
+                             type: 'integer',
+                         },
+                         title: {
+                             type: 'string',
+                         },
+                         description: {
+                             type: 'string',
+                         },
+                         reparation: {
+                             type: 'string',
+                         },
+                         car: {
+                             type: 'string',
                          },
                      },
                  },
