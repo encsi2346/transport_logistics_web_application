@@ -24,9 +24,34 @@ export const createCar = async (req, res) => {
     try {
         const {
             name,
-            description
+            type,
+            licencePlate,
+            numberOfRegistrationLicence,
+            chassisNumber,
+            yearOfProduction,
+            dateOfFirstRegistration,
+            images,
+            dateOfDatabaseRegistration,
+            dateOfLastTechnicalExamination,
+            dateOfLastService,
+            totalDrivenKm,
+            totalTransport,
         } = req.body;
-        const newCar = new Car({name, description});
+        const newCar = new Car({
+            name,
+            type,
+            licencePlate,
+            numberOfRegistrationLicence,
+            chassisNumber,
+            yearOfProduction,
+            dateOfFirstRegistration,
+            images,
+            dateOfDatabaseRegistration,
+            dateOfLastTechnicalExamination,
+            dateOfLastService,
+            totalDrivenKm,
+            totalTransport,
+        });
         const savedCar = await newCar.save();
         res.status(201).json(savedCar);
     } catch (error) {
@@ -43,7 +68,18 @@ export const updateCar = async (req, res) => {
         }
         if (req.body.name) {
             car.name = req.body.name;
-            car.description = req.body.description;
+            car.type = req.body.type;
+            car.licencePlate = req.body.licencePlate;
+            car.numberOfRegistrationLicence = req.body.numberOfRegistrationLicence;
+            car.chassisNumber = req.body.chassisNumber;
+            car.yearOfProduction = req.body.yearOfProduction;
+            car.dateOfFirstRegistration = req.body.dateOfFirstRegistration;
+            car.images = req.body.images;
+            car.dateOfDatabaseRegistration = req.body.dateOfDatabaseRegistration;
+            car.dateOfLastTechnicalExamination = req.body.dateOfLastTechnicalExamination;
+            car.dateOfLastService = req.body.dateOfLastService;
+            car.totalDrivenKm = req.body.totalDrivenKm;
+            car.totalTransport = req.body.totalTransport;
         }
         const updatedCar = await car.save();
         res.json(updatedCar);

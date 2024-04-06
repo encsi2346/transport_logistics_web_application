@@ -180,6 +180,12 @@ const options = {
                          dateOfLastService: {
                              type: 'integer',
                          },
+                         totalDrivenKm: {
+                             type: 'integer',
+                         },
+                         totalTransport: {
+                             type: 'integer',
+                         },
                      },
                  },
              },
