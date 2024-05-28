@@ -43,7 +43,7 @@ const options = {
                 description: 'Operations related to service'
             },
             {
-                name: 'Comment',
+                name: 'Comments',
                 description: 'Operations related to comment'
             },
             {
@@ -869,76 +869,85 @@ const options = {
                  },
                  CommentType: {
                      type: 'string',
-                     enum:
-                         - ERR
-                         - WARNING
-                         - INFO
+                     enum: [
+                         'ERR',
+                         'WARNING',
+                         'INFO',
+                     ],
                  },
                  ProductStatus: {
                      type: 'string',
-                     enum:
-                         - IN_STOCK /*készleten*/
-                         - STOCK_SHORTAGE /*készlethiány*/
+                     enum: [
+                         'IN_STOCK', /*készleten*/
+                         'STOCK_SHORTAGE', /*készlethiány*/
+                     ],
                  },
                  RequestStatus: {
                      type: 'string',
-                     enum:
-                         - DRAFT /*Piszkozat*/
-                         - PENDING /*Függőben*/
-                         - ACCEPTED /*Elfogadva*/
-                         - REFUSED /*Elutasítva*/
+                     enum: [
+                         'DRAFT', /*Piszkozat*/
+                         'PENDING', /*Függőben*/
+                         'ACCEPTED', /*Elfogadva*/
+                         'REFUSED', /*Elutasítva*/
+                     ],
                  },
                  AnswerOption: {
                      type: 'string',
-                     enum:
-                         - ACCEPT
-                         - REFUSE
+                     enum: [
+                         'ACCEPT',
+                         'REFUSE',
+                     ],
                  },
                  OrderStatus: {
                      type: 'string',
-                     enum:
-                         - ONGOING /*folyamatban*/
-                         - COMPLETED /*teljesített*/
-                         - DELETED /*törölt*/
-                         - ORDERED /*megrendelve*/
+                     enum: [
+                         'ONGOING', /*folyamatban*/
+                         'COMPLETED', /*teljesített*/
+                         'DELETED', /*törölt*/
+                         'ORDERED', /*megrendelve*/
+                     ],
                  },
                  RouteStatus: {
                      type: 'string',
-                     enum:
-                         - ONGOING /*folyamatban*/
-                         - COMPLETED /*teljesített*/
-                         - DELETED /*törölve*/
-                         - PENDING /*teljesítésre vár*/
-                         - SKIPPED /*kihagyva*/
+                     enum: [
+                         'ONGOING', /*folyamatban*/
+                         'COMPLETED', /*teljesített*/
+                         'DELETED', /*törölve*/
+                         'PENDING', /*teljesítésre vár*/
+                         'SKIPPED', /*kihagyva*/
+                     ],
                  },
                  DocumentType: {
                      type: 'string',
-                     enum:
-                         - TRANSPORT_BILL /*fuvarlevél*/
-                         - DELIVERY_BILL /*szállítólevél*/
-                         - INVOICE /*számla*/
-                         - JOURNEY_BILL /*menetlevél*/
-                         - DRIVING_LICENCE /*jogosítvány*/
-                         - ADDRESS_CARD /*lakcímkártya*/
-                         - PASSPORT /*útlevél*/
-                         - HEALTH_CARD /*taj kártya*/
-                         - OTHER /*egyéb*/
+                     enum: [
+                         'TRANSPORT_BILL', /*fuvarlevél*/
+                         'DELIVERY_BILL', /*szállítólevél*/
+                         'INVOICE', /*számla*/
+                         'JOURNEY_BILL', /*menetlevél*/
+                         'DRIVING_LICENCE', /*jogosítvány*/
+                         'ADDRESS_CARD', /*lakcímkártya*/
+                         'PASSPORT', /*útlevél*/
+                         'HEALTH_CARD', /*taj kártya*/
+                         'OTHER', /*egyéb*/
+                     ],
                  },
                  DocumentStatus: {
                      type: 'string',
-                     enum:
-                         - MISSING /*hiányzik*/
-                         - UPLOADED /*feltöltve*/
-                         - WAITING_FOR_UPLOAD /*feltöltésre vár*/
-                         - WILL_BE_GENERATED /*generálódik*/
+                     enum: [
+                         'MISSING', /*hiányzik*/
+                         'UPLOADED', /*feltöltve*/
+                         'WAITING_FOR_UPLOAD', /*feltöltésre vár*/
+                         'WILL_BE_GENERATED', /*generálódik*/
+                     ],
                  },
                  InvoiceStatus: {
                      type: 'string',
-                     enum:
-                         - CREATED_BY /*létrehozva*/
-                         - PAID /*fizetve*/
-                         - WAITING_FOR_PAYMENT /*fizetésre vár*/
-                         - DELETED /*törölve*/
+                     enum: [
+                         'CREATED_BY', /*létrehozva*/
+                         'PAID', /*fizetve*/
+                         'WAITING_FOR_PAYMENT', /*fizetésre vár*/
+                         'DELETED', /*törölve*/
+                     ],
                  },
              },
         },

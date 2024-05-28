@@ -8,7 +8,7 @@ const router = express.Router();
  * /api/comments:
  *  get:
  *      summary: This get all comments from mongodb
- *      tags: [Comment]
+ *      tags: [Comments]
  *      description: this api is used to fetch data from mongodb
  *      responses:
  *          200:
@@ -27,7 +27,7 @@ router.get('/api/comments', getAllComments);
  * /api/comments/{id}:
  *   get:
  *     summary: Get a comment by ID.
- *     tags: [Comment]
+ *     tags: [Comments]
  *     description: Retrieve a comment based on its ID.
  *     parameters:
  *       - in: path
@@ -53,7 +53,7 @@ router.get('/api/comments/:id', getComment);
  * /api/comments/addComment:
  *   post:
  *     summary: Add a new comment.
- *     tags: [Comment]
+ *     tags: [Comments]
  *     description: Add a new comment to the database.
  *     requestBody:
  *       required: true
@@ -78,7 +78,7 @@ router.post('/api/comments/addComment', createComment);
  * /api/comments/{id}:
  *   put:
  *     summary: Update a comment.
- *     tags: [Comment]
+ *     tags: [Comments]
  *     description: Update a comment in the database.
  *     parameters:
  *       - in: path
@@ -112,7 +112,7 @@ router.put('/api/comments/:id', updateComment);
  * /api/comments/{id}:
  *   delete:
  *     summary: Delete a comment.
- *     tags: [Comment]
+ *     tags: [Comments]
  *     description: Delete a comment from the database.
  *     parameters:
  *       - in: path
