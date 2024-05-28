@@ -1,16 +1,18 @@
 import mongoose from 'mongoose';
+import Address from "./Address.js";
+import {RouteStatus} from "./enums/RouteStatus.ts";
 
 const routeSchema = new mongoose.Schema({
-    _id: String,
+    routeId: String,
     scheduledArrival: String,
     actualArrival: String,
-    address: String, //TODO: Address
+    address: Address,
     task: String,
     drivingKms: String,
     drivingHours: String,
     scheduledDeparture: String,
     actualDeparture: String,
-    status: String, //TODO: enum
+    status: RouteStatus,
 });
 
 const Route = mongoose.model('Route', routeSchema);

@@ -1,21 +1,22 @@
 import mongoose from 'mongoose';
+import User from "./User.js";
 
 const dockingPointSchema = new mongoose.Schema({
-    _id: String,
+    dockingPointId: String,
     country: String,
     postcode: String,
     city: String,
     nameOfPublicArea: String,
     typeOfPublicArea: String,
     houseNumber: String,
-    departureDate: String, //TODO: date
-    departureTime: String, //TODO: time
-    destinationDate: String, //TODO:date
-    destinationTime: String, //TODO: time
+    departureDate: String,
+    departureTime: String,
+    destinationDate: String,
+    destinationTime: String,
     isItOwnLocation: Boolean,
-    driverId: String, //TODO: userId
-    driverName: String, //TODO: userName
-    passengers: [String], ////TODO: userek idvel nammel - array type
+    driverId: String,
+    driverName: String,
+    passengers: [User],
 });
 
 const DockingPoint = mongoose.model('DockingPoint', dockingPointSchema);

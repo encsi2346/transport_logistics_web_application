@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
+import {RequestStatus} from "./enums/RequestStatus.ts";
 
 const requestSchema = new mongoose.Schema({
     requestId: String,
     title: String,
-    selectedDate: String, //TODO: datetime
+    selectedDate: String,
     reason: String,
-    status: String, //TODO: enum
+    status: RequestStatus,
     answerId: String,
     userId: String,
 });

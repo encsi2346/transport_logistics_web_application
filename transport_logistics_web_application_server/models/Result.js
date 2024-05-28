@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
+import Company from "./Company.js";
 
 const resultSchema = new mongoose.Schema({
-    _id: String,
-    customer: String, //TODO: Company
+    resultId: String,
+    orderId: String,
+    customer: Company,
     driverId: String,
     driverName: String,
     driverEmail: String,

@@ -1,19 +1,26 @@
 import mongoose from 'mongoose';
+import Company from "./Company.js";
+import Route from "./Route.js";
+import SelectedProduct from "./SelectedProduct.js";
+import DockingPoint from "./DockingPoint.js";
+import Result from "./Result.js";
+import Invoice from "./Invoice.js";
+import {OrderStatus} from "./enums/OrderStatus.ts";
 
 const orderSchema = new mongoose.Schema({
-    _id: String,
-    status: String, //TODO: enum
-    company: String, //TODO: Company
-    route: [String], //TODO: Route
-    selectedProducts: [String], //TODO: SelectedProducts
+    orderId: String,
+    status: OrderStatus,
+    company: Company,
+    route: [Route],
+    selectedProducts: [SelectedProduct],
     totalWeightsOfSelectedProducts: Number,
-    departurePoint: String, //TODO: DockingPoint
-    destinationPoint: String, //TODO: DockingPoint
-    dockingPoints: [String], //TODO: DockingPoints
-    results: String, //TODO: Result
-    documents: [String], //TODO: Document
-    invoice: String, //TODO: Invoice
-    comments: [String], //TODO: Comment
+    departurePoint: DockingPoint,
+    destinationPoint: DockingPoint,
+    dockingPoints: [DockingPoint],
+    results: Result,
+    documents: [Document],
+    invoice: Invoice,
+    comments: [Comment],
 });
 
 const Order = mongoose.model('Order', orderSchema);

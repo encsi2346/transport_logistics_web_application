@@ -1,5 +1,4 @@
 import swaggerJSDoc from 'swagger-jsdoc'
-import {ERROR} from "mongodb/src/constants.js";
 
 const options = {
     definition: {
@@ -109,9 +108,97 @@ const options = {
                              type: 'string',
                              format: 'uuid',
                          },
+                         firstName: {
+                             type: 'string',
+                         },
+                         familyName: {
+                             type: 'string',
+                         },
                          email: {
                              type: 'string',
                              format: 'email',
+                         },
+                         password: {
+                             type: 'string',
+                         },
+                         picturePath: {
+                             type: 'string',
+                         },
+                         gender: {
+                             type: 'string',
+                         },
+                         nationality: {
+                             type: 'string',
+                         },
+                         birthPlace: {
+                             type: 'string',
+                         },
+                         birthDate: {
+                             type: 'string',
+                             format: 'date',
+                         },
+                         IDCardNumber: {
+                             type: 'string',
+                         },
+                         validityDateOfIDCard: {
+                             type: 'string',
+                         },
+                         drivingLicenceNumber: {
+                             type: 'string',
+                         },
+                         drivingLicenceCategories: {
+                             type: 'string',
+                         },
+                         validityDateOfDrivingLicence: {
+                             type: 'string',
+                         },
+                         dateOfMedicalVisit: {
+                             type: 'string',
+                         },
+                         validityDateOfMedicalVisit: {
+                             type: 'string',
+                         },
+                         phoneNumber: {
+                             type: 'string',
+                         },
+                         country: {
+                             type: 'string',
+                         },
+                         postcode: {
+                             type: 'string',
+                         },
+                         city: {
+                             type: 'string',
+                         },
+                         nameOfPublicArea: {
+                             type: 'string',
+                         },
+                         typeOfPublicArea: {
+                             type: 'string',
+                         },
+                         houseNumber: {
+                             type: 'string',
+                         },
+                         dateOfRegistration: {
+                             type: 'string',
+                             format: 'date-time',
+                         },
+                         startDateOfContract: {
+                             type: 'string',
+                             format: 'date',
+                         },
+                         endDateOfContract: {
+                             type: 'string',
+                             format: 'date',
+                         },
+                         position: {
+                             type: 'string',
+                         },
+                         lineManager: {
+                             type: 'string',
+                         },
+                         healthProblem: {
+                             type: 'string',
                          },
                          createdAt: {
                              type: 'string',
@@ -148,7 +235,7 @@ const options = {
                              type: 'string',
                          },
                          category: {
-                             type: 'string',
+                             $ref: '#/components/schemas/ProductCategory',
                          },
                          articleNumber: {
                              type: 'integer',
@@ -266,6 +353,7 @@ const options = {
                          },
                          dateOfRecording: {
                              type: 'string',
+                             format: 'date',
                          },
                          grossSumPrice: {
                              type: 'integer',
@@ -286,7 +374,7 @@ const options = {
                              type: 'string',
                          },
                          car: {
-                             type: 'string',
+                             $ref: '#/components/schemas/Car',
                          },
                      },
                  },
@@ -395,7 +483,7 @@ const options = {
                          dockingPoints: {
                              type: 'array',
                              items: {
-                                 $ref: '#/components/schemas/DockingPoints',
+                                 $ref: '#/components/schemas/DockingPoint',
                              }
                          },
                          selectedProducts: {
@@ -576,28 +664,32 @@ const options = {
                              format: 'uuid',
                          },
                          scheduledArrival: {
-                             type: 'string'
+                             type: 'string',
+                             format: 'date-time',
                          },
                          actualArrival: {
-                             type: 'string'
+                             type: 'string',
+                             format: 'date-time',
                          },
                          address: {
                              $ref: '#/components/schemas/Address',
                          },
                          task: {
-                             type: 'string'
+                             type: 'string',
                          },
                          drivingKms: {
-                             type: 'string'
+                             type: 'string',
                          },
                          drivingHours: {
-                             type: 'string'
+                             type: 'string',
                          },
                          scheduledDeparture: {
-                             type: 'string'
+                             type: 'string',
+                             format: 'date-time',
                          },
                          actualDeparture: {
-                             type: 'string'
+                             type: 'string',
+                             format: 'date-time',
                          },
                          status: {
                              $ref: '#/components/schemas/RouteStatus',
@@ -778,7 +870,7 @@ const options = {
                  CommentType: {
                      type: 'string',
                      enum:
-                         - ERROR
+                         - ERR
                          - WARNING
                          - INFO
                  },
@@ -822,10 +914,10 @@ const options = {
                  DocumentType: {
                      type: 'string',
                      enum:
-                         - TRANSPORTBILL /*fuvarlevél*/
-                         - DELIVERYBILL /*szállítólevél*/
+                         - TRANSPORT_BILL /*fuvarlevél*/
+                         - DELIVERY_BILL /*szállítólevél*/
                          - INVOICE /*számla*/
-                         - JOURNEYBILL /*menetlevél*/
+                         - JOURNEY_BILL /*menetlevél*/
                          - DRIVING_LICENCE /*jogosítvány*/
                          - ADDRESS_CARD /*lakcímkártya*/
                          - PASSPORT /*útlevél*/

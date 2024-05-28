@@ -1,13 +1,17 @@
 import mongoose from 'mongoose';
+import CarType from "./CarType.js";
+import Car from "./Car.js";
+import DockingPoint from "./DockingPoint.js";
+import SelectedProduct from "./SelectedProduct.js";
 
 const transportationSchema = new mongoose.Schema({
-    _id: String,
-    selectedCarType: String, //TODO:carType
-    selectedCar: String, //TODO:car
-    departurePoint: String, //TODO: DockingPoint
-    destinationPoint: String, //TODO: DockingPoint
-    dockingPoints: String, //TODO: DockingPoint
-    selectedProducts: String, //TODO: SelectedProducts
+    transportationId: String,
+    selectedCarType: CarType,
+    selectedCar: Car,
+    departurePoint: DockingPoint,
+    destinationPoint: DockingPoint,
+    dockingPoints: [DockingPoint],
+    selectedProducts: [SelectedProduct],
     totalWeightsOfSelectedProducts: Number,
 });
 

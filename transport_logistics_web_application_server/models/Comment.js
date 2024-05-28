@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
+import {CommentType} from "./enums/CommentType.ts";
 
 const commentSchema = new mongoose.Schema({
-    _id: String,
+    commentId: String,
     orderId: String,
     userId: String,
     userName: String,
-    type: String, //TODO: enum
-    timeStamp: String, //TODO: datetime
+    type: CommentType,
+    timeStamp: String,
     description: String,
 });
 

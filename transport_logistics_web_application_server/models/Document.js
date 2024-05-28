@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
+import {DocumentStatus} from "./enums/DocumentStatus.ts";
 
 const documentSchema = new mongoose.Schema({
-    _id: String,
-    documentType: String, //TODO: enum
+    documentId: String,
+    documentType: DocumentType,
     title: String,
-    timeStamp: String, //TODO: DateTime
-    status: String,
+    timeStamp: String,
+    status: DocumentStatus,
 });
 
 const Document = mongoose.model('Document', documentSchema);

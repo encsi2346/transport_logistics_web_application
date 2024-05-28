@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const carTypeSchema = new mongoose.Schema({
     //TODO márka, típus, szállítóeszköz típusa, vontatás, raktér
+    carTypeId: String,
     name: String,
     design: String, //kivitel
     performance: Number, //teljesítmény

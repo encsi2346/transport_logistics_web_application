@@ -1,17 +1,19 @@
 import mongoose from 'mongoose';
+import Car from "./Car.js";
 
 const serviceSchema = new mongoose.Schema({
-    appointment: String, //szervíz időpontja //TODO datetime
+    serviceId: String,
+    appointment: String, //szervíz időpontja
     nameOfServiceCompany: String, //szervíz neve
     driverName: String, //szállító kolléga neve
-    dateOfRecording: String, //rögzítés időpontja TODO: datetime
+    dateOfRecording: String, //rögzítés időpontja
     grossSumPrice: Number, //összes bruttó ár
     netSumPrice: Number, //összes nettó ár
     VAT: Number, //áfa
     title: String, //tárgy
     description: String, //leírás
     reparation: String, //részletek TODO javítás array --> mit-csere/javítás/átnézés-bruttóár-nettóár
-    car: String, //szervizelt autó TODO car típus
+    car: Car, //szervizelt autó
 });
 
 const Service = mongoose.model('Service', serviceSchema);

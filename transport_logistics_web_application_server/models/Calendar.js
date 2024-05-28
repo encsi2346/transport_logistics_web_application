@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const calendarSchema = new mongoose.Schema({
-    _id: String,
+    calendarId: String,
 });
 
 const Calendar = mongoose.model('Calendar', calendarSchema);

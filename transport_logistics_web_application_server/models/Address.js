@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const addressSchema = new mongoose.Schema({
-    _id: String,
+    addressId: String,
     country: String,
     postcode: String,
     city: String,

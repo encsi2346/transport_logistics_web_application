@@ -1,13 +1,15 @@
 import mongoose from 'mongoose';
+import {InvoiceStatus} from "./enums/InvoiceStatus.ts";
 
 const invoiceSchema = new mongoose.Schema({
-    _id: String,
+    invoiceId: String,
     orderId: String,
+    companyId: String,
     companyName: String,
     dateOfCreation: String,
     deadlineForPayment: String,
     price: String,
-    status: String, //TODO: enum
+    status: InvoiceStatus,
 });
 
 const Invoice = mongoose.model('Invoice', invoiceSchema);

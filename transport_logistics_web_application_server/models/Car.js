@@ -1,14 +1,16 @@
 import mongoose from 'mongoose';
+import CarType from "./CarType.js";
 
 const carSchema = new mongoose.Schema({
+    carId: String,
     name: String,
-    type: String, //TODO cartype
+    type: CarType,
     licencePlate: String, //rendszám
     numberOfRegistrationLicence: String, //forgalmi engedély száma
     chassisNumber: String, //alvázszám
     yearOfProduction: Number, //gyártási év
     dateOfFirstRegistration: Number, //első nyilvántartásba vétel
-    images: String, //képek TODO: images array
+    images: [String], //képek
     dateOfDatabaseRegistration: Number, //adatbázis regisztráció dátuma
     dateOfLastTechnicalExamination: Number, //legutóbbi műszaki vizsga időpontja
     dateOfLastService: Number, //legutóbbi szervíz időpontja

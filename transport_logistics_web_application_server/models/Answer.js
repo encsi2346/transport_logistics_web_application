@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
+import {AnswerOption} from "./enums/AnswerOption.ts";
 
 const answerSchema = new mongoose.Schema({
     answerId: String,
     requestId: String,
-    status: String, //TODO: enum
+    answerOption: AnswerOption,
     reason: String,
+    userId: String,
 });
 
 const Answer = mongoose.model('Answer', answerSchema);
