@@ -1,4 +1,5 @@
 import swaggerJSDoc from 'swagger-jsdoc'
+import {ERROR} from "mongodb/src/constants.js";
 
 const options = {
     definition: {
@@ -104,7 +105,7 @@ const options = {
                  User: {
                      type: 'object', //TODO: hiányoznak a változók
                      properties: {
-                         _id: {
+                         userId: {
                              type: 'string',
                              format: 'uuid',
                          },
@@ -121,7 +122,7 @@ const options = {
                  ProductCategory: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         productCategoryId: {
                              type: 'string',
                              format: 'uuid',
                          },
@@ -136,7 +137,7 @@ const options = {
                  Product: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         productId: {
                              type: 'string',
                              format: 'uuid',
                          },
@@ -165,14 +166,14 @@ const options = {
                              type: 'integer',
                          },
                          status: {
-                             type: 'string',
+                             $ref: '#/components/schemas/ProductStatus',
                          },
                      },
                  },
                  CarType: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         carTypeId: {
                              type: 'string',
                              format: 'uuid',
                          },
@@ -202,7 +203,7 @@ const options = {
                  Car: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         carId: {
                              type: 'string',
                              format: 'uuid',
                          },
@@ -210,7 +211,7 @@ const options = {
                              type: 'string',
                          },
                          type: {
-                             type: 'string',
+                             $ref: '#/components/schemas/CarType',
                          },
                          licencePlate: {
                              type: 'string',
@@ -250,7 +251,7 @@ const options = {
                  Service: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         serviceId: {
                              type: 'string',
                              format: 'uuid',
                          },
@@ -292,32 +293,35 @@ const options = {
                  Comment: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         commentId: {
                              type: 'string',
                              format: 'uuid',
                          },
                          orderId: {
                              type: 'string',
+                             format: 'uuid',
                          },
                          userId: {
                              type: 'string',
+                             format: 'uuid',
                          },
                          userName: {
                              type: 'string',
                          },
-                         type: { //TODO: enum
-                             type: 'string',
+                         type: {
+                             $ref: '#/components/schemas/CommentType',
                          },
-                         timeStamp: { //TODO: datetime
+                         timeStamp: {
                              type: 'string',
+                             format: 'date-time',
                          },
                          description: {
                              type: 'string',
                          },
                      },
                  },
-                 Request: { /*a beosztáshoz kapcsolódó kérés*/
-                     type: 'object', //TODO
+                 Request: {
+                     type: 'object',
                      properties: {
                          requestId: {
                              type: 'string',
@@ -326,24 +330,27 @@ const options = {
                          title: {
                              type: 'string',
                          },
-                         selectedDate: { //TODO:datetime
+                         selectedDate: {
                              type: 'string',
+                             format: 'date-time',
                          },
                          reason: {
                              type: 'string',
                          },
-                         status: { //TODO:enum
-                             type: 'string',
+                         status: {
+                             $ref: '#/components/schemas/RequestStatus',
                          },
                          answerId: {
                              type: 'string',
+                             format: 'uuid',
                          },
                          userId: {
                              type: 'string',
+                             format: 'uuid',
                          },
                      },
                  },
-                 Answer: { /* a beosztáshoz kapcsolódó kérésre a válasz*/
+                 Answer: {
                      type: 'object',
                      properties: {
                          answerId: {
@@ -352,55 +359,60 @@ const options = {
                          },
                          requestId: {
                              type: 'string',
+                             format: 'uuid',
                          },
-                         status: { //TODO: enum
-                             type: 'string',
+                         answerOption: {
+                             $ref: '#/components/schemas/AnswerOption',
                          },
                          reason: {
                              type: 'string',
                          },
+                         userId: {
+                             type: 'string',
+                             format: 'uuid',
+                         }
                      },
                  },
                  Transportation: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         transportationId: {
                              type: 'string',
                              format: 'uuid',
                          },
-                         selectedCarType: { //TODO:carType
-                             type: 'string',
+                         selectedCarType: {
+                             $ref: '#/components/schemas/CarType',
                          },
-                         selectedCar: { //TODO:car
-                             type: 'string',
+                         selectedCar: {
+                             $ref: '#/components/schemas/Car',
                          },
-                         departurePoint: { //TODO: DockingPoint
-                             type: 'string',
+                         departurePoint: {
+                             $ref: '#/components/schemas/DockingPoint',
                          },
-                         destinationPoint: { //TODO: DockingPoint
-                             type: 'string',
+                         destinationPoint: {
+                             $ref: '#/components/schemas/DockingPoint',
                          },
-                         dockingPoints: { //TODO: DockingPoints
+                         dockingPoints: {
                              type: 'array',
                              items: {
-                                 type: 'string'
+                                 $ref: '#/components/schemas/DockingPoints',
                              }
                          },
-                         selectedProducts: { //TODO: SelectedProducts
+                         selectedProducts: {
                              type: 'array',
                              items: {
-                                 type: 'string'
+                                 $ref: '#/components/schemas/SelectedProduct',
                              }
                          },
                          totalWeightsOfSelectedProducts: {
-                             type: 'integer'
+                             type: 'integer',
                          }
                      },
                  },
                  DockingPoint: {
-                   type: 'object', /* ha plusz rakodó pontnál kell megállni ott jelöljük e itt?*/
+                   type: 'object', /* TODO: ha plusz rakodó pontnál kell megállni ott jelöljük e itt?*/
                    properties: {
-                       _id: {
+                       dockingPointId: {
                            type: 'string',
                            format: 'uuid',
                        },
@@ -422,31 +434,39 @@ const options = {
                        houseNumber: {
                            type: 'string',
                        },
-                       departureDate: { //TODO:date
+                       departureDate: {
                            type: 'string',
+                           format: 'date',
                        },
-                       departureTime: { //TODO:time
+                       departureTime: {
                            type: 'string',
+                           format: 'time',
                        },
-                       destinationDate: { //TODO:date
+                       destinationDate: {
                            type: 'string',
+                           format: 'date',
                        },
-                       destinationTime: { //TODO: time
+                       destinationTime: {
                            type: 'string',
+                           format: 'time',
                        },
                        isItOwnLocation: { /*ez a konkrét telephely-e*/
                            type: 'boolean',
                        },
-                       driverId: { //TODO: userId
+                       name: {
+                           type: 'string',
+                       },
+                       driverId: {
+                           type: 'string',
+                           format: 'uuid',
+                       },
+                       driverName: {
                            type: 'string'
                        },
-                       driverName: { //TODO: userName
-                           type: 'string'
-                       },
-                       passengers: { //TODO: userek idvel nammel
+                       passengers: {
                            type: 'array',
                            items: {
-                               type: 'string'
+                               $ref: '#/components/schemas/User',
                            }
                        },
                    }
@@ -454,14 +474,16 @@ const options = {
                  SelectedProduct: {
                      type: 'object',
                      properties: {
-                         _id: {
-                             type: 'string'
+                         selectedProductId: { //TODO: kell itt külön id?
+                             type: 'string',
+                             format: 'uuid',
                          },
                          productId: {
-                             type: 'string'
+                             type: 'string',
+                             format: 'uuid',
                          },
                          productName: {
-                             type: 'string'
+                             type: 'string',
                          },
                          maxNumberOfItems: {
                              type: 'integer',
@@ -470,17 +492,17 @@ const options = {
                              type: 'integer',
                          },
                          selectedNumberOfItems: {
-                             type: 'integer'
+                             type: 'integer',
                          },
                          weightOfSelectedItems: {
-                             type: 'integer'
+                             type: 'integer',
                          }
                      }
                  },
-                 Calendar: { /*kidolgozni a részleteit*/
-                     type: 'object', //TODO
+                 Calendar: { /*TODO: kidolgozni a részleteit*/
+                     type: 'object',
                      properties: {
-                         _id: {
+                         calendarId: {
                              type: 'string',
                              format: 'uuid',
                          },
@@ -489,59 +511,59 @@ const options = {
                  Order: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         orderId: {
                              type: 'string',
                              format: 'uuid',
                          },
-                         status: { //TODO: enum
-                             type: 'string',
+                         status: {
+                             $ref: '#/components/schemas/OrderStatus',
                          },
-                         company: { //TODO: Company
-                             type: 'string',
+                         company: {
+                             $ref: '#/components/schemas/Company',
                          },
-                         route: { //TODO: Route
+                         route: {
                              type: 'array',
                              items: {
-                                 type: 'string'
+                                 $ref: '#/components/schemas/Route',
                              }
                          },
-                         selectedProducts: { //TODO: SelectedProducts
+                         selectedProducts: {
                              type: 'array',
                              items: {
-                                 type: 'string'
+                                 $ref: '#/components/schemas/SelectedProduct',
                              }
                          },
                          totalWeightsOfSelectedProducts: {
-                             type: 'integer'
+                             type: 'integer',
                          },
-                         departurePoint: { //TODO: DockingPoint
-                             type: 'string',
+                         departurePoint: {
+                             $ref: '#/components/schemas/DockingPoint',
                          },
-                         destinationPoint: { //TODO: DockingPoint
-                             type: 'string',
+                         destinationPoint: {
+                             $ref: '#/components/schemas/DockingPoint',
                          },
-                         dockingPoints: { //TODO: DockingPoints
+                         dockingPoints: {
                              type: 'array',
                              items: {
-                                 type: 'string'
+                                 $ref: '#/components/schemas/DockingPoint',
                              }
                          },
-                         results: { //TODO: Result
-                             type: 'string',
+                         results: {
+                             $ref: '#/components/schemas/Result',
                          },
-                         documents: { //TODO: Document
+                         documents: {
                              type: 'array',
                              items: {
-                                 type: 'string'
+                                 $ref: '#/components/schemas/Document',
                              }
                          },
-                         invoice: { //TODO: Invoice
-                             type: 'string'
+                         invoice: {
+                             $ref: '#/components/schemas/Invoice',
                          },
-                         comments: { //TODO: Comment
+                         comments: {
                              type: 'array',
                              items: {
-                                 type: 'string'
+                                 $ref: '#/components/schemas/Comment',
                              }
                          },
                      },
@@ -549,7 +571,7 @@ const options = {
                  Route: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         routeId: {
                              type: 'string',
                              format: 'uuid',
                          },
@@ -559,8 +581,8 @@ const options = {
                          actualArrival: {
                              type: 'string'
                          },
-                         address: { //TODO: Address
-                             type: 'string'
+                         address: {
+                             $ref: '#/components/schemas/Address',
                          },
                          task: {
                              type: 'string'
@@ -577,15 +599,15 @@ const options = {
                          actualDeparture: {
                              type: 'string'
                          },
-                         status: { //TODO: enum
-                             type: 'string'
+                         status: {
+                             $ref: '#/components/schemas/RouteStatus',
                          },
                      },
                  },
                  Address: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         addressId: {
                              type: 'string',
                              format: 'uuid',
                          },
@@ -612,7 +634,7 @@ const options = {
                  Company: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         companyId: {
                              type: 'string',
                              format: 'uuid',
                          },
@@ -633,96 +655,108 @@ const options = {
                  Result: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         resultId: {
+                             type: 'string',
+                             format: 'uuid',
+                         },
+                         orderId: {
                              type: 'string',
                              format: 'uuid',
                          },
                          customer: {
-                             type: 'string' //TODO: Company
+                             $ref: '#/components/schemas/Company',
                          },
                          driverId: {
-                             type: 'string'
+                             type: 'string',
+                             format: 'uuid',
                          },
                          driverName: {
-                             type: 'string'
+                             type: 'string',
                          },
                          driverEmail: {
-                             type: 'string'
+                             type: 'string',
                          },
                          scheduledKms: {
-                             type: 'string'
+                             type: 'string',
                          },
                          typeOfProducts: {
-                             type: 'string'
+                             type: 'string',
                          },
                          contactPersonName: {
-                             type: 'string'
+                             type: 'string',
                          },
                          contactPersonPhone: {
-                             type: 'string'
+                             type: 'string',
                          },
                          contactPersonEmail: {
-                             type: 'string'
+                             type: 'string',
                          },
                          carId: {
-                             type: 'string'
+                             type: 'string',
+                             format: 'uuid',
                          },
                          licencePlateOfCar: {
-                             type: 'string'
+                             type: 'string',
                          },
                          typeOfCar: {
-                             type: 'string'
+                             type: 'string',
                          },
                          typeOfName: {
-                             type: 'string'
+                             type: 'string',
                          },
                          scheduledTime: {
-                             type: 'string'
+                             type: 'string',
                          },
                          description: {
-                             type: 'string'
+                             type: 'string',
                          },
                          price: {
-                             type: 'integer'
+                             type: 'integer',
                          },
                          profit: {
-                             type: 'integer'
+                             type: 'integer',
                          },
                          expenses: {
-                             type: 'integer'
+                             type: 'integer',
                          }
                      },
                  },
                  Document: {
                      type: 'object',
                      properties: {
-                         _id: {
+                         documentId: {
                              type: 'string',
                              format: 'uuid',
                          },
-                         documentType: { //TODO: enum
-                             type: 'string'
+                         documentType: {
+                             $ref: '#/components/schemas/DocumentType',
                          },
                          title: {
                              type: 'string'
                          },
-                         timeStamp: { //TODO: DateTime
-                             type: 'string'
+                         timeStamp: {
+                             type: 'string',
+                             format: 'date-time',
                          },
                          status: {
-                             type: 'string'
+                             $ref: '#/components/schemas/DocumentStatus',
                          },
                      },
                  },
-                 Invoice: { /*ehhez meg kell néznem pontosan milyen adatok kellenek realben*/
-                     type: 'object', //TODO
+                 Invoice: { /*TODO: ehhez meg kell néznem pontosan milyen adatok kellenek realben*/
+                     type: 'object',
                      properties: {
-                         _id: {
+                         invoiceId: {
                              type: 'string',
                              format: 'uuid',
                          },
                          orderId: {
-                             type: 'string'
+                             type: 'string',
+                             format: 'uuid',
+                         },
+                         companyId: {
+                             type: 'string',
+                             format: 'uuid',
                          },
                          companyName: {
                              type: 'string'
@@ -736,10 +770,83 @@ const options = {
                          price: {
                              type: 'integer'
                          },
-                         status: { //TODO: enum
-                             type: 'string'
+                         status: {
+                             $ref: '#/components/schemas/InvoiceStatus'
                          },
                      },
+                 },
+                 CommentType: {
+                     type: 'string',
+                     enum:
+                         - ERROR
+                         - WARNING
+                         - INFO
+                 },
+                 ProductStatus: {
+                     type: 'string',
+                     enum:
+                         - IN_STOCK /*készleten*/
+                         - STOCK_SHORTAGE /*készlethiány*/
+                 },
+                 RequestStatus: {
+                     type: 'string',
+                     enum:
+                         - DRAFT /*Piszkozat*/
+                         - PENDING /*Függőben*/
+                         - ACCEPTED /*Elfogadva*/
+                         - REFUSED /*Elutasítva*/
+                 },
+                 AnswerOption: {
+                     type: 'string',
+                     enum:
+                         - ACCEPT
+                         - REFUSE
+                 },
+                 OrderStatus: {
+                     type: 'string',
+                     enum:
+                         - ONGOING /*folyamatban*/
+                         - COMPLETED /*teljesített*/
+                         - DELETED /*törölt*/
+                         - ORDERED /*megrendelve*/
+                 },
+                 RouteStatus: {
+                     type: 'string',
+                     enum:
+                         - ONGOING /*folyamatban*/
+                         - COMPLETED /*teljesített*/
+                         - DELETED /*törölve*/
+                         - PENDING /*teljesítésre vár*/
+                         - SKIPPED /*kihagyva*/
+                 },
+                 DocumentType: {
+                     type: 'string',
+                     enum:
+                         - TRANSPORTBILL /*fuvarlevél*/
+                         - DELIVERYBILL /*szállítólevél*/
+                         - INVOICE /*számla*/
+                         - JOURNEYBILL /*menetlevél*/
+                         - DRIVING_LICENCE /*jogosítvány*/
+                         - ADDRESS_CARD /*lakcímkártya*/
+                         - PASSPORT /*útlevél*/
+                         - HEALTH_CARD /*taj kártya*/
+                         - OTHER /*egyéb*/
+                 },
+                 DocumentStatus: {
+                     type: 'string',
+                     enum:
+                         - MISSING /*hiányzik*/
+                         - UPLOADED /*feltöltve*/
+                         - WAITING_FOR_UPLOAD /*feltöltésre vár*/
+                         - WILL_BE_GENERATED /*generálódik*/
+                 },
+                 InvoiceStatus: {
+                     type: 'string',
+                     enum:
+                         - CREATED_BY /*létrehozva*/
+                         - PAID /*fizetve*/
+                         - WAITING_FOR_PAYMENT /*fizetésre vár*/
+                         - DELETED /*törölve*/
                  },
              },
         },
