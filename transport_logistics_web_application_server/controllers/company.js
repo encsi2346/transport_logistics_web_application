@@ -23,14 +23,14 @@ export const createCompany = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            _id,
+            carId,
             companyName,
             email,
             phoneNumber,
             contactPersonName,
         } = req.body;
         const newCompany = new Company({
-            _id,
+            carId,
             companyName,
             email,
             phoneNumber,
@@ -50,8 +50,8 @@ export const updateCompany = async (req, res) => {
         if (!company) {
             return res.status(404).json({ message: 'Company not found' });
         }
-        if (req.body._id) {
-            company._id = req.body._id;
+        if (req.body.carId) {
+            company.carId = req.body.carId;
             company.companyName = req.body.companyName;
             company.email = req.body.email;
             company.phoneNumber = req.body.phoneNumber;

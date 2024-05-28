@@ -23,6 +23,7 @@ export const createService = async (req, res) => {
     console.log('req', req);
     try {
         const {
+            serviceId,
             appointment,
             nameOfServiceCompany,
             driverName,
@@ -36,6 +37,7 @@ export const createService = async (req, res) => {
             car,
         } = req.body;
         const newService = new Service({
+            serviceId,
             appointment,
             nameOfServiceCompany,
             driverName,
@@ -62,7 +64,8 @@ export const updateService = async (req, res) => {
         if (!service) {
             return res.status(404).json({ message: 'Service not found' });
         }
-        if (req.body.name) {
+        if (req.body.serviceId) {
+            service.serviceId = req.body.serviceId;
             service.appointment = req.body.appointment;
             service.nameOfServiceCompany = req.body.nameOfServiceCompany;
             service.driverName = req.body.driverName;

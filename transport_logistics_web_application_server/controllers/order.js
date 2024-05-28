@@ -23,7 +23,7 @@ export const createOrder = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            _id,
+            orderId,
             status,
             company,
             route,
@@ -38,7 +38,7 @@ export const createOrder = async (req, res) => {
             comments,
         } = req.body;
         const newOrder = new Order({
-            _id,
+            orderId,
             status,
             company,
             route,
@@ -66,8 +66,8 @@ export const updateOrder = async (req, res) => {
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }
-        if (req.body._id) {
-            order._id = req.body._id;
+        if (req.body.orderId) {
+            order.orderId = req.body.orderId;
             order.status = req.body.status;
             order.company = req.body.company;
             order.route = req.body.route;

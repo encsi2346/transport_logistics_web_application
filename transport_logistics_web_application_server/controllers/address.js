@@ -23,7 +23,7 @@ export const createAddress = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            _id,
+            addressId,
             country,
             postcode,
             city,
@@ -32,7 +32,7 @@ export const createAddress = async (req, res) => {
             houseNumber,
         } = req.body;
         const newAddress = new Address({
-            _id,
+            addressId,
             country,
             postcode,
             city,
@@ -54,8 +54,8 @@ export const updateAddress = async (req, res) => {
         if (!address) {
             return res.status(404).json({ message: 'Address not found' });
         }
-        if (req.body._id) {
-            address._id = req.body._id;
+        if (req.body.addressId) {
+            address.addressId = req.body.addressId;
             address.country = req.body.country;
             address.postcode = req.body.postcode;
             address.city = req.body.city;

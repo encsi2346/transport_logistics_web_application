@@ -23,7 +23,7 @@ export const createInvoice = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            _id,
+            invoiceId,
             orderId,
             companyName,
             dateOfCreation,
@@ -32,7 +32,7 @@ export const createInvoice = async (req, res) => {
             status,
         } = req.body;
         const newInvoice = new Invoice({
-            _id,
+            invoiceId,
             orderId,
             companyName,
             dateOfCreation,
@@ -54,8 +54,8 @@ export const updateInvoice = async (req, res) => {
         if (!invoice) {
             return res.status(404).json({ message: 'Invoice not found' });
         }
-        if (req.body._id) {
-            invoice._id = req.body._id;
+        if (req.body.invoiceId) {
+            invoice.invoiceId = req.body.invoiceId;
             invoice.orderId = req.body.orderId;
             invoice.companyName = req.body.companyName;
             invoice.dateOfCreation = req.body.dateOfCreation;

@@ -71,7 +71,7 @@ router.get('/api/comments/:id', getComment);
  *       400:
  *         description: Bad request.
  */
-router.post('/api/cars/addComment', createComment);
+router.post('/api/comments/addComment', createComment);
 
 /**
  * @swagger

@@ -23,10 +23,10 @@ export const createCalendar = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            _id,
+            calendarId,
         } = req.body;
         const newCalendar = new Calendar({
-            _id,
+            calendarId,
         });
         const savedCalendar = await newCalendar.save();
         res.status(201).json(savedCalendar);
@@ -42,8 +42,8 @@ export const updateCalendar = async (req, res) => {
         if (!calendar) {
             return res.status(404).json({ message: 'Calendar not found' });
         }
-        if (req.body._id) {
-            calendar._id = req.body._id;
+        if (req.body.calendarId) {
+            calendar.calendarId = req.body.calendarId;
         }
         const updatedCalendar = await calendar.save();
         res.json(updatedCalendar);

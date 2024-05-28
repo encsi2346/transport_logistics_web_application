@@ -23,7 +23,7 @@ export const createRoute = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            _id,
+            routeId,
             scheduledArrival,
             actualArrival,
             address,
@@ -35,7 +35,7 @@ export const createRoute = async (req, res) => {
             status,
         } = req.body;
         const newRoute = new Route({
-            _id,
+            routeId,
             scheduledArrival,
             actualArrival,
             address,
@@ -60,8 +60,8 @@ export const updateRoute = async (req, res) => {
         if (!route) {
             return res.status(404).json({ message: 'Route not found' });
         }
-        if (req.body._id) {
-            route._id = req.body._id;
+        if (req.body.routeId) {
+            route.routeId = req.body.routeId;
             route.scheduledArrival = req.body.scheduledArrival;
             route.actualArrival = req.body.actualArrival;
             route.address = req.body.address;

@@ -23,10 +23,15 @@ export const createProductCategory = async (req, res) => {
     console.log('req', req);
     try {
         const {
+            productCategoryId,
             name,
             description
         } = req.body;
-        const newProductCategory = new ProductCategory({name, description});
+        const newProductCategory = new ProductCategory({
+            productCategoryId,
+            name,
+            description
+        });
         const savedProductCategory = await newProductCategory.save();
         res.status(201).json(savedProductCategory);
     } catch (error) {
@@ -41,7 +46,8 @@ export const updateProductCategory = async (req, res) => {
         if (!productCategory) {
             return res.status(404).json({ message: 'ProductCategory not found' });
         }
-        if (req.body.name) {
+        if (req.body.productCategoryId) {
+            productCategory.productCategoryId = req.body.productCategoryId;
             productCategory.name = req.body.name;
             productCategory.description = req.body.description;
         }

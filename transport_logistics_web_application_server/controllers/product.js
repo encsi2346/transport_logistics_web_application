@@ -23,6 +23,7 @@ export const createProduct = async (req, res) => {
     console.log('req', req);
     try {
         const {
+            productId,
             name,
             description,
             category,
@@ -34,6 +35,7 @@ export const createProduct = async (req, res) => {
             status
         } = req.body;
         const newProduct = new Product({
+            productId,
             name,
             description,
             category,
@@ -58,7 +60,8 @@ export const updateProduct = async (req, res) => {
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
-        if (req.body.name) {
+        if (req.body.productId) {
+            product.productId = req.body.productId;
             product.name = req.body.name;
             product.description = req.body.description;
             product.category = req.body.category;

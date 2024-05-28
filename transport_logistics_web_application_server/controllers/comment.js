@@ -23,7 +23,7 @@ export const createComment = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            _id,
+            commentId,
             orderId,
             userId,
             userName,
@@ -32,7 +32,7 @@ export const createComment = async (req, res) => {
             description,
         } = req.body;
         const newComment = new Comment({
-            _id,
+            commentId,
             orderId,
             userId,
             userName,
@@ -54,8 +54,8 @@ export const updateComment = async (req, res) => {
         if (!comment) {
             return res.status(404).json({ message: 'Comment not found' });
         }
-        if (req.body._id) {
-            comment._id = req.body._id;
+        if (req.body.commentId) {
+            comment.commentId = req.body.commentId;
             comment.orderId = req.body.orderId;
             comment.userId = req.body.userId;
             comment.userName = req.body.userName;

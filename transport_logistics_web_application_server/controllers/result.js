@@ -23,7 +23,7 @@ export const createResult = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            _id,
+            resultId,
             customer,
             driverId,
             driverName,
@@ -44,7 +44,7 @@ export const createResult = async (req, res) => {
             expenses,
         } = req.body;
         const newResult = new Result({
-            _id,
+            resultId,
             customer,
             driverId,
             driverName,
@@ -78,8 +78,8 @@ export const updateResult = async (req, res) => {
         if (!result) {
             return res.status(404).json({ message: 'Result not found' });
         }
-        if (req.body._id) {
-            result._id = req.body._id;
+        if (req.body.resultId) {
+            result.resultId = req.body.resultId;
             result.customer = req.body.customer;
             result.driverId = req.body.driverId;
             result.driverName = req.body.driverName;

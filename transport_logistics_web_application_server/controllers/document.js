@@ -23,14 +23,14 @@ export const createDocument = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            _id,
+            documentId,
             documentType,
             title,
             timeStamp,
             status,
         } = req.body;
         const newDocument = new Document({
-            _id,
+            documentId,
             documentType,
             title,
             timeStamp,
@@ -50,8 +50,8 @@ export const updateDocument = async (req, res) => {
         if (!document) {
             return res.status(404).json({ message: 'Document not found' });
         }
-        if (req.body._id) {
-            document._id = req.body._id;
+        if (req.body.documentId) {
+            document.documentId = req.body.documentId;
             document.documentType = req.body.documentType;
             document.title = req.body.title;
             document.timeStamp = req.body.timeStamp;

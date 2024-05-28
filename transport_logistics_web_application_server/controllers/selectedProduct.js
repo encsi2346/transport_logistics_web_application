@@ -23,7 +23,7 @@ export const createSelectedProduct = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            _id,
+            selectedProductId,
             productId,
             productName,
             maxNumberOfItems,
@@ -32,7 +32,7 @@ export const createSelectedProduct = async (req, res) => {
             weightOfSelectedItems,
         } = req.body;
         const newSelectedProduct = new SelectedProduct({
-            _id,
+            selectedProductId,
             productId,
             productName,
             maxNumberOfItems,
@@ -54,8 +54,8 @@ export const updateSelectedProduct = async (req, res) => {
         if (!selectedProduct) {
             return res.status(404).json({ message: 'SelectedProduct not found' });
         }
-        if (req.body._id) {
-            selectedProduct._id = req.body._id;
+        if (req.body.selectedProductId) {
+            selectedProduct.selectedProductId = req.body.selectedProductId;
             selectedProduct.productId = req.body.productId;
             selectedProduct.productName = req.body.productName;
             selectedProduct.maxNumberOfItems = req.body.maxNumberOfItems;

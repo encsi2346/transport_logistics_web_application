@@ -23,7 +23,7 @@ export const createTransportation = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            _id,
+            transportationId,
             selectedCarType,
             selectedCar,
             departurePoint,
@@ -33,7 +33,7 @@ export const createTransportation = async (req, res) => {
             totalWeightsOfSelectedProducts,
         } = req.body;
         const newTransportation = new Transportation({
-            _id,
+            transportationId,
             selectedCarType,
             selectedCar,
             departurePoint,
@@ -56,8 +56,8 @@ export const updateTransportation = async (req, res) => {
         if (!transportation) {
             return res.status(404).json({ message: 'Transportation not found' });
         }
-        if (req.body._id) {
-            transportation._id = req.body._id;
+        if (req.body.transportationId) {
+            transportation.transportationId = req.body.transportationId;
             transportation.selectedCarType = req.body.selectedCarType;
             transportation.selectedCar = req.body.selectedCar;
             transportation.departurePoint = req.body.departurePoint;

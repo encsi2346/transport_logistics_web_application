@@ -23,6 +23,7 @@ export const createCar = async (req, res) => {
     console.log('req', req);
     try {
         const {
+            carId,
             name,
             type,
             licencePlate,
@@ -38,6 +39,7 @@ export const createCar = async (req, res) => {
             totalTransport,
         } = req.body;
         const newCar = new Car({
+            carId,
             name,
             type,
             licencePlate,
@@ -66,7 +68,8 @@ export const updateCar = async (req, res) => {
         if (!car) {
             return res.status(404).json({ message: 'Car not found' });
         }
-        if (req.body.name) {
+        if (req.body.carId) {
+            car.carId = req.body.carId;
             car.name = req.body.name;
             car.type = req.body.type;
             car.licencePlate = req.body.licencePlate;

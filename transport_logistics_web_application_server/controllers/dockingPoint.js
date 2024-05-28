@@ -23,7 +23,7 @@ export const createDockingPoint = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            _id,
+            dockingPointId,
             country,
             postcode,
             city,
@@ -40,7 +40,7 @@ export const createDockingPoint = async (req, res) => {
             passengers,
         } = req.body;
         const newDockingPoint = new DockingPoint({
-            _id,
+            dockingPointId,
             country,
             postcode,
             city,
@@ -70,8 +70,8 @@ export const updateDockingPoint = async (req, res) => {
         if (!dockingPoint) {
             return res.status(404).json({ message: 'DockingPoint not found' });
         }
-        if (req.body._id) {
-            dockingPoint._id = req.body._id;
+        if (req.body.dockingPointId) {
+            dockingPoint.dockingPointId = req.body.dockingPointId;
             dockingPoint.country = req.body.country;
             dockingPoint.postcode = req.body.postcode;
             dockingPoint.city = req.body.city;
