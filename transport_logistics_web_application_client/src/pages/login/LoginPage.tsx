@@ -144,6 +144,7 @@ const LoginPage = () => {
                                     error={Boolean(touched.email) && Boolean(errors.email)}
                                     helperText={touched.email && errors.email}
                                     sx={{ gridColumn: "span 4" }}
+                                    data-testid="email-input"
                                 />
                                 <TextField
                                     label="Password"
@@ -155,6 +156,7 @@ const LoginPage = () => {
                                     error={Boolean(touched.password) && Boolean(errors.password)}
                                     helperText={touched.password && errors.password}
                                     sx={{ gridColumn: "span 4" }}
+                                    data-testid="password-input"
                                 />
                             </Box>
                             <Typography
@@ -170,11 +172,12 @@ const LoginPage = () => {
                                     letterSpacing: 1,
                                     cursor: 'pointer'
                                 }}
+                                data-testid="forgotten-password"
                             >
                                 {t('TEXT.RESET_PASSWORD')}
                             </Typography>
                             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                <WideSaveButton text={t('TEXT.LOGIN')} control={control} type='submit'/>
+                                <WideSaveButton text={t('TEXT.LOGIN')} control={control} type='submit' data-testid="login-button"/>
                             </Box>
                         </SmallBackgroundCard>
                     </Box>
