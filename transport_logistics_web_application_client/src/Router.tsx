@@ -2,12 +2,12 @@ import {Navigate, Route, Routes} from 'react-router-dom';
 import LoginPage from "./pages/login/LoginPage.tsx";
 import ForgottenPassword from "./pages/login/ForgottenPassword.tsx";
 import Layout from './components/layout/Layout.tsx';
-import UserRouting from './pages/user/UserRouting.tsx';
-import CarRouting from './pages/car/CarRouting.tsx';
-import ProductsRouting from "./pages/product/ProductsRouting.tsx";
-import TransportationRouting from './pages/transportation/TransportationRouting.tsx';
+import UserRouting from './pages/users/UserRouting.tsx';
+import CarRouting from './pages/cars/CarRouting.tsx';
+import ProductsRouting from "./pages/products/ProductsRouting.tsx";
+import TransportationRouting from './pages/transportations/TransportationRouting.tsx';
 import Dashboard from "./pages/dashboard/Dashboard.tsx";
-import RequestRouting from "./pages/request/RequestRouting.tsx";
+import RequestRouting from "./pages/requests/RequestRouting.tsx";
 import {useSelector} from "react-redux";
 
 const Router = () => {

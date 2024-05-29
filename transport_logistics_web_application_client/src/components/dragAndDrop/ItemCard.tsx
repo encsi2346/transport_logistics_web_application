@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {Id, Item} from "../../pages/transportation/TransportationShipment.tsx";
+import {Id, Item} from "../../pages/transportations/TransportationShipment.tsx";
 import {Box, Grid, Typography} from "@mui/material";
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 

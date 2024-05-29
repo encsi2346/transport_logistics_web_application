@@ -1,59 +1,49 @@
-import {Box, FormControl, Input, InputAdornment} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader.tsx";
 import FilterCard from "../../components/layout/FilterCard.tsx";
+import {Box, FormControl, Grid, Input, InputAdornment} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard.tsx";
+import GoodsTypeCard from "../../components/layout/GoodsTypeCard.tsx";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import useSelection from "../../components/inputField/hooks/useSelection.tsx";
-import {useForm} from "react-hook-form";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import SaveButton from "../../components/button/SaveButton.tsx";
-import {carTypeEditFormSchema, CarTypeEditFormSchema} from "../car-type/schemas/car-type-edit-form-schema.ts";
-import {zodResolver} from "@hookform/resolvers/zod";
 import {useModal} from "@ebay/nice-modal-react";
-import RequestTableQuery from "./RequestTableQuery.tsx";
-import NewRequestAddDialog from "./NewRequestAddDialog.tsx";
+import ProductCategoryAddDialog from "./ProductCategoryAddDialog.tsx";
+import {useForm} from "react-hook-form";
+import {carTypeEditFormSchema, CarTypeEditFormSchema} from "../car-types/schemas/car-type-edit-form-schema.ts";
+import {zodResolver} from "@hookform/resolvers/zod";
 
-const RequestList = () => {
+const ProductsCategoryList = () => {
     const { t } = useTypeSafeTranslation();
-    const addNewRequestDialog = useModal(NewRequestAddDialog);
+    const addProductCategoryDialog = useModal(ProductCategoryAddDialog);
     const [search, setSearch] = useState('');
-    const [requests, setRequests] = useState([
+    const [categories, setCategories] = useState([
         {
-            id: '1111',
-            fullName: 'Példa Elek',
-            position: 'Sofőr',
+            category: 'Kategória1',
+            availability: 'Készleten',
         },
         {
-            id: '1111',
-            fullName: 'Példa Elek',
-            position: 'Sofőr',
+            category: 'Kategória3',
+            availability: 'Készlethiány',
         },
         {
-            id: '1111',
-            fullName: 'Példa Elek',
-            position: 'Sofőr',
+            category: 'Kategória4',
+            availability: 'Készleten',
         },
         {
-            id: '1111',
-            fullName: 'Példa Elek',
-            position: 'Sofőr',
+            category: 'Kategória5',
+            availability: 'Készlethiány',
         },
         {
-            id: '1111',
-            fullName: 'Példa Elek',
-            position: 'Sofőr',
+            category: 'Kategória2',
+            availability: 'Készleten',
         },
     ]);
-    const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
     const {
-        control,
         setValue,
-        reset,
-        handleSubmit,
         formState: { isValid },
     } = useForm<CarTypeEditFormSchema>({
         defaultValues: {
@@ -69,10 +59,10 @@ const RequestList = () => {
         mode: 'all',
     });
 
-    const openAddNewRequestDialog = () => {
-        addNewRequestDialog
+    const openAddProductCategoryDialog = () => {
+        addProductCategoryDialog
             .show({
-                title: t('TEXT.ADD_NEW_REQUEST'),
+                title: t('TEXT.ADD_NEW_PRODUCT_CATEGORY'),
                 acceptText: t('TEXT.CREATE'),
             })
             .then((value) => {
@@ -81,14 +71,9 @@ const RequestList = () => {
             .catch(() => null);
     };
 
-    const handleDataChange = () => {
-        handleSelectionChange(selectionModel);
-    };
-
-
     return (
         <Box>
-            <PageHeader text={t('TEXT.PERSONAL_REQUESTS')}/>
+            <PageHeader text={t('TEXT.PRODUCT_CATEGORIES')}/>
             <FilterCard>
                 <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
                     <FormControl sx={{
@@ -100,8 +85,8 @@ const RequestList = () => {
                         gap: 2
                     }}>
                         <Input
-                            id="name"
-                            placeholder="Search name"
+                            id="category"
+                            placeholder={t('TEXT.SEARCH_PRODUCT_CATEGORY')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -128,8 +113,8 @@ const RequestList = () => {
                             }}
                         />
                         <Input
-                            id="position"
-                            placeholder="Search position"
+                            id="availability"
+                            placeholder={t('TEXT.SEARCH_AVAILABILITY')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -157,30 +142,32 @@ const RequestList = () => {
                         />
                     </FormControl>
                     <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('TEXT.ADD_NEW_REQUEST')} onClick={openAddNewRequestDialog} />
+                        <SaveButton text={t('TEXT.NEW_PRODUCT_CATEGORY')} onClick={openAddProductCategoryDialog} />
                     </Box>
                 </Box>
             </FilterCard>
 
             <ContentCard>
-                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
-                    <RequestTableQuery
-                        searchResults={
-                            requests
-                                .filter((item) => {
-                                    return search.toLowerCase() === ''
-                                        ? item
-                                        : item.fullName.toLowerCase().includes(search);
-                                })
-                        }
-                        selectionModel={selectionModel}
-                        onSelectionChange={handleSelectionChange}
-                        onDataChange={handleDataChange}
-                    />
+                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                    <Grid container rowSpacing={3} columnSpacing={-75} >
+                        {categories
+                            .filter((item) => {
+                                return search.toLowerCase() === ''
+                                    ? item
+                                    : item.category.toLowerCase().includes(search);
+                            })
+                            .map((item, index) => {
+                                return (
+                                    <Grid item xs={4} key={item.category}>
+                                        <GoodsTypeCard category={item.category} availability={item.availability}/>
+                                    </Grid>
+                                );
+                            })}
+                    </Grid>
                 </Box>
             </ContentCard>
         </Box>
     );
 };
 
-export default RequestList;
+export default ProductsCategoryList;

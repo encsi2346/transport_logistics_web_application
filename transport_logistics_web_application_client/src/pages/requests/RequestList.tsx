@@ -1,49 +1,59 @@
+import {Box, FormControl, Input, InputAdornment} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader.tsx";
 import FilterCard from "../../components/layout/FilterCard.tsx";
-import {Box, FormControl, Grid, Input, InputAdornment} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard.tsx";
-import GoodsTypeCard from "../../components/layout/GoodsTypeCard.tsx";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useState} from "react";
+import useSelection from "../../components/inputField/hooks/useSelection.tsx";
+import {useForm} from "react-hook-form";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import SaveButton from "../../components/button/SaveButton.tsx";
-import {useModal} from "@ebay/nice-modal-react";
-import ProductCategoryAddDialog from "./ProductCategoryAddDialog.tsx";
-import {useForm} from "react-hook-form";
-import {carTypeEditFormSchema, CarTypeEditFormSchema} from "../car-type/schemas/car-type-edit-form-schema.ts";
+import {carTypeEditFormSchema, CarTypeEditFormSchema} from "../car-types/schemas/car-type-edit-form-schema.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {useModal} from "@ebay/nice-modal-react";
+import RequestTableQuery from "./RequestTableQuery.tsx";
+import NewRequestAddDialog from "./NewRequestAddDialog.tsx";
 
-const ProductsCategoryList = () => {
+const RequestList = () => {
     const { t } = useTypeSafeTranslation();
-    const addProductCategoryDialog = useModal(ProductCategoryAddDialog);
+    const addNewRequestDialog = useModal(NewRequestAddDialog);
     const [search, setSearch] = useState('');
-    const [categories, setCategories] = useState([
+    const [requests, setRequests] = useState([
         {
-            category: 'Kategória1',
-            availability: 'Készleten',
+            id: '1111',
+            fullName: 'Példa Elek',
+            position: 'Sofőr',
         },
         {
-            category: 'Kategória3',
-            availability: 'Készlethiány',
+            id: '1111',
+            fullName: 'Példa Elek',
+            position: 'Sofőr',
         },
         {
-            category: 'Kategória4',
-            availability: 'Készleten',
+            id: '1111',
+            fullName: 'Példa Elek',
+            position: 'Sofőr',
         },
         {
-            category: 'Kategória5',
-            availability: 'Készlethiány',
+            id: '1111',
+            fullName: 'Példa Elek',
+            position: 'Sofőr',
         },
         {
-            category: 'Kategória2',
-            availability: 'Készleten',
+            id: '1111',
+            fullName: 'Példa Elek',
+            position: 'Sofőr',
         },
     ]);
+    const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
     const {
+        control,
         setValue,
+        reset,
+        handleSubmit,
         formState: { isValid },
     } = useForm<CarTypeEditFormSchema>({
         defaultValues: {
@@ -59,10 +69,10 @@ const ProductsCategoryList = () => {
         mode: 'all',
     });
 
-    const openAddProductCategoryDialog = () => {
-        addProductCategoryDialog
+    const openAddNewRequestDialog = () => {
+        addNewRequestDialog
             .show({
-                title: t('TEXT.ADD_NEW_PRODUCT_CATEGORY'),
+                title: t('TEXT.ADD_NEW_REQUEST'),
                 acceptText: t('TEXT.CREATE'),
             })
             .then((value) => {
@@ -71,9 +81,14 @@ const ProductsCategoryList = () => {
             .catch(() => null);
     };
 
+    const handleDataChange = () => {
+        handleSelectionChange(selectionModel);
+    };
+
+
     return (
         <Box>
-            <PageHeader text={t('TEXT.PRODUCT_CATEGORIES')}/>
+            <PageHeader text={t('TEXT.PERSONAL_REQUESTS')}/>
             <FilterCard>
                 <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
                     <FormControl sx={{
@@ -85,8 +100,8 @@ const ProductsCategoryList = () => {
                         gap: 2
                     }}>
                         <Input
-                            id="category"
-                            placeholder={t('TEXT.SEARCH_PRODUCT_CATEGORY')}
+                            id="name"
+                            placeholder="Search name"
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -113,8 +128,8 @@ const ProductsCategoryList = () => {
                             }}
                         />
                         <Input
-                            id="availability"
-                            placeholder={t('TEXT.SEARCH_AVAILABILITY')}
+                            id="position"
+                            placeholder="Search position"
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -142,32 +157,30 @@ const ProductsCategoryList = () => {
                         />
                     </FormControl>
                     <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('TEXT.NEW_PRODUCT_CATEGORY')} onClick={openAddProductCategoryDialog} />
+                        <SaveButton text={t('TEXT.ADD_NEW_REQUEST')} onClick={openAddNewRequestDialog} />
                     </Box>
                 </Box>
             </FilterCard>
 
             <ContentCard>
-                <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                    <Grid container rowSpacing={3} columnSpacing={-75} >
-                        {categories
-                            .filter((item) => {
-                                return search.toLowerCase() === ''
-                                    ? item
-                                    : item.category.toLowerCase().includes(search);
-                            })
-                            .map((item, index) => {
-                                return (
-                                    <Grid item xs={4} key={item.category}>
-                                        <GoodsTypeCard category={item.category} availability={item.availability}/>
-                                    </Grid>
-                                );
-                            })}
-                    </Grid>
+                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
+                    <RequestTableQuery
+                        searchResults={
+                            requests
+                                .filter((item) => {
+                                    return search.toLowerCase() === ''
+                                        ? item
+                                        : item.fullName.toLowerCase().includes(search);
+                                })
+                        }
+                        selectionModel={selectionModel}
+                        onSelectionChange={handleSelectionChange}
+                        onDataChange={handleDataChange}
+                    />
                 </Box>
             </ContentCard>
         </Box>
     );
 };
 
-export default ProductsCategoryList;
+export default RequestList;

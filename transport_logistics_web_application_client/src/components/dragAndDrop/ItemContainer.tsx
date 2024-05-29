@@ -2,7 +2,7 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useMemo, useState } from "react";
 import ItemCard from "./ItemCard.tsx";
-import { Container, Item } from "../../pages/transportation/TransportationShipment.tsx";
+import { Container, Item } from "../../pages/transportations/TransportationShipment.tsx";
 import { Grid } from "@mui/material";
 import { useTypeSafeTranslation } from "../inputField/hooks/useTypeSafeTranslation.tsx";
 

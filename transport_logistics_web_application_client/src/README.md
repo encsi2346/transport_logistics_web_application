@@ -1,0 +1,11 @@
+##oldalak
+- transportation: egy konkrét fuvar összeállítása
+- cars: autópéldányok listázása, megtekintése, létrehozása, szerkesztése
+- car-types: autótípusok létrehozása, ezek szolgálnak sablonul egy konkrét példány létrehozásához. listázás, létrehozás, szekresztés
+- users: összes alkalmazott listázása, felvétele, szerkesztése --> TODO: saját profil szerkesztése, megtekintése
+- calendar: egy havi pl google naptáros nézet az összesről adminként, felhasználóválasztással csak az övé
+- requests: különleges kérések a beosztást illetően, elfogadás/elutasítás, létrehozás, listázás, törlés
+- products: kategóriák listázása, létrehozása, törlése, áruk létrehozása, törlése, alacsonykészlet jelzése
+- orders: külső helyről beérkező megrendelés, szimuláláshoz létrehozás, visszavonás, listázás, megtekintés, szerkesztés
+- documents: hierarchiába rendezve, pl fuvarlevél, menetlevél, jogsimásolatok, felöltés, letöltés, preview megtekintés
+- invoices: száma kiállítása, listázás, törlés

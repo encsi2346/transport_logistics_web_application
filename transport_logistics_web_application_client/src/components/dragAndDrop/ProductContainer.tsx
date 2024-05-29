@@ -2,7 +2,7 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useMemo, useState } from "react";
 import ItemCard from "./ItemCard.tsx";
-import {Container, Id, Item} from "../../pages/transportation/TransportationShipment.tsx";
+import {Container, Id, Item} from "../../pages/transportations/TransportationShipment.tsx";
 import {Box, Grid} from "@mui/material";
 
 interface Props {
