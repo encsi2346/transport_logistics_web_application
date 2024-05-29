@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { ReactNode } from 'react';
+import {ReactNode} from 'react';
 import { Link, useLocation, useResolvedPath } from 'react-router-dom';
 
 interface INavLink {

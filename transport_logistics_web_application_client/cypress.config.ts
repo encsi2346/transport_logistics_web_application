@@ -11,6 +11,7 @@ export default defineConfig({
         setupNodeEvents(on, config) {
             config.specPattern = [
                 'cypress/e2e/auth/authentication.cy.ts',
+                'cypress/e2e/auth/url-testing.cy.ts',
             ]
             return config
         },
