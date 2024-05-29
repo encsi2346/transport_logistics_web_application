@@ -11,6 +11,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import {useTypeSafeTranslation} from "../inputField/hooks/useTypeSafeTranslation.tsx";
 import EmailIcon from '@mui/icons-material/Email';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 
 const iconProps = {
     sx: {
@@ -77,6 +79,20 @@ const Sidebar = () => {
                     </Tooltip>,
             label: t('TEXT.PROFILE'),
             route: '/users/profile',
+        },
+        {
+            icon:   <Tooltip title={t('TEXT.DOCUMENTS')}>
+                        <FileCopyIcon {...iconProps} />
+                    </Tooltip>,
+            label: t('TEXT.DOCUMENTS'),
+            route: '/documents/',
+        },
+        {
+            icon:   <Tooltip title={t('TEXT.INVOICES')}>
+                        <ReceiptIcon {...iconProps} />
+                    </Tooltip>,
+            label: t('TEXT.INVOICES'),
+            route: '/invoices/',
         },
         {
             icon:   <Tooltip title={t('TEXT.LOGOUT')}>

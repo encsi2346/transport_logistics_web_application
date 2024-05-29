@@ -3,53 +3,58 @@ import PageHeader from "../../components/text/PageHeader.tsx";
 import FilterCard from "../../components/layout/FilterCard.tsx";
 import ContentCard from "../../components/layout/ContentCard.tsx";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation.tsx";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import UserTableQuery from "./UserTableQuery.tsx";
 import useSelection from "../../components/inputField/hooks/useSelection.tsx";
 import SaveButton from "../../components/button/SaveButton.tsx";
+import DocumentTableQuery from "./DocumentTableQuery.tsx";
 
-const UserList = () => {
+const DocumentList = () => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
-    const [users, setUsers] = useState([
+    const [documents, setDocuments] = useState([
         {
-            id: '1111',
-            fullName: 'Példa Elek',
-            position: 'Sofőr',
-            drivingLicenceCategories: 'A1, A2, B, C',
-            validityDateOfDrivingLicence: '2025.12.03'
+            id: '#15263',
+            documentType: 'Fuvarlevél',
+            documentName: '2024_01_30_Vik_kft_fuvarlevél.docx',
+            createdBy: 'Admin Anita',
+            dateOfCreation: '2024.01.28',
+            size: '112 kB',
         },
         {
-            id: '1112',
-            fullName: 'Példa Teodor',
-            position: 'Sofőr',
-            drivingLicenceCategories: 'B, C',
-            validityDateOfDrivingLicence: '2025.12.03'
+            id: '#15264',
+            documentType: 'Menetlevél',
+            documentName: '2024_01_30_Vik_kft_menetlevél.docx',
+            createdBy: 'Admin Anita',
+            dateOfCreation: '2024.01.28',
+            size: '112 kB',
         },
         {
-            id: '1113',
-            fullName: 'Példa Kálmán',
-            position: 'Sofőr',
-            drivingLicenceCategories: 'B, C, D',
-            validityDateOfDrivingLicence: '2024.08.02'
+            id: '#15265',
+            documentType: 'Számla',
+            documentName: '2024_01_30_Vik_kft_számla.docx',
+            createdBy: 'Admin Anita',
+            dateOfCreation: '2024.01.28',
+            size: '112 kB',
         },
         {
-            id: '1114',
-            fullName: 'Példa Tivadar',
-            position: 'Sofőr',
-            drivingLicenceCategories: 'B, C',
-            validityDateOfDrivingLicence: '2025.11.21'
+            id: '#15266',
+            documentType: 'Jogosítvány',
+            documentName: 'Példa_Elek_Jogosítvány_másolat.docx',
+            createdBy: 'Admin Anita',
+            dateOfCreation: '2024.01.28',
+            size: '112 kB',
         },
         {
-            id: '1115',
-            fullName: 'Példa Zoltán',
-            position: 'Sofőr',
-            drivingLicenceCategories: 'B',
-            validityDateOfDrivingLicence: '2025.12.03'
+            id: '#15267',
+            documentType: 'Fuvarlevél',
+            documentName: '2024_01_30_Vik_kft_fuvarlevél.docx',
+            createdBy: 'Admin Anita',
+            dateOfCreation: '2024.01.28',
+            size: '112 kB',
         },
     ]);
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
@@ -129,20 +134,20 @@ const UserList = () => {
                         />
                     </FormControl>
                     <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('TEXT.NEW_USER')} onClick={() => navigate(`/users/new`)} />
+                        <SaveButton text={'Új dokumentum feltöltése'} />
                     </Box>
                 </Box>
             </FilterCard>
 
             <ContentCard>
                 <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
-                    <UserTableQuery
+                    <DocumentTableQuery
                         searchResults={
-                            users
+                            documents
                                 .filter((item) => {
                                     return search.toLowerCase() === ''
                                         ? item
-                                        : item.fullName.toLowerCase().includes(search);
+                                        : item.documentName.toLowerCase().includes(search);
                                 })
                         }
                         selectionModel={selectionModel}
@@ -155,4 +160,4 @@ const UserList = () => {
     );
 };
 
-export default UserList;
+export default DocumentList;
