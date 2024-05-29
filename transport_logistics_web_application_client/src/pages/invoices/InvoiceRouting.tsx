@@ -1,9 +1,11 @@
+import { Route, Routes } from 'react-router-dom';
+import InvoiceList from "./InvoiceList.tsx";
 
 const InvoiceRouting = () => {
     return (
-        <div>
-
-        </div>
+        <Routes>
+            <Route path="/" element={<InvoiceList/>} />
+        </Routes>
     );
 };
 
