@@ -72,14 +72,14 @@ const Sidebar = () => {
                         <BubbleChartIcon {...iconProps} />
                     </Tooltip>,
             label: t('TEXT.ORDERS'),
-            route: '/orders/',
+            route: '/orders',
         },
         {
             icon:   <Tooltip title={t('TEXT.REQUESTS')}>
                         <EmailIcon {...iconProps} />
                     </Tooltip>,
             label: t('TEXT.REQUESTS'),
-            route: '/requests/',
+            route: '/requests',
         },
         {
             icon:   <Tooltip title={t('TEXT.PROFILE')}>
@@ -93,14 +93,14 @@ const Sidebar = () => {
                         <FileCopyIcon {...iconProps} />
                     </Tooltip>,
             label: t('TEXT.DOCUMENTS'),
-            route: '/documents/',
+            route: '/documents',
         },
         {
             icon:   <Tooltip title={t('TEXT.INVOICES')}>
                         <ReceiptIcon {...iconProps} />
                     </Tooltip>,
             label: t('TEXT.INVOICES'),
-            route: '/invoices/',
+            route: '/invoices',
         },
         {
             icon:   <Tooltip title={t('TEXT.LOGOUT')}>

@@ -38,7 +38,7 @@ Cypress.Commands.add('cartypes', () => {
 
 Cypress.Commands.add('productscategories', () => {
     cy.get('[data-testid="/products-categories"]').click()
-    cy.visit('http://localhost:3000/product-categories');
+    cy.visit('http://localhost:3000/products-categories');
 })
 
 Cypress.Commands.add('orders', () => {
@@ -46,7 +46,7 @@ Cypress.Commands.add('orders', () => {
     cy.visit('http://localhost:3000/orders');
 })
 
-Cypress.Commands.add('requests*', () => {
+Cypress.Commands.add('requests', () => {
     cy.get('[data-testid="/requests"]').click()
     cy.visit('http://localhost:3000/requests*');
 })
