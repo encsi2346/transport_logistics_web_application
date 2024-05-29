@@ -13,6 +13,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import BubbleChartIcon from '@mui/icons-material/BubbleChart';
 
 const iconProps = {
     sx: {
@@ -65,6 +66,13 @@ const Sidebar = () => {
                     </Tooltip>,
             label: t('TEXT.PRODUCT_CATEGORIES'),
             route: '/products-categories',
+        },
+        {
+            icon:   <Tooltip title={t('TEXT.ORDERS')}>
+                        <BubbleChartIcon {...iconProps} />
+                    </Tooltip>,
+            label: t('TEXT.ORDERS'),
+            route: '/orders/',
         },
         {
             icon:   <Tooltip title={t('TEXT.REQUESTS')}>

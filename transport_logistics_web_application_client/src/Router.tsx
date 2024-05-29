@@ -11,6 +11,7 @@ import RequestRouting from "./pages/requests/RequestRouting.tsx";
 import {useSelector} from "react-redux";
 import DocumentRouting from "./pages/documents/DocumentRouting.tsx";
 import InvoiceRouting from "./pages/invoices/InvoiceRouting.tsx";
+import OrderRouting from "./pages/orders/OrderRouting.tsx";
 
 const Router = () => {
     const isAuth = Boolean(useSelector((state) => state.token));
@@ -32,6 +33,7 @@ const Router = () => {
                     <Route path="requests/*" element={isAuth ? <RequestRouting /> : <Navigate to="/login" />} />
                     <Route path="documents/*" element={isAuth ? <DocumentRouting /> : <Navigate to="/login" />} />
                     <Route path="invoices/*" element={isAuth ? <InvoiceRouting /> : <Navigate to="/login" />} />
+                    <Route path="orders/*" element={isAuth ? <OrderRouting /> : <Navigate to="/login" />} />
                 </Route>
             </Route>
         </Routes>
