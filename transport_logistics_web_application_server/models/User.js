@@ -54,6 +54,7 @@ const UserSchema = new mongoose.Schema({
     lineManager: String,
     healthProblem: String,
     createdAt: String,
+    voicePath: String,
 }, { timestamps: true } );
 
 const User = mongoose.model("User", UserSchema);

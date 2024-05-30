@@ -98,6 +98,10 @@ const options = {
                 name: 'Result',
                 description: 'Operations related to result'
             },
+            {
+                name: 'VerificationScore',
+                description: 'Operations related to verification score'
+            },
         ],
          components: {
              schemas: {
@@ -203,6 +207,9 @@ const options = {
                          createdAt: {
                              type: 'string',
                              format: 'date-time',
+                         },
+                         voicePath: {
+                             type: 'string',
                          },
                      },
                  },
@@ -864,6 +871,18 @@ const options = {
                          },
                          status: {
                              $ref: '#/components/schemas/InvoiceStatus'
+                         },
+                     },
+                 },
+                 VerificationScore: {
+                     type: 'object',
+                     properties: {
+                         userId: {
+                             type: 'string',
+                             format: 'uuid',
+                         },
+                         value: {
+                             type: 'string'
                          },
                      },
                  },

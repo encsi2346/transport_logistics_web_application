@@ -54,6 +54,7 @@ export const createUser = async (req, res) => {
             lineManager,
             healthProblem,
             createdAt,
+            voicePath,
         } = req.body;
         const newUser = new User({
             userId,
@@ -87,6 +88,7 @@ export const createUser = async (req, res) => {
             lineManager,
             healthProblem,
             createdAt,
+            voicePath,
         });
         const savedUser = await newUser.save();
         res.status(201).json(savedUser);
@@ -134,6 +136,7 @@ export const updateUser = async (req, res) => {
             user.lineManager = req.body.lineManager;
             user.healthProblem = req.body.healthProblem;
             user.createdAt = req.body.createdAt;
+            user.voicePath = req.body.voicePath;
         }
         const updatedUser = await user.save();
         res.json(updatedUser);
