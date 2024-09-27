@@ -1,4 +1,4 @@
-export enum DocumentType {
+export enum DocumentType { //Dokumentum típusok
     TRANSPORT_BILL = 'transport_bill',
     DELIVERY_BILL = 'delivery_bill',
     INVOICE = 'invoice',

@@ -1,4 +1,4 @@
-export enum RouteStatus {
+export enum RouteStatus { //Fuvar állapota
     ONGOING = 'ongoing',
     COMPLETED = 'completed',
     DELETED = 'deleted',

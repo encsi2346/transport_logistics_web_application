@@ -1,4 +1,4 @@
-export enum DocumentStatus {
+export enum DocumentStatus { //Dokumentum állapota
     MISSING = 'missing',
     UPLOADED = 'uploaded',
     WAITING_FOR_UPLOAD = 'waiting_for_upload',
