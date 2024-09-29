@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import Address from "./Address.js";
-import {RouteStatus} from "./enums/RouteStatus.ts";
+import {RouteStatus} from "./states/RouteStatus.ts";
 
 const routeSchema = new mongoose.Schema({
     routeId: String,

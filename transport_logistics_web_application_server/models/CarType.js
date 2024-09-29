@@ -1,15 +1,20 @@
 import mongoose from 'mongoose';
+import {FuelType} from "./enums/FuelType.js";
 
 const carTypeSchema = new mongoose.Schema({
-    //TODO márka, típus, szállítóeszköz típusa, vontatás, raktér
     carTypeId: String,
-    name: String,
+    brand: String, //márka
+    typeName: String, //típus neve
     design: String, //kivitel
-    performance: Number, //teljesítmény
+    performance: String, //teljesítmény
     selfWeight: Number, //saját tömeg
-    numberOfSeats: Number, //ülések száma
-    fuel: String, //üzemanyag
     usefulWeight: Number, //hasznos teher
+    numberOfSeats: Number, //ülések száma
+    fuel: FuelType, //üzemanyag
+    vontatas: Number, //TODO: angolul
+    height: Number, //magasság
+    szelesseg: Number, //szelesseg
+    long: Number, //hosszúság
 });
 
 const CarType = mongoose.model('CarType', carTypeSchema);

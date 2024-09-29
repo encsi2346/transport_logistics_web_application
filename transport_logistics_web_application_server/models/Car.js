@@ -4,16 +4,16 @@ import CarType from "./CarType.js";
 const carSchema = new mongoose.Schema({
     carId: String,
     name: String,
-    type: CarType,
+    type: CarType, //kiválasztott típus
     licencePlate: String, //rendszám
     numberOfRegistrationLicence: String, //forgalmi engedély száma
     chassisNumber: String, //alvázszám
-    yearOfProduction: Number, //gyártási év
-    dateOfFirstRegistration: Number, //első nyilvántartásba vétel
+    yearOfProduction: Date, //gyártási év //TODO: date vagy int?
+    dateOfFirstRegistration: Date, //első nyilvántartásba vétel
     images: [String], //képek
-    dateOfDatabaseRegistration: Number, //adatbázis regisztráció dátuma
-    dateOfLastTechnicalExamination: Number, //legutóbbi műszaki vizsga időpontja
-    dateOfLastService: Number, //legutóbbi szervíz időpontja
+    dateOfDatabaseRegistration: Date, //adatbázis regisztráció dátuma
+    dateOfLastTechnicalExamination: Date, //legutóbbi műszaki vizsga időpontja
+    dateOfLastService: Date, //legutóbbi szervíz időpontja
     totalDrivenKm: Number, //összes megtett km
     totalTransport: Number, //összes végrehajtott szállítás
 });

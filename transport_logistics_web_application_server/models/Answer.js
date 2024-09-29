@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
-import {AnswerOption} from "./enums/AnswerOption.ts";
+import {AnswerOptionType} from "./enums/AnswerOptionType.ts";
 
 const answerSchema = new mongoose.Schema({
     answerId: String,
-    requestId: String,
-    answerOption: AnswerOption,
-    reason: String,
-    userId: String,
+    requestId: String, //kérés azonosítója
+    answerOption: AnswerOptionType, //válasz
+    reason: String, //indoklás
+    userId: String, //válaszoló user
 });
 
 const Answer = mongoose.model('Answer', answerSchema);

@@ -1,15 +1,14 @@
 import mongoose from 'mongoose';
-import {InvoiceStatus} from "./enums/InvoiceStatus.ts";
+import {InvoiceStatus} from "./states/InvoiceStatus.ts";
 
 const invoiceSchema = new mongoose.Schema({
-    invoiceId: String,
-    orderId: String,
-    companyId: String,
-    companyName: String,
-    dateOfCreation: String,
-    deadlineForPayment: String,
-    price: String,
-    status: InvoiceStatus,
+    invoiceId: String, //számla azonosító
+    orderId: String, //rendelés azonosító
+    companyId: String, //megrendelő azonosító
+    dateOfCreation: Date, //létrehozás dátuma
+    deadlineForPayment: Date, //fizetési határidő
+    price: String, //összeg
+    status: InvoiceStatus, //állapot
 });
 
 const Invoice = mongoose.model('Invoice', invoiceSchema);

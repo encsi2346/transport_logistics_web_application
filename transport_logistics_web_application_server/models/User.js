@@ -2,19 +2,19 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
     userId: String,
-    firstName: {
+    firstName: { //keresztnév
         type: String,
         required: false,
         min: 2,
         max: 50,
     },
-    familyName: {
+    familyName: { //vezetéknév
         type: String,
         required: false,
         min: 2,
         max: 50,
     },
-    email: {
+    email: { //Email
         type: String,
         required: true,
         max: 50,
@@ -25,36 +25,37 @@ const UserSchema = new mongoose.Schema({
         required: true,
         min: 5,
     },
-    picturePath: {
+    picturePath: { //TODO:törlés
         type: String,
         default: "",
     },
-    gender: String,
-    nationality: String,
-    birthPlace: String,
-    birthDate: String,
-    IDCardNumber: String,
-    validityDateOfIDCard: String,
-    drivingLicenceNumber: String,
-    drivingLicenceCategories: String,
-    validityDateOfDrivingLicence: String,
-    dateOfMedicalVisit: String,
-    validityDateOfMedicalVisit: String,
-    phoneNumber: Number,
-    country: String,
-    postcode: Number,
-    city: String,
-    nameOfPublicArea: String,
-    typeOfPublicArea: String,
-    houseNumber: String,
-    dateOfRegistration: String,
-    startDateOfContract: String,
-    endDateOfContract: String,
-    position: String,
-    lineManager: String,
-    healthProblem: String,
-    createdAt: String,
-    voicePath: String,
+    images: [String], //képek
+    gender: String, //nem
+    nationality: String, //állampolgárság
+    birthPlace: String, //születési hely
+    birthDate: Date, //születési idő
+    IDCardNumber: String, //Személyigazolvány szám
+    validityDateOfIDCard: Date, //Személyigazolvány érvényessége
+    drivingLicenceNumber: String, //Jogosítvány száma
+    drivingLicenceCategories: String, //Jogosítvány kategóriák
+    validityDateOfDrivingLicence: Date, //Jogosítvány érvényessége
+    dateOfMedicalVisit: String, //Orvosi alkalmassági érvényessége
+    medicalVisitStatus: String, //Orvosi alkalmassági állapota
+    phoneNumber: Number, //Telefonszám
+    country: String, //Ország
+    postcode: Number, //Irányítószám
+    city: String, //Település
+    nameOfPublicArea: String, //Közterület neve
+    typeOfPublicArea: String, //Közterület jellege
+    houseNumber: String, //Házszám
+    dateOfRegistration: String, //Regisztráció dátuma
+    startDateOfContract: String, //Szerződés kezdete
+    endDateOfContract: String, //Szerződés vége
+    position: String, //Pozíció/Beosztás
+    lineManager: User, //felettes
+    healthProblem: String, //Egészségügyi problémák
+    //createdAt: String, //TODO:iődsor?
+    //voicePath: String, //TODO: idősor?
 }, { timestamps: true } );
 
 const User = mongoose.model("User", UserSchema);

@@ -1,17 +1,19 @@
 import mongoose from 'mongoose';
-import {ProductStatus} from "./enums/ProductStatus.ts";
+import {ProductStatus} from "./states/ProductStatus.ts";
 import ProductCategory from "./ProductCategory.js";
+import {Double} from "mongodb";
 
 const productSchema = new mongoose.Schema({
     productId: String,
-    name: String,
-    description: String,
-    category: ProductCategory,
+    name: String, //termék neve
+    description: String, //leírás
+    category: ProductCategory, //kategória
     articleNumber: Number, //Cikkszám
     barcode: Number, //Vonalkód
     selfWeight: Number, //Önsúly
     maxNumberOfItems: Number, //Max darabszám
     currentNumberOfItems: Number, //Jelenlegi darabszám
+    szazalek: Double, //készletszázalék TODO: angolul
     status: ProductStatus, //Állapot
 });
 
