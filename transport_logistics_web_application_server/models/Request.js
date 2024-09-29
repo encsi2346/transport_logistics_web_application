@@ -4,7 +4,7 @@ import {RequestStatus} from "./states/RequestStatus.ts";
 const requestSchema = new mongoose.Schema({
     requestId: String,
     title: String, //tárgy
-    typeOfRequest: RequestStatus, //kérés típusa
+    typeOfRequest: RequestStatus, //kérés típusa //TODO
     selectedDate: String, //érintett munkanap
     reason: String, //indoklás
     status: RequestStatus, //állapot

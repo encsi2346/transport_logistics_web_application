@@ -1,4 +1,4 @@
 export enum FuelType { //Üzemanyag típusok
-    a = 'a', //TODO: kigyűjteni angolul
-    b = 'b',
+    A = 'a', //TODO: kigyűjteni angolul
+    B = 'b',
 }

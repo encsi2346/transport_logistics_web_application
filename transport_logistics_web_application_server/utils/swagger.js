@@ -1,4 +1,13 @@
 import swaggerJSDoc from 'swagger-jsdoc'
+import {ProductStatus} from "../models/states/ProductStatus.js";
+import {AnswerOptionType} from "../models/enums/AnswerOptionType.js";
+import {AnswerObjectType} from "../models/enums/AnswerObjectType.js";
+import {MedicalVisitStatus} from "../models/states/MedicalVisitStatus.js";
+import {TechnicalExamStatus} from "../models/states/TechnicalExamStatus.js";
+import {DrivingLicenceType} from "../models/enums/DrivingLicenceType.js";
+import {FuelType} from "../models/enums/FuelType.js";
+import {GenderType} from "../models/enums/GenderType.js";
+import {PositionType} from "../models/enums/PositionType.js";
 
 const options = {
     definition: {
@@ -128,6 +137,12 @@ const options = {
                          picturePath: {
                              type: 'string',
                          },
+                         images: {
+                             type: 'array',
+                             items: {
+                                 $ref: 'string', //TODO: ez így szerintem nem jó
+                             }
+                         },
                          gender: {
                              type: 'string',
                          },
@@ -159,7 +174,7 @@ const options = {
                          dateOfMedicalVisit: {
                              type: 'string',
                          },
-                         validityDateOfMedicalVisit: {
+                         medicalVisitStatus: {
                              type: 'string',
                          },
                          phoneNumber: {
@@ -204,13 +219,13 @@ const options = {
                          healthProblem: {
                              type: 'string',
                          },
-                         createdAt: {
+                         /*createdAt: {
                              type: 'string',
                              format: 'date-time',
                          },
                          voicePath: {
                              type: 'string',
-                         },
+                         },*/
                      },
                  },
                  ProductCategory: {
@@ -225,6 +240,9 @@ const options = {
                          },
                          description: {
                              type: 'string',
+                         },
+                         status: {
+                             $ref: '#/components/schemas/ProductStatus',
                          },
                      },
                  },
@@ -259,6 +277,9 @@ const options = {
                          currentNumberOfItems: {
                              type: 'integer',
                          },
+                         szazalek: {
+                             type: 'double',
+                         },
                          status: {
                              $ref: '#/components/schemas/ProductStatus',
                          },
@@ -271,7 +292,10 @@ const options = {
                              type: 'string',
                              format: 'uuid',
                          },
-                         name: {
+                         typeName: {
+                             type: 'string',
+                         },
+                         brand: {
                              type: 'string',
                          },
                          design: {
@@ -290,6 +314,18 @@ const options = {
                              type: 'string',
                          },
                          usefulWeight: {
+                             type: 'integer',
+                         },
+                         vontatas: {
+                             type: 'integer',
+                         },
+                         height: {
+                             type: 'integer',
+                         },
+                         szelesseg: {
+                             type: 'integer',
+                         },
+                         long: {
                              type: 'integer',
                          },
                      },
@@ -425,6 +461,9 @@ const options = {
                          title: {
                              type: 'string',
                          },
+                         typeOfRequest: {
+                             $ref: '#/components/schemas/RequestStatus',
+                         },
                          selectedDate: {
                              type: 'string',
                              format: 'date-time',
@@ -457,7 +496,7 @@ const options = {
                              format: 'uuid',
                          },
                          answerOption: {
-                             $ref: '#/components/schemas/AnswerOption',
+                             $ref: '#/components/schemas/AnswerOptionType',
                          },
                          reason: {
                              type: 'string',
@@ -746,6 +785,9 @@ const options = {
                          phoneNumber: {
                              type: 'string'
                          },
+                         address: {
+                             $ref: '#/components/schemas/Address',
+                         },
                          contactPersonName: {
                              type: 'string'
                          }
@@ -840,6 +882,12 @@ const options = {
                          status: {
                              $ref: '#/components/schemas/DocumentStatus',
                          },
+                         creator: {
+                             $ref: '#/components/schemas/User',
+                         },
+                         size: {
+                             type: 'integer'
+                         },
                      },
                  },
                  Invoice: { /*TODO: ehhez meg kell néznem pontosan milyen adatok kellenek realben*/
@@ -856,9 +904,6 @@ const options = {
                          companyId: {
                              type: 'string',
                              format: 'uuid',
-                         },
-                         companyName: {
-                             type: 'string'
                          },
                          dateOfCreation: {
                              type: 'string'
@@ -889,7 +934,7 @@ const options = {
                  CommentType: {
                      type: 'string',
                      enum: [
-                         'ERR',
+                         'ERROR',
                          'WARNING',
                          'INFO',
                      ],
@@ -897,75 +942,130 @@ const options = {
                  ProductStatus: {
                      type: 'string',
                      enum: [
-                         'IN_STOCK', /*készleten*/
-                         'STOCK_SHORTAGE', /*készlethiány*/
+                         'IN_STOCK',
+                         'STOCK_SHORTAGE',
                      ],
                  },
                  RequestStatus: {
                      type: 'string',
                      enum: [
-                         'DRAFT', /*Piszkozat*/
-                         'PENDING', /*Függőben*/
-                         'ACCEPTED', /*Elfogadva*/
-                         'REFUSED', /*Elutasítva*/
+                         'DRAFT',
+                         'PENDING',
+                         'ACCEPTED',
+                         'REFUSED',
+                         'DELETED',
                      ],
                  },
-                 AnswerOption: {
+                 AnswerOptionType: {
                      type: 'string',
                      enum: [
                          'ACCEPT',
                          'REFUSE',
                      ],
                  },
+                 AnswerObjectType: {
+                     type: 'string',
+                     enum: [
+                         'PERSONAL',
+                         'B',
+                         'OVERTIME',
+                         'SHORTER_WORKDAY',
+                         'OTHER',
+                     ],
+                 },
                  OrderStatus: {
                      type: 'string',
                      enum: [
-                         'ONGOING', /*folyamatban*/
-                         'COMPLETED', /*teljesített*/
-                         'DELETED', /*törölt*/
-                         'ORDERED', /*megrendelve*/
+                         'ONGOING',
+                         'COMPLETED',
+                         'DELETED',
+                         'ORDERED',
+                         'PENDING',
                      ],
                  },
                  RouteStatus: {
                      type: 'string',
                      enum: [
-                         'ONGOING', /*folyamatban*/
-                         'COMPLETED', /*teljesített*/
-                         'DELETED', /*törölve*/
-                         'PENDING', /*teljesítésre vár*/
-                         'SKIPPED', /*kihagyva*/
+                         'ONGOING',
+                         'COMPLETED',
+                         'DELETED',
+                         'PENDING',
+                         'SKIPPED',
                      ],
                  },
                  DocumentType: {
                      type: 'string',
                      enum: [
-                         'TRANSPORT_BILL', /*fuvarlevél*/
-                         'DELIVERY_BILL', /*szállítólevél*/
-                         'INVOICE', /*számla*/
-                         'JOURNEY_BILL', /*menetlevél*/
-                         'DRIVING_LICENCE', /*jogosítvány*/
-                         'ADDRESS_CARD', /*lakcímkártya*/
-                         'PASSPORT', /*útlevél*/
-                         'HEALTH_CARD', /*taj kártya*/
-                         'OTHER', /*egyéb*/
+                         'TRANSPORT_BILL',
+                         'DELIVERY_BILL',
+                         'INVOICE',
+                         'JOURNEY_BILL',
+                         'DRIVING_LICENCE',
+                         'ADDRESS_CARD',
+                         'PASSPORT',
+                         'HEALTH_CARD',
+                         'OTHER',
                      ],
                  },
                  DocumentStatus: {
                      type: 'string',
                      enum: [
-                         'MISSING', /*hiányzik*/
-                         'UPLOADED', /*feltöltve*/
-                         'WAITING_FOR_UPLOAD', /*feltöltésre vár*/
-                         'WILL_BE_GENERATED', /*generálódik*/
+                         'MISSING',
+                         'UPLOADED',
+                         'WAITING_FOR_UPLOAD',
+                         'WILL_BE_GENERATED',
                      ],
                  },
                  InvoiceStatus: {
                      type: 'string',
                      enum: [
-                         'CREATED_BY', /*létrehozva*/
-                         'PAID', /*fizetve*/
-                         'WAITING_FOR_PAYMENT', /*fizetésre vár*/
-                         'DELETED', /*törölve*/
+                         'CREATED_BY',
+                         'PAID',
+                         'WAITING_FOR_PAYMENT',
+                         'DELETED',
+                     ],
+                 },
+                 MedicalVisitStatus: {
+                     type: 'string',
+                     enum: [
+                         'DOWN', //TODO
+                         'UP',
+                     ],
+                 },
+                 TechnicalExamStatus: {
+                     type: 'string',
+                     enum: [
+                         'DOWN', //TODO
+                         'UP',
+                     ],
+                 },
+                 DrivingLicenceType: {
+                     type: 'string',
+                     enum: [
+                         'A', //TODO
+                         'B',
+                         'C',
+                     ],
+                 },
+                 FuelType: {
+                     type: 'string',
+                     enum: [
+                         'A', //TODO
+                         'B',
+                     ],
+                 },
+                 GenderType: {
+                     type: 'string',
+                     enum: [
+                         'FEMALE', //TODO
+                         'MALE',
+                     ],
+                 },
+                 PositionType: {
+                     type: 'string',
+                     enum: [
+                         'DRIVER', //TODO
+                         'HR',
                      ],
                  },
              },
