@@ -1068,6 +1068,16 @@ const options = {
                          'HR',
                      ],
                  },
+                 Roles: {
+                     type: 'string',
+                     enum: [
+                         'DRIVER', //TODO
+                         'HR',
+                         'ADMIN',
+                         'FUVARSZERVEZO',
+                         'RAKTAROS',
+                     ],
+                 },
              },
         },
     },
