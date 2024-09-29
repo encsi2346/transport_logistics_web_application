@@ -28,6 +28,8 @@ export const createDocument = async (req, res) => {
             title,
             timeStamp,
             status,
+            creator,
+            size
         } = req.body;
         const newDocument = new Document({
             documentId,
@@ -35,6 +37,8 @@ export const createDocument = async (req, res) => {
             title,
             timeStamp,
             status,
+            creator,
+            size
         });
         const savedDocument = await newDocument.save();
         res.status(201).json(savedDocument);
@@ -56,6 +60,8 @@ export const updateDocument = async (req, res) => {
             document.title = req.body.title;
             document.timeStamp = req.body.timeStamp;
             document.status = req.body.status;
+            document.creator = req.body.creator;
+            document.size = req.body.size;
         }
         const updatedDocument = await document.save();
         res.json(updatedDocument);

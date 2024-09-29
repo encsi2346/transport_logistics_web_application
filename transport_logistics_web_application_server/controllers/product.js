@@ -32,7 +32,8 @@ export const createProduct = async (req, res) => {
             selfWeight,
             maxNumberOfItems,
             currentNumberOfItems,
-            status
+            status,
+            szazalek
         } = req.body;
         const newProduct = new Product({
             productId,
@@ -44,7 +45,8 @@ export const createProduct = async (req, res) => {
             selfWeight,
             maxNumberOfItems,
             currentNumberOfItems,
-            status
+            status,
+            szazalek
         });
         const savedProduct = await newProduct.save();
         res.status(201).json(savedProduct);
@@ -71,8 +73,9 @@ export const updateProduct = async (req, res) => {
             product.maxNumberOfItems = req.body.maxNumberOfItems;
             product.currentNumberOfItems = req.body.currentNumberOfItems;
             product.status = req.body.status;
+            product.szazalek = req.body.szazalek;
         }
-        const updatedProduct = await product.save();
+        const updatedProduct = await Product.save();
         res.json(updatedProduct);
     } catch (error) {
         res.status(400).json({ message: error.message });

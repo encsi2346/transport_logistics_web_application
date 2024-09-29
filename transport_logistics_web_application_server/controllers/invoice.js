@@ -25,7 +25,7 @@ export const createInvoice = async (req, res) => {
         const {
             invoiceId,
             orderId,
-            companyName,
+            companyId,
             dateOfCreation,
             deadlineForPayment,
             price,
@@ -34,7 +34,7 @@ export const createInvoice = async (req, res) => {
         const newInvoice = new Invoice({
             invoiceId,
             orderId,
-            companyName,
+            companyId,
             dateOfCreation,
             deadlineForPayment,
             price,
@@ -57,13 +57,13 @@ export const updateInvoice = async (req, res) => {
         if (req.body.invoiceId) {
             invoice.invoiceId = req.body.invoiceId;
             invoice.orderId = req.body.orderId;
-            invoice.companyName = req.body.companyName;
+            invoice.companyId = req.body.companyId;
             invoice.dateOfCreation = req.body.dateOfCreation;
             invoice.deadlineForPayment = req.body.deadlineForPayment;
             invoice.price = req.body.price;
             invoice.status = req.body.status;
         }
-        const updatedInvoice = await invoice.save();
+        const updatedInvoice = await Invoice.save();
         res.json(updatedInvoice);
     } catch (error) {
         res.status(400).json({ message: error.message });

@@ -24,23 +24,33 @@ export const createCarType = async (req, res) => {
     try {
         const {
             carTypeId,
-            name,
+            brand,
+            typeName,
             design,
             performance,
             selfWeight,
             numberOfSeats,
             fuel,
-            usefulWeight
+            usefulWeight,
+            vontatas,
+            height,
+            szelesseg,
+            long
         } = req.body;
         const newCarType = new CarType({
             carTypeId,
-            name,
+            brand,
+            typeName,
             design,
             performance,
             selfWeight,
             numberOfSeats,
             fuel,
-            usefulWeight
+            usefulWeight,
+            vontatas,
+            height,
+            szelesseg,
+            long
         });
         const savedCarType = await newCarType.save();
         res.status(201).json(savedCarType);
@@ -58,13 +68,18 @@ export const updateCarType = async (req, res) => {
         }
         if (req.body.carTypeId) {
             carType.carTypeId = req.body.carTypeId;
-            carType.name = req.body.name;
+            carType.brand = req.body.brand;
+            carType.typeName = req.body.typeName;
             carType.design = req.body.design;
             carType.performance = req.body.performance;
             carType.selfWeight = req.body.selfWeight;
             carType.numberOfSeats = req.body.numberOfSeats;
             carType.fuel = req.body.fuel;
             carType.usefulWeight = req.body.usefulWeight;
+            carType.vontatas = req.body.vontatas;
+            carType.height = req.body.height;
+            carType.szelesseg = req.body.szelesseg;
+            carType.long = req.body.long;
         }
         const updatedCarType = await carType.save();
         res.json(updatedCarType);

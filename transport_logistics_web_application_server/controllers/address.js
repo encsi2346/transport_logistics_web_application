@@ -63,7 +63,7 @@ export const updateAddress = async (req, res) => {
             address.typeOfPublicArea = req.body.typeOfPublicArea;
             address.houseNumber = req.body.houseNumber;
         }
-        const updatedAddress = await address.save();
+        const updatedAddress = await Address.save(); //TODO: save vagy update
         res.json(updatedAddress);
     } catch (error) {
         res.status(400).json({ message: error.message });

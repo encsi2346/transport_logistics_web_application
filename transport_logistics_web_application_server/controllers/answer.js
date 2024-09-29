@@ -25,14 +25,16 @@ export const createAnswer = async (req, res) => {
         const {
             answerId,
             requestId,
-            status,
+            answerOption,
             reason,
+            userId,
         } = req.body;
         const newAnswer = new Answer({
             answerId,
             requestId,
-            status,
+            answerOption,
             reason,
+            userId,
         });
         const savedAnswer = await newAnswer.save();
         res.status(201).json(savedAnswer);
@@ -51,8 +53,9 @@ export const updateAnswer = async (req, res) => {
         if (req.body.answerId) {
             answer.answerId = req.body.answerId;
             answer.requestId = req.body.requestId;
-            answer.status = req.body.status;
+            answer.answerOption = req.body.answerOption;
             answer.reason = req.body.reason;
+            answer.userId = req.body.userId;
         }
         const updatedAnswer = await answer.save();
         res.json(updatedAnswer);

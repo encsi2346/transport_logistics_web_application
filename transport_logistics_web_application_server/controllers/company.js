@@ -23,18 +23,20 @@ export const createCompany = async (req, res) => {
     console.log('req', req);
     try {
         const {
-            carId,
+            companyId,
             companyName,
             email,
             phoneNumber,
             contactPersonName,
+            address,
         } = req.body;
         const newCompany = new Company({
-            carId,
+            companyId,
             companyName,
             email,
             phoneNumber,
             contactPersonName,
+            address,
         });
         const savedCompany = await newCompany.save();
         res.status(201).json(savedCompany);
@@ -50,12 +52,13 @@ export const updateCompany = async (req, res) => {
         if (!company) {
             return res.status(404).json({ message: 'Company not found' });
         }
-        if (req.body.carId) {
-            company.carId = req.body.carId;
+        if (req.body.companyId) {
+            company.companyId = req.body.companyId;
             company.companyName = req.body.companyName;
             company.email = req.body.email;
             company.phoneNumber = req.body.phoneNumber;
             company.contactPersonName = req.body.contactPersonName;
+            company.address = req.body.address;
         }
         const updatedCompany = await company.save();
         res.json(updatedCompany);

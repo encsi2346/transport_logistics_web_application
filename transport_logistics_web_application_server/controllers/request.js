@@ -25,6 +25,7 @@ export const createRequest = async (req, res) => {
         const {
             requestId,
             title,
+            typeOfRequest,
             selectedDate,
             reason,
             status,
@@ -34,6 +35,7 @@ export const createRequest = async (req, res) => {
         const newRequest = new Request({
             requestId,
             title,
+            typeOfRequest,
             selectedDate,
             reason,
             status,
@@ -57,6 +59,7 @@ export const updateRequest = async (req, res) => {
         if (req.body.requestId) {
             request.requestId = req.body.requestId;
             request.title = req.body.title;
+            request.typeOfRequest = req.body.typeOfRequest;
             request.selectedDate = req.body.selectedDate;
             request.reason = req.body.reason;
             request.status = req.body.status;

@@ -29,6 +29,7 @@ export const createUser = async (req, res) => {
             email,
             password,
             picturePath,
+            images,
             gender,
             nationality,
             birthPlace,
@@ -39,7 +40,7 @@ export const createUser = async (req, res) => {
             drivingLicenceCategories,
             validityDateOfDrivingLicence,
             dateOfMedicalVisit,
-            validityDateOfMedicalVisit,
+            medicalVisitStatus,
             phoneNumber,
             country,
             postcode,
@@ -53,8 +54,8 @@ export const createUser = async (req, res) => {
             position,
             lineManager,
             healthProblem,
-            createdAt,
-            voicePath,
+            //createdAt,
+            //voicePath,
         } = req.body;
         const newUser = new User({
             userId,
@@ -63,6 +64,7 @@ export const createUser = async (req, res) => {
             email,
             password,
             picturePath,
+            images,
             gender,
             nationality,
             birthPlace,
@@ -73,7 +75,7 @@ export const createUser = async (req, res) => {
             drivingLicenceCategories,
             validityDateOfDrivingLicence,
             dateOfMedicalVisit,
-            validityDateOfMedicalVisit,
+            medicalVisitStatus,
             phoneNumber,
             country,
             postcode,
@@ -87,8 +89,8 @@ export const createUser = async (req, res) => {
             position,
             lineManager,
             healthProblem,
-            createdAt,
-            voicePath,
+            //createdAt,
+            //voicePath,
         });
         const savedUser = await newUser.save();
         res.status(201).json(savedUser);
@@ -111,6 +113,7 @@ export const updateUser = async (req, res) => {
             user.email = req.body.email;
             user.password = req.body.password;
             user.picturePath = req.body.picturePath;
+            user.images = req.body.images;
             user.gender = req.body.gender;
             user.nationality = req.body.nationality;
             user.birthPlace = req.body.birthPlace;
@@ -121,7 +124,7 @@ export const updateUser = async (req, res) => {
             user.drivingLicenceCategories = req.body.drivingLicenceCategories;
             user.validityDateOfDrivingLicence = req.body.validityDateOfDrivingLicence;
             user.dateOfMedicalVisit = req.body.dateOfMedicalVisit;
-            user.validityDateOfMedicalVisit = req.body.validityDateOfMedicalVisit;
+            user.medicalVisitStatus = req.body.medicalVisitStatus;
             user.phoneNumber = req.body.phoneNumber;
             user.country = req.body.country;
             user.postcode = req.body.postcode;
@@ -135,8 +138,8 @@ export const updateUser = async (req, res) => {
             user.position = req.body.position;
             user.lineManager = req.body.lineManager;
             user.healthProblem = req.body.healthProblem;
-            user.createdAt = req.body.createdAt;
-            user.voicePath = req.body.voicePath;
+            //user.createdAt = req.body.createdAt;
+            //user.voicePath = req.body.voicePath;
         }
         const updatedUser = await user.save();
         res.json(updatedUser);

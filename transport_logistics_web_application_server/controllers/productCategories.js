@@ -25,12 +25,14 @@ export const createProductCategory = async (req, res) => {
         const {
             productCategoryId,
             name,
-            description
+            description,
+            status
         } = req.body;
         const newProductCategory = new ProductCategory({
             productCategoryId,
             name,
-            description
+            description,
+            status
         });
         const savedProductCategory = await newProductCategory.save();
         res.status(201).json(savedProductCategory);
@@ -50,6 +52,7 @@ export const updateProductCategory = async (req, res) => {
             productCategory.productCategoryId = req.body.productCategoryId;
             productCategory.name = req.body.name;
             productCategory.description = req.body.description;
+            productCategory.status = req.body.status;
         }
         const updatedProductCategory = await productCategory.save();
         res.json(updatedProductCategory);
