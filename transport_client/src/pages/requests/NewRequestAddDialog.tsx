@@ -17,10 +17,11 @@ import {useNavigate, useParams} from "react-router-dom";
 import BackgroundCard from "../../components/layout/BackgroundCard";
 import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation';
 import TextFieldInput from '../../components/inputField/TextFieldInput';
-import DatePickerInput from "../../components/inputField/DatePickerInput";
+//import DatePickerInput from "../../components/inputField/DatePickerInput";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SelectInput from "../../components/inputField/SelectInput";
 import {RequestEditFormSchema, requestEditFormSchema} from "./schemas/request-edit-form-schema";
+import DataCard from "@/components/layout/DataCard";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -135,77 +136,89 @@ const NewRequestAddDialog = NiceModal.create(
                 <DialogContent>
                     <Box>
                         <BackgroundCard>
-                            <Grid item container direction="column" spacing={2}>
-                                <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                    <Grid item xs={4} md={5}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <TextFieldInput
-                                                label={t('TEXT.SUBJECT')}
-                                                control={control}
-                                                name='subject'
-                                                type='text'
-                                                data-testid='subject-input'
-                                                required
-                                            />
-                                        </Box>
+                            <DataCard>
+                                <Grid item container direction="column" spacing={2}>
+                                    <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                        <Grid item xs={4} md={5}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                                <TextFieldInput
+                                                    label={t('REQUEST.OBJECT')}
+                                                    control={control}
+                                                    name='subject'
+                                                    type='text'
+                                                    data-testid='subject-input'
+                                                    required
+                                                />
+                                            </Box>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                                <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                    <Grid item xs={4} md={5}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <DatePickerInput
-                                                label={t('TEXT.AFFECTED_WORKING_DAY')}
-                                                control={control}
-                                                name='affectedWorkingDay'
-                                                data-testid='affected-working-day-input'
-                                                required
-                                            />
-                                        </Box>
+                                    <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                        <Grid item xs={4} md={5}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                                {/*
+                                                TODO: change to datepicker
+                                                <DatePickerInput
+                                                    label={t('REQUEST.AFFECTED_WORKING_DAY')}
+                                                    control={control}
+                                                    name='affectedWorkingDay'
+                                                    data-testid='affected-working-day-input'
+                                                    required
+                                                />*/}
+                                                <TextFieldInput
+                                                    label={t('REQUEST.REASON')}
+                                                    control={control}
+                                                    name='reason'
+                                                    type='text'
+                                                    data-testid='reason-input'
+                                                    required
+                                                />
+                                            </Box>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                                <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                    <Grid item xs={4} md={5}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <TextFieldInput
-                                                label={t('TEXT.REASON')}
-                                                control={control}
-                                                name='reason'
-                                                type='text'
-                                                data-testid='reason-input'
-                                                required
-                                            />
-                                        </Box>
+                                    <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                        <Grid item xs={4} md={5}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                                <TextFieldInput
+                                                    label={t('REQUEST.REASON')}
+                                                    control={control}
+                                                    name='reason'
+                                                    type='text'
+                                                    data-testid='reason-input'
+                                                    required
+                                                />
+                                            </Box>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                                <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                    <Grid item xs={4} md={5}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <SelectInput
-                                                label={t('TEXT.STATUS')}
-                                                control={control}
-                                                name='status'
-                                                data-testid='status-input'
-                                                //options={enumToOptions(userRoles)} //TODO
-                                                required
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment position='end'>
-                                                            <IconButton onClick={() => setValue('status', undefined)} edge="end" >
-                                                                <ClearRoundedIcon />
-                                                            </IconButton>
-                                                        </InputAdornment>
-                                                    ),
-                                                    sx: {
-                                                        '.MuiSelect-icon': {
-                                                            display: 'none',
+                                    <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                        <Grid item xs={4} md={5}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                                <SelectInput
+                                                    label={t('REQUEST.STATUS')}
+                                                    control={control}
+                                                    name='status'
+                                                    data-testid='status-input'
+                                                    //options={enumToOptions(userRoles)} //TODO
+                                                    required
+                                                    InputProps={{
+                                                        endAdornment: (
+                                                            <InputAdornment position='end'>
+                                                                <IconButton onClick={() => setValue('status', undefined)} edge="end" >
+                                                                    <ClearRoundedIcon />
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        ),
+                                                        sx: {
+                                                            '.MuiSelect-icon': {
+                                                                display: 'none',
+                                                            },
                                                         },
-                                                    },
-                                                }}
-                                            />
-                                        </Box>
+                                                    }}
+                                                />
+                                            </Box>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
+                            </DataCard>
                         </BackgroundCard>
                     </Box>
                 </DialogContent>
