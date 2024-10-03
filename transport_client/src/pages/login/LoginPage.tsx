@@ -10,6 +10,7 @@ import {useDispatch} from "react-redux";
 import {setLogin} from "@/state";
 import { Formik } from "formik";
 import * as yup from "yup";
+import {useTypeSafeTranslation} from "@/hooks/useTypeSafeTranslation";
 
 const registerSchema = yup.object().shape({
     email: yup.string().email("invalid email").required("required"),

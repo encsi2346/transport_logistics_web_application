@@ -66,7 +66,7 @@ const TransportationShipment = () => {
     const { control, isValid, preValidationError, onSubmit} = useTransportationShipment();
 
     const handleCancelClicked = () => {
-        navigate('..');
+        navigate(-1);
     };
     const [itemContainer, setItemContainer] = useState<Container>({
         id: "itemContainer",
@@ -290,7 +290,7 @@ const deleteContainer = (id: Id) => {
                                     <Box sx={{ width: 300, height: 600}}>
                                         <BackgroundCard>
                                             <SelectInput
-                                                label={t('TEXT.PRODUCT_CATEGORY')}
+                                                label={t('TRANSPORTATIONS.PRODUCT_CATEGORY')}
                                                 control={control}
                                                 name='productCategory'
                                                 data-testid='product-category-input'
@@ -381,7 +381,7 @@ const deleteContainer = (id: Id) => {
                                                 </Grid>
                                             </Grid>
                                             {!isStepDone && (
-                                                <Box sx={{ display: 'block', paddingLeft: 95, marginTop: 13, marginBottom: -3}}>
+                                                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                                                     <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
                                                     <SaveButton text={t('TEXT.NEXT')}  disabled={!isValid || !isActiveStep} onClick={onSubmit}/>
                                                 </Box>

@@ -15,11 +15,11 @@ const TransportationDriver = () => {
     const navigate = useNavigate();
     const [positions, setPositions] = useState([
         {
-            label: `${t('TEXT.DRIVER')}`,
+            label: `${t('TRANSPORTATIONS.DRIVER')}`,
             value: 1
         },
         {
-            label: `${t('TEXT.PASSENGER')}`,
+            label: `${t('TRANSPORTATIONS.PASSENGER')}`,
             value: 2
         }
     ]);
@@ -59,7 +59,7 @@ const TransportationDriver = () => {
     const { control, isValid, preValidationError, onSubmit} = useTransportationDriver();
 
     const handleCancelClicked = () => {
-        navigate('..');
+        navigate(-1);
     };
 
     const dragStartHandler = (
@@ -98,7 +98,7 @@ const TransportationDriver = () => {
                             <Box sx={{ width: 300, height: 500}}>
                                 <BackgroundCard>
                                     <SelectInput
-                                        label={t('TEXT.POSITION')}
+                                        label={t('TRANSPORTATIONS.POSITION')}
                                         control={control}
                                         name='userPosition'
                                         data-testid='user-position-input'
@@ -223,7 +223,7 @@ const TransportationDriver = () => {
                                         </Grid>
                                     </Grid>
                                     {!isStepDone && (
-                                        <Box sx={{ display: 'block', paddingLeft: 95, marginTop: 3, marginBottom: -3}}>
+                                        <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                                             <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
                                             <SaveButton text={t('TEXT.NEXT')}  disabled={!isValid || !isActiveStep} onClick={onSubmit}/>
                                         </Box>

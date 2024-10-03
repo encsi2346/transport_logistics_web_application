@@ -5,8 +5,9 @@ import {Link, useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {useState} from "react";
 import {setLogin} from "@/state";
-import {toast, ToastContainer} from "react-toastify";
+//import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {useTypeSafeTranslation} from "@/components/inputfield/hooks/useTypeSafeTranslation";
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -14,10 +15,11 @@ const LoginPage = () => {
     const [loginFailed, setLoginFailed] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { t } = useTypeSafeTranslation();
 
     const inputStyles = `mb-5 w-full rounded-lg bg-primary-300 px-5 py-3 placeholder-white`;
 
-    const notify = ({text}) => {
+    /*const notify = ({text}) => {
         toast(`${text}`);
 
         toast.success(`${text}`, {
@@ -27,7 +29,7 @@ const LoginPage = () => {
         toast.error(`${text}`, {
             position: "bottom-right"
         });
-    };
+    };*/
 
     const handleLoginSubmit = async (e: any) => {
         e.preventDefault();
@@ -50,13 +52,13 @@ const LoginPage = () => {
                     })
                 );
                 navigate("/");
-                notify('You have successfully logged in!');
+                //notify('You have successfully logged in!');
             } else {
                 setLoginFailed(true);
-                notify('Wrong password or email address!');
+                //notify('Wrong password or email address!');
             }
         } catch (e) {
-            notify('Oops, something went wrong!');
+            //notify('Oops, something went wrong!');
         }
     }
 
@@ -151,7 +153,7 @@ const LoginPage = () => {
                     </motion.div>
                 </section>
             </div>
-            <ToastContainer />
+            {/*<ToastContainer />*/}
         </div>
     );
 };

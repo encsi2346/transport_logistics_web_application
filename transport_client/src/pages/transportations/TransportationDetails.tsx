@@ -8,7 +8,7 @@ import SaveButton from "../../components/button/SaveButton";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import {useNavigate} from "react-router-dom";
 import TextFieldInput from "../../components/inputField/TextFieldInput";
-import DatePickerInput from "../../components/inputField/DatePickerInput";
+//import DatePickerInput from "../../components/inputField/DatePickerInput";
 import {TransportationSteps} from "./enums/transportation-steps";
 import {useTransportationStore} from "./stores/useTransportationStore";
 import useTransportationDetails from "./hooks/useTransportationDetails";
@@ -27,7 +27,7 @@ const TransportationDetails = () => {
     const { control, isValid, preValidationError, onSubmit} = useTransportationDetails();
 
     const handleCancelClicked = () => {
-        navigate('..');
+        navigate(-1);
     };
 
     return (
@@ -36,14 +36,14 @@ const TransportationDetails = () => {
                 <Box>
                     <BackgroundCard>
                         <DataCard>
-                            <Headline text={t('TEXT.DEPARTURE_DATA')} />
+                            <Headline text={t('TRANSPORTATIONS.DEPARTURE_DATA')} />
                             <Grid item container direction="column" spacing={2}>
                                 <Grid item container direction="row" xs={4} md={8} spacing={6}>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.COUNTRY')} />
+                                            <NormalText text={t('TRANSPORTATIONS.COUNTRY')} />
                                             <TextFieldInput
-                                                placeholder={t('TEXT.COUNTRY')}
+                                                placeholder={t('TRANSPORTATIONS.COUNTRY')}
                                                 control={control}
                                                 name='country'
                                                 type='text'
@@ -55,9 +55,9 @@ const TransportationDetails = () => {
                                     </Grid>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.POSTCODE')} />
+                                            <NormalText text={t('TRANSPORTATIONS.POSTCODE')} />
                                             <TextFieldInput
-                                                placeholder={t('TEXT.POSTCODE')}
+                                                placeholder={t('TRANSPORTATIONS.POSTCODE')}
                                                 control={control}
                                                 name='postcode'
                                                 type='number'
@@ -69,9 +69,9 @@ const TransportationDetails = () => {
                                     </Grid>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.CITY')} />
+                                            <NormalText text={t('TRANSPORTATIONS.CITY')} />
                                             <TextFieldInput
-                                                placeholder={t('TEXT.CITY')}
+                                                placeholder={t('TRANSPORTATIONS.CITY')}
                                                 control={control}
                                                 name='city'
                                                 type='text'
@@ -85,9 +85,9 @@ const TransportationDetails = () => {
                                 <Grid item container direction="row" xs={4} md={8} spacing={6}>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.NAME_OF_PUBLIC_AREA')} />
+                                            <NormalText text={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')} />
                                             <TextFieldInput
-                                                placeholder={t('TEXT.NAME_OF_PUBLIC_AREA')}
+                                                placeholder={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
                                                 control={control}
                                                 name='nameOfPublicArea'
                                                 type='text'
@@ -99,9 +99,9 @@ const TransportationDetails = () => {
                                     </Grid>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.TYPE_OF_PUBLIC_AREA')} />
+                                            <NormalText text={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')} />
                                             <TextFieldInput
-                                                placeholder={t('TEXT.TYPE_OF_PUBLIC_AREA')}
+                                                placeholder={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
                                                 control={control}
                                                 name='typeOfPublicArea'
                                                 type='text'
@@ -113,9 +113,9 @@ const TransportationDetails = () => {
                                     </Grid>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.HOUSE_NUMBER')} />
+                                            <NormalText text={t('TRANSPORTATIONS.HOUSE_NUMBER')} />
                                             <TextFieldInput
-                                                placeholder={t('TEXT.HOUSE_NUMBER')}
+                                                placeholder={t('TRANSPORTATIONS.HOUSE_NUMBER')}
                                                 control={control}
                                                 name='houseNumber'
                                                 type='number'
@@ -129,43 +129,19 @@ const TransportationDetails = () => {
                                 <Grid item container direction="row" xs={4} md={8} spacing={6}>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.START_DATE')} />
+                                            <NormalText text={t('TRANSPORTATIONS.START_DATE')} />
+                                            {/*
+                                            TODO
                                             <DatePickerInput
-                                                placeholder={t('TEXT.START_DATE')}
+                                                placeholder={t('TRANSPORTATIONS.START_DATE')}
                                                 control={control}
                                                 name='startDate'
                                                 data-testid='start-date-input'
                                                 disabled={!isActiveStep}
                                                 required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.START_TIME')} />
-                                            <DatePickerInput
-                                                placeholder={t('TEXT.START_TIME')}
-                                                control={control}
-                                                name='startTime'
-                                                data-testid='start-time-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </DataCard>
-
-                        <DataCard>
-                            <Headline text={t('TEXT.ARRIVAL_DATA')} />
-                            <Grid item container direction="column" spacing={2}>
-                                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.COUNTRY')} />
+                                            />*/}
                                             <TextFieldInput
-                                                placeholder={t('TEXT.COUNTRY')}
+                                                placeholder={t('TRANSPORTATIONS.COUNTRY')}
                                                 control={control}
                                                 name='arrivalCountry'
                                                 type='text'
@@ -177,9 +153,56 @@ const TransportationDetails = () => {
                                     </Grid>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.POSTCODE')} />
+                                            <NormalText text={t('TRANSPORTATIONS.START_TIME')} />
+                                            {/*
+                                            TODO
+                                            <DatePickerInput
+                                                placeholder={t('TRANSPORTATIONS.START_TIME')}
+                                                control={control}
+                                                name='startTime'
+                                                data-testid='start-time-input'
+                                                disabled={!isActiveStep}
+                                                required
+                                            />
+                                            */}
                                             <TextFieldInput
-                                                placeholder={t('TEXT.POSTCODE')}
+                                                placeholder={t('TRANSPORTATIONS.COUNTRY')}
+                                                control={control}
+                                                name='arrivalCountry'
+                                                type='text'
+                                                data-testid='country-input'
+                                                disabled={!isActiveStep}
+                                                required
+                                            />
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </DataCard>
+
+                        <DataCard>
+                            <Headline text={t('TRANSPORTATIONS.ARRIVAL_DATA')} />
+                            <Grid item container direction="column" spacing={2}>
+                                <Grid item container direction="row" xs={4} md={8} spacing={6}>
+                                    <Grid item xs={4} md={4}>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('TRANSPORTATIONS.COUNTRY')} />
+                                            <TextFieldInput
+                                                placeholder={t('TRANSPORTATIONS.COUNTRY')}
+                                                control={control}
+                                                name='arrivalCountry'
+                                                type='text'
+                                                data-testid='country-input'
+                                                disabled={!isActiveStep}
+                                                required
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={4} md={4}>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('TRANSPORTATIONS.POSTCODE')} />
+                                            <TextFieldInput
+                                                placeholder={t('TRANSPORTATIONS.POSTCODE')}
                                                 control={control}
                                                 name='arrivalPostcode'
                                                 type='number'
@@ -191,9 +214,9 @@ const TransportationDetails = () => {
                                     </Grid>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.CITY')} />
+                                            <NormalText text={t('TRANSPORTATIONS.CITY')} />
                                             <TextFieldInput
-                                                placeholder={t('TEXT.CITY')}
+                                                placeholder={t('TRANSPORTATIONS.CITY')}
                                                 control={control}
                                                 name='arrivalCity'
                                                 type='text'
@@ -207,9 +230,9 @@ const TransportationDetails = () => {
                                 <Grid item container direction="row" xs={4} md={8} spacing={6}>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.NAME_OF_PUBLIC_AREA')} />
+                                            <NormalText text={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')} />
                                             <TextFieldInput
-                                                placeholder={t('TEXT.NAME_OF_PUBLIC_AREA')}
+                                                placeholder={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
                                                 control={control}
                                                 name='arrivalNameOfPublicArea'
                                                 type='text'
@@ -221,9 +244,9 @@ const TransportationDetails = () => {
                                     </Grid>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.TYPE_OF_PUBLIC_AREA')} />
+                                            <NormalText text={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')} />
                                             <TextFieldInput
-                                                placeholder={t('TEXT.TYPE_OF_PUBLIC_AREA')}
+                                                placeholder={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
                                                 control={control}
                                                 name='arrivalTypeOfPublicArea'
                                                 type='text'
@@ -235,9 +258,9 @@ const TransportationDetails = () => {
                                     </Grid>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.HOUSE_NUMBER')}/>
+                                            <NormalText text={t('TRANSPORTATIONS.HOUSE_NUMBER')}/>
                                             <TextFieldInput
-                                                placeholder={t('TEXT.HOUSE_NUMBER')}
+                                                placeholder={t('TRANSPORTATIONS.HOUSE_NUMBER')}
                                                 control={control}
                                                 name='arrivalHouseNumber'
                                                 type='number'
@@ -251,12 +274,23 @@ const TransportationDetails = () => {
                                 <Grid item container direction="row" xs={4} md={8} spacing={6}>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.END_DATE')} />
+                                            <NormalText text={t('TRANSPORTATIONS.END_DATE')} />
+                                            {/*
+                                            TODO
                                             <DatePickerInput
-                                                placeholder={t('TEXT.END_DATE')}
+                                                placeholder={t('TRANSPORTATIONS.END_DATE')}
                                                 control={control}
                                                 name='endDate'
                                                 data-testid='end-date-input'
+                                                disabled={!isActiveStep}
+                                                required
+                                            />*/}
+                                            <TextFieldInput
+                                                placeholder={t('TRANSPORTATIONS.CITY')}
+                                                control={control}
+                                                name='arrivalCity'
+                                                type='text'
+                                                data-testid='city-input'
                                                 disabled={!isActiveStep}
                                                 required
                                             />
@@ -264,12 +298,23 @@ const TransportationDetails = () => {
                                     </Grid>
                                     <Grid item xs={4} md={4}>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('TEXT.END_TIME')} />
+                                            <NormalText text={t('TRANSPORTATIONS.END_TIME')} />
+                                            {/*
+                                            TODO
                                             <DatePickerInput
-                                                placeholder={t('TEXT.END_TIME')}
+                                                placeholder={t('TRANSPORTATIONS.END_TIME')}
                                                 control={control}
                                                 name='endTime'
                                                 data-testid='end-Time-input'
+                                                disabled={!isActiveStep}
+                                                required
+                                            />*/}
+                                            <TextFieldInput
+                                                placeholder={t('TRANSPORTATIONS.CITY')}
+                                                control={control}
+                                                name='arrivalCity'
+                                                type='text'
+                                                data-testid='city-input'
                                                 disabled={!isActiveStep}
                                                 required
                                             />
@@ -280,11 +325,11 @@ const TransportationDetails = () => {
                         </DataCard>
 
                         <DataCard>
-                            <Headline text={t('TEXT.ADD_LOADING_POINT')} />
+                            <Headline text={t('TRANSPORTATIONS.ADD_LOADING_POINT')} />
                         </DataCard>
 
                         {!isStepDone && (
-                            <Box sx={{ display: 'inline', paddingLeft: 130}}>
+                            <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                                 <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
                                 <SaveButton text={t('TEXT.NEXT')}  disabled={!isValid || !isActiveStep} onClick={onSubmit}/>
                             </Box>

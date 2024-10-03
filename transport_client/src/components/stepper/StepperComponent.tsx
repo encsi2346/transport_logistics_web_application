@@ -91,11 +91,11 @@ interface Props {
 const StepperComponent = ({ currentStep }: Props) => {
     const { t } = useTypeSafeTranslation();
     const steps = [
-        `${t('TEXT.CAR')}`,
-        `${t('TEXT.ROADMAP')}`,
-        `${t('TEXT.DRIVER')}`,
-        `${t('TEXT.SHIPMENT')}`,
-        `${t('TEXT.OVERVIEW')}`
+        `${t('TRANSPORTATIONS.CAR')}`,
+        `${t('TRANSPORTATIONS.ROADMAP')}`,
+        `${t('TRANSPORTATIONS.DRIVER')}`,
+        `${t('TRANSPORTATIONS.SHIPMENT')}`,
+        `${t('TRANSPORTATIONS.OVERVIEW')}`
     ];
     const [activeStep, setActiveStep] = useState(currentStep);
     const [skipped, setSkipped] = useState(new Set<number>());
