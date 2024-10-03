@@ -208,7 +208,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             <BackgroundCard>
                 <DataCard>
                     <Headline text={t('USER.PERSONAL_DATA')} />
-                        <Grid container spacing={2}>
+                        <Grid container spacing={12}>
                             {/* First Column */}
                             <Grid item xs={12} md={4}>
                                 <Grid container direction="column" spacing={3}>
@@ -512,7 +512,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
                 <DataCard>
                     <Headline text={t('USER.CONTACT_DATA')} />
-                    <Grid container spacing={2}>
+                    <Grid container spacing={12}>
                         {/* First Column */}
                         <Grid item xs={12} md={4}>
                             <Grid container direction="column" spacing={3}>
@@ -649,7 +649,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
                 <DataCard>
                     <Headline text={t('USER.EMPLOYEE_DATA')} />
-                    <Grid container spacing={2}>
+                    <Grid container spacing={12}>
                         {/* First Column */}
                         <Grid item xs={12} md={4}>
                             <Grid container direction="column" spacing={3}>
@@ -776,7 +776,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
             <DataCard>
                 <Headline text={t('USER.OTHER_DATA')} />
-                <Grid container spacing={2}>
+                <Grid container spacing={12}>
                     {/* First Column */}
                     <Grid item xs={12} md={4}>
                         <Grid container direction="column" spacing={3}>

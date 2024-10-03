@@ -94,7 +94,7 @@ const TransportationList = () => {
                     }}>
                         <Input
                             id="driverName"
-                            placeholder={t('TEXT.DRIVER_NAME')}
+                            placeholder={t('TRANSPORTATIONS.DRIVER_NAME')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -122,7 +122,7 @@ const TransportationList = () => {
                         />
                         <Input
                             id="startDate"
-                            placeholder={t('TEXT.START_DATE')}
+                            placeholder={t('TRANSPORTATIONS.START_DATE')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -150,7 +150,7 @@ const TransportationList = () => {
                         />
                     </FormControl>
                     <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('TEXT.NEW_TRANSPORTATION')} onClick={() => navigate(`/transportations/new/edit`)} />
+                        <SaveButton text={t('TRANSPORTATIONS.NEW_TRANSPORTATION')} onClick={() => navigate(`/transportations/new/edit`)} />
                     </Box>
                 </Box>
             </FilterCard>

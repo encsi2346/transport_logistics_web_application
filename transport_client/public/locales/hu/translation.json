@@ -27,7 +27,9 @@
     "SIGN_IN": "Bejelentkezés",
     "SEND": "Küldés",
     "CANCEL": "Mégsem",
-    "SAVE": "Mentés"
+    "SAVE": "Mentés",
+    "TRANSPORTATIONS": "Szállítási tervek",
+    "CREATE": "Létrehozás"
   },
   "USER": {
     "ID": "Azonosító",
@@ -71,7 +73,8 @@
     "START_PLACE": "Indulási hely",
     "END_PLACE": "Érkezési hely",
     "START_DATE": "Indulási dátum, idő",
-    "END_DATE": "Érkezési dátum, idő"
+    "END_DATE": "Érkezési dátum, idő",
+    "NEW_TRANSPORTATION": "Új szállítási terv létrehozása"
   },
   "REQUEST": {
     "ID": "Azonosító",
@@ -113,7 +116,8 @@
     "OWN_WEIGHT": "Saját súly",
     "NUMBER_OF_SEATS": "Ülések száma",
     "FUEL": "Üzemanyag",
-    "USEFUL_WEIGHT": "Hasznos teher"
+    "USEFUL_WEIGHT": "Hasznos teher",
+    "BRAND": "Márka"
   },
   "CAR": {
     "BRAND": "Márka",

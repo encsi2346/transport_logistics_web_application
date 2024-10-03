@@ -14,38 +14,38 @@ import CarTypeAddDialog from "./CarTypeAddDialog";
 import {useForm} from "react-hook-form";
 import {carTypeEditFormSchema, CarTypeEditFormSchema} from "./schemas/car-type-edit-form-schema";
 import {zodResolver} from "@hookform/resolvers/zod";
+import CarTypeOfTransportationCard from "@/components/layout/carTypeOfTransportationCard";
 
-const CarTypeList = () => {
+const CarTypeOfTransportationList = () => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const location = useLocation();
     const addCarTypeDialog = useModal(CarTypeAddDialog);
     const [search, setSearch] = useState('');
-    const [carTypes, setCartTypes] = useState([
+    const [typeOfTransportationList, setTypeOfTransportationList] = useState([
         {
-            brand: 'Fiat',
-            type: 'Ducato',
-            subType: 'MAXI 250 L3H2 2.3 MJet 3.5'
+            type: 'Ponyvás szállítás',
+            countOfCars: '12'
         },
         {
-            brand: 'Fiat',
-            type: 'Ducato',
-            subType: 'MAXI 250 L3H2 2.3 MJet 3.5'
+            type: 'Hűtött szállítás',
+            countOfCars: '8'
         },
         {
-            brand: 'Fiat',
-            type: 'Ducato',
-            subType: 'MAXI 250 L3H2 2.3 MJet 3.5'
+            type: 'Folyékony szállítás',
+            countOfCars: '2'
         },
         {
-            brand: 'Fiat',
-            type: 'Ducato',
-            subType: 'MAXI 250 L3H2 2.3 MJet 3.5'
+            type: 'Jármű szállítás',
+            countOfCars: '6'
         },
         {
-            brand: 'Fiat',
-            type: 'Ducato',
-            subType: 'MAXI 250 L3H2 2.3 MJet 3.5'
+            type: 'Konténeres szállítás',
+            countOfCars: '5'
+        },
+        {
+            type: 'Kisteherautó',
+            countOfCars: '52'
         },
     ]);
 
@@ -76,7 +76,7 @@ const CarTypeList = () => {
     return (
         <Box>
             <PageHeader text={t('TEXT.CAR_TYPES')}/>
-            <FilterCard>
+            {/*<FilterCard>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 3}}>
                     <FormControl sx={{
                         marginTop: 1,
@@ -176,20 +176,22 @@ const CarTypeList = () => {
                     </Box>
                 </Box>
             </FilterCard>
+            TODO: a szállítási típusokon(ezek szállítási típusok) belül nyissa meg a cartypeot(ezek konkrét autótípusok) és azon belül a konkrét autókat(ezek vannak rendszámozva)
+            */}
 
             <ContentCard>
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <Grid container rowSpacing={3} columnSpacing={-38} >
-                        {carTypes
+                        {typeOfTransportationList
                             .filter((item) => {
                                 return search.toLowerCase() === ''
                                     ? item
-                                    : item.brand.toLowerCase().includes(search);
+                                    : item.type.toLowerCase().includes(search);
                             })
                             .map((item, index) => {
                                 return (
-                                    <Grid item xs={4} key={item.subType}>
-                                        <CarTypeCard brand={item.brand} type={item.type} subType={item.subType}/>
+                                    <Grid item xs={5} key={item.type}>
+                                        <CarTypeOfTransportationCard type={item.type} countOfCars={item.countOfCars}/>
                                     </Grid>
                                 );
                             })}
@@ -200,4 +202,4 @@ const CarTypeList = () => {
     );
 };
 
-export default CarTypeList;
+export default CarTypeOfTransportationList;
