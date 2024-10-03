@@ -6,59 +6,74 @@ import DataCard from "../../components/layout/DataCard";
 import Headline from "../../components/text/Headline";
 import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
+import {useTranslation} from "react-i18next";
+import {useNavigate, useParams} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {useState} from "react";
 
-const CarEdit = () => {
+interface Props {
+    isEditing?: boolean;
+    isInputDisabled?: boolean;
+}
+
+const CarEdit = ({ isEditing = false, isInputDisabled }: Props) => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
+    const [t, i18n] = useTranslation();
     return (
         <Box>
-            <PageHeader text={'Új autó hozzáadása'}/>
+            <PageHeader text={t('CAR.NEW_CAR')}/>
             <BackgroundCard>
                 <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                    <NormalText text={'Kiválasztott típus'} />
+                    <NormalText text={t('CAR.SELECTED_CAR_TYPE')} />
                     <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                 </Box>
                 <DataCard>
-                    <Headline text={'Típus adatok'} />
+                    <Headline text={t('CAR_TYPES.CAR_TYPE_DATA')} />
                     <Box sx={{display: 'flex', flexDirection: 'column'}}>
                         <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Kivitel'} />
+                            <NormalText text={t('CAR_TYPES.CAR_FUNCTIONAL_DESIGN')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Teljesítmény'} />
+                            <NormalText text={t('CAR_TYPES.PERFORMANCE')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Saját tömeg'} />
+                            <NormalText text={t('CAR_TYPES.OWN_WEIGHT')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Ülések száma'} />
+                            <NormalText text={t('CAR_TYPES.NUMBER_OF_SEATS')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Üzemanyag'} />
+                            <NormalText text={t('CAR_TYPES.FUEL')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Hasznos teher'} />
+                            <NormalText text={t('CAR_TYPES.USEFUL_WEIGHT')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </Box>
                     </Box>
                 </DataCard>
                 <DataCard>
-                    <Headline text={'Egyéni adatok'} />
+                    <Headline text={t('CAR.CAR_DATA')} />
                     <Box sx={{display: 'flex', flexDirection: 'column'}}>
                         <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Rendszám'} />
+                            <NormalText text={t('CAR.LICENCE_PLATE')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Forg.engedély száma'} />
+                            <NormalText text={t('CAR.FORG')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Alvázszám'} />
+                            <NormalText text={t('CAR.ALVAZ')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Gyártási év'} />
+                            <NormalText text={t('CAR.PRODUCTION_YEAR')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                            <NormalText text={'Első nyilvántartásba vétel'} />
+                            <NormalText text={t('CAR.FIRST_REG')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </Box>
                     </Box>
                 </DataCard>
-                <Box sx={{ display: 'inline', paddingLeft: 142}}>
-                    <CancelButton text={'Mégsem'} />
-                    <SaveButton text={'Mentés'} />
+
+                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)}/>
+                    <SaveButton text={t('TEXT.SAVE')} onClick={() => console.log('save car')} />
                 </Box>
             </BackgroundCard>
         </Box>

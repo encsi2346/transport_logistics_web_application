@@ -208,7 +208,7 @@ const CarTypeList = () => {
                             })
                             .map((item, index) => {
                                 return (
-                                    <Grid item xs={4} key={item.subType}>
+                                    <Grid item xs={3} key={item.subType}>
                                         <CarTypeCard
                                             onClick={() => navigate(`/type-of-transportation/${item.typeid}/car-types/${item.id}`)}
                                             id={item.id}

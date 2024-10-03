@@ -230,8 +230,8 @@ const CarTypeEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                     </Grid>
                 </DataCard>
 
-                <Box sx={{ display: 'inline', paddingLeft: 130}}>
-                    <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)} />
+                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)}/>
                     <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} />
                 </Box>
             </BackgroundCard>

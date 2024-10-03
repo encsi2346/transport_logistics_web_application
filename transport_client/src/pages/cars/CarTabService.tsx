@@ -4,6 +4,9 @@ import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeS
 import StyledDataGrid, {handleDataGridCellClick, sharedDataGridProps} from "../../components/dataTable/StyledDataGrid";
 import {Pagination} from "../../components/inputField/hooks/usePagination";
 import {Sort} from "../../components/inputField/hooks/useSort";
+import {Box} from "@mui/material";
+import CancelButton from "@/components/button/CancelButton";
+import SaveButton from "@/components/button/SaveButton";
 
 interface Props {
     data?: string[];
@@ -74,35 +77,42 @@ const CarTabService = ({
     ];
 
     return (
-        <StyledDataGrid
-            {...sharedDataGridProps}
-            pagination
-            rows={data ?? []}
-            columns={columns}
-            rowHeight={data?.length ? 60 : 120}
-            rowCount={data?.length ?? 0}
-            checkboxSelection={allowSelection}
-            selectionModel={selectionModel ?? []}
-            data-testid='user-table'
-            onCellClick={(params, event) =>
-                allowNavigation ? handleDataGridCellClick(params, event, navigate, location.search) : null
-            }
-            pageSize={data?.length ?? 10}
-            onPageChange={(page) => onPageChange(page)}
-            onPageSizeChange={(pageSize) => onPageSizeChange(pageSize)}
-            onSortModelChange={(model) => onSortChange(model)}
-            onSelectionModelChange={(selectionModel) => {
-                if (onSelectionChange) {
-                    onSelectionChange(selectionModel);
+        <>
+            <StyledDataGrid
+                {...sharedDataGridProps}
+                pagination
+                rows={data ?? []}
+                columns={columns}
+                rowHeight={data?.length ? 60 : 120}
+                rowCount={data?.length ?? 0}
+                checkboxSelection={allowSelection}
+                selectionModel={selectionModel ?? []}
+                data-testid='user-table'
+                onCellClick={(params, event) =>
+                    allowNavigation ? handleDataGridCellClick(params, event, navigate, location.search) : null
                 }
-            }}
-            initialState={{
-                sorting: {
-                    sortModel: [{ field: defaultSort?.sortBy ?? 'fullName', sort: defaultSort?.sortDir ?? 'asc' }],
-                },
-                pagination: { page: defaultPagination?.page, pageSize: defaultPagination?.pageSize },
-            }}
-        />
+                pageSize={data?.length ?? 10}
+                onPageChange={(page) => onPageChange(page)}
+                onPageSizeChange={(pageSize) => onPageSizeChange(pageSize)}
+                onSortModelChange={(model) => onSortChange(model)}
+                onSelectionModelChange={(selectionModel) => {
+                    if (onSelectionChange) {
+                        onSelectionChange(selectionModel);
+                    }
+                }}
+                initialState={{
+                    sorting: {
+                        sortModel: [{ field: defaultSort?.sortBy ?? 'fullName', sort: defaultSort?.sortDir ?? 'asc' }],
+                    },
+                    pagination: { page: defaultPagination?.page, pageSize: defaultPagination?.pageSize },
+                }}
+            />
+
+            <Box sx={{display: 'flex', justifyContent: 'flex-end', marginTop: 10}}>
+                <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)}/>
+                <SaveButton text={t('TEXT.SAVE')} onClick={() => console.log('save')} />
+            </Box>
+        </>
     );
 };
 

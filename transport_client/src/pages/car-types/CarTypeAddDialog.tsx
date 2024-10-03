@@ -21,6 +21,7 @@ import BackgroundCard from "../../components/layout/BackgroundCard";
 import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation';
 import TextFieldInput from '../../components/inputField/TextFieldInput';
 import SelectInput from "../../components/inputField/SelectInput";
+import DataCard from "@/components/layout/DataCard";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -139,12 +140,13 @@ const CarTypeAddDialog = NiceModal.create(
                 <DialogContent>
                     <Box>
                         <BackgroundCard>
+                            <DataCard>
                                 <Grid item container direction="column" spacing={2}>
                                     <Grid item container direction="row" xs={4} md={10} spacing={15}>
                                         <Grid item xs={4} md={5}>
                                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                                                 <TextFieldInput
-                                                    label={t('TEXT.CAR_TYPE_NAME')}
+                                                    label={t('CAR_TYPES.CAR_TYPE_NAME')}
                                                     control={control}
                                                     name='carTypeName'
                                                     type='text'
@@ -158,7 +160,7 @@ const CarTypeAddDialog = NiceModal.create(
                                         <Grid item xs={4} md={5}>
                                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                                                 <SelectInput
-                                                    label={t('TEXT.CAR_FUNCTIONAL_DESIGN')}
+                                                    label={t('CAR_TYPES.CAR_FUNCTIONAL_DESIGN')}
                                                     control={control}
                                                     name='carFunctionalDesign'
                                                     data-testid='car-functional-design-input'
@@ -184,7 +186,7 @@ const CarTypeAddDialog = NiceModal.create(
                                         <Grid item xs={4} md={5}>
                                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                                                 <TextFieldInput
-                                                    label={t('TEXT.PERFORMANCE')}
+                                                    label={t('CAR_TYPES.PERFORMANCE')}
                                                     control={control}
                                                     name='performance'
                                                     type='number'
@@ -198,7 +200,7 @@ const CarTypeAddDialog = NiceModal.create(
                                         <Grid item xs={4} md={5}>
                                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                                                 <TextFieldInput
-                                                    label={t('TEXT.OWN_WEIGHT')}
+                                                    label={t('CAR_TYPES.OWN_WEIGHT')}
                                                     control={control}
                                                     name='ownWeight'
                                                     type='number'
@@ -210,7 +212,7 @@ const CarTypeAddDialog = NiceModal.create(
                                         <Grid item xs={4} md={5}>
                                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                                                 <SelectInput
-                                                    label={t('TEXT.NUMBER_OF_SEATS')}
+                                                    label={t('CAR_TYPES.NUMBER_OF_SEATS')}
                                                     control={control}
                                                     name='numberOfSeats'
                                                     data-testid='number-of-seats-input'
@@ -238,7 +240,7 @@ const CarTypeAddDialog = NiceModal.create(
                                         <Grid item xs={4} md={5}>
                                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                                                 <SelectInput
-                                                    label={t('TEXT.FUEL')}
+                                                    label={t('CAR_TYPES.FUEL')}
                                                     control={control}
                                                     name='fuel'
                                                     data-testid='fuel-input'
@@ -264,7 +266,7 @@ const CarTypeAddDialog = NiceModal.create(
                                         <Grid item xs={4} md={5}>
                                             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                                                 <TextFieldInput
-                                                    label={t('TEXT.USEFUL_WEIGHT')}
+                                                    label={t('CAR_TYPES.USEFUL_WEIGHT')}
                                                     control={control}
                                                     name='usefulWeight'
                                                     type='number'
@@ -275,6 +277,7 @@ const CarTypeAddDialog = NiceModal.create(
                                         </Grid>
                                     </Grid>
                                 </Grid>
+                            </DataCard>
                         </BackgroundCard>
                     </Box>
                 </DialogContent>

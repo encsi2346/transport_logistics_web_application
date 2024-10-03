@@ -1,6 +1,6 @@
 import {
     Box,
-    Grid,
+    Grid, SxProps, Theme, Typography,
 } from "@mui/material";
 import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
@@ -12,12 +12,41 @@ import {useNavigate, useParams} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import {carEditFormSchema, CarEditFormSchema} from "./schemas/car-edit-form-schema";
+import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
+
+const textStyle: SxProps<Theme> = {
+    fontWeight: 'bold',
+    fontSize: '18px',
+    color: '#A3A3A3',
+}
+
+const normalTextStyle: SxProps<Theme> = {
+    fontWeight: 'bold',
+    fontSize: '18px',
+    color: '#000000',
+    paddingTop: 1
+}
+
+const paramTextStyle: SxProps<Theme> = {
+    fontWeight: 'normal',
+    fontSize: '18px',
+    color: '#A3A3A3',
+    paddingTop: 5
+}
+
+const iconStyle: SxProps<Theme> = {
+    fontSize: 100,
+    color: '#A3A3A3',
+    marginLeft: '40px',
+    marginRight: '40px',
+    marginTop: '20px',
+    marginBottom: '10px',
+}
 
 interface Props {
     isEditing?: boolean;
     isInputDisabled?: boolean;
 }
-
 
 const CarTabData = ({ isEditing = false, isInputDisabled }: Props) => {
     const { id } = useParams();
@@ -49,214 +78,161 @@ const CarTabData = ({ isEditing = false, isInputDisabled }: Props) => {
     };
 
     return (
-        <Box>
-            <Grid item container direction="column" spacing={2}>
-                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={`${t('CAR.BRAND')}`} />
+        <Box sx={{paddingTop: 7, paddingLeft: 5}}>
+            <Grid container spacing={12}>
+                {/* First Column */}
+                <Grid item xs={12} md={4}>
+                    <Grid container direction="column" spacing={3}>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{`${t('CAR.BRAND')}`}</Typography>
+                                <Typography sx={normalTextStyle}>{'Fiat Ducato'}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Fiat Ducato'} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{`${t('CAR.TYPE')}`}</Typography>
+                                <Typography sx={normalTextStyle}>{'Maxi 250 L3H2 2.3 MJet 3.5'}</Typography>
                             </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={`${t('CAR.TYPE')}`} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{`${t('CAR.LICENCE_PLATE')}`}</Typography>
+                                <Typography sx={normalTextStyle}>{'ABC-123'}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Maxi 250 L3H2 2.3 MJet 3.5'} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{`${t('CAR.CAR_FUNCTIONAL_DESIGN')}`}</Typography>
+                                <Typography sx={normalTextStyle}>{'Kisbusz'}</Typography>
                             </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item>
-                        <Box sx={{backgroundColor: "#000000", width: 200, height: 200}} />
-                    </Grid>
-                </Grid>
-                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={`${t('CAR.LICENCE_PLATE')}`} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{`${t('CAR.FUEL')}`}</Typography>
+                                <Typography sx={normalTextStyle}>{'gázolaj'}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'ABC-123'} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{`${t('CAR.PRODUCTION_YEAR')}`}</Typography>
+                                <Typography sx={normalTextStyle}>{'2023'}</Typography>
                             </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={`${t('CAR.CAR_FUNCTIONAL_DESIGN')}`} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{`${t('CAR.NUMBER_OF_SEATS')}`}</Typography>
+                                <Typography sx={normalTextStyle}>{'6'}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Kisbusz'} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{'Teljesítmény'}</Typography>
+                                <Typography sx={normalTextStyle}>{'55 kW, 75 LE'}</Typography>
                             </Box>
-                        </Box>
-                    </Grid>
-                </Grid>
-                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={`${t('CAR.FUEL')}`} />
+                        </Grid>
+
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{'Saját teher'}</Typography>
+                                <Typography sx={normalTextStyle}>{'1790 kg'}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'gázolaj'} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{'Hasznos teher'}</Typography>
+                                <Typography sx={normalTextStyle}>{'900 kg'}</Typography>
                             </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={`${t('CAR.PRODUCTION_YEAR')}`} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2023'} />
-                            </Box>
-                        </Box>
+                        </Grid>
                     </Grid>
                 </Grid>
-                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={`${t('CAR.NUMBER_OF_SEATS')}`}/>
+
+                {/* Second Column */}
+                <Grid item xs={12} md={4}>
+                    <Grid container direction="column" spacing={3}>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{'Vontatás'}</Typography>
+                                <Typography sx={normalTextStyle}>{'420 kg'}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'6'} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{'Raktér'}</Typography>
+                                <Typography sx={normalTextStyle}>{'150 *200*300 cm'}</Typography>
                             </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Teljesítmény'} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{'Forgalmi engedély száma'}</Typography>
+                                <Typography sx={normalTextStyle}>{'123456789'}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'55 kW, 75 LE'} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{'Alvázszám'}</Typography>
+                                <Typography sx={normalTextStyle}>{'12345678PA'}</Typography>
                             </Box>
-                        </Box>
-                    </Grid>
-                </Grid>
-                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Saját teher'} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{'Első nyilvántartásba vétel'}</Typography>
+                                <Typography sx={normalTextStyle}>{'2023.01.01.'}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'1790 kg'} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{'Adatbázis regisztráció'}</Typography>
+                                <Typography sx={normalTextStyle}>{'2023.01.01.'}</Typography>
                             </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Hasznos teher'} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{'Legutóbbi műszaki vizsga időpontja'}</Typography>
+                                <Typography sx={normalTextStyle}>{'2023.01.01.'}</Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'900 kg'} />
+                        </Grid>
+                        <Grid item>
+                            <Box sx={{ display: 'block', gap: 5}}>
+                                <Typography sx={paramTextStyle}>{'Legutóbbi szervíz időpontja'}</Typography>
+                                <Typography sx={normalTextStyle}>{'2023.11.24.'}</Typography>
                             </Box>
-                        </Box>
-                    </Grid>
-                </Grid>
-                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Vontatás'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'420 kg'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Raktér'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'150 *200*300 cm'} />
-                            </Box>
-                        </Box>
+                        </Grid>
                     </Grid>
                 </Grid>
-                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Forgalmi engedély száma'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'123456789'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Alvázszám'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'12345678PA'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                </Grid>
-                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Első nyilvántartásba vétel'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2023.01.01.'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Adatbázis regisztráció'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2023.01.01.'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                </Grid>
-                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Legutóbbi műszaki vizsga időpontja'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2023.01.01.'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Legutóbbi szervíz időpontja'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2023.11.24.'} />
-                            </Box>
-                        </Box>
+
+                {/* Second Column */}
+                <Grid item xs={12} md={4}>
+                    <Grid container direction="column" spacing={3}>
+                            <Grid item>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: '#ffffff',
+                                        width: 250,
+                                        height: 250,
+                                        borderRadius: 4,
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    <Box>
+                                        {/* TODO: Add image picker component */}
+                                        <PhotoLibraryIcon sx={iconStyle} />
+                                        <Typography sx={textStyle}>
+                                            {t('USER.UPLOAD_IMAGE')}
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            </Grid>
                     </Grid>
                 </Grid>
             </Grid>
 
-            <Box sx={{ display: 'inline', paddingLeft: 130}}>
+            <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                 <CancelButton text={t('TEXT.BACK')} onClick={() => navigate(-1)}/>
-                <SaveButton text={t('TEXT.EDIT')} onClick={onSubmit} />
+                <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} />
             </Box>
         </Box>
     );

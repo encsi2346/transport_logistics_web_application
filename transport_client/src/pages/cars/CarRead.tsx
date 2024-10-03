@@ -2,7 +2,7 @@ import PageHeader from "../../components/text/PageHeader";
 import BackgroundCard from "../../components/layout/BackgroundCard";
 import {
     Box,
-    SelectChangeEvent,
+    SelectChangeEvent, SxProps, Theme, Typography,
     useTheme
 } from "@mui/material";
 import {SyntheticEvent, useEffect, useState} from "react";
@@ -21,6 +21,42 @@ import CarTabErrorReport from "./CarTabErrorReport";
 import usePagination from "../../components/inputField/hooks/usePagination";
 import useSort from "../../components/inputField/hooks/useSort";
 import useSelection from "../../components/inputField/hooks/useSelection";
+
+const headerTextStyle: SxProps<Theme> = {
+    fontWeight: 'bold',
+    fontSize: '35px',
+    color: '#ff0000',
+    marginTop: 3
+}
+
+const mediumHeaderTextStyle: SxProps<Theme> = {
+    fontWeight: 'normal',
+    fontSize: '22px',
+    color: '#ff0000',
+    marginBottom: 3
+}
+
+const paramTextStyle: SxProps<Theme> = {
+    fontWeight: 'bold',
+    fontSize: '18px',
+    color: '#A3A3A3',
+}
+
+const textStyle: SxProps<Theme> = {
+    fontWeight: 'bold',
+    fontSize: '18px',
+    color: '#000000',
+}
+
+const tabTextStyle: SxProps<Theme> = {
+    fontWeight: 'normal',
+    fontSize: '18px',
+    color: '#ff0000',
+    textTransform: 'none',
+    letterSpacing: 3,
+    paddingLeft: 5,
+    paddingRight: 5
+}
 
 interface Props {
     isEditing?: boolean;
@@ -102,34 +138,48 @@ const CarRead = ({ isEditing = false, isInputDisabled }: Props) => {
     return (
         <Box>
             <BackgroundCard>
-                <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
-                    <Box sx={{ display: 'block', justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 5}}>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-                            <PageHeader text={'ABC-123'}/>
+                <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <Box sx={{ display: 'block',  marginLeft: 5}}>
+                        <Box sx={{ display: 'flex', alignItems: 'center'}}>
+                            <Typography sx={headerTextStyle}>
+                                ABC-123
+                            </Typography>
                         </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-                            <NormalText text={'FIAT_DUCATO_MAXI_250_L3H2'} />
+                        <Box sx={{ display: 'flex', alignItems: 'center'}}>
+                            <Typography sx={mediumHeaderTextStyle}>
+                                FIAT_DUCATO_MAXI_250_L3H2
+                            </Typography>
                         </Box>
                     </Box>
 
-                    <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                            <NormalText text={'Megtett_km:_117_523km'} />
+                    <Box sx={{ display: 'block', marginTop: 3, marginRight: 5}}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Typography sx={paramTextStyle}>
+                                Megtett km:
+                            </Typography>
+                            <Typography sx={textStyle}>
+                                117_523km
+                            </Typography>
                         </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                            <NormalText text={'Végrehajtott_szállítás:_17_szállítás'} />
+                        <Box sx={{ display: 'flex',  alignItems: 'flex-start', gap: 2 }}>
+                            <Typography sx={paramTextStyle}>
+                                Végrehajtott szállítás:
+                            </Typography>
+                            <Typography sx={textStyle}>
+                                17_szállítás
+                            </Typography>
                         </Box>
                     </Box>
                 </Box>
 
                 <Box sx={{ width: '100%', typography: 'body1' }}>
                     <TabContext value={tabIndex}>
-                        <Box sx={{ borderTop: 1, borderColor: 'divider' }}>
-                            <TabList onChange={handleChange} aria-label="lab API tabs example">
-                                <Tab label="Adatok" value="1" />
-                                <Tab label="Dokumentumok" value="2" />
-                                <Tab label="Szervíz" value="3" />
-                                <Tab label="Hibabejelentés" value="4" />
+                        <Box sx={{ borderTop: 3, borderColor: 'divider' }}>
+                            <TabList onChange={handleChange} aria-label={`${t('CAR.TABS')}`}>
+                                <Tab sx={tabTextStyle} label={`${t('CAR.DATA')}`} value="1" />
+                                <Tab sx={tabTextStyle} label={`${t('CAR.DOCUMENTS')}`} value="2" />
+                                <Tab sx={tabTextStyle} label={`${t('CAR.SERVICE')}`} value="3" />
+                                <Tab sx={tabTextStyle} label={`${t('CAR.ERROR_REPORTING')}`} value="4" />
                             </TabList>
                         </Box>
                         <TabPanel value="1">

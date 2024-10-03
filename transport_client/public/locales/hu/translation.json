@@ -29,7 +29,8 @@
     "CANCEL": "Mégsem",
     "SAVE": "Mentés",
     "TRANSPORTATIONS": "Szállítási tervek",
-    "CREATE": "Létrehozás"
+    "CREATE": "Létrehozás",
+    "BACK": "Vissza"
   },
   "USER": {
     "ID": "Azonosító",
@@ -123,9 +124,18 @@
     "BRAND": "Márka",
     "TYPE": "Típus",
     "LICENCE_PLATE": "Rendszám",
-    "CAR_FUNCTIONAL_DESIGN": "Kivitel",
-    "FUEL": "Üzemanyag",
     "PRODUCTION_YEAR": "Gyártási év",
-    "NUMBER_OF_SEATS": "Ülések száma"
+    "NEW_CAR": "Új autó hozzáadása",
+    "SELECTED_CAR_TYPE": "Kiválasztott típus",
+    "CAR_DATA": "Egyedi adatok",
+    "ALVAZ": "Alvázszám",
+    "FORG": "Forgalmi engedély száma",
+    "FIRST_REG": "Első nyilvántartásba vétel",
+    "TABS": "Fülek",
+    "DATA": "Adatok",
+    "DOCUMENTS": "Dokumentumok",
+    "SERVICE": "Szervíz",
+    "ERROR_REPORTING": "Hibabejelentés",
+    "NEW_EXAM": "Új műszaki vizsga hozzáadása"
   }
 }
