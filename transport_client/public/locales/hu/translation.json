@@ -80,16 +80,34 @@
   "REQUEST": {
     "ID": "Azonosító",
     "FULL_NAME": "Teljes név",
-    "POSITION": "Pozíció"
+    "POSITION": "Pozíció",
+    "NEW_REQUESTS": "Új kérés feladása",
+    "STATUS": "Állapot",
+    "REASON": "Indoklás",
+    "AFFECTED_WORKING_DAY": "Érintett munkanap",
+    "OBJECT": "Tárgy",
+    "PERSONAL_REQUESTS": "Személyes kérések"
   },
   "PRODUCTS": {
     "ID": "Azonosító",
     "PRODUCT_NAME": "Terméknév",
     "AVAILABILITY": "Elérhetőség",
-    "NEW_PRODUCT": "Új termék hozzáadása"
+    "NEW_PRODUCT": "Új termék hozzáadása",
+    "PRODUCTS": "Termékek",
+    "PRODUCT_DATA": "Termék adatok",
+    "PRODUCT_CATEGORY_NAME": "Termékkategória neve",
+    "PRODUCT_NUMBER": "Cikkszám",
+    "BARCODE": "Vonalkód",
+    "OWN_WEIGHT": "Saját súly",
+    "MAX_NUMBER_OF_ITEMS": "Maximális darabszám",
+    "CURRENT_NUMBER_OF_ITEMS": "Jelenlegi darabszám"
   },
   "PRODUCT_CATEGORIES": {
-    "NEW_PRODUCT_CATEGORY": "Új termékkategória hozzáadása"
+    "NEW_PRODUCT_CATEGORY": "Új termékkategória hozzáadása",
+    "PRODUCT_CATEGORY": "Termékkategória",
+    "AVAILABILITY": "Elérhetőség",
+    "PRODUCT_CATEGORY_NAME": "Termékkategória neve",
+    "PRODUCT_CATEGORY_DESCRIPTION": "Termékkategória leírása"
   },
   "INVOICES": {
     "ID": "Azonosító",
@@ -98,7 +116,9 @@
     "DATE_OF_CREATION": "Létrehozás dátuma",
     "PAYMENT_DEADLINE": "Fizetési határidő",
     "SUMMARY": "Összeg",
-    "STATUS": "Állapot"
+    "STATUS": "Állapot",
+    "INVOICES": "Számlák",
+    "UPLOAD_INVOICE": "Új számla feltöltése"
   },
   "DOCUMENTS": {
     "ID": "Azonosító",
@@ -106,7 +126,9 @@
     "DOCUMENT_NAME": "Dokumentum neve",
     "CREATED_BY": "Létrehozó",
     "DATE_OF_CREATION": "Létrehozás dátuma",
-    "SIZE": "Méret"
+    "SIZE": "Méret",
+    "DOCUMENTS": "Dokumentumok",
+    "UPLOAD_DOCUMENTS": "Új dokumentum feltöltése"
   },
   "CAR_TYPES": {
     "ADD_NEW_CAR_TYPE": "Új autótípus hozzáadása",

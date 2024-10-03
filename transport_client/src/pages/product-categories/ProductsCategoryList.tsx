@@ -3,7 +3,7 @@ import FilterCard from "../../components/layout/FilterCard";
 import {Box, FormControl, Grid, Input, InputAdornment} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
 import GoodsTypeCard from "../../components/layout/GoodsTypeCard";
-import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
+import {useTypeSafeTranslation} from "../../components/inputfield/hooks/useTypeSafeTranslation";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
@@ -17,26 +17,32 @@ import {zodResolver} from "@hookform/resolvers/zod";
 
 const ProductsCategoryList = () => {
     const { t } = useTypeSafeTranslation();
+    const navigate = useNavigate();
     const addProductCategoryDialog = useModal(ProductCategoryAddDialog);
     const [search, setSearch] = useState('');
     const [categories, setCategories] = useState([
         {
+            id: 1,
             category: 'Kategória1',
             availability: 'Készleten',
         },
         {
+            id: 2,
             category: 'Kategória3',
             availability: 'Készlethiány',
         },
         {
+            id: 3,
             category: 'Kategória4',
             availability: 'Készleten',
         },
         {
+            id: 4,
             category: 'Kategória5',
             availability: 'Készlethiány',
         },
         {
+            id: 5,
             category: 'Kategória2',
             availability: 'Készleten',
         },
@@ -86,7 +92,7 @@ const ProductsCategoryList = () => {
                     }}>
                         <Input
                             id="category"
-                            placeholder={t('TEXT.SEARCH_PRODUCT_CATEGORY')}
+                            placeholder={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -114,7 +120,7 @@ const ProductsCategoryList = () => {
                         />
                         <Input
                             id="availability"
-                            placeholder={t('TEXT.SEARCH_AVAILABILITY')}
+                            placeholder={t('PRODUCT_CATEGORIES.AVAILABILITY')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -158,8 +164,13 @@ const ProductsCategoryList = () => {
                             })
                             .map((item, index) => {
                                 return (
-                                    <Grid item xs={4} key={item.category}>
-                                        <GoodsTypeCard category={item.category} availability={item.availability}/>
+                                    <Grid item xs={3} key={item.id}>
+                                        <GoodsTypeCard
+                                            onClick={() => navigate(`/products-categories/${item.id}/products`)}
+                                            id={item.id}
+                                            category={item.category}
+                                            availability={item.availability}
+                                        />
                                     </Grid>
                                 );
                             })}

@@ -13,12 +13,13 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useNavigate, useParams} from "react-router-dom";
 import BackgroundCard from "../../components/layout/BackgroundCard";
-import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation';
-import TextFieldInput from '../../components/inputField/TextFieldInput';
+import { useTypeSafeTranslation } from '../../components/inputfield/hooks/useTypeSafeTranslation';
+import TextFieldInput from '../../components/inputfield/TextFieldInput';
 import {
     productCategoryEditFormSchema,
     ProductCategoryEditFormSchema
-} from "./schemas/product-category-edit-form-schema";
+} from "../products/schemas/product-category-edit-form-schema";
+import DataCard from "@/components/layout/DataCard";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -127,36 +128,38 @@ const ProductCategoryAddDialog = NiceModal.create(
                 <DialogContent>
                     <Box>
                         <BackgroundCard>
-                            <Grid item container direction="column" spacing={2}>
-                                <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                    <Grid item xs={4} md={5}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <TextFieldInput
-                                                label={t('TEXT.PRODUCT_CATEGORY_NAME')}
-                                                control={control}
-                                                name='productCategoryName'
-                                                type='text'
-                                                data-testid='product-category-name-input'
-                                                required
-                                            />
-                                        </Box>
+                            <DataCard>
+                                <Grid item container direction="column" spacing={2}>
+                                    <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                        <Grid item xs={4} md={5}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                                <TextFieldInput
+                                                    label={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_NAME')}
+                                                    control={control}
+                                                    name='productCategoryName'
+                                                    type='text'
+                                                    data-testid='product-category-name-input'
+                                                    required
+                                                />
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                        <Grid item xs={4} md={5}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                                <TextFieldInput
+                                                    label={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_DESCRIPTION')}
+                                                    control={control}
+                                                    name='productDescription'
+                                                    type='text'
+                                                    data-testid='product-description-input'
+                                                    required
+                                                />
+                                            </Box>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                                <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                    <Grid item xs={4} md={5}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <TextFieldInput
-                                                label={t('TEXT.PRODUCT_DESCRIPTION')}
-                                                control={control}
-                                                name='productDescription'
-                                                type='text'
-                                                data-testid='product-description-input'
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                            </DataCard>
                         </BackgroundCard>
                     </Box>
                 </DialogContent>

@@ -70,7 +70,7 @@ const InvoiceList = () => {
 
     return (
         <Box>
-            <PageHeader text={t('TEXT.USERS')}/>
+            <PageHeader text={t('INVOICES.INVOICES')}/>
             <FilterCard>
                 <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
                     <FormControl sx={{
@@ -83,7 +83,7 @@ const InvoiceList = () => {
                     }}>
                         <Input
                             id="name"
-                            placeholder="Search name"
+                            placeholder={t('INVOICES.COMPANY_NAME')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -111,7 +111,7 @@ const InvoiceList = () => {
                         />
                         <Input
                             id="position"
-                            placeholder="Search position"
+                            placeholder={t('INVOICES.ORDER_ID')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -139,7 +139,7 @@ const InvoiceList = () => {
                         />
                     </FormControl>
                     <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={'Új dokumentum feltöltése'} />
+                        <SaveButton text={t('INVOICES.UPLOAD_INVOICE')} />
                     </Box>
                 </Box>
             </FilterCard>

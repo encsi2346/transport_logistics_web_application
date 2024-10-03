@@ -12,7 +12,8 @@ const mediumTextStyle: SxProps<Theme> = {
     fontWeight: 'bold',
     fontSize: '13px',
     color: '#DD1C13',
-    marginTop: '20px',
+    marginTop: '10px',
+    textTransform: 'uppercase',
 }
 
 const iconStyle: SxProps<Theme> = {
@@ -25,31 +26,51 @@ const iconStyle: SxProps<Theme> = {
 }
 
 interface Props {
+    onClick: () => void;
+    id: number;
     category: string;
     availability: string;
 }
 
-const GoodsTypeCard = ({ category, availability }: Props) => {
+const GoodsTypeCard = ({ onClick, id, category, availability }: Props) => {
     const theme = useTheme();
 
     return (
-        <Box sx={{
-            backgroundColor: `${theme.palette.component.lightMin}`,
-            borderRadius: '19px',
-            marginRight: '60px',
-            marginBottom: '40px',
-            paddingTop: '20px',
-            paddingBottom: '20px',
-            paddingLeft: '20px',
-            paddingRight: '20px',
-            boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
-            cursor: 'pointer'
-        }}>
-            <Box sx={{display: 'flex', align: 'center', justifyContent: 'center'}}>
+        <Box
+            onClick={onClick}
+            sx={{
+                backgroundColor: `${theme.palette.component.lightMin}`,
+                borderRadius: '19px',
+                marginRight: '60px',
+                marginBottom: '40px',
+                paddingTop: '5px',
+                paddingBottom: '5px',
+                paddingLeft: '5px',
+                paddingRight: '5px',
+                boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: 220,
+                height: 300
+            }}
+        >
+            <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexGrow: 1}}>
                 <MicrosoftIcon sx={iconStyle}/>
             </Box>
-            <Typography sx={mainTextStyle}>{category}</Typography>
-            <Typography sx={mediumTextStyle}>{availability}</Typography>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignSelf: 'flex-start', // Align text to the left
+                width: '100%', // Ensure text spans the width
+                paddingLeft: '20px', // Add padding to start from the left
+                marginBottom: '10px'
+            }}>
+                <Typography sx={mainTextStyle}>{category}</Typography>
+                <Typography sx={mediumTextStyle}>{availability}</Typography>
+            </Box>
         </Box>
     );
 };

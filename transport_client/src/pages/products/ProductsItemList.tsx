@@ -66,7 +66,7 @@ const ProductsItemList = () => {
 
     return (
         <Box>
-            <PageHeader text={t('TEXT.PRODUCT_STOCK')}/>
+            <PageHeader text={t('PRODUCTS.PRODUCTS')}/>
             <FilterCard>
                 <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
                     <FormControl sx={{
@@ -79,7 +79,7 @@ const ProductsItemList = () => {
                     }}>
                         <Input
                             id="category"
-                            placeholder={t('TEXT.SEARCH_PRODUCT_NAME')}
+                            placeholder={t('PRODUCTS.PRODUCT_NAME')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -107,7 +107,7 @@ const ProductsItemList = () => {
                         />
                         <Input
                             id="availability"
-                            placeholder={t('TEXT.SEARCH_AVAILABILITY')}
+                            placeholder={t('PRODUCTS.AVAILABILITY')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -135,7 +135,7 @@ const ProductsItemList = () => {
                         />
                     </FormControl>
                     <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('PRODUCTS.NEW_PRODUCT')} onClick={() => navigate(`/products/new`)} />
+                        <SaveButton text={t('PRODUCTS.NEW_PRODUCT')} onClick={() => navigate(`/products-categories/:id/products/new`)} />
                     </Box>
                 </Box>
             </FilterCard>

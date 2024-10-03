@@ -6,16 +6,16 @@ import Headline from "../../components/text/Headline";
 import NormalText from "../../components/text/NormalText";
 import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
-import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
+import {useTypeSafeTranslation} from "../../components/inputfield/hooks/useTypeSafeTranslation";
 import {useNavigate, useParams} from "react-router-dom";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import TextFieldInput from "../../components/inputField/TextFieldInput";
+import TextFieldInput from "../../components/inputfield/TextFieldInput";
 import {
     ProductCategoryEditFormSchema,
     productCategoryEditFormSchema
-} from "./schemas/product-category-edit-form-schema";
+} from "../products/schemas/product-category-edit-form-schema";
 
 interface Props {
     isEditing?: boolean;

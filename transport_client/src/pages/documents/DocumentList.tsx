@@ -65,7 +65,7 @@ const DocumentList = () => {
 
     return (
         <Box>
-            <PageHeader text={t('TEXT.USERS')}/>
+            <PageHeader text={t('DOCUMENTS.DOCUMENTS')}/>
             <FilterCard>
                 <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
                     <FormControl sx={{
@@ -78,7 +78,7 @@ const DocumentList = () => {
                     }}>
                         <Input
                             id="name"
-                            placeholder="Search name"
+                            placeholder={t('DOCUMENTS.DOCUMENT_NAME')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -106,7 +106,7 @@ const DocumentList = () => {
                         />
                         <Input
                             id="position"
-                            placeholder="Search position"
+                            placeholder={t('DOCUMENTS.DOCUMENT_TYPE')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -134,7 +134,7 @@ const DocumentList = () => {
                         />
                     </FormControl>
                     <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={'Új dokumentum feltöltése'} />
+                        <SaveButton text={t('DOCUMENTS.UPLOAD_DOCUMENTS')} />
                     </Box>
                 </Box>
             </FilterCard>

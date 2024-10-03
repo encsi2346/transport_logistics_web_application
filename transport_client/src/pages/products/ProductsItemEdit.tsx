@@ -69,119 +69,122 @@ const ProductsItemEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             <PageHeader text={t('PRODUCTS.NEW_PRODUCT')}/>
             <BackgroundCard>
                 <DataCard>
-                    <Headline text={t('TEXT.PRODUCT_DATA')} />
-                    <Grid item container direction="column" spacing={2}>
-                        <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                            <Grid item xs={4} md={4}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.PRODUCT_CATEGORY_NAME')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.PRODUCT_CATEGORY_NAME')}
-                                        control={control}
-                                        name='productCategoryName'
-                                        type='text'
-                                        data-testid='product-category-name-input'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4} md={4}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.PRODUCT_NAME')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.PRODUCT_NAME')}
-                                        control={control}
-                                        name='productName'
-                                        type='text'
-                                        data-testid='product-name-input'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
-                            </Grid>
-                        </Grid>
-                        <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                            <Grid item xs={4} md={4}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.PRODUCT_NUMBER')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.PRODUCT_NUMBER')}
-                                        control={control}
-                                        name='productNumber'
-                                        type='number'
-                                        data-testid='product-number-input'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4} md={4}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.BARCODE')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.BARCODE')}
-                                        control={control}
-                                        name='barcode'
-                                        type='number'
-                                        data-testid='barcode-input'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
-                            </Grid>
-                        </Grid>
-                        <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                            <Grid item xs={4} md={4}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.OWN_WEIGHT')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.OWN_WEIGHT')}
-                                        control={control}
-                                        name='ownWeight'
-                                        type='number'
-                                        data-testid='own-weight-input'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4} md={4}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.MAX_NUMBER_OF_ITEMS')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.MAX_NUMBER_OF_ITEMS')}
-                                        control={control}
-                                        name='maxNumberOfItems'
-                                        type='number'
-                                        data-testid='max-number-of-items-input'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
+                    <Headline text={t('PRODUCTS.PRODUCT_DATA')} />
+                    <Grid container spacing={12}>
+                        {/* First Column */}
+                        <Grid item xs={12} md={4}>
+                            <Grid container direction="column" spacing={3}>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('PRODUCTS.PRODUCT_CATEGORY_NAME')} />
+                                        <TextFieldInput
+                                            placeholder={t('PRODUCTS.PRODUCT_CATEGORY_NAME')}
+                                            control={control}
+                                            name='productCategoryName'
+                                            type='text'
+                                            data-testid='product-category-name-input'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('PRODUCTS.PRODUCT_NAME')} />
+                                        <TextFieldInput
+                                            placeholder={t('PRODUCTS.PRODUCT_NAME')}
+                                            control={control}
+                                            name='productName'
+                                            type='text'
+                                            data-testid='product-name-input'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('PRODUCTS.PRODUCT_NUMBER')} />
+                                        <TextFieldInput
+                                            placeholder={t('PRODUCTS.PRODUCT_NUMBER')}
+                                            control={control}
+                                            name='productNumber'
+                                            type='number'
+                                            data-testid='product-number-input'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('PRODUCTS.BARCODE')} />
+                                        <TextFieldInput
+                                            placeholder={t('PRODUCTS.BARCODE')}
+                                            control={control}
+                                            name='barcode'
+                                            type='number'
+                                            data-testid='barcode-input'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                            <Grid item xs={4} md={4}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.CURRENT_NUMBER_OF_ITEMS')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.CURRENT_NUMBER_OF_ITEMS')}
-                                        control={control}
-                                        name='currentNumberOfItems'
-                                        type='number'
-                                        data-testid='current-number-of-items-input'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
+
+                        {/* Second Column */}
+                        <Grid item xs={12} md={4}>
+                            <Grid container direction="column" spacing={3}>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('PRODUCTS.OWN_WEIGHT')} />
+                                        <TextFieldInput
+                                            placeholder={t('PRODUCTS.OWN_WEIGHT')}
+                                            control={control}
+                                            name='ownWeight'
+                                            type='number'
+                                            data-testid='own-weight-input'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('PRODUCTS.MAX_NUMBER_OF_ITEMS')} />
+                                        <TextFieldInput
+                                            placeholder={t('PRODUCTS.MAX_NUMBER_OF_ITEMS')}
+                                            control={control}
+                                            name='maxNumberOfItems'
+                                            type='number'
+                                            data-testid='max-number-of-items-input'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('PRODUCTS.CURRENT_NUMBER_OF_ITEMS')} />
+                                        <TextFieldInput
+                                            placeholder={t('PRODUCTS.CURRENT_NUMBER_OF_ITEMS')}
+                                            control={control}
+                                            name='currentNumberOfItems'
+                                            type='number'
+                                            data-testid='current-number-of-items-input'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
                 </DataCard>
 
-                <Box sx={{ display: 'inline', paddingLeft: 130}}>
-                    <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)} />
+                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)}/>
                     <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} />
                 </Box>
             </BackgroundCard>

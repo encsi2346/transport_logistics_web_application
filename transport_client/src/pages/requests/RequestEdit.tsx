@@ -5,6 +5,8 @@ import {Box, TextField} from "@mui/material";
 import NormalText from "../../components/text/NormalText";
 import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
+import {useNavigate, useParams} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     isEditing?: boolean;
@@ -13,33 +15,38 @@ interface Props {
 //TODO
 
 const RequestEdit = ({ isEditing = false, isInputDisabled }: Props) => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [t, i18n] = useTranslation();
+
     return (
         <Box>
-            <PageHeader text={'Új kérés feladása'}/>
+            <PageHeader text={t('REQUEST.NEW_REQUESTS')}/>
             <BackgroundCard>
                 <DataCard>
                     <Box sx={{display: 'flex', flexDirection: 'column'}}>
                         <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Tárgy'} />
+                            <NormalText text={t('REQUEST.OBJECT')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Érintett munkanap'} />
+                            <NormalText text={t('REQUEST.AFFECTED_WORKING_DAY')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Indoklás'} />
+                            <NormalText text={t('REQUEST.REASON')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                            <NormalText text={'Állapot'} />
+                            <NormalText text={t('REQUEST.STATUS')} />
                             <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                         </Box>
                     </Box>
                 </DataCard>
-                <Box sx={{ display: 'inline', paddingLeft: 142}}>
-                    <CancelButton text={'Mégsem'} />
-                    <SaveButton text={'Küldés'} />
+
+                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)}/>
+                    <SaveButton text={t('TEXT.SEND')} onClick={() => console.log('send')} />
                 </Box>
             </BackgroundCard>
         </Box>

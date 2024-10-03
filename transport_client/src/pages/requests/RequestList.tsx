@@ -88,7 +88,7 @@ const RequestList = () => {
 
     return (
         <Box>
-            <PageHeader text={t('TEXT.PERSONAL_REQUESTS')}/>
+            <PageHeader text={t('REQUEST.PERSONAL_REQUESTS')}/>
             <FilterCard>
                 <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
                     <FormControl sx={{
@@ -101,7 +101,7 @@ const RequestList = () => {
                     }}>
                         <Input
                             id="name"
-                            placeholder="Search name"
+                            placeholder={t('REQUEST.FULL_NAME')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -129,7 +129,7 @@ const RequestList = () => {
                         />
                         <Input
                             id="position"
-                            placeholder="Search position"
+                            placeholder={t('REQUEST.POSITION')}
                             autoFocus
                             onChange={(e) => setSearch(e.target.value)}
                             startAdornment={
@@ -157,7 +157,7 @@ const RequestList = () => {
                         />
                     </FormControl>
                     <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('TEXT.ADD_NEW_REQUEST')} onClick={openAddNewRequestDialog} />
+                        <SaveButton text={t('REQUEST.NEW_REQUESTS')} onClick={openAddNewRequestDialog} />
                     </Box>
                 </Box>
             </FilterCard>
