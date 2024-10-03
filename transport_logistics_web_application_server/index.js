@@ -70,18 +70,18 @@ app.get('/', (req, resp) => {
     resp.send('Welcome to mongodb API')
 })
 
-const multer = require('multer');
+/*const multer = require('multer');
 const fs = require('fs');
 const { User, VerificationScore } = require('./VerificationScore');
 const { loadModel, verifySpeaker } = require('./voiceVerificationModel');
 
 const upload = multer({ dest: 'uploads/' });
-
+*/
 // Modell betöltése
-loadModel();
+//loadModel();
 
 // Hangfájl feltöltése
-app.post('/upload', upload.single('file'), async (req, res) => {
+/*app.post('/upload', upload.single('file'), async (req, res) => {
     const { name, email } = req.body;
     const filePath = req.file.path;
 
@@ -94,10 +94,10 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
     await user.save();
     res.status(200).json({ message: 'File uploaded successfully' });
-});
+});*/
 
 // Hangfájl verifikálása
-app.post('/verify', upload.single('file'), async (req, res) => {
+/*app.post('/verify', upload.single('file'), async (req, res) => {
     const tempFilePath = req.file.path;
     const users = await User.find();
 
@@ -119,17 +119,17 @@ app.post('/verify', upload.single('file'), async (req, res) => {
     } else {
         res.status(200).json({ verified: false, score: highestScore });
     }
-});
+});*/
 
 // Dinamikus küszöbérték számítása
-async function calculateDynamicThreshold(userId) {
+/*async function calculateDynamicThreshold(userId) {
     const scores = await VerificationScore.find({ userId });
     if (scores.length > 0) {
         const avgScore = scores.reduce((sum, score) => sum + score.value, 0) / scores.length;
         return avgScore * 0.8;
     }
     return 0.5;
-}
+}*/
 
 /*MANGOOSE SETUP*/
 const PORT = process.env.PORT || 6001;
