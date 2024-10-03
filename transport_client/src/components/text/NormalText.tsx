@@ -13,17 +13,31 @@ const titleStyle: SxProps<Theme> = {
     marginRight: '10px'
 }
 
-interface Props {
-    text: string;
+const requiredStyle: SxProps<Theme> = {
+    fontWeight: 500,
+    fontSize: '20px',
+    color: '#ff0000',
+    marginLeft: '1px',
+    marginTop: '10px',
 }
 
-const NormalText = ({ text }: Props) => {
+interface Props {
+    text: string;
+    required?: boolean;
+}
+
+const NormalText = ({ text, required }: Props) => {
     return (
         <>
-            <Box>
+            <Box sx={{display: 'flex'}}>
                 <Typography sx={titleStyle}>
                     {text}
                 </Typography>
+                {required &&
+                    <Typography sx={requiredStyle}>
+                        *
+                    </Typography>
+                }
             </Box>
         </>
     );

@@ -214,7 +214,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 <Grid container direction="column" spacing={3}>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.FAMILY_NAME')} />
+                                            <NormalText text={t('USER.FAMILY_NAME')} required={true} />
                                             <TextFieldInput
                                                 placeholder={t('USER.FAMILY_NAME')}
                                                 control={control}
@@ -228,7 +228,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     </Grid>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.FIRST_NAME')} />
+                                            <NormalText text={t('USER.FIRST_NAME')} required={true} />
                                             <TextFieldInput
                                                 placeholder={t('USER.FIRST_NAME')}
                                                 control={control}
@@ -242,7 +242,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     </Grid>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.GENDER')} />
+                                            <NormalText text={t('USER.GENDER')} required={true} />
                                             <SelectInput
                                                 placeholder={t('USER.GENDER')}
                                                 control={control}
@@ -270,7 +270,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     </Grid>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.NATIONALITY')} />
+                                            <NormalText text={t('USER.NATIONALITY')} required={true} />
                                             <TextFieldInput
                                                 placeholder={t('USER.NATIONALITY')}
                                                 control={control}
@@ -284,7 +284,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     </Grid>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.BIRTH_PLACE')} />
+                                            <NormalText text={t('USER.BIRTH_PLACE')} required={true} />
                                             <TextFieldInput
                                                 placeholder={t('USER.BIRTH_PLACE')}
                                                 control={control}
@@ -298,7 +298,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     </Grid>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.BIRTH_DATE')} />
+                                            <NormalText text={t('USER.BIRTH_DATE')} required={true} />
 
                                             {/*
                                             //TODO: datepicker
@@ -322,7 +322,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     </Grid>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.ID_CARD_NUMBER')} />
+                                            <NormalText text={t('USER.ID_CARD_NUMBER')} required={true} />
                                             <TextFieldInput
                                                 placeholder={t('USER.ID_CARD_NUMBER')}
                                                 control={control}
@@ -336,7 +336,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     </Grid>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.VALIDITY_DATE_OF_ID_CARD')} />
+                                            <NormalText text={t('USER.VALIDITY_DATE_OF_ID_CARD')} required={true} />
                                             {/*
                                             //TODO: datepicker
                                             <DatePickerInput
@@ -366,7 +366,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 <Grid container direction="column" spacing={3}>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.DRIVING_LICENCE_CATEGORIES')} />
+                                            <NormalText text={t('USER.DRIVING_LICENCE_CATEGORIES')} required={true} />
                                             <SelectInput //TODO: multiselect
                                                 placeholder={t('USER.DRIVING_LICENCE_CATEGORIES')}
                                                 control={control}
@@ -394,7 +394,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     </Grid>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.DRIVING_LICENCE_NUMBER')} />
+                                            <NormalText text={t('USER.DRIVING_LICENCE_NUMBER')} required={true} />
                                             <TextFieldInput
                                                 placeholder={t('USER.DRIVING_LICENCE_NUMBER')}
                                                 control={control}
@@ -408,7 +408,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     </Grid>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.VALIDITY_DATE_OF_DRIVING_LICENCE')} />
+                                            <NormalText text={t('USER.VALIDITY_DATE_OF_DRIVING_LICENCE')} required={true} />
                                             {/*
                                             //TODO: datepicker
                                             <DatePickerInput
@@ -432,7 +432,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     </Grid>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.DATE_OF_MEDICAL_VISIT')} />
+                                            <NormalText text={t('USER.DATE_OF_MEDICAL_VISIT')} required={true} />
                                             {/*
                                             //TODO: datepicker
                                             <DatePickerInput
@@ -456,7 +456,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                     </Grid>
                                     <Grid item>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('USER.VALIDITY_DATE_OF_MEDICAL_VISIT')} />
+                                            <NormalText text={t('USER.VALIDITY_DATE_OF_MEDICAL_VISIT')} required={true} />
                                             {/*
                                             //TODO: datepicker
                                             <DatePickerInput
@@ -518,7 +518,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Grid container direction="column" spacing={3}>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.EMAIL')} />
+                                        <NormalText text={t('TEXT.EMAIL')} required={true} />
                                         <TextFieldInput
                                             placeholder={t('TEXT.EMAIL')}
                                             control={control}
@@ -532,7 +532,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 </Grid>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.PHONE_NUMBER')} />
+                                        <NormalText text={t('USER.PHONE_NUMBER')} required={true} />
                                         <TextFieldInput
                                             placeholder={t('USER.PHONE_NUMBER')}
                                             control={control}
@@ -546,7 +546,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 </Grid>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.COUNTRY')} />
+                                        <NormalText text={t('USER.COUNTRY')} required={true} />
                                         <TextFieldInput
                                             placeholder={t('USER.COUNTRY')}
                                             control={control}
@@ -560,7 +560,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 </Grid>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.POSTCODE')} />
+                                        <NormalText text={t('USER.POSTCODE')} required={true} />
                                         <TextFieldInput
                                             placeholder={t('USER.POSTCODE')}
                                             control={control}
@@ -580,7 +580,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Grid container direction="column" spacing={3}>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.CITY')} />
+                                        <NormalText text={t('USER.CITY')} required={true} />
                                         <TextFieldInput
                                             placeholder={t('USER.CITY')}
                                             control={control}
@@ -594,7 +594,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 </Grid>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.NAME_OF_PUBLIC_AREA')} />
+                                        <NormalText text={t('USER.NAME_OF_PUBLIC_AREA')} required={true} />
                                         <TextFieldInput
                                             placeholder={t('USER.NAME_OF_PUBLIC_AREA')}
                                             control={control}
@@ -607,7 +607,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 </Grid>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.TYPE_OF_PUBLIC_AREA')} />
+                                        <NormalText text={t('USER.TYPE_OF_PUBLIC_AREA')} required={true} />
                                         <TextFieldInput
                                             placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
                                             control={control}
@@ -620,7 +620,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 </Grid>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.HOUSE_NUMBER')} />
+                                        <NormalText text={t('USER.HOUSE_NUMBER')} required={true} />
                                         <TextFieldInput
                                             placeholder={t('USER.HOUSE_NUMBER')}
                                             control={control}
@@ -655,7 +655,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Grid container direction="column" spacing={3}>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.DATE_OF_REGISTRATION')} />
+                                        <NormalText text={t('USER.DATE_OF_REGISTRATION')} required={true} />
                                         {/*
                                         //TODO: datepicker
                                         <DatePickerInput
@@ -679,7 +679,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 </Grid>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.START_DATE_OF_CONTRACT')} />
+                                        <NormalText text={t('USER.START_DATE_OF_CONTRACT')} required={true} />
                                         {/*
                                         //TODO: datepicker
                                         <DatePickerInput
@@ -703,7 +703,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 </Grid>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.END_DATE_OF_CONTRACT')} />
+                                        <NormalText text={t('USER.END_DATE_OF_CONTRACT')} required={true} />
                                         {/*
                                         //TODO: datepicker
                                         <DatePickerInput
@@ -726,7 +726,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 </Grid>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.POSITION')} />
+                                        <NormalText text={t('USER.POSITION')} required={true} />
                                         <TextFieldInput
                                             placeholder={t('USER.POSITION')}
                                             control={control}
@@ -746,7 +746,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Grid container direction="column" spacing={3}>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.LINE_MANAGER')} />
+                                        <NormalText text={t('USER.LINE_MANAGER')} required={true} />
                                         <TextFieldInput
                                             placeholder={t('USER.LINE_MANAGER')}
                                             control={control}
@@ -782,7 +782,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                         <Grid container direction="column" spacing={3}>
                             <Grid item>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('USER.HEALTH_PROBLEM')} />
+                                    <NormalText text={t('USER.HEALTH_PROBLEM')} required={true} />
                                     <TextFieldInput
                                         placeholder={t('USER.HEALTH_PROBLEM')}
                                         control={control}
