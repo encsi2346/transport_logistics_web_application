@@ -7,11 +7,11 @@ import CarTypeOfTransportationList from "@/pages/car-types/CarTypeOfTransportati
 const CarRouting = () => {
     return (
         <Routes>
-            <Route path="/" element={<CarTypeList />} />
-            <Route path=":id" element={<CarRead isInputDisabled isEditing />} />
-            <Route path="/new" element={<CarTypeEdit />} />
-            <Route path="/transportation" element={<CarTypeOfTransportationList />} /> {/* TODO: külön routot csinálni neki normálisan */}
-            <Route path="/edit/:id" element={<CarTypeEdit isEditing />} />
+            <Route path="/" element={<CarTypeOfTransportationList />} />
+            <Route path="/:id/car-types" element={<CarTypeList />} />
+            <Route path="/:id/car-types/:id" element={<CarRead isInputDisabled isEditing />} />
+            <Route path="/:id/car-types/new" element={<CarTypeEdit />} />
+            <Route path="/:id/car-types/edit/:id" element={<CarTypeEdit isEditing />} />
         </Routes>
     );
 };

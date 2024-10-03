@@ -22,27 +22,32 @@ const iconStyle: SxProps<Theme> = {
 }
 
 interface Props {
+    onClick: () => void;
+    id: number;
     type: string;
     countOfCars: number;
 }
 
-const CarTypeOfTransportationCard = ({ type, countOfCars }: Props) => {
+const CarTypeOfTransportationCard = ({ onClick, id, type, countOfCars }: Props) => {
     const theme = useTheme();
 
     return (
-        <Box sx={{
-            backgroundColor: `${theme.palette.component.lightMin}`,
-            borderRadius: '19px',
-            marginRight: '60px',
-            marginBottom: '40px',
-            paddingTop: '20px',
-            paddingBottom: '20px',
-            paddingLeft: '20px',
-            paddingRight: '20px',
-            boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
-            cursor: 'pointer', //TODO: create hover-effect
-            justifyContent: 'center'
-        }}>
+        <Box
+            onClick={onClick}
+            sx={{
+                backgroundColor: `${theme.palette.component.lightMin}`,
+                borderRadius: '19px',
+                marginRight: '60px',
+                marginBottom: '40px',
+                paddingTop: '20px',
+                paddingBottom: '20px',
+                paddingLeft: '20px',
+                paddingRight: '20px',
+                boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
+                cursor: 'pointer', //TODO: create hover-effect
+                justifyContent: 'center'
+            }}
+        >
             <Box sx={{display: 'flex', alignItems: 'center', marginTop: 3}}>
                 <Box>
                     <LocalShippingIcon sx={iconStyle}/>

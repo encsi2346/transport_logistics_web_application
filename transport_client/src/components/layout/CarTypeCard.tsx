@@ -1,53 +1,82 @@
 import {Box, SxProps, Theme, Typography, useTheme} from "@mui/material";
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import Van from "@/assets/van.png";
 
 const textStyle: SxProps<Theme> = {
     fontWeight: 'bold',
-    fontSize: '14px',
+    fontSize: '18px',
     color: '#DD1C13',
-    marginTop: '20px',
+    marginTop: '2px',
     textTransform: 'uppercase',
 }
 
-const iconStyle: SxProps<Theme> = {
-    fontSize: 120,
+const mediumTextStyle: SxProps<Theme> = {
+    fontWeight: 'bold',
+    fontSize: '15px',
+    color: '#000000',
+    marginTop: '10px',
+    textTransform: 'uppercase',
+}
+
+const smallTextStyle: SxProps<Theme> = {
+    fontWeight: 'normal',
+    fontSize: '14px',
     color: '#A3A3A3',
-    marginLeft: '40px',
-    marginRight: '40px',
-    marginTop: '20px',
-    marginBottom: '10px',
+    marginTop: 'auto',
 }
 
 interface Props {
+    onClick: () => void;
+    id: number;
     brand: string;
     type: string;
     subType: string;
+    licencePlate: string;
+    image: string;
+    countOfTransportation: number;
 }
 
-const CarTypeCard = ({ brand, type, subType }: Props) => {
+const CarTypeCard = ({ onClick, id, brand, type, subType, licencePlate, image, countOfTransportation }: Props) => {
     const theme = useTheme();
 
     return (
-        <Box sx={{
-            backgroundColor: `${theme.palette.component.lightMin}`,
-            borderRadius: '19px',
-            marginRight: '60px',
-            marginBottom: '40px',
-            paddingTop: '20px',
-            paddingBottom: '20px',
-            paddingLeft: '20px',
-            paddingRight: '20px',
-            boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
-            cursor: 'pointer' //TODO: create hover-effect
-        }}>
-            <Box sx={{display: 'flex', align: 'center', justifyContent: 'center'}}>
-                <LocalShippingIcon sx={iconStyle}/>
-            </Box>
-            <Typography sx={textStyle}>
-                {brand} {type}
-            </Typography>
-            <Typography>
-                {subType}
+        <Box
+            onClick={onClick}
+            sx={{
+                backgroundColor: `${theme.palette.component.lightMin}`,
+                borderRadius: '19px',
+                marginRight: '60px',
+                marginBottom: '40px',
+                paddingTop: '20px',
+                paddingBottom: '20px',
+                paddingLeft: '20px',
+                paddingRight: '20px',
+                boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
+                cursor: 'pointer', //TODO: create hover-effect
+                width: 350,
+                height: 350,
+                display: 'flex',
+                flexDirection: 'column',
+                position: "relative",
+            }}
+        >
+                <Typography sx={textStyle}>
+                    {brand} {type}
+                </Typography>
+                <Typography sx={textStyle}>
+                    {subType}
+                </Typography>
+                <Typography sx={mediumTextStyle}>
+                    {licencePlate}
+                </Typography>
+                <Box sx={{ position: "absolute", top: "58%", right: "0", width: "250px", height: "200px", transform: "translateY(-50%)", overflow: "hidden" }}>
+                    <img
+                        style={{ height: "100%", width: "100%", objectFit: "cover", objectPosition: "left" }}
+                        alt="van"
+                        src={Van}
+                    />
+                </Box>
+            <Typography sx={smallTextStyle}>
+                {countOfTransportation} szállítás
             </Typography>
         </Box>
     );

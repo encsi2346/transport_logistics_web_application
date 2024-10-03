@@ -33,7 +33,7 @@ const UserCard = ({ onClick, id, fullName, position, phoneNumber, image }: Props
     return (
         <Box
             onClick={onClick}
-                sx={{
+            sx={{
                 backgroundColor: `${theme.palette.component.lightMin}`,
                 borderRadius: '19px',
                 marginRight: '60px',

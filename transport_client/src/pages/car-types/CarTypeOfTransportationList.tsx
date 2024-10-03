@@ -24,28 +24,34 @@ const CarTypeOfTransportationList = () => {
     const [search, setSearch] = useState('');
     const [typeOfTransportationList, setTypeOfTransportationList] = useState([
         {
+            id: 1,
             type: 'Ponyvás szállítás',
-            countOfCars: '12'
+            countOfCars: 12
         },
         {
+            id: 2,
             type: 'Hűtött szállítás',
-            countOfCars: '8'
+            countOfCars: 8
         },
         {
+            id: 3,
             type: 'Folyékony szállítás',
-            countOfCars: '2'
+            countOfCars: 2
         },
         {
+            id: 4,
             type: 'Jármű szállítás',
-            countOfCars: '6'
+            countOfCars: 6
         },
         {
+            id: 5,
             type: 'Konténeres szállítás',
-            countOfCars: '5'
+            countOfCars: 5
         },
         {
+            id: 6,
             type: 'Kisteherautó',
-            countOfCars: '52'
+            countOfCars: 52
         },
     ]);
 
@@ -190,8 +196,13 @@ const CarTypeOfTransportationList = () => {
                             })
                             .map((item, index) => {
                                 return (
-                                    <Grid item xs={5} key={item.type}>
-                                        <CarTypeOfTransportationCard type={item.type} countOfCars={item.countOfCars}/>
+                                    <Grid item xs={5} key={item.id}>
+                                        <CarTypeOfTransportationCard
+                                            onClick={() => navigate(`/type-of-transportation/${item.id}/car-types`)}
+                                            id={item.id}
+                                            type={item.type}
+                                            countOfCars={item.countOfCars}
+                                        />
                                     </Grid>
                                 );
                             })}

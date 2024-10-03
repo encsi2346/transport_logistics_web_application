@@ -58,7 +58,7 @@ const Sidebar = () => {
                 <LocalShippingIcon {...iconProps} />
             </Tooltip>,
             label: t('TEXT.CAR_TYPES'),
-            route: '/car-types',
+            route: '/type-of-transportation',
         },
         {
             icon:   <Tooltip title={t('TEXT.PRODUCT_CATEGORIES')}>

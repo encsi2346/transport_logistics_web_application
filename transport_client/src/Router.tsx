@@ -27,8 +27,7 @@ const Router = () => {
                     <Route path="/" element={isAuth ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
                     <Route path="dashboard" element={isAuth ? <Dashboard /> : <Navigate to="/login" />} />
                     <Route path="users/*" element={isAuth ? <UserRouting /> : <Navigate to="/login" />} />
-                    <Route path="car-types/*" element={isAuth ? <CarRouting /> : <Navigate to="/login" />} />
-                    <Route path="car-types/car-types-of-transportation/*" element={isAuth ? <CarRouting /> : <Navigate to="/login" />} />
+                    <Route path="type-of-transportation/*" element={isAuth ? <CarRouting /> : <Navigate to="/login" />} />
                     <Route path="products-categories/*" element={isAuth ? <ProductsRouting /> : <Navigate to="/login" />} />
                     <Route path="transportations/*" element={isAuth ? <TransportationRouting /> : <Navigate to="/login" />} />
                     <Route path="requests/*" element={isAuth ? <RequestRouting /> : <Navigate to="/login" />} />
