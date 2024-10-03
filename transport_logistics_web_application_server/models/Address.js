@@ -8,6 +8,7 @@ const addressSchema = new mongoose.Schema({
     nameOfPublicArea: String, //közterület neve
     typeOfPublicArea: String, //közterület jellege
     houseNumber: String, //házszám
+    raktar: Boolean, //TODO: raktár-e, angol
 });
 
 const Address = mongoose.model('Address', addressSchema);

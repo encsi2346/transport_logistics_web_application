@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {CommentType} from "./enums/CommentType.ts";
+import {CommentType} from "./enums/CommentType.js";
 
 const commentSchema = new mongoose.Schema({
     commentId: String,

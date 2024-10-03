@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {RequestStatus} from "./states/RequestStatus.ts";
+import {RequestStatus} from "./states/RequestStatus.js";
 
 const requestSchema = new mongoose.Schema({
     requestId: String,

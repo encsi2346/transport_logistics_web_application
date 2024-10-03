@@ -1,0 +1,36 @@
+{
+  "TEXT": {
+    "SELECT_MODE": "Select theme:",
+    "SELECT_LANGUAGE": "Select language:",
+    "DASHBOARD": "Dashboard",
+    "USERS": "Users",
+    "TRANSPORTATION": "Transportations",
+    "CAR_TYPES": "Car types",
+    "PRODUCT_CATEGORIES": "Product categories",
+    "ORDERS": "Orders",
+    "REQUESTS": "Requests",
+    "PROFILE": "Profile",
+    "DOCUMENTS": "Documents",
+    "INVOICES": "Invoices",
+    "LOGOUT": "Logout",
+    "ACTIONS": "Actions",
+    "EDIT": "Edit",
+    "VIEW": "View",
+    "REMOVE": "Remove"
+  },
+  "USER": {
+    "ID": "ID",
+    "FULL_NAME": "Full Name",
+    "POSITION": "Position",
+    "DRIVING_LICENCE_CATEGORIES": "Driving licence categories",
+    "VALIDITY_DATE_OF_DRIVING_LICENCE": "Validity date of driving licence"
+  },
+  "TRANSPORTATIONS": {
+    "ID": "ID",
+    "DRIVER_NAME": "Driver name",
+    "START_PLACE": "Start place",
+    "END_PLACE": "End place",
+    "START_DATE": "Start date",
+    "END_DATE": "End date"
+  }
+}

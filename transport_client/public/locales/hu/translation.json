@@ -1,0 +1,99 @@
+{
+  "TEXT": {
+    "SELECT_MODE": "Téma választás:",
+    "SELECT_LANGUAGE": "Nyelv választás:",
+    "DASHBOARD": "Irányítópult",
+    "USERS": "Felhasználók",
+    "TRANSPORTATION": "Szállításitervek",
+    "CAR_TYPES": "Autótípusok",
+    "PRODUCT_CATEGORIES": "Termékkategóriák",
+    "ORDERS": "Megrendelések",
+    "REQUESTS": "Kérések",
+    "PROFILE": "Profilom",
+    "DOCUMENTS": "Dokumentumok",
+    "INVOICES": "Számlák",
+    "LOGOUT": "Kijelentkezés",
+    "ACTIONS": "Műveletek",
+    "EDIT": "Szerkesztés",
+    "VIEW": "Megtekintés",
+    "REMOVE": "Törlés",
+    "WELCOME": "Üdv, újra itt!",
+    "LOGIN_FAILED": "Nem sikerült a bejelentkezés.",
+    "EMAIL": "Email",
+    "PASSWORD": "Jelszó",
+    "FORGOTTEN_PASSWORD": "Elfelejtett jelszó",
+    "RESET_PASSWORD": "Jelszó visszaállítása",
+    "RESET_PASSWORD_MESSAGE": "Jelszó visszaállítási szöveg helye",
+    "SIGN_IN": "Bejelentkezés",
+    "SEND": "Küldés",
+    "CANCEL": "Mégsem",
+    "SAVE": "Mentés"
+  },
+  "USER": {
+    "ID": "Azonosító",
+    "FULL_NAME": "Teljes név",
+    "POSITION": "Pozíció",
+    "DRIVING_LICENCE_CATEGORIES": "Jogosítvány kategóriák",
+    "VALIDITY_DATE_OF_DRIVING_LICENCE": "Jogosítvány érvényességi ideje",
+    "NEW_USER": "Új felhasználó hozzáadása"
+  },
+  "TRANSPORTATIONS": {
+    "ID": "Azonosító",
+    "DRIVER_NAME": "Sofőr neve",
+    "START_PLACE": "Indulási hely",
+    "END_PLACE": "Érkezési hely",
+    "START_DATE": "Indulási dátum, idő",
+    "END_DATE": "Érkezési dátum, idő"
+  },
+  "REQUEST": {
+    "ID": "Azonosító",
+    "FULL_NAME": "Teljes név",
+    "POSITION": "Pozíció"
+  },
+  "PRODUCTS": {
+    "ID": "Azonosító",
+    "PRODUCT_NAME": "Terméknév",
+    "AVAILABILITY": "Elérhetőség",
+    "NEW_PRODUCT": "Új termék hozzáadása"
+  },
+  "PRODUCT_CATEGORIES": {
+    "NEW_PRODUCT_CATEGORY": "Új termékkategória hozzáadása"
+  },
+  "INVOICES": {
+    "ID": "Azonosító",
+    "ORDER_ID": "Rendelési azonosító",
+    "COMPANY_NAME": "Megrendelő",
+    "DATE_OF_CREATION": "Létrehozás dátuma",
+    "PAYMENT_DEADLINE": "Fizetési határidő",
+    "SUMMARY": "Összeg",
+    "STATUS": "Állapot"
+  },
+  "DOCUMENTS": {
+    "ID": "Azonosító",
+    "DOCUMENT_TYPE": "Dokumentum típusa",
+    "DOCUMENT_NAME": "Dokumentum neve",
+    "CREATED_BY": "Létrehozó",
+    "DATE_OF_CREATION": "Létrehozás dátuma",
+    "SIZE": "Méret"
+  },
+  "CAR_TYPES": {
+    "ADD_NEW_CAR_TYPE": "Új autótípus hozzáadása",
+    "CAR_TYPE_DATA": "Autótípus adatok",
+    "CAR_TYPE_NAME": "Autótípus neve",
+    "CAR_FUNCTIONAL_DESIGN": "Kivitel",
+    "PERFORMANCE": "Teljesítmény",
+    "OWN_WEIGHT": "Saját súly",
+    "NUMBER_OF_SEATS": "Ülések száma",
+    "FUEL": "Üzemanyag",
+    "USEFUL_WEIGHT": "Hasznos teher"
+  },
+  "CAR": {
+    "BRAND": "Márka",
+    "TYPE": "Típus",
+    "LICENCE_PLATE": "Rendszám",
+    "CAR_FUNCTIONAL_DESIGN": "Kivitel",
+    "FUEL": "Üzemanyag",
+    "PRODUCTION_YEAR": "Gyártási év",
+    "NUMBER_OF_SEATS": "Ülések száma"
+  }
+}

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {AnswerOptionType} from "./enums/AnswerOptionType.ts";
+import {AnswerOptionType} from "./enums/AnswerOptionType.js";
 
 const answerSchema = new mongoose.Schema({
     answerId: String,

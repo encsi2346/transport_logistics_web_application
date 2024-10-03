@@ -5,7 +5,7 @@ import SelectedProduct from "./SelectedProduct.js";
 import DockingPoint from "./DockingPoint.js";
 import Result from "./Result.js";
 import Invoice from "./Invoice.js";
-import {OrderStatus} from "./states/OrderStatus.ts";
+import {OrderStatus} from "./states/OrderStatus.js";
 
 const orderSchema = new mongoose.Schema({
     orderId: String,

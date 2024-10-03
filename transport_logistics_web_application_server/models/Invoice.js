@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {InvoiceStatus} from "./states/InvoiceStatus.ts";
+import {InvoiceStatus} from "./states/InvoiceStatus.js";
 
 const invoiceSchema = new mongoose.Schema({
     invoiceId: String, //számla azonosító

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {ProductStatus} from "./states/ProductStatus.ts";
+import {ProductStatus} from "./states/ProductStatus.js";
 import ProductCategory from "./ProductCategory.js";
 import {Double} from "mongodb";
 

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {DocumentStatus} from "./states/DocumentStatus.ts";
+import {DocumentStatus} from "./states/DocumentStatus.js";
 import User from "./User.js";
 
 const documentSchema = new mongoose.Schema({

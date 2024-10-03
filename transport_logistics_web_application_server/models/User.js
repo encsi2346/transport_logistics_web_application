@@ -52,7 +52,7 @@ const UserSchema = new mongoose.Schema({
     startDateOfContract: String, //Szerződés kezdete
     endDateOfContract: String, //Szerződés vége
     position: String, //Pozíció/Beosztás
-    lineManager: User, //felettes
+    lineManager: String, //felettes   //TODO: how to do User?
     healthProblem: String, //Egészségügyi problémák
     //createdAt: String, //TODO:iődsor?
     //voicePath: String, //TODO: idősor?

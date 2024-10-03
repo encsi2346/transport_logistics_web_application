@@ -1,13 +1,4 @@
 import swaggerJSDoc from 'swagger-jsdoc'
-import {ProductStatus} from "../models/states/ProductStatus.js";
-import {AnswerOptionType} from "../models/enums/AnswerOptionType.js";
-import {AnswerObjectType} from "../models/enums/AnswerObjectType.js";
-import {MedicalVisitStatus} from "../models/states/MedicalVisitStatus.js";
-import {TechnicalExamStatus} from "../models/states/TechnicalExamStatus.js";
-import {DrivingLicenceType} from "../models/enums/DrivingLicenceType.js";
-import {FuelType} from "../models/enums/FuelType.js";
-import {GenderType} from "../models/enums/GenderType.js";
-import {PositionType} from "../models/enums/PositionType.js";
 
 const options = {
     definition: {
