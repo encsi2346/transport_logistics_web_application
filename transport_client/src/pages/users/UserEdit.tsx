@@ -10,7 +10,7 @@ import {
     InputAdornment,
     MenuItem,
     Select,
-    SelectChangeEvent,
+    SelectChangeEvent, SxProps, Theme, Typography,
     useTheme
 } from "@mui/material";
 import CancelButton from "../../components/button/CancelButton";
@@ -30,7 +30,23 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import {setMode} from "@/state";
 import SelectInput from "@/components/inputfield/SelectInput";
-import DatePickerInput from "@/components/inputfield/DatePickerInput";
+//import DatePickerInput from "@/components/inputfield/DatePickerInput";
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+
+const textStyle: SxProps<Theme> = {
+    fontWeight: 'bold',
+    fontSize: '18px',
+    color: '#A3A3A3',
+}
+
+const iconStyle: SxProps<Theme> = {
+    fontSize: 100,
+    color: '#A3A3A3',
+    marginLeft: '40px',
+    marginRight: '40px',
+    marginTop: '20px',
+    marginBottom: '10px',
+}
 
 interface Props {
     isEditing?: boolean;
@@ -74,6 +90,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             });
     }, [languageValue]);
 
+    //TODO: lekérni apiból
     const gender = {
         0: `${t('TEXT.MEN')}`,
         1: `${t('TEXT.WOMEN')}`
@@ -147,7 +164,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     return (
         <Box>
-            <PageHeader text={t('TEXT.ADD_NEW_USER')}/>
+            <PageHeader text={t('USER.NEW_USER')}/>
             <BackgroundCard>
                 <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
                     <Box sx={{ display: 'block', justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 5}}>
@@ -190,463 +207,612 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
             <BackgroundCard>
                 <DataCard>
-                    <Headline text={t('TEXT.PERSONAL_DATA')} />
-                        <Grid item container direction="column" spacing={2}>
-                            <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.FAMILY_NAME')} />
-                                        <TextFieldInput
-                                            placeholder={t('TEXT.FAMILY_NAME')}
-                                            control={control}
-                                            name='familyName'
-                                            type='text'
-                                            data-testid='family-name-input'
-                                            disabled={inputDisabled}
-                                            required
-                                        />
-                                    </Box>
-                                </Grid>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.FIRST_NAME')} />
-                                        <TextFieldInput
-                                            placeholder={t('TEXT.FIRST_NAME')}
-                                            control={control}
-                                            name='firstName'
-                                            type='text'
-                                            data-testid='first-name-input'
-                                            disabled={inputDisabled}
-                                            required
-                                        />
-                                    </Box>
-                                </Grid>
-                            </Grid>
-                            <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.GENDER')} />
-                                        <SelectInput
-                                            placeholder={t('TEXT.GENDER')}
-                                            control={control}
-                                            name='gender'
-                                            data-testid='gender-input'
-                                            disabled={inputDisabled}
-                                            //options={enumToOptions(userRoles)}
-                                            required
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position='end'>
-                                                        <IconButton onClick={() => setValue('gender', undefined)} edge="end" >
-                                                            <ClearRoundedIcon />
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                                sx: {
-                                                    '.MuiSelect-icon': {
-                                                        display: 'none',
+                    <Headline text={t('USER.PERSONAL_DATA')} />
+                        <Grid container spacing={2}>
+                            {/* First Column */}
+                            <Grid item xs={12} md={4}>
+                                <Grid container direction="column" spacing={3}>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.FAMILY_NAME')} />
+                                            <TextFieldInput
+                                                placeholder={t('USER.FAMILY_NAME')}
+                                                control={control}
+                                                name='familyName'
+                                                type='text'
+                                                data-testid='family-name-input'
+                                                disabled={inputDisabled}
+                                                required
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.FIRST_NAME')} />
+                                            <TextFieldInput
+                                                placeholder={t('USER.FIRST_NAME')}
+                                                control={control}
+                                                name='firstName'
+                                                type='text'
+                                                data-testid='first-name-input'
+                                                disabled={inputDisabled}
+                                                required
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.GENDER')} />
+                                            <SelectInput
+                                                placeholder={t('USER.GENDER')}
+                                                control={control}
+                                                name='gender'
+                                                data-testid='gender-input'
+                                                disabled={inputDisabled}
+                                                //options={enumToOptions(userRoles)}
+                                                required
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <InputAdornment position='end'>
+                                                            <IconButton onClick={() => setValue('gender', undefined)} edge="end" >
+                                                                <ClearRoundedIcon />
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    ),
+                                                    sx: {
+                                                        '.MuiSelect-icon': {
+                                                            display: 'none',
+                                                        },
                                                     },
-                                                },
-                                            }}
-                                        />
-                                    </Box>
-                                </Grid>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.NATIONALITY')} />
-                                        <TextFieldInput
-                                            placeholder={t('TEXT.NATIONALITY')}
-                                            control={control}
-                                            name='nationality'
-                                            type='text'
-                                            data-testid='nationality-input'
-                                            disabled={inputDisabled}
-                                            required
-                                        />
-                                    </Box>
+                                                }}
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.NATIONALITY')} />
+                                            <TextFieldInput
+                                                placeholder={t('USER.NATIONALITY')}
+                                                control={control}
+                                                name='nationality'
+                                                type='text'
+                                                data-testid='nationality-input'
+                                                disabled={inputDisabled}
+                                                required
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.BIRTH_PLACE')} />
+                                            <TextFieldInput
+                                                placeholder={t('USER.BIRTH_PLACE')}
+                                                control={control}
+                                                name='birthPlace'
+                                                type='text'
+                                                data-testid='birth-place-input'
+                                                disabled={inputDisabled}
+                                                required
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.BIRTH_DATE')} />
+
+                                            {/*
+                                            //TODO: datepicker
+                                            <DatePickerInput
+                                                placeholder={t('USER.BIRTH_DATE')}
+                                                control={control}
+                                                name='birthDate'
+                                                data-testid='birth-date-input'
+                                                disabled={inputDisabled}
+                                                required
+                                            />*/}
+                                            <TextFieldInput
+                                                placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
+                                                control={control}
+                                                name='typeOfPublicArea'
+                                                type='text'
+                                                data-testid='type-of-public-area'
+                                                disabled={inputDisabled}
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.ID_CARD_NUMBER')} />
+                                            <TextFieldInput
+                                                placeholder={t('USER.ID_CARD_NUMBER')}
+                                                control={control}
+                                                name='IDCardNumber'
+                                                type='text'
+                                                data-testid='id-card-number-input'
+                                                disabled={inputDisabled}
+                                                required
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.VALIDITY_DATE_OF_ID_CARD')} />
+                                            {/*
+                                            //TODO: datepicker
+                                            <DatePickerInput
+                                                placeholder={t('USER.VALIDITY_DATE_OF_ID_CARD')}
+                                                control={control}
+                                                name='validityDateOfIDCard'
+                                                data-testid='validity-date-of-id-card'
+                                                disabled={inputDisabled}
+                                                required
+                                            />
+                                            */}
+                                            <TextFieldInput
+                                                placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
+                                                control={control}
+                                                name='typeOfPublicArea'
+                                                type='text'
+                                                data-testid='type-of-public-area'
+                                                disabled={inputDisabled}
+                                            />
+                                        </Box>
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.BIRTH_PLACE')} />
-                                        <TextFieldInput
-                                            placeholder={t('TEXT.BIRTH_PLACE')}
-                                            control={control}
-                                            name='birthPlace'
-                                            type='text'
-                                            data-testid='birth-place-input'
-                                            disabled={inputDisabled}
-                                            required
-                                        />
-                                    </Box>
-                                </Grid>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.BIRTH_DATE')} />
-                                        <DatePickerInput
-                                            placeholder={t('TEXT.BIRTH_DATE')}
-                                            control={control}
-                                            name='birthDate'
-                                            data-testid='birth-date-input'
-                                            disabled={inputDisabled}
-                                            required
-                                        />
-                                    </Box>
-                                </Grid>
-                            </Grid>
-                            <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.ID_CARD_NUMBER')} />
-                                        <TextFieldInput
-                                            placeholder={t('TEXT.ID_CARD_NUMBER')}
-                                            control={control}
-                                            name='IDCardNumber'
-                                            type='text'
-                                            data-testid='id-card-number-input'
-                                            disabled={inputDisabled}
-                                            required
-                                        />
-                                    </Box>
-                                </Grid>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.VALIDITY_DATE_OF_ID_CARD')} />
-                                        <DatePickerInput
-                                            placeholder={t('TEXT.VALIDITY_DATE_OF_ID_CARD')}
-                                            control={control}
-                                            name='validityDateOfIDCard'
-                                            data-testid='validity-date-of-id-card'
-                                            disabled={inputDisabled}
-                                            required
-                                        />
-                                    </Box>
-                                </Grid>
-                            </Grid>
-                            <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.DRIVING_LICENCE_CATEGORIES')} />
-                                        <SelectInput //TODO: multiselect
-                                            placeholder={t('TEXT.DRIVING_LICENCE_CATEGORIES')}
-                                            control={control}
-                                            name='drivingLicenceCategories'
-                                            data-testid='driving-licence-categories'
-                                            disabled={inputDisabled}
-                                            //options={enumToOptions(userRoles)}
-                                            required
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position='end'>
-                                                        <IconButton onClick={() => setValue('drivingLicenceCategories', undefined)} edge="end" >
-                                                            <ClearRoundedIcon />
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                                sx: {
-                                                    '.MuiSelect-icon': {
-                                                        display: 'none',
+
+                            {/* Second Column */}
+                            <Grid item xs={12} md={4}>
+                                <Grid container direction="column" spacing={3}>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.DRIVING_LICENCE_CATEGORIES')} />
+                                            <SelectInput //TODO: multiselect
+                                                placeholder={t('USER.DRIVING_LICENCE_CATEGORIES')}
+                                                control={control}
+                                                name='drivingLicenceCategories'
+                                                data-testid='driving-licence-categories'
+                                                disabled={inputDisabled}
+                                                //options={enumToOptions(userRoles)}
+                                                required
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <InputAdornment position='end'>
+                                                            <IconButton onClick={() => setValue('drivingLicenceCategories', undefined)} edge="end" >
+                                                                <ClearRoundedIcon />
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    ),
+                                                    sx: {
+                                                        '.MuiSelect-icon': {
+                                                            display: 'none',
+                                                        },
                                                     },
-                                                },
+                                                }}
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.DRIVING_LICENCE_NUMBER')} />
+                                            <TextFieldInput
+                                                placeholder={t('USER.DRIVING_LICENCE_NUMBER')}
+                                                control={control}
+                                                name='drivingLicenceNumber'
+                                                type='text'
+                                                data-testid='driving-licence-number'
+                                                disabled={inputDisabled}
+                                                required
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.VALIDITY_DATE_OF_DRIVING_LICENCE')} />
+                                            {/*
+                                            //TODO: datepicker
+                                            <DatePickerInput
+                                                placeholder={t('USER.VALIDITY_DATE_OF_DRIVING_LICENCE')}
+                                                control={control}
+                                                name='validityDateOfDrivingLicence'
+                                                data-testid='validity-date-of-driving-licence'
+                                                disabled={inputDisabled}
+                                                required
+                                            />
+                                            */}
+                                            <TextFieldInput
+                                                placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
+                                                control={control}
+                                                name='typeOfPublicArea'
+                                                type='text'
+                                                data-testid='type-of-public-area'
+                                                disabled={inputDisabled}
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.DATE_OF_MEDICAL_VISIT')} />
+                                            {/*
+                                            //TODO: datepicker
+                                            <DatePickerInput
+                                                placeholder={t('USER.DATE_OF_MEDICAL_VISIT')}
+                                                control={control}
+                                                name='dateOfMedicalVisit'
+                                                data-testid='date-of-medical-visit'
+                                                disabled={inputDisabled}
+                                                required
+                                            />
+                                            */}
+                                            <TextFieldInput
+                                                placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
+                                                control={control}
+                                                name='typeOfPublicArea'
+                                                type='text'
+                                                data-testid='type-of-public-area'
+                                                disabled={inputDisabled}
+                                            />
+                                        </Box>
+                                    </Grid>
+                                    <Grid item>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                            <NormalText text={t('USER.VALIDITY_DATE_OF_MEDICAL_VISIT')} />
+                                            {/*
+                                            //TODO: datepicker
+                                            <DatePickerInput
+                                                placeholder={t('USER.VALIDITY_DATE_OF_MEDICAL_VISIT')}
+                                                control={control}
+                                                name='validityDateOfMedicalVisit'
+                                                data-testid='validity-date-of-medical-visit'
+                                                disabled={inputDisabled}
+                                                required
+                                            />
+                                            */}
+                                            <TextFieldInput
+                                                placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
+                                                control={control}
+                                                name='typeOfPublicArea'
+                                                type='text'
+                                                data-testid='type-of-public-area'
+                                                disabled={inputDisabled}
+                                            />
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            {/* Third Column: Image Picker */}
+                            <Grid item xs={12} md={4}>
+                                <Grid container direction="column" spacing={2}>
+                                    <Grid item>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                backgroundColor: '#ffffff',
+                                                width: 250,
+                                                height: 250,
+                                                borderRadius: 4,
+                                                cursor: 'pointer'
                                             }}
-                                        />
-                                    </Box>
-                                </Grid>
-                            </Grid>
-                            <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.DRIVING_LICENCE_NUMBER')} />
-                                        <TextFieldInput
-                                            placeholder={t('TEXT.DRIVING_LICENCE_NUMBER')}
-                                            control={control}
-                                            name='drivingLicenceNumber'
-                                            type='text'
-                                            data-testid='driving-licence-number'
-                                            disabled={inputDisabled}
-                                            required
-                                        />
-                                    </Box>
-                                </Grid>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.VALIDITY_DATE_OF_DRIVING_LICENCE')} />
-                                        <DatePickerInput
-                                            placeholder={t('TEXT.VALIDITY_DATE_OF_DRIVING_LICENCE')}
-                                            control={control}
-                                            name='validityDateOfDrivingLicence'
-                                            data-testid='validity-date-of-driving-licence'
-                                            disabled={inputDisabled}
-                                            required
-                                        />
-                                    </Box>
-                                </Grid>
-                            </Grid>
-                            <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.DATE_OF_MEDICAL_VISIT')} />
-                                        <DatePickerInput
-                                            placeholder={t('TEXT.DATE_OF_MEDICAL_VISIT')}
-                                            control={control}
-                                            name='dateOfMedicalVisit'
-                                            data-testid='date-of-medical-visit'
-                                            disabled={inputDisabled}
-                                            required
-                                        />
-                                    </Box>
-                                </Grid>
-                                <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TEXT.VALIDITY_DATE_OF_MEDICAL_VISIT')} />
-                                        <DatePickerInput
-                                            placeholder={t('TEXT.VALIDITY_DATE_OF_MEDICAL_VISIT')}
-                                            control={control}
-                                            name='validityDateOfMedicalVisit'
-                                            data-testid='validity-date-of-medical-visit'
-                                            disabled={inputDisabled}
-                                            required
-                                        />
-                                    </Box>
+                                        >
+                                            <Box>
+                                            {/* TODO: Add image picker component */}
+                                                <PhotoLibraryIcon sx={iconStyle} />
+                                                <Typography sx={textStyle}>
+                                                    {t('USER.UPLOAD_IMAGE')}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item container direction="column" spacing={2}>
-                            <Grid item container>
+                </DataCard>
+
+                <DataCard>
+                    <Headline text={t('USER.CONTACT_DATA')} />
+                    <Grid container spacing={2}>
+                        {/* First Column */}
+                        <Grid item xs={12} md={4}>
+                            <Grid container direction="column" spacing={3}>
                                 <Grid item>
-                                    <Box sx={{backgroundColor: "#ffffff", width: 200, height: 200}}> //TODO: imagepicker
-
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('TEXT.EMAIL')} />
+                                        <TextFieldInput
+                                            placeholder={t('TEXT.EMAIL')}
+                                            control={control}
+                                            name='email'
+                                            type='text'
+                                            data-testid='email'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('USER.PHONE_NUMBER')} />
+                                        <TextFieldInput
+                                            placeholder={t('USER.PHONE_NUMBER')}
+                                            control={control}
+                                            name='phoneNumber'
+                                            type='text'
+                                            data-testid='phone-number'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('USER.COUNTRY')} />
+                                        <TextFieldInput
+                                            placeholder={t('USER.COUNTRY')}
+                                            control={control}
+                                            name='country'
+                                            type='text'
+                                            data-testid='country'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('USER.POSTCODE')} />
+                                        <TextFieldInput
+                                            placeholder={t('USER.POSTCODE')}
+                                            control={control}
+                                            name='postcode'
+                                            type='text'
+                                            data-testid='postcode'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
                                     </Box>
                                 </Grid>
                             </Grid>
                         </Grid>
-                </DataCard>
 
-                <DataCard>
-                    <Headline text={t('TEXT.CONTACT_DATA')} />
-                    <Grid container spacing={2}>
-                        <Grid item container direction="row" xs={4} md={10} spacing={6}>
-                            <Grid item xs={4} md={5}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.EMAIL')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.EMAIL')}
-                                        control={control}
-                                        name='email'
-                                        type='text'
-                                        data-testid='email'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4} md={5}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.PHONE_NUMBER')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.PHONE_NUMBER')}
-                                        control={control}
-                                        name='phoneNumber'
-                                        type='text'
-                                        data-testid='phone-number'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
-                            </Grid>
-                        </Grid>
-                        <Grid item container direction="row" xs={4} md={10} spacing={6}>
-                            <Grid item xs={4} md={5}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.COUNTRY')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.COUNTRY')}
-                                        control={control}
-                                        name='country'
-                                        type='text'
-                                        data-testid='country'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4} md={5}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.POSTCODE')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.POSTCODE')}
-                                        control={control}
-                                        name='postcode'
-                                        type='text'
-                                        data-testid='postcode'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
+                        {/* Second Column */}
+                        <Grid item xs={12} md={4}>
+                            <Grid container direction="column" spacing={3}>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('USER.CITY')} />
+                                        <TextFieldInput
+                                            placeholder={t('USER.CITY')}
+                                            control={control}
+                                            name='city'
+                                            type='text'
+                                            data-testid='city'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('USER.NAME_OF_PUBLIC_AREA')} />
+                                        <TextFieldInput
+                                            placeholder={t('USER.NAME_OF_PUBLIC_AREA')}
+                                            control={control}
+                                            name='nameOfPublicArea'
+                                            type='text'
+                                            data-testid='name-of-public-area'
+                                            disabled={inputDisabled}
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('USER.TYPE_OF_PUBLIC_AREA')} />
+                                        <TextFieldInput
+                                            placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
+                                            control={control}
+                                            name='typeOfPublicArea'
+                                            type='text'
+                                            data-testid='type-of-public-area'
+                                            disabled={inputDisabled}
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('USER.HOUSE_NUMBER')} />
+                                        <TextFieldInput
+                                            placeholder={t('USER.HOUSE_NUMBER')}
+                                            control={control}
+                                            name='houseNumber'
+                                            type='text'
+                                            data-testid='house-number'
+                                            disabled={inputDisabled}
+                                        />
+                                    </Box>
+                                </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item container direction="row" xs={4} md={10} spacing={6}>
-                            <Grid item xs={4} md={5}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.CITY')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.CITY')}
-                                        control={control}
-                                        name='city'
-                                        type='text'
-                                        data-testid='city'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4} md={5}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.NAME_OF_PUBLIC_AREA')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.NAME_OF_PUBLIC_AREA')}
-                                        control={control}
-                                        name='nameOfPublicArea'
-                                        type='text'
-                                        data-testid='name-of-public-area'
-                                        disabled={inputDisabled}
-                                    />
-                                </Box>
-                            </Grid>
-                        </Grid>
-                        <Grid item container direction="row" xs={4} md={10} spacing={6}>
-                            <Grid item xs={4} md={5}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.TYPE_OF_PUBLIC_AREA')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.TYPE_OF_PUBLIC_AREA')}
-                                        control={control}
-                                        name='typeOfPublicArea'
-                                        type='text'
-                                        data-testid='type-of-public-area'
-                                        disabled={inputDisabled}
-                                    />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4} md={5}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.HOUSE_NUMBER')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.HOUSE_NUMBER')}
-                                        control={control}
-                                        name='houseNumber'
-                                        type='text'
-                                        data-testid='house-number'
-                                        disabled={inputDisabled}
-                                    />
-                                </Box>
+
+                        {/* Third Column: Image Picker */}
+                        <Grid item xs={12} md={4}>
+                            <Grid container direction="column" spacing={2}>
+                                <Grid item>
+                                    <Box>
+                                        {/* TODO */}
+                                    </Box>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
                 </DataCard>
 
                 <DataCard>
-                    <Headline text={t('TEXT.EMPLOYEE_STATUS')} />
+                    <Headline text={t('USER.EMPLOYEE_DATA')} />
                     <Grid container spacing={2}>
-                        <Grid item container direction="row" xs={4} md={10} spacing={6}>
-                            <Grid item xs={4} md={5}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.DATE_OF_REGISTRATION')} />
-                                    <DatePickerInput
-                                        placeholder={t('TEXT.DATE_OF_REGISTRATION')}
-                                        control={control}
-                                        name='dateOfRegistration'
-                                        data-testid='date-of-registration'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
+                        {/* First Column */}
+                        <Grid item xs={12} md={4}>
+                            <Grid container direction="column" spacing={3}>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('USER.DATE_OF_REGISTRATION')} />
+                                        {/*
+                                        //TODO: datepicker
+                                        <DatePickerInput
+                                            placeholder={t('USER.DATE_OF_REGISTRATION')}
+                                            control={control}
+                                            name='dateOfRegistration'
+                                            data-testid='date-of-registration'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                        */}
+                                        <TextFieldInput
+                                            placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
+                                            control={control}
+                                            name='typeOfPublicArea'
+                                            type='text'
+                                            data-testid='type-of-public-area'
+                                            disabled={inputDisabled}
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('USER.START_DATE_OF_CONTRACT')} />
+                                        {/*
+                                        //TODO: datepicker
+                                        <DatePickerInput
+                                            placeholder={t('USER.START_DATE_OF_CONTRACT')}
+                                            control={control}
+                                            name='startDateOfContract'
+                                            data-testid='start-date-of-contract'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                        */}
+                                        <TextFieldInput
+                                            placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
+                                            control={control}
+                                            name='typeOfPublicArea'
+                                            type='text'
+                                            data-testid='type-of-public-area'
+                                            disabled={inputDisabled}
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('USER.END_DATE_OF_CONTRACT')} />
+                                        {/*
+                                        //TODO: datepicker
+                                        <DatePickerInput
+                                            placeholder={t('USER.END_DATE_OF_CONTRACT')}
+                                            control={control}
+                                            name='endDateOfContract'
+                                            data-testid='end-date-of-contract'
+                                            disabled={inputDisabled}
+                                        />
+                                        */}
+                                        <TextFieldInput
+                                            placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
+                                            control={control}
+                                            name='typeOfPublicArea'
+                                            type='text'
+                                            data-testid='type-of-public-area'
+                                            disabled={inputDisabled}
+                                        />
+                                    </Box>
+                                </Grid>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('USER.POSITION')} />
+                                        <TextFieldInput
+                                            placeholder={t('USER.POSITION')}
+                                            control={control}
+                                            name='position'
+                                            type='text'
+                                            data-testid='position'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                        {/* Second Column */}
+                        <Grid item xs={12} md={4}>
+                            <Grid container direction="column" spacing={3}>
+                                <Grid item>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                        <NormalText text={t('USER.LINE_MANAGER')} />
+                                        <TextFieldInput
+                                            placeholder={t('USER.LINE_MANAGER')}
+                                            control={control}
+                                            name='lineManager'
+                                            type='text'
+                                            data-testid='line-manager'
+                                            disabled={inputDisabled}
+                                            required
+                                        />
+                                    </Box>
+                                </Grid>
+                        </Grid>
+                    </Grid>
+
+                    {/* Third Column: Image Picker */}
+                    <Grid item xs={12} md={4}>
+                        <Grid container direction="column" spacing={2}>
+                            <Grid item>
+                                <Box>
+                                    {/* TODO */}
                                 </Box>
                             </Grid>
                         </Grid>
-                        <Grid item container direction="row" xs={4} md={10} spacing={6}>
-                            <Grid item xs={4} md={5}>
+                    </Grid>
+                </Grid>
+            </DataCard>
+
+            <DataCard>
+                <Headline text={t('USER.OTHER_DATA')} />
+                <Grid container spacing={2}>
+                    {/* First Column */}
+                    <Grid item xs={12} md={4}>
+                        <Grid container direction="column" spacing={3}>
+                            <Grid item>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.START_DATE_OF_CONTRACT')} />
-                                    <DatePickerInput
-                                        placeholder={t('TEXT.START_DATE_OF_CONTRACT')}
-                                        control={control}
-                                        name='startDateOfContract'
-                                        data-testid='start-date-of-contract'
-                                        disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4} md={5}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.END_DATE_OF_CONTRACT')} />
-                                    <DatePickerInput
-                                        placeholder={t('TEXT.END_DATE_OF_CONTRACT')}
-                                        control={control}
-                                        name='endDateOfContract'
-                                        data-testid='end-date-of-contract'
-                                        disabled={inputDisabled}
-                                    />
-                                </Box>
-                            </Grid>
-                        </Grid>
-                        <Grid item container direction="row" xs={4} md={10} spacing={6}>
-                            <Grid item xs={4} md={5}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.POSITION')} />
+                                    <NormalText text={t('USER.HEALTH_PROBLEM')} />
                                     <TextFieldInput
-                                        placeholder={t('TEXT.POSITION')}
+                                        placeholder={t('USER.HEALTH_PROBLEM')}
                                         control={control}
-                                        name='position'
+                                        name='healthProblem'
                                         type='text'
-                                        data-testid='position'
+                                        data-testid='health-problem'
                                         disabled={inputDisabled}
-                                        required
-                                    />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4} md={5}>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                    <NormalText text={t('TEXT.LINE_MANAGER')} />
-                                    <TextFieldInput
-                                        placeholder={t('TEXT.LINE_MANAGER')}
-                                        control={control}
-                                        name='lineManager'
-                                        type='text'
-                                        data-testid='line-manager'
-                                        disabled={inputDisabled}
-                                        required
                                     />
                                 </Box>
                             </Grid>
                         </Grid>
                     </Grid>
-                </DataCard>
 
-                <DataCard>
-                    <Headline text={t('TEXT.OTHER_DATA')} />
-                    <Grid container spacing={2}>
-                        <Grid item xs={4} md={5}>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                <NormalText text={t('TEXT.HEALTH_PROBLEM')} />
-                                <TextFieldInput
-                                    placeholder={t('TEXT.HEALTH_PROBLEM')}
-                                    control={control}
-                                    name='healthProblem'
-                                    type='text'
-                                    data-testid='health-problem'
-                                    disabled={inputDisabled}
-                                />
-                            </Box>
+                    {/* Third Column: Image Picker */}
+                    <Grid item xs={12} md={4}>
+                        <Grid container direction="column" spacing={2}>
+                            <Grid item>
+                                <Box>
+                                    {/* TODO */}
+                                </Box>
+                            </Grid>
                         </Grid>
                     </Grid>
-                </DataCard>
+                </Grid>
+            </DataCard>
 
-                <Box sx={{ display: 'inline', paddingLeft: 130}}>
-                    <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)}/>
-                    <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} />
-                </Box>
+            <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                <CancelButton text={t('TEXT.CANCEL')} onClick={() => navigate(-1)}/>
+                <SaveButton text={t('TEXT.SAVE')} onClick={onSubmit} />
+            </Box>
             </BackgroundCard>
         </Box>
     );
