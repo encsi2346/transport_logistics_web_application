@@ -60,6 +60,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
     const [isProfilePage, setIsProfilePage] = useState(true);
     const [t, i18n] = useTranslation();
+    const [genderList, setGenderList] = useState([]);
 
     const theme = useTheme();
 
@@ -90,11 +91,30 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             });
     }, [languageValue]);
 
-    //TODO: lekérni apiból
-    const gender = {
-        0: `${t('TEXT.MEN')}`,
-        1: `${t('TEXT.WOMEN')}`
-    };
+    const handleLoadGenderList = async () => {
+        const getResponse = await fetch(
+            "http://localhost:3001/api/genders",
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getGenderList = await getResponse.json();
+        //const getStatus = getResponse.status;
+        console.log('genders', getGenderList);
+
+        const formattedGenderList = getGenderList.map(gender => ({
+            value: gender,
+            label: gender.charAt(0).toUpperCase() + gender.slice(1) // Capitalize the first letter for labels
+        }));
+        console.log('formattedGenderList', formattedGenderList);
+        setGenderList(formattedGenderList);
+    }
+
+    useEffect(() => {
+        handleLoadGenderList();
+    }, [])
+
 
     const {
         control,
@@ -132,7 +152,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             lineManager: '',
             healthProblem: '',
         },
-        resolver: zodResolver(userEditFormSchema(isEditing)),
+        //resolver: zodResolver(userEditFormSchema(isEditing)),
         mode: 'all',
     });
 
@@ -249,7 +269,11 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                                 name='gender'
                                                 data-testid='gender-input'
                                                 disabled={inputDisabled}
-                                                //options={enumToOptions(userRoles)}
+                                                options={genderList.map((option) => (
+                                                    <MenuItem key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </MenuItem>
+                                                ))}
                                                 required
                                                 InputProps={{
                                                     endAdornment: (

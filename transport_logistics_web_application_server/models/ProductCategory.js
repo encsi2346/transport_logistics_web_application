@@ -5,7 +5,11 @@ const productCategorySchema = new mongoose.Schema({
     productCategoryId: String,
     name: String, //név
     description: String, //leírás
-    status: ProductStatus, //állapot TODO:külön kategória státusz?
+    status: {
+        type: String,
+        enum: Object.values(ProductStatus), // Use enum to enforce specific values
+        default: ProductStatus.IN_STOCK, // Optional: set a default value
+    }, //állapot TODO:külön kategória státusz?
 });
 
 const ProductCategory = mongoose.model('ProductCategory', productCategorySchema);

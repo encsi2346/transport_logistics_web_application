@@ -14,6 +14,7 @@ import {registration} from "./controllers/auth.js";
 import swaggerUI from 'swagger-ui-express';
 import {swaggerSpec} from './utils/swagger.js';
 import bookRoutes from "./routes/productCategories.js";
+import genderRoutes from "./routes/enums/genderType.js";
 
 /*CONFIGURATIONS*/
 const __filename = fileURLToPath(import.meta.url);
@@ -48,6 +49,7 @@ app.post("/auth/register", upload.single("picture"), registration);
 app.use(authRoutes);
 app.use(userRoutes);
 app.use(bookRoutes);
+app.use(genderRoutes);
 //app.use("/dashboard", dashboardRoutes);
 //app.use("/transportations", transportationRoutes);
 //app.use("/requests", requestRoutes);
@@ -132,7 +134,7 @@ const upload = multer({ dest: 'uploads/' });
 }*/
 
 /*MANGOOSE SETUP*/
-const PORT = process.env.PORT || 6001;
+const PORT = process.env.PORT || 5173;
 mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
