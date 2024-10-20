@@ -158,15 +158,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         mode: 'all',
     });
 
-    const createUser = (data) => {
-        //TODO
-        navigate(`/users/${parseInt(data, 10)}`);
-    };
-
-    const updateUser = (id, data) => {
-        //TODO
-    };
-
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
 
@@ -183,7 +174,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         setInputDisabled(!inputDisabled);
     };
 
-    const getUser = async (id) => {
+    const getUser = async (id: string) => {
         try {
             const getUserResponse = await fetch(
                 `http://localhost:3001/api/users/${id}`,
@@ -223,7 +214,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         }
     };
 
-    const updateUserType = async (id: string, data: any) => {
+    const updateUser = async (id: string, data: any) => {
         try {
             const updatedUserResponse = await fetch(
                 `http://localhost:3001/api/users/${id}`,
