@@ -52,6 +52,88 @@ const RequestEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         mode: 'all',
     });
 
+    const getRequest = async (id: string) => {
+        try {
+            const getRequestResponse = await fetch(
+                `http://localhost:3001/api/requests/${id}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getRequestData = await getRequestResponse.json();
+            const getStatus = getRequestResponse.status;
+            console.log('getRequestData', getRequestData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+        } catch (error) {
+            console.error('Error get request:', error);
+        }
+    }
+
+    const createRequest = async (data: any) => {
+        try {
+            const createRequestResponse = await fetch(
+                `http://localhost:3001/api/requests/addRequest`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getRequestData = await createRequestResponse.json();
+            const getStatus = createRequestResponse.status;
+            console.log('getRequestData', getRequestData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+            return getRequestData;
+        } catch (error) {
+            console.error('Error creating request:', error);
+        }
+    };
+
+    const updateRequest = async (id: string, data: any) => {
+        try {
+            const updatedRequestResponse = await fetch(
+                `http://localhost:3001/api/requests/${id}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getRequestData = await updatedRequestResponse.json();
+            const getStatus = updatedRequestResponse.status;
+            console.log('getRequestData', getRequestData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+            return getRequestData;
+        } catch (error) {
+            console.error(`Error updating request with ID ${id}:`, error);
+        }
+    };
+
+    const deleteRequest = async (id: string) => {
+        //TODO
+        try {
+            const deleteRequestResponse = await fetch(
+                `http://localhost:3001/api/requests/${id}`,
+                {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getRequestData = await deleteRequestResponse.json();
+            const getStatus = deleteRequestResponse.status;
+            console.log('getRequestData', getRequestData);
+            console.log('getUserStatus', getStatus);
+            //setCartTypes(getCarTypesData);
+            return getRequestData;
+        } catch (error) {
+            console.error(`Error deleting request with ID ${id}:`, error);
+        }
+    };
+
     return (
         <Box>
             <PageHeader text={t('REQUEST.NEW_REQUESTS')}/>

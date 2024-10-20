@@ -68,23 +68,109 @@ const InvoiceList = () => {
         handleSelectionChange(selectionModel);
     };
 
-    const handleLoadInvoices = async () => {
-        const getResponse = await fetch(
-            `http://localhost:3001/api/invoices`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json"},
-            }
-        );
-        const getInvoicesData = await getResponse.json();
-        const getStatus = getResponse.status;
-        console.log('getInvoicesData', getInvoicesData);
-        console.log('getUserStatus', getStatus);
-        setInvoices(getInvoicesData);
+    const getInvoices = async () => {
+        try {
+            const getInvoiceResponse = await fetch(
+                `http://localhost:3001/api/invoices`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getInvoicesData = await getInvoiceResponse.json();
+            const getStatus = getInvoiceResponse.status;
+            console.log('getInvoicesData', getInvoicesData);
+            console.log('getUserStatus', getStatus);
+            setInvoices(getInvoicesData);
+        } catch (error) {
+            console.error('Error get all invoice:', error);
+        }
     }
 
+    const getInvoice = async (id: string) => {
+        try {
+            const getInvoiceResponse = await fetch(
+                `http://localhost:3001/api/invoices/${id}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getInvoiceData = await getInvoiceResponse.json();
+            const getStatus = getInvoiceResponse.status;
+            console.log('getInvoiceData', getInvoiceData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+        } catch (error) {
+            console.error('Error get invoice:', error);
+        }
+    }
+
+    const createInvoice = async (data: any) => {
+        try {
+            const createInvoiceResponse = await fetch(
+                `http://localhost:3001/api/invoices/addInvoice`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getInvoiceData = await createInvoiceResponse.json();
+            const getStatus = createInvoiceResponse.status;
+            console.log('getInvoiceData', getInvoiceData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+            return getInvoiceData;
+        } catch (error) {
+            console.error('Error creating invoice:', error);
+        }
+    };
+
+    const updateInvoice = async (id: string, data: any) => {
+        try {
+            const updatedInvoiceResponse = await fetch(
+                `http://localhost:3001/api/invoices/${id}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getInvoiceData = await updatedInvoiceResponse.json();
+            const getStatus = updatedInvoiceResponse.status;
+            console.log('getInvoiceData', getInvoiceData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+            return getInvoiceData;
+        } catch (error) {
+            console.error(`Error updating invoice with ID ${id}:`, error);
+        }
+    };
+
+    const deleteInvoice = async (id: string) => {
+        //TODO
+        try {
+            const deleteInvoiceResponse = await fetch(
+                `http://localhost:3001/api/invoices/${id}`,
+                {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getInvoiceData = await deleteInvoiceResponse.json();
+            const getStatus = deleteInvoiceResponse.status;
+            console.log('getInvoiceData', getInvoiceData);
+            console.log('getUserStatus', getStatus);
+            //setCartTypes(getCarTypesData);
+            return getInvoiceData;
+        } catch (error) {
+            console.error(`Error deleting invoice with ID ${id}:`, error);
+        }
+    };
+
     useEffect(() => {
-        handleLoadInvoices();
+        getInvoices();
     }, []);
 
     return (

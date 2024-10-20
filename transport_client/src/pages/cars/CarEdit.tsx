@@ -23,23 +23,90 @@ const CarEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
     const [t, i18n] = useTranslation();
 
-    const handleLoadCar = async (id) => {
-        const getResponse = await fetch(
-            `http://localhost:3001/api/cars/${id}`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json"},
-            }
-        );
-        const getCarData = await getResponse.json();
-        const getStatus = getResponse.status;
-        console.log('getCarData', getCarData);
-        console.log('getUserStatus', getStatus);
-        //setCar(getCarData);
+    const getCar = async (id: string) => {
+        try {
+            const getCarResponse = await fetch(
+                `http://localhost:3001/api/cars/${id}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getCarData = await getCarResponse.json();
+            const getStatus = getCarResponse.status;
+            console.log('getCarData', getCarData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+        } catch (error) {
+            console.error('Error get car:', error);
+        }
     }
 
+    const createCar = async (data: any) => {
+        try {
+            const createCarResponse = await fetch(
+                `http://localhost:3001/api/cars/addCar`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getCarData = await createCarResponse.json();
+            const getStatus = createCarResponse.status;
+            console.log('getCarData', getCarData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+            return getCarData;
+        } catch (error) {
+            console.error('Error creating car:', error);
+        }
+    };
+
+    const updateCarType = async (id: string, data: any) => {
+        try {
+            const updatedCarResponse = await fetch(
+                `http://localhost:3001/api/cars/${id}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getCarData = await updatedCarResponse.json();
+            const getStatus = updatedCarResponse.status;
+            console.log('getCarData', getCarData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+            return getCarData;
+        } catch (error) {
+            console.error(`Error updating car with ID ${id}:`, error);
+        }
+    };
+
+    const deleteCar = async (id: string) => {
+        //TODO
+        try {
+            const deleteCarResponse = await fetch(
+                `http://localhost:3001/api/cars/${id}`,
+                {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getCarData = await deleteCarResponse.json();
+            const getStatus = deleteCarResponse.status;
+            console.log('getCarTypeData', getCarData);
+            console.log('getUserStatus', getStatus);
+            //setCartTypes(getCarTypesData);
+            return getCarData;
+        } catch (error) {
+            console.error(`Error deleting car with ID ${id}:`, error);
+        }
+    };
+
     useEffect(() => {
-        handleLoadCar(id);
+        getCar(id);
     }, [id]);
 
     return (

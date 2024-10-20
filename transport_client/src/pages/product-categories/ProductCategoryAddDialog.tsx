@@ -90,18 +90,91 @@ const ProductCategoryAddDialog = NiceModal.create(
             mode: 'all',
         });
 
-        const createCarType = (data) => {
-            //TODO
-            navigate(`/users/${parseInt(data, 10)}`);
-        };
-
-        const updateCarType = (id, data) => {
-            //TODO
-        };
-
         const onSubmit = handleSubmit((data) => {
             let submitData = data as any;
         });
+
+        const getProductCategory = async (id: string) => {
+            try {
+                const getProductCategoryResponse = await fetch(
+                    `http://localhost:3001/api/product-categories/${id}`,
+                    {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json"},
+                    }
+                );
+                const getProductCategoryData = await getProductCategoryResponse.json();
+                const getStatus = getProductCategoryResponse.status;
+                console.log('getProductCategoryData', getProductCategoryData);
+                console.log('getUserStatus', getStatus);
+                //setCar(getCarData);
+            } catch (error) {
+                console.error('Error get product category:', error);
+            }
+        }
+
+        const createProductCategory = async (data: any) => {
+            try {
+                const createProductCategoryResponse = await fetch(
+                    `http://localhost:3001/api/product-categories/addProductCategory`,
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json"},
+                        body: JSON.stringify(data),
+                    }
+                );
+                const getProductCategoryData = await createProductCategoryResponse.json();
+                const getStatus = createProductCategoryResponse.status;
+                console.log('getProductCategoryData', getProductCategoryData);
+                console.log('getUserStatus', getStatus);
+                //setCar(getCarData);
+                return getProductCategoryData;
+            } catch (error) {
+                console.error('Error creating product category:', error);
+            }
+        };
+
+        const updateProductCategory = async (id: string, data: any) => {
+            try {
+                const updatedProductCategoryResponse = await fetch(
+                    `http://localhost:3001/api/product-categories/${id}`,
+                    {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json"},
+                        body: JSON.stringify(data),
+                    }
+                );
+                const getProductCategoryData = await updatedProductCategoryResponse.json();
+                const getStatus = updatedProductCategoryResponse.status;
+                console.log('getProductCategoryData', getProductCategoryData);
+                console.log('getUserStatus', getStatus);
+                //setCar(getCarData);
+                return getProductCategoryData;
+            } catch (error) {
+                console.error(`Error updating product category with ID ${id}:`, error);
+            }
+        };
+
+        const deleteProductCategory = async (id: string) => {
+            //TODO
+            try {
+                const deleteProductCategoryResponse = await fetch(
+                    `http://localhost:3001/api/product-categories/${id}`,
+                    {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json"},
+                    }
+                );
+                const getProductCategoryData = await deleteProductCategoryResponse.json();
+                const getStatus = deleteProductCategoryResponse.status;
+                console.log('getProductCategoryData', getProductCategoryData);
+                console.log('getUserStatus', getStatus);
+                //setCartTypes(getCarTypesData);
+                return getProductCategoryData;
+            } catch (error) {
+                console.error(`Error deleting product category with ID ${id}:`, error);
+            }
+        };
 
         return (
             <Dialog

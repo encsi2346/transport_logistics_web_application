@@ -183,23 +183,90 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         setInputDisabled(!inputDisabled);
     };
 
-    const handleLoadUser = async (id) => {
-        const getResponse = await fetch(
-            `http://localhost:3001/api/users/${id}`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json"},
-            }
-        );
-        const getUserData = await getResponse.json();
-        const getStatus = getResponse.status;
-        console.log('getUserData', getUserData);
-        console.log('getUserStatus', getStatus);
-        //setUsers(getUserList);
+    const getUser = async (id) => {
+        try {
+            const getUserResponse = await fetch(
+                `http://localhost:3001/api/users/${id}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getUserData = await getUserResponse.json();
+            const getStatus = getUserResponse.status;
+            console.log('getUserData', getUserData);
+            console.log('getUserStatus', getStatus);
+            //setUsers(getUserList);
+        } catch (error) {
+            console.error('Error get user:', error);
+        }
     }
 
+    const createUser = async (data: any) => {
+        try {
+            const createUserResponse = await fetch(
+                `http://localhost:3001/api/users/addUser`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getUserData = await createUserResponse.json();
+            const getStatus = createUserResponse.status;
+            console.log('getUserData', getUserData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+            return getUserData;
+        } catch (error) {
+            console.error('Error creating user:', error);
+        }
+    };
+
+    const updateUserType = async (id: string, data: any) => {
+        try {
+            const updatedUserResponse = await fetch(
+                `http://localhost:3001/api/users/${id}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getUserData = await updatedUserResponse.json();
+            const getStatus = updatedUserResponse.status;
+            console.log('getUserData', getUserData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+            return getUserData;
+        } catch (error) {
+            console.error(`Error updating user with ID ${id}:`, error);
+        }
+    };
+
+    const deleteUser = async (id: string) => {
+        //TODO
+        try {
+            const deleteUserResponse = await fetch(
+                `http://localhost:3001/api/users/${id}`,
+                {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getUserData = await deleteUserResponse.json();
+            const getStatus = deleteUserResponse.status;
+            console.log('getUserData', getUserData);
+            console.log('getUserStatus', getStatus);
+            //setCartTypes(getCarTypesData);
+            return getUserData;
+        } catch (error) {
+            console.error(`Error deleting user with ID ${id}:`, error);
+        }
+    };
+
     useEffect(() => {
-        handleLoadUser(id);
+        getUser(id);
     }, [id]);
 
     return (

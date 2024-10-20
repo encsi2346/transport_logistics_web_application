@@ -47,16 +47,7 @@ const CarTypeEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         mode: 'all',
     });
 
-    const createCarType = (data) => {
-        //TODO
-        navigate(`/users/${parseInt(data, 10)}`);
-    };
-
-    const updateCarType = (id, data) => {
-        //TODO
-    };
-
-    const onSubmit = handleSubmit((data) => {
+    const onSubmit = handleSubmit((id, data) => {
         let submitData = data as any;
 
         if (isEditing) {
@@ -72,23 +63,90 @@ const CarTypeEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         setInputDisabled(!inputDisabled);
     };
 
-    const handleLoadCarType = async (id) => {
-        const getResponse = await fetch(
-            `http://localhost:3001/api/car-types/${id}`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json"},
-            }
-        );
-        const getCarTypeData = await getResponse.json();
-        const getStatus = getResponse.status;
-        console.log('getCarTypeData', getCarTypeData);
-        console.log('getUserStatus', getStatus);
-        //setCartTypes(getCarTypesData);
+    const getCarType = async (id: string) => {
+        try {
+            const getCarTypeResponse = await fetch(
+                `http://localhost:3001/api/car-types/${id}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getCarTypeData = await getCarTypeResponse.json();
+            const getStatus = getCarTypeResponse.status;
+            console.log('getCarTypeData', getCarTypeData);
+            console.log('getUserStatus', getStatus);
+            //setCartTypes(getCarTypesData);
+        } catch (error) {
+            console.error('Error get car type:', error);
+        }
     }
 
+    const createCarType = async (data: any) => {
+        try {
+            const createCarTypeResponse = await fetch(
+                `http://localhost:3001/api/car-types/addCarType`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getCarTypeData = await createCarTypeResponse.json();
+            const getStatus = createCarTypeResponse.status;
+            console.log('getCarTypeData', getCarTypeData);
+            console.log('getUserStatus', getStatus);
+            //setCartTypes(getCarTypesData);
+            return getCarTypeData;
+        } catch (error) {
+            console.error('Error creating car type:', error);
+        }
+    };
+
+    const updateCarType = async (id: string, data: any) => {
+        try {
+            const updatedCarTypeResponse = await fetch(
+                `http://localhost:3001/api/car-types/${id}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getCarTypeData = await updatedCarTypeResponse.json();
+            const getStatus = updatedCarTypeResponse.status;
+            console.log('getCarTypeData', getCarTypeData);
+            console.log('getUserStatus', getStatus);
+            //setCartTypes(getCarTypesData);
+            return getCarTypeData;
+        } catch (error) {
+            console.error(`Error updating car type with ID ${id}:`, error);
+        }
+    };
+
+    const deleteCarType = async (id: string) => {
+        //TODO
+        try {
+            const deleteCarTypeResponse = await fetch(
+                `http://localhost:3001/api/car-types/${id}`,
+                {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getCarTypeData = await deleteCarTypeResponse.json();
+            const getStatus = deleteCarTypeResponse.status;
+            console.log('getCarTypeData', getCarTypeData);
+            console.log('getUserStatus', getStatus);
+            //setCartTypes(getCarTypesData);
+            return getCarTypeData;
+        } catch (error) {
+            console.error(`Error deleting car type with ID ${id}:`, error);
+        }
+    };
+
     useEffect(() => {
-        handleLoadCarType(id);
+        getCarType(id);
     }, [id]);
 
     return (

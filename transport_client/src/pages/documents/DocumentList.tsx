@@ -63,23 +63,90 @@ const DocumentList = () => {
         handleSelectionChange(selectionModel);
     };
 
-    const handleLoadDocuments = async () => {
-        const getResponse = await fetch(
-            `http://localhost:3001/api/documents`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json"},
-            }
-        );
-        const getDocumentsData = await getResponse.json();
-        const getStatus = getResponse.status;
-        console.log('getDocumentsData', getDocumentsData);
-        console.log('getUserStatus', getStatus);
-        setDocuments(getDocumentsData);
+    const getDocuments = async () => {
+        try {
+            const getDocumentsResponse = await fetch(
+                `http://localhost:3001/api/documents`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getDocumentsData = await getDocumentsResponse.json();
+            const getStatus = getDocumentsResponse.status;
+            console.log('getDocumentsData', getDocumentsData);
+            console.log('getUserStatus', getStatus);
+            setDocuments(getDocumentsData);
+        } catch (error) {
+            console.error('Error get all document:', error);
+        }
     }
 
+    const createDocument = async (data: any) => {
+        try {
+            const createDocumentResponse = await fetch(
+                `http://localhost:3001/api/documents/addDocument`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getDocumentData = await createDocumentResponse.json();
+            const getStatus = createDocumentResponse.status;
+            console.log('getDocumentData', getDocumentData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+            return getDocumentData;
+        } catch (error) {
+            console.error('Error creating document:', error);
+        }
+    };
+
+    const updateDocument = async (id: string, data: any) => {
+        try {
+            const updatedDocumentResponse = await fetch(
+                `http://localhost:3001/api/documents/${id}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getDocumentData = await updatedDocumentResponse.json();
+            const getStatus = updatedDocumentResponse.status;
+            console.log('getDocumentData', getDocumentData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+            return getDocumentData;
+        } catch (error) {
+            console.error(`Error updating document with ID ${id}:`, error);
+        }
+    };
+
+    const deleteDocument = async (id: string) => {
+        //TODO
+        try {
+            const deleteDocumentResponse = await fetch(
+                `http://localhost:3001/api/documents/${id}`,
+                {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getDocumentData = await deleteDocumentResponse.json();
+            const getStatus = deleteDocumentResponse.status;
+            console.log('getDocumentData', getDocumentData);
+            console.log('getUserStatus', getStatus);
+            //setCartTypes(getCarTypesData);
+            return getDocumentData;
+        } catch (error) {
+            console.error(`Error deleting document with ID ${id}:`, error);
+        }
+    };
+
     useEffect(() => {
-        handleLoadDocuments();
+        getDocuments();
     }, []);
 
     return (

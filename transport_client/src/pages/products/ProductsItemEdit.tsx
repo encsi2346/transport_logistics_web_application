@@ -43,15 +43,6 @@ const ProductsItemEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         mode: 'all',
     });
 
-    const createProductItem = (data) => {
-        //TODO
-        navigate(`/users/${parseInt(data, 10)}`);
-    };
-
-    const updateProductItem = (id, data) => {
-        //TODO
-    };
-
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
 
@@ -63,6 +54,88 @@ const ProductsItemEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             createProductItem(submitData);
         }
     }, (errors) => {console.log(errors)});
+
+    const getProductItem = async (id: string) => {
+        try {
+            const getProductItemResponse = await fetch(
+                `http://localhost:3001/api/products/${id}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getProductItemData = await getProductItemResponse.json();
+            const getStatus = getProductItemResponse.status;
+            console.log('getProductItemData', getProductItemData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+        } catch (error) {
+            console.error('Error get product:', error);
+        }
+    }
+
+    const createProductItem = async (data: any) => {
+        try {
+            const createProductItemResponse = await fetch(
+                `http://localhost:3001/api/products/addProduct`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getProductItemData = await createProductItemResponse.json();
+            const getStatus = createProductItemResponse.status;
+            console.log('getProductItemData', getProductItemData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+            return getProductItemData;
+        } catch (error) {
+            console.error('Error creating product:', error);
+        }
+    };
+
+    const updateProductItemType = async (id: string, data: any) => {
+        try {
+            const updatedProductItemResponse = await fetch(
+                `http://localhost:3001/api/products/${id}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getProductItemData = await updatedProductItemResponse.json();
+            const getStatus = updatedProductItemResponse.status;
+            console.log('getProductItemData', getProductItemData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+            return getProductItemData;
+        } catch (error) {
+            console.error(`Error updating product with ID ${id}:`, error);
+        }
+    };
+
+    const deleteProductItem = async (id: string) => {
+        //TODO
+        try {
+            const deleteProductItemResponse = await fetch(
+                `http://localhost:3001/api/products/${id}`,
+                {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getProductItemData = await deleteProductItemResponse.json();
+            const getStatus = deleteProductItemResponse.status;
+            console.log('getProductItemData', getProductItemData);
+            console.log('getUserStatus', getStatus);
+            //setCartTypes(getCarTypesData);
+            return getProductItemData;
+        } catch (error) {
+            console.error(`Error deleting product with ID ${id}:`, error);
+        }
+    };
 
     return (
         <Box>
