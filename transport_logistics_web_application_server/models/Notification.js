@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
+import {v4 as uuidv4} from "uuid";
 
 const notificationSchema = new mongoose.Schema({
-    notificationId: String,
+    notificationId: {
+        type: String,
+        default: uuidv4,
+    },
     timeStamp: Date, //TODO: datetime létrehozás dátum idő
     notificationType: String, //TODO: enum értesítés típusa
     title: String, //tárgy

@@ -3,9 +3,13 @@ import CarType from "./CarType.js";
 import Car from "./Car.js";
 import DockingPoint from "./DockingPoint.js";
 import SelectedProduct from "./SelectedProduct.js";
+import {v4 as uuidv4} from "uuid";
 
 const transportationSchema = new mongoose.Schema({
-    transportationId: String,
+    transportationId: {
+        type: String,
+        default: uuidv4,
+    },
     selectedCarType: CarType,
     selectedCar: Car,
     departurePoint: DockingPoint,

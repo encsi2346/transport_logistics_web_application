@@ -1,8 +1,12 @@
 import mongoose from 'mongoose';
 import {FuelType} from "./enums/FuelType.js";
+import {v4 as uuidv4} from "uuid";
 
 const carTypeSchema = new mongoose.Schema({
-    carTypeId: String,
+    carTypeId: {
+        type: String,
+        default: uuidv4,
+    },
     brand: String, //márka
     typeName: String, //típus neve
     design: String, //kivitel

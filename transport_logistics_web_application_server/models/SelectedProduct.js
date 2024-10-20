@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
+import {v4 as uuidv4} from "uuid";
 
 const selectedProductSchema = new mongoose.Schema({
-    selectedProductId: String,
+    selectedProductId: {
+        type: String,
+        default: uuidv4,
+    },
     productId: String,
     productName: String,
     maxNumberOfItems: Number,

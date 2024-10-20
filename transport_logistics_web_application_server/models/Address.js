@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
+import {v4 as uuidv4} from "uuid";
 
 const addressSchema = new mongoose.Schema({
-    addressId: String,
+    addressId: {
+        type: String,
+        default: uuidv4,
+    },
     country: String, //ország
     postcode: String, //irányítószám
     city: String, //település

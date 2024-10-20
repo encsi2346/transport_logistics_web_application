@@ -1,8 +1,12 @@
 import mongoose from 'mongoose';
 import {ProductStatus} from "./states/ProductStatus.js";
+import {v4 as uuidv4} from "uuid";
 
 const productCategorySchema = new mongoose.Schema({
-    productCategoryId: String,
+    productCategoryId: {
+        type: String,
+        default: uuidv4,
+    },
     name: String, //név
     description: String, //leírás
     status: {

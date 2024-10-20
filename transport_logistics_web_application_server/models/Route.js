@@ -1,9 +1,13 @@
 import mongoose from 'mongoose';
 import Address from "./Address.js";
 import {RouteStatus} from "./states/RouteStatus.js";
+import {v4 as uuidv4} from "uuid";
 
 const routeSchema = new mongoose.Schema({
-    routeId: String,
+    routeId: {
+        type: String,
+        default: uuidv4,
+    },
     scheduledArrival: String,
     actualArrival: String,
     address: Address,

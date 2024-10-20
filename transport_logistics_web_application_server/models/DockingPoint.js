@@ -1,8 +1,12 @@
 import mongoose from 'mongoose';
 import User from "./User.js";
+import {v4 as uuidv4} from "uuid";
 
 const dockingPointSchema = new mongoose.Schema({
-    dockingPointId: String,
+    dockingPointId: {
+        type: String,
+        default: uuidv4,
+    },
     country: String,
     postcode: String,
     city: String,

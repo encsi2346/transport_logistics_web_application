@@ -6,9 +6,13 @@ import DockingPoint from "./DockingPoint.js";
 import Result from "./Result.js";
 import Invoice from "./Invoice.js";
 import {OrderStatus} from "./states/OrderStatus.js";
+import {v4 as uuidv4} from "uuid";
 
 const orderSchema = new mongoose.Schema({
-    orderId: String,
+    orderId: {
+        type: String,
+        default: uuidv4,
+    },
     status: OrderStatus,
     company: Company,
     route: [Route],

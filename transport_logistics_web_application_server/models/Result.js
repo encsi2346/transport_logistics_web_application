@@ -1,8 +1,12 @@
 import mongoose from 'mongoose';
 import Company from "./Company.js";
+import {v4 as uuidv4} from "uuid";
 
 const resultSchema = new mongoose.Schema({
-    resultId: String,
+    resultId: {
+        type: String,
+        default: uuidv4,
+    },
     orderId: String,
     customer: Company,
     driverId: String,

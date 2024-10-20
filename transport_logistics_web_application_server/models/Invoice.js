@@ -1,8 +1,12 @@
 import mongoose from 'mongoose';
 import {InvoiceStatus} from "./states/InvoiceStatus.js";
+import {v4 as uuidv4} from "uuid";
 
 const invoiceSchema = new mongoose.Schema({
-    invoiceId: String, //számla azonosító
+    invoiceId: {
+        type: String,
+        default: uuidv4,
+    }, //számla azonosító
     orderId: String, //rendelés azonosító
     companyId: String, //megrendelő azonosító
     dateOfCreation: Date, //létrehozás dátuma

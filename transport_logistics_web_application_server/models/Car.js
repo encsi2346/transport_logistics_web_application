@@ -1,8 +1,12 @@
 import mongoose from 'mongoose';
 import CarType from "./CarType.js";
+import {v4 as uuidv4} from "uuid";
 
 const carSchema = new mongoose.Schema({
-    carId: String,
+    carId: {
+        type: String,
+        default: uuidv4,
+    },
     name: String,
     type: CarType, //kiválasztott típus
     licencePlate: String, //rendszám
