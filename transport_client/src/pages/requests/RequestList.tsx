@@ -4,7 +4,7 @@ import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import useSelection from "../../components/inputField/hooks/useSelection";
 import {useForm} from "react-hook-form";
 import SearchIcon from "@mui/icons-material/Search";
@@ -85,6 +85,24 @@ const RequestList = () => {
         handleSelectionChange(selectionModel);
     };
 
+    const handleLoadRequests = async () => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/requests`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getRequestsData = await getResponse.json();
+        const getStatus = getResponse.status;
+        console.log('getRequestsData', getRequestsData);
+        console.log('getUserStatus', getStatus);
+        setRequests(getRequestsData);
+    }
+
+    useEffect(() => {
+        handleLoadRequests();
+    }, []);
 
     return (
         <Box>

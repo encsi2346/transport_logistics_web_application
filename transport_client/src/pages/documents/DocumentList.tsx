@@ -4,7 +4,7 @@ import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import useSelection from "../../components/inputField/hooks/useSelection";
@@ -62,6 +62,25 @@ const DocumentList = () => {
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);
     };
+
+    const handleLoadDocuments = async () => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/documents`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getDocumentsData = await getResponse.json();
+        const getStatus = getResponse.status;
+        console.log('getDocumentsData', getDocumentsData);
+        console.log('getUserStatus', getStatus);
+        setDocuments(getDocumentsData);
+    }
+
+    useEffect(() => {
+        handleLoadDocuments();
+    }, []);
 
     return (
         <Box>

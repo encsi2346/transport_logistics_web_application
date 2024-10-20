@@ -5,7 +5,7 @@ import ContentCard from "../../components/layout/ContentCard";
 import GoodsTypeCard from "../../components/layout/GoodsTypeCard";
 import {useTypeSafeTranslation} from "../../components/inputfield/hooks/useTypeSafeTranslation";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import SaveButton from "../../components/button/SaveButton";
@@ -76,6 +76,25 @@ const ProductsCategoryList = () => {
             })
             .catch(() => null);
     };
+
+    const handleLoadProductCategories = async () => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/product-categories`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getProductCategoriesData = await getResponse.json();
+        const getStatus = getResponse.status;
+        console.log('getProductCategoriesData', getProductCategoriesData);
+        console.log('getUserStatus', getStatus);
+        setCategories(getProductCategoriesData);
+    }
+
+    useEffect(() => {
+        handleLoadProductCategories();
+    }, []);
 
     return (
         <Box>

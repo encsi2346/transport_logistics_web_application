@@ -9,7 +9,7 @@ import SaveButton from "../../components/button/SaveButton";
 import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 interface Props {
     isEditing?: boolean;
@@ -22,6 +22,26 @@ const CarEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const dispatch = useDispatch();
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
     const [t, i18n] = useTranslation();
+
+    const handleLoadCar = async (id) => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/cars/${id}`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getCarData = await getResponse.json();
+        const getStatus = getResponse.status;
+        console.log('getCarData', getCarData);
+        console.log('getUserStatus', getStatus);
+        //setCar(getCarData);
+    }
+
+    useEffect(() => {
+        handleLoadCar(id);
+    }, [id]);
+
     return (
         <Box>
             <PageHeader text={t('CAR.NEW_CAR')}/>

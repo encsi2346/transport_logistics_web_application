@@ -116,6 +116,8 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     }, [])
 
 
+
+
     const {
         control,
         setValue,
@@ -165,7 +167,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         //TODO
     };
 
-
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
 
@@ -181,6 +182,25 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const handleEditClicked = () => {
         setInputDisabled(!inputDisabled);
     };
+
+    const handleLoadUser = async (id) => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/users/${id}`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getUserData = await getResponse.json();
+        const getStatus = getResponse.status;
+        console.log('getUserData', getUserData);
+        console.log('getUserStatus', getStatus);
+        //setUsers(getUserList);
+    }
+
+    useEffect(() => {
+        handleLoadUser(id);
+    }, [id]);
 
     return (
         <Box>

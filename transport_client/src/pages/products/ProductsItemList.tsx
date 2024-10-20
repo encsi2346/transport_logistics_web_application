@@ -4,7 +4,7 @@ import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import useSelection from "../../components/inputField/hooks/useSelection";
@@ -63,6 +63,25 @@ const ProductsItemList = () => {
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);
     };
+
+    const handleLoadProducts = async () => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/products`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getProductsData = await getResponse.json();
+        const getStatus = getResponse.status;
+        console.log('getProductsData', getProductsData);
+        console.log('getUserStatus', getStatus);
+        setProducts(getProductsData);
+    }
+
+    useEffect(() => {
+        handleLoadProducts();
+    }, []);
 
     return (
         <Box>

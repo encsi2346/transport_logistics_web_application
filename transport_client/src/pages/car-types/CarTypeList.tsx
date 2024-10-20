@@ -3,7 +3,7 @@ import FilterCard from "../../components/layout/FilterCard";
 import {Box, FormControl, Grid, Input, InputAdornment} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
 import CarTypeCard from "../../components/layout/CarTypeCard";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -80,6 +80,24 @@ const CarTypeList = () => {
         mode: 'all',
     });
 
+    const handleLoadCarTypes = async () => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/car-types`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getCarTypesData = await getResponse.json();
+        const getStatus = getResponse.status;
+        console.log('getCarTypesData', getCarTypesData);
+        console.log('getUserStatus', getStatus);
+        setCartTypes(getCarTypesData);
+    }
+
+    useEffect(() => {
+        handleLoadCarTypes();
+    }, []);
 
     const openAddCarTypeDialog = () => {
         addCarTypeDialog

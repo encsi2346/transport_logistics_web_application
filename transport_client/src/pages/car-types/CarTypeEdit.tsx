@@ -72,6 +72,25 @@ const CarTypeEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         setInputDisabled(!inputDisabled);
     };
 
+    const handleLoadCarType = async (id) => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/car-types/${id}`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getCarTypeData = await getResponse.json();
+        const getStatus = getResponse.status;
+        console.log('getCarTypeData', getCarTypeData);
+        console.log('getUserStatus', getStatus);
+        //setCartTypes(getCarTypesData);
+    }
+
+    useEffect(() => {
+        handleLoadCarType(id);
+    }, [id]);
+
     return (
         <Box>
             <PageHeader text={t('CAR_TYPES.ADD_NEW_CAR_TYPE')}/>

@@ -3,7 +3,7 @@ import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
 import { useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import UserTableQuery from "./UserTableQuery";
@@ -57,6 +57,25 @@ const UserList = () => {
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);
     };
+
+    const handleLoadUsers = async () => {
+        const getResponse = await fetch(
+            "http://localhost:3001/api/users",
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getUserList = await getResponse.json();
+        const getStatus = getResponse.status;
+        console.log('getUserList', getUserList);
+        console.log('getUserStatus', getStatus);
+        setUsers(getUserList);
+    }
+
+    useEffect(() => {
+        handleLoadUsers();
+    }, []);
 
     return (
         <Box>

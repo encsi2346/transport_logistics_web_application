@@ -111,11 +111,11 @@ const UserTableQuery = ({
                             })
                             .map((item, index) => {
                                 return (
-                                    <Grid item xs={4} key={item.id}>
+                                    <Grid item xs={4} key={item._id}>
                                         <UserCard
-                                            onClick={() => navigate(`/users/${item.id}`)}
-                                            id={item.id}
-                                            fullName={item.fullName}
+                                            onClick={() => navigate(`/users/${item._id}`)}
+                                            id={item._id}
+                                            fullName={item.email}
                                             position={item.position}
                                             phoneNumber={item.phoneNumber}
                                             image={item.image}

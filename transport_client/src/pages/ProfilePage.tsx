@@ -50,6 +50,7 @@ const ProfilePage = () => {
         axios.get('/user-creations')
             .then(({ data }) => {
                 setCreations(data);
+                console.log(data);
             })
             .catch(error => {
                 console.log('Error fetching creations', error);

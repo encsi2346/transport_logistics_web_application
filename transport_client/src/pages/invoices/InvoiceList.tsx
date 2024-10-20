@@ -4,7 +4,7 @@ import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import useSelection from "../../components/inputField/hooks/useSelection";
@@ -67,6 +67,25 @@ const InvoiceList = () => {
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);
     };
+
+    const handleLoadInvoices = async () => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/invoices`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getInvoicesData = await getResponse.json();
+        const getStatus = getResponse.status;
+        console.log('getInvoicesData', getInvoicesData);
+        console.log('getUserStatus', getStatus);
+        setInvoices(getInvoicesData);
+    }
+
+    useEffect(() => {
+        handleLoadInvoices();
+    }, []);
 
     return (
         <Box>
