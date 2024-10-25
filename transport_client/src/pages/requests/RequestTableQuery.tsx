@@ -3,6 +3,7 @@ import {useEffect} from 'react';
 import usePagination from "../../components/inputField/hooks/usePagination";
 import useSort from "../../components/inputField/hooks/useSort";
 import RequestTable from "./RequestTable";
+import {useParams} from "react-router-dom";
 
 interface Props {
     selectionModel?: GridSelectionModel;
@@ -13,6 +14,7 @@ interface Props {
     showActions?: boolean;
     enableQueryParams?: boolean;
     searchResults?: string[];
+    onHandleDelete?: (id: string) => void;
 }
 
 const RequestTableQuery = ({
@@ -24,7 +26,9 @@ const RequestTableQuery = ({
     showActions = true,
     enableQueryParams = true,
     searchResults,
+                               onHandleDelete,
 }: Props) => {
+    const { id } = useParams();
     const { pagination, handlePageChange, handlePageSizeChange } = usePagination(undefined, undefined, enableQueryParams);
     const { sort, sortParam, handleSortChange } = useSort({ sortBy: 'fullName', sortDir: 'asc' }, enableQueryParams);
 

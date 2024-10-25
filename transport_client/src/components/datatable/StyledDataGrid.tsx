@@ -64,7 +64,8 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         display: 'flex',
         alignItems: 'center',
         color: '#000000',
-        fontSize: 15
+        fontSize: 15,
+        cursor: 'pointer',
     },
     "& .MuiDataGrid-row:hover": {
         backgroundColor: useSelector((state) => state.mode) === 'light' ? '#b7b7b7' : "#a4a4a4",

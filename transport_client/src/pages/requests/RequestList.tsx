@@ -3,7 +3,7 @@ import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import useSelection from "../../components/inputField/hooks/useSelection";
 import {useForm} from "react-hook-form";
@@ -17,6 +17,7 @@ import RequestTableQuery from "./RequestTableQuery";
 import NewRequestAddDialog from "./NewRequestAddDialog";
 
 const RequestList = () => {
+    const { id } = useParams();
     const { t } = useTypeSafeTranslation();
     const addNewRequestDialog = useModal(NewRequestAddDialog);
     const [search, setSearch] = useState('');
@@ -103,6 +104,27 @@ const RequestList = () => {
     useEffect(() => {
         handleLoadRequests();
     }, []);
+
+    const deleteRequest = async (id: string) => {
+        //TODO
+        try {
+            const deleteRequestResponse = await fetch(
+                `http://localhost:3001/api/requests/${id}`,
+                {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getRequestData = await deleteRequestResponse.json();
+            const getStatus = deleteRequestResponse.status;
+            console.log('getRequestData', getRequestData);
+            console.log('getRequestStatus', getStatus);
+            //setCartTypes(getCarTypesData);
+            return getRequestData;
+        } catch (error) {
+            console.error(`Error deleting request with ID ${id}:`, error);
+        }
+    };
 
     return (
         <Box>
@@ -194,6 +216,7 @@ const RequestList = () => {
                         selectionModel={selectionModel}
                         onSelectionChange={handleSelectionChange}
                         onDataChange={handleDataChange}
+                        onHandleDelete={() => deleteRequest(id)}
                     />
                 </Box>
             </ContentCard>

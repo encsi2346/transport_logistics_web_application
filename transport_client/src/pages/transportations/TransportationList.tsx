@@ -4,7 +4,7 @@ import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
 import {useForm} from "react-hook-form";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -13,6 +13,7 @@ import SaveButton from "../../components/button/SaveButton";
 import TransportationTableQuery from "./TransportationTableQuery";
 
 const TransportationList = () => {
+    const { id } = useParams();
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const location = useLocation();
@@ -77,6 +78,27 @@ const TransportationList = () => {
 
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);
+    };
+
+    const deleteTransportation = async (id: string) => {
+        //TODO
+        try {
+            const deleteTransportationResponse = await fetch(
+                `http://localhost:3001/api/transportations/${id}`,
+                {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getTransportationData = await deleteTransportationResponse.json();
+            const getStatus = deleteTransportationResponse.status;
+            console.log('getTransportationData', getTransportationData);
+            console.log('getTransportationStatus', getStatus);
+            //setCartTypes(getCarTypesData);
+            return getTransportationData;
+        } catch (error) {
+            console.error(`Error deleting transportation with ID ${id}:`, error);
+        }
     };
 
     return (
@@ -169,6 +191,7 @@ const TransportationList = () => {
                         selectionModel={selectionModel}
                         onSelectionChange={handleSelectionChange}
                         onDataChange={handleDataChange}
+                        onHandleDelete={() => deleteTransportation(id)}
                     />
                 </Box>
             </ContentCard>

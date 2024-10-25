@@ -1,5 +1,5 @@
 import type { GridActionsColDef, GridColDef, GridSelectionModel, GridSortModel } from '@mui/x-data-grid';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import StyledDataGrid, {handleDataGridCellClick, sharedDataGridProps} from "../../components/dataTable/StyledDataGrid";
 import {Pagination} from "../../components/inputField/hooks/usePagination";
@@ -8,6 +8,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {Tooltip} from "@mui/material";
 import {GridActionsCellItem, GridRowParams} from "@mui/x-data-grid";
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Props {
     data?: string[];
@@ -21,6 +22,7 @@ interface Props {
     onPageSizeChange: (pageSize: number) => void;
     onSortChange: (pageSize: GridSortModel) => void;
     onSelectionChange?: (selection: GridSelectionModel) => void;
+    onHandleDelete?: (id: string) => void;
 }
 
 const RequestTable = ({
@@ -35,7 +37,9 @@ const RequestTable = ({
    onPageSizeChange,
    onSortChange,
    onSelectionChange,
+                          onHandleDelete,
 }: Props) => {
+    const { id } = useParams();
     const { t } = useTypeSafeTranslation();
     const location = useLocation();
     const navigate = useNavigate();
@@ -76,14 +80,15 @@ const RequestTable = ({
                     data-testid='edit-button'
                 />,
                 <GridActionsCellItem
-                    key={`${params.id}_open`}
+                    key={`${params.id}_remove`}
                     icon={
-                        <Tooltip title={t('TEXT.VIEW')}>
-                            <ArrowRightIcon width="16px" height="16px" sx={{ color: "#ff0000"}}/>
+                        <Tooltip title={t('TEXT.REMOVE')}>
+                            <DeleteIcon width="18px" height="18px" sx={{ color: "#ff0000"}}/>
                         </Tooltip>
                     }
-                    label={t('TEXT.VIEW')}
-                    data-testid='open-button'
+                    onClick={() => onHandleDelete(id)}
+                    label={t('TEXT.REMOVE')}
+                    data-testid='remove-button'
                 />,
             ],
         });
