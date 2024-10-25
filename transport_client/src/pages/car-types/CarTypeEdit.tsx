@@ -26,6 +26,32 @@ const CarTypeEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
+    const [fuelTypeList, setFuelTypeList] = useState([]);
+
+    const handleFuelTypeList = async () => {
+        const getResponse = await fetch(
+            "http://localhost:3001/api/fuelTypes",
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getFuelTypeList = await getResponse.json();
+        //const getStatus = getResponse.status;
+        console.log('fuelTypes', getFuelTypeList);
+
+        const formattedFuelTypeList = getFuelTypeList.map(fuelType => ({
+            value: fuelType,
+            label: fuelType.charAt(0).toUpperCase() + fuelType.slice(1)
+        }));
+        console.log('formattedFuelTypeList', formattedFuelTypeList);
+        setFuelTypeList(formattedFuelTypeList);
+    }
+
+    useEffect(() => {
+        handleFuelTypeList();
+    }, [])
+
 
     const {
         control,
@@ -35,13 +61,19 @@ const CarTypeEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         formState: { isValid },
     } = useForm<CarTypeEditFormSchema>({
         defaultValues: {
-            carTypeName: '',
-            carFunctionalDesign: '',
+            carTypeId: '',
+            brand: '',
+            typeName: '',
+            design: '',
             performance: '',
-            ownWeight: '',
-            numberOfSeats: '',
-            fuel: '',
-            usefulWeight: '',
+            selfWeight: null,
+            usefulWeight: null,
+            numberOfSeats: null,
+            fuel: null,
+            vontatas: null,
+            height: null,
+            szelesseg: null,
+            long: null
         },
         resolver: zodResolver(carTypeEditFormSchema(isEditing)),
         mode: 'all',

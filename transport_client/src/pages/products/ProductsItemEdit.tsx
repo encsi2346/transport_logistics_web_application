@@ -8,7 +8,7 @@ import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import {useNavigate, useParams} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import TextFieldInput from "../../components/inputField/TextFieldInput";
@@ -24,6 +24,7 @@ const ProductsItemEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
+    const [productStatusList, setProductStatusList] = useState([]);
 
     const {
         control,
@@ -31,17 +32,45 @@ const ProductsItemEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         formState: { isValid },
     } = useForm<ProductEditFormSchema>({
         defaultValues: {
-            productCategoryName: '',
-            productName: '',
-            productNumber: '',
-            barcode: '',
-            ownWeight: '',
-            maxNumberOfItems: '',
-            currentNumberOfItems: '',
+            productId: '',
+            name: '',
+            description: '',
+            category: '',
+            articleNumber: null,
+            barcode: null,
+            selfWeight: null,
+            maxNumberOfItems: null,
+            currentNumberOfItems: null,
+            szazalek: null,
+            status: '',
         },
         resolver: zodResolver(productEditFormSchema(isEditing)),
         mode: 'all',
     });
+
+    const handleProductStatusList = async () => {
+        const getResponse = await fetch(
+            "http://localhost:3001/api/productStatus",
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getProductStatusList = await getResponse.json();
+        //const getStatus = getResponse.status;
+        console.log('ProductStatus', getProductStatusList);
+
+        const formattedProductStatusList = getProductStatusList.map(productStatus => ({
+            value: productStatus,
+            label: productStatus.charAt(0).toUpperCase() + productStatus.slice(1)
+        }));
+        console.log('formattedProductStatusList', formattedProductStatusList);
+        setProductStatusList(formattedProductStatusList);
+    }
+
+    useEffect(() => {
+        handleProductStatusList();
+    }, [])
 
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;

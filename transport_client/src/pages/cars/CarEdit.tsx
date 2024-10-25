@@ -10,6 +10,10 @@ import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {useEffect, useState} from "react";
+import {useForm} from "react-hook-form";
+import {carTypeEditFormSchema, CarTypeEditFormSchema} from "@/pages/car-types/schemas/car-type-edit-form-schema";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {carEditFormSchema, CarEditFormSchema} from "@/pages/cars/schemas/car-edit-form-schema";
 
 interface Props {
     isEditing?: boolean;
@@ -22,6 +26,33 @@ const CarEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const dispatch = useDispatch();
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
     const [t, i18n] = useTranslation();
+
+    const {
+        control,
+        setValue,
+        reset,
+        handleSubmit,
+        formState: { isValid },
+    } = useForm<CarEditFormSchema>({
+        defaultValues: {
+            carId: '',
+            name: '',
+            type: '',
+            licencePlate: '',
+            numberOfRegistrationLicence: null,
+            chassisNumber: null,
+            yearOfProduction: null,
+            dateOfFirstRegistration: null,
+            images: null,
+            dateOfDatabaseRegistration: null,
+            dateOfLastTechnicalExamination: null,
+            dateOfLastService: null,
+            totalDrivenKm: null,
+            totalTransport: null,
+        },
+        resolver: zodResolver(carEditFormSchema(isEditing)),
+        mode: 'all',
+    });
 
     const getCar = async (id: string) => {
         try {

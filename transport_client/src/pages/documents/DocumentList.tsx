@@ -10,6 +10,10 @@ import ClearIcon from "@mui/icons-material/Clear";
 import useSelection from "../../components/inputField/hooks/useSelection";
 import SaveButton from "../../components/button/SaveButton";
 import DocumentTableQuery from "./DocumentTableQuery";
+import {useForm} from "react-hook-form";
+import {carTypeEditFormSchema, CarTypeEditFormSchema} from "@/pages/car-types/schemas/car-type-edit-form-schema";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {DocumentEditFormSchema, documentEditFormSchema} from "@/pages/documents/schemas/document-edit-form-schema";
 
 const DocumentList = () => {
     const { t } = useTypeSafeTranslation();
@@ -58,6 +62,77 @@ const DocumentList = () => {
         },
     ]);
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
+
+    const [documentTypeList, setDocumentTypeList] = useState([]);
+    const [documentStatusList, setDocumentStatusList] = useState([]);
+
+    const handleDocumentTypeList = async () => {
+        const getResponse = await fetch(
+            "http://localhost:3001/api/documentTypes",
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getDocumentTypeList = await getResponse.json();
+        //const getStatus = getResponse.status;
+        console.log('DocumentTypes', getDocumentTypeList);
+
+        const formattedDocumentTypeList = getDocumentTypeList.map(documentType => ({
+            value: documentType,
+            label: documentType.charAt(0).toUpperCase() + documentType.slice(1)
+        }));
+        console.log('formattedDocumentTypeList', formattedDocumentTypeList);
+        setDocumentTypeList(formattedDocumentTypeList);
+    }
+
+    useEffect(() => {
+        handleDocumentTypeList();
+    }, [])
+
+    const handleDocumentStatusList = async () => {
+        const getResponse = await fetch(
+            "http://localhost:3001/api/documentStatus",
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getDocumentStatusList = await getResponse.json();
+        //const getStatus = getResponse.status;
+        console.log('DocumentStatuses', getDocumentStatusList);
+
+        const formattedDocumentStatusList = getDocumentStatusList.map(documentStatus => ({
+            value: documentStatus,
+            label: documentStatus.charAt(0).toUpperCase() + documentStatus.slice(1)
+        }));
+        console.log('formattedDocumentStatusList', formattedDocumentStatusList);
+        setDocumentStatusList(formattedDocumentStatusList);
+    }
+
+    useEffect(() => {
+        handleDocumentStatusList();
+    }, [])
+
+    const {
+        control,
+        setValue,
+        reset,
+        handleSubmit,
+        formState: { isValid },
+    } = useForm<DocumentEditFormSchema>({
+        defaultValues: {
+            documentId: '',
+            documentType: '',
+            title: '',
+            timeStamp: '',
+            status: '',
+            creator: null,
+            size: null,
+        },
+        resolver: zodResolver(documentEditFormSchema()),
+        mode: 'all',
+    });
 
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);

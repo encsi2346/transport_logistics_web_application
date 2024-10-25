@@ -8,10 +8,11 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import TextFieldInput from "@/components/inputfield/TextFieldInput";
 import {useDispatch} from "react-redux";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {userEditFormSchema, UserEditFormSchema} from "@/pages/users/schemas/user-edit-form-schema";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {requestEditFormSchema, RequestEditFormSchema} from "@/pages/requests/schemas/request-edit-form-schema";
 
 const textStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -34,6 +35,7 @@ const RequestEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const dispatch = useDispatch();
     const [t, i18n] = useTranslation();
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
+    const [RequestStatusList, setRequestStatusList] = useState([]);
 
     const {
         control,
@@ -41,16 +43,44 @@ const RequestEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         reset,
         handleSubmit,
         formState: { isValid },
-    } = useForm<UserEditFormSchema>({
+    } = useForm<RequestEditFormSchema>({
         defaultValues: {
-            object: '',
-            affectedWorkingDay: '',
+            requestId: '',
+            title: '',
+            typeOfRequest: '',
+            selectedDate: '',
             reason: '',
             status: '',
+            answerId: '',
+            userId: '',
         },
-        resolver: zodResolver(userEditFormSchema(isEditing)),
+        resolver: zodResolver(requestEditFormSchema(isEditing)),
         mode: 'all',
     });
+
+    const handleRequestStatusList = async () => {
+        const getResponse = await fetch(
+            "http://localhost:3001/api/requestStatus",
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getRequestStatusList = await getResponse.json();
+        //const getStatus = getResponse.status;
+        console.log('RequestStatus', getRequestStatusList);
+
+        const formattedRequestStatusList = getRequestStatusList.map(requestStatus => ({
+            value: requestStatus,
+            label: requestStatus.charAt(0).toUpperCase() + requestStatus.slice(1)
+        }));
+        console.log('formattedRequestStatusList', formattedRequestStatusList);
+        setRequestStatusList(formattedRequestStatusList);
+    }
+
+    useEffect(() => {
+        handleRequestStatusList();
+    }, [])
 
     const getRequest = async (id: string) => {
         try {

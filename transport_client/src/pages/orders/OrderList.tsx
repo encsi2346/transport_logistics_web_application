@@ -1,7 +1,62 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {useForm} from "react-hook-form";
+import {documentEditFormSchema, DocumentEditFormSchema} from "@/pages/documents/schemas/document-edit-form-schema";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {OrderEditFormSchema, orderEditFormSchema} from "@/pages/orders/schemas/order-edit-form-schema";
 
 
 const OrderList = () => {
+    const [orderStatusList, setOrderStatusList] = useState([]);
+
+    const handleOrderStatusList = async () => {
+        const getResponse = await fetch(
+            "http://localhost:3001/api/orderStatus",
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getOrderStatusList = await getResponse.json();
+        //const getStatus = getResponse.status;
+        console.log('OrderStatuses', getOrderStatusList);
+
+        const formattedOrderStatusList = getOrderStatusList.map(orderStatus => ({
+            value: orderStatus,
+            label: orderStatus.charAt(0).toUpperCase() + orderStatus.slice(1)
+        }));
+        console.log('formattedOrderStatusList', formattedOrderStatusList);
+        setOrderStatusList(formattedOrderStatusList);
+    }
+
+    useEffect(() => {
+        handleOrderStatusList();
+    }, [])
+
+    const {
+        control,
+        setValue,
+        reset,
+        handleSubmit,
+        formState: { isValid },
+    } = useForm<OrderEditFormSchema>({
+        defaultValues: {
+            orderId: '',
+            status: '',
+            company: '',
+            route: [],
+            selectedProducts: [],
+            totalWeightsOfSelectedProducts: null,
+            departurePoint: '',
+            destinationPoint: '',
+            dockingPoints: [],
+            results: '',
+            documents: [],
+            invoice: '',
+            comments: [],
+        },
+        resolver: zodResolver(orderEditFormSchema()),
+        mode: 'all',
+    });
 
     const getOrders = async () => {
         const getResponse = await fetch(

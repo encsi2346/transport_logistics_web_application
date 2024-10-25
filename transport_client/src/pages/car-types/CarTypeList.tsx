@@ -74,7 +74,19 @@ const CarTypeList = () => {
         formState: { isValid },
     } = useForm<CarTypeEditFormSchema>({
         defaultValues: {
-            carTypes: '',
+            carTypeId: '',
+            brand: '',
+            typeName: '',
+            design: '',
+            performance: '',
+            selfWeight: null,
+            usefulWeight: null,
+            numberOfSeats: null,
+            fuel: null,
+            vontatas: null,
+            height: null,
+            szelesseg: null,
+            long: null
         },
         resolver: zodResolver(carTypeEditFormSchema()),
         mode: 'all',
@@ -82,7 +94,7 @@ const CarTypeList = () => {
 
     const handleLoadCarTypes = async () => {
         const getResponse = await fetch(
-            `http://localhost:3001/api/car-types`,
+            'http://localhost:3001/api/car-types',
             {
                 method: "GET",
                 headers: { "Content-Type": "application/json"},

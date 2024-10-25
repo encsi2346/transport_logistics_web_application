@@ -18,8 +18,9 @@ import TextFieldInput from '../../components/inputfield/TextFieldInput';
 import {
     productCategoryEditFormSchema,
     ProductCategoryEditFormSchema
-} from "../products/schemas/product-category-edit-form-schema";
+} from "./schemas/product-category-edit-form-schema";
 import DataCard from "@/components/layout/DataCard";
+import {useEffect, useState} from "react";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -75,6 +76,7 @@ const ProductCategoryAddDialog = NiceModal.create(
         const { t } = useTypeSafeTranslation();
         const { id } = useParams();
         const navigate = useNavigate();
+        const [productStatusList, setProductStatusList] = useState([]);
 
         const {
             control,
@@ -83,12 +85,38 @@ const ProductCategoryAddDialog = NiceModal.create(
             formState: { isValid },
         } = useForm<ProductCategoryEditFormSchema>({
             defaultValues: {
-                productCategoryName: '',
-                productDescription: '',
+                productCategoryId: '',
+                name: '',
+                description: '',
+                status: '',
             },
             resolver: zodResolver(productCategoryEditFormSchema()),
             mode: 'all',
         });
+
+        const handleProductStatusList = async () => {
+            const getResponse = await fetch(
+                "http://localhost:3001/api/productStatus",
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getProductStatusList = await getResponse.json();
+            //const getStatus = getResponse.status;
+            console.log('ProductStatus', getProductStatusList);
+
+            const formattedProductStatusList = getProductStatusList.map(productStatus => ({
+                value: productStatus,
+                label: productStatus.charAt(0).toUpperCase() + productStatus.slice(1)
+            }));
+            console.log('formattedProductStatusList', formattedProductStatusList);
+            setProductStatusList(formattedProductStatusList);
+        }
+
+        useEffect(() => {
+            handleProductStatusList();
+        }, [])
 
         const onSubmit = handleSubmit((data) => {
             let submitData = data as any;

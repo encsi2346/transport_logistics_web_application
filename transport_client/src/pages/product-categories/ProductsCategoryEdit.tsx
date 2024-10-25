@@ -15,7 +15,7 @@ import TextFieldInput from "../../components/inputfield/TextFieldInput";
 import {
     ProductCategoryEditFormSchema,
     productCategoryEditFormSchema
-} from "../products/schemas/product-category-edit-form-schema";
+} from "./schemas/product-category-edit-form-schema";
 
 interface Props {
     isEditing?: boolean;

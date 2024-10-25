@@ -51,7 +51,7 @@ const UserSchema = new mongoose.Schema({
     city: String, //Település
     nameOfPublicArea: String, //Közterület neve
     typeOfPublicArea: String, //Közterület jellege
-    houseNumber: String, //Házszám
+    houseNumber: Number, //Házszám
     dateOfRegistration: String, //Regisztráció dátuma
     startDateOfContract: String, //Szerződés kezdete
     endDateOfContract: String, //Szerződés vége

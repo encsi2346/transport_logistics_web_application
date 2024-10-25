@@ -10,6 +10,10 @@ import ClearIcon from "@mui/icons-material/Clear";
 import useSelection from "../../components/inputField/hooks/useSelection";
 import SaveButton from "../../components/button/SaveButton";
 import InvoiceTableQuery from "./InvoiceTableQuery";
+import {useForm} from "react-hook-form";
+import {documentEditFormSchema, DocumentEditFormSchema} from "@/pages/documents/schemas/document-edit-form-schema";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {InvoiceEditFormSchema, invoiceEditFormSchema} from "@/pages/invoices/schemas/invoice-edit-form-schema";
 
 const InvoiceList = () => {
     const { t } = useTypeSafeTranslation();
@@ -63,6 +67,51 @@ const InvoiceList = () => {
         },
     ]);
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
+    const [invoiceStatusList, setInvoiceStatusList] = useState([]);
+
+    const handleInvoiceStatusList = async () => {
+        const getResponse = await fetch(
+            "http://localhost:3001/api/invoiceStatus",
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getInvoiceStatusList = await getResponse.json();
+        //const getStatus = getResponse.status;
+        console.log('InvoiceStatus', getInvoiceStatusList);
+
+        const formattedInvoiceStatusTypeList = getInvoiceStatusList.map(invoiceState => ({
+            value: invoiceState,
+            label: invoiceState.charAt(0).toUpperCase() + invoiceState.slice(1)
+        }));
+        console.log('formattedInvoiceStatusTypeList', formattedInvoiceStatusTypeList);
+        setInvoiceStatusList(formattedInvoiceStatusTypeList);
+    }
+
+    useEffect(() => {
+        handleInvoiceStatusList();
+    }, [])
+
+    const {
+        control,
+        setValue,
+        reset,
+        handleSubmit,
+        formState: { isValid },
+    } = useForm<InvoiceEditFormSchema>({
+        defaultValues: {
+            invoiceId: '',
+            orderId: '',
+            companyId: '',
+            dateOfCreation: null,
+            deadlineForPayment: null,
+            price: null,
+            status: null,
+        },
+        resolver: zodResolver(invoiceEditFormSchema()),
+        mode: 'all',
+    });
 
     const handleDataChange = () => {
         handleSelectionChange(selectionModel);

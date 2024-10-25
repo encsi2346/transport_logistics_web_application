@@ -62,6 +62,21 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const [t, i18n] = useTranslation();
     const [genderList, setGenderList] = useState([]);
 
+    const licenceCategories = [
+        {
+            value: 1,
+            label: 'A',
+        },
+        {
+            value: 2,
+            label: 'B',
+        },
+        {
+            value: 3,
+            label: 'C',
+        }
+    ];
+
     const theme = useTheme();
 
     const [languageValue, setLanguageValue] = useState(null);
@@ -91,7 +106,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             });
     }, [languageValue]);
 
-    const handleLoadGenderList = async () => {
+    const handleGenderList = async () => {
         const getResponse = await fetch(
             "http://localhost:3001/api/genders",
             {
@@ -105,18 +120,15 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
         const formattedGenderList = getGenderList.map(gender => ({
             value: gender,
-            label: gender.charAt(0).toUpperCase() + gender.slice(1) // Capitalize the first letter for labels
+            label: gender.charAt(0).toUpperCase() + gender.slice(1)
         }));
         console.log('formattedGenderList', formattedGenderList);
         setGenderList(formattedGenderList);
     }
 
     useEffect(() => {
-        handleLoadGenderList();
+        handleGenderList();
     }, [])
-
-
-
 
     const {
         control,
@@ -126,47 +138,51 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         formState: { isValid },
     } = useForm<UserEditFormSchema>({
         defaultValues: {
+            userId: '',
             familyName: '',
             firstName: '',
-            gender: '',
+            gender: 'male',
             nationality: '',
             birthPlace: '',
             birthDate: '',
             IDCardNumber: '',
             validityDateOfIDCard: '',
             drivingLicenceNumber: '',
-            drivingLicenceCategories: '',
+            drivingLicenceCategories: 'A',
             validityDateOfDrivingLicence: '',
             dateOfMedicalVisit: '',
-            validityDateOfMedicalVisit: '',
+            medicalVisitStatus: '',
             email: '',
-            phoneNumber: '',
+            phoneNumber: null,
             country: '',
-            postcode: '',
+            postcode: null,
             city: '',
             nameOfPublicArea: '',
             typeOfPublicArea: '',
-            houseNumber: '',
+            houseNumber: null,
             dateOfRegistration: '',
             startDateOfContract: '',
             endDateOfContract: '',
             position: '',
             lineManager: '',
             healthProblem: '',
+            picturePath: '',
+            images: [],
         },
-        //resolver: zodResolver(userEditFormSchema(isEditing)),
+        resolver: zodResolver(userEditFormSchema(isEditing)),
         mode: 'all',
     });
 
     const onSubmit = handleSubmit((data) => {
         let submitData = data as any;
-
+        console.log('isEditing', isEditing);
+        console.log('submitData', submitData);
         if (isEditing) {
             setInputDisabled(true);
-            updateUser(id, submitData);
+            createUser(submitData);
         } else {
             setInputDisabled(true);
-            createUser(submitData);
+            updateUser(id, submitData);
         }
     }, (errors) => {console.log(errors)});
 
@@ -347,11 +363,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                                 name='gender'
                                                 data-testid='gender-input'
                                                 disabled={inputDisabled}
-                                                options={genderList.map((option) => (
-                                                    <MenuItem key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </MenuItem>
-                                                ))}
+                                                options={genderList}
                                                 required
                                                 InputProps={{
                                                     endAdornment: (
@@ -415,7 +427,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                             <TextFieldInput
                                                 placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
                                                 control={control}
-                                                name='typeOfPublicArea'
+                                                name='birthDate'
                                                 type='text'
                                                 data-testid='type-of-public-area'
                                                 disabled={inputDisabled}
@@ -453,7 +465,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                             <TextFieldInput
                                                 placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
                                                 control={control}
-                                                name='typeOfPublicArea'
+                                                name='validityDateOfIDCard'
                                                 type='text'
                                                 data-testid='type-of-public-area'
                                                 disabled={inputDisabled}
@@ -475,7 +487,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                                 name='drivingLicenceCategories'
                                                 data-testid='driving-licence-categories'
                                                 disabled={inputDisabled}
-                                                //options={enumToOptions(userRoles)}
+                                                options={licenceCategories}
                                                 required
                                                 InputProps={{
                                                     endAdornment: (
@@ -525,7 +537,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                             <TextFieldInput
                                                 placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
                                                 control={control}
-                                                name='typeOfPublicArea'
+                                                name='validityDateOfDrivingLicence'
                                                 type='text'
                                                 data-testid='type-of-public-area'
                                                 disabled={inputDisabled}
@@ -549,7 +561,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                             <TextFieldInput
                                                 placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
                                                 control={control}
-                                                name='typeOfPublicArea'
+                                                name='dateOfMedicalVisit'
                                                 type='text'
                                                 data-testid='type-of-public-area'
                                                 disabled={inputDisabled}
@@ -573,7 +585,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                             <TextFieldInput
                                                 placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
                                                 control={control}
-                                                name='typeOfPublicArea'
+                                                name='validityDateOfMedicalVisit'
                                                 type='text'
                                                 data-testid='type-of-public-area'
                                                 disabled={inputDisabled}
@@ -772,7 +784,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         <TextFieldInput
                                             placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
                                             control={control}
-                                            name='typeOfPublicArea'
+                                            name='dateOfRegistration'
                                             type='text'
                                             data-testid='type-of-public-area'
                                             disabled={inputDisabled}
@@ -796,7 +808,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         <TextFieldInput
                                             placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
                                             control={control}
-                                            name='typeOfPublicArea'
+                                            name='startDateOfContract'
                                             type='text'
                                             data-testid='type-of-public-area'
                                             disabled={inputDisabled}
@@ -805,7 +817,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                 </Grid>
                                 <Grid item>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('USER.END_DATE_OF_CONTRACT')} required={true} />
+                                        <NormalText text={t('USER.END_DATE_OF_CONTRACT')} required={false} />
                                         {/*
                                         //TODO: datepicker
                                         <DatePickerInput
@@ -819,7 +831,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         <TextFieldInput
                                             placeholder={t('USER.TYPE_OF_PUBLIC_AREA')}
                                             control={control}
-                                            name='typeOfPublicArea'
+                                            name='endDateOfContract'
                                             type='text'
                                             data-testid='type-of-public-area'
                                             disabled={inputDisabled}

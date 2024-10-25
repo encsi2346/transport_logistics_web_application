@@ -2,6 +2,7 @@ import {z} from 'zod';
 
 export const userEditFormSchema = (isEditing: boolean) =>
     z.object({
+            userId: z.string().min(1),
         familyName: z.string().min(1),
         firstName: z.string().min(1),
         gender: z.string().nullish(),
@@ -14,7 +15,7 @@ export const userEditFormSchema = (isEditing: boolean) =>
         drivingLicenceCategories: z.string().nullish(),
         validityDateOfDrivingLicence: z.string().nullish(),
         dateOfMedicalVisit: z.string().nullish(),
-        validityDateOfMedicalVisit: z.string().nullish(),
+            medicalVisitStatus: z.string().nullish(),
         email: z.string().nullish(),
         phoneNumber: z.number().nullish(),
         country: z.string().nullish(),
@@ -29,6 +30,8 @@ export const userEditFormSchema = (isEditing: boolean) =>
         position: z.string().nullish(),
         lineManager: z.string().nullish(),
         healthProblem: z.string().nullish(),
+            picturePath: z.string().nullish(),
+            images: z.string().array().nullish(),
     });
 
 export type UserEditFormSchema = z.infer<ReturnType<typeof userEditFormSchema>>;
