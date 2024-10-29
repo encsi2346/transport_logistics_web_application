@@ -3,7 +3,7 @@ import {Button, useTheme} from "@mui/material";
 interface Props {
     text: string;
     type?: string;
-    onClick?: () => void;
+    onClick?: (e: any) => void;
     disabled?: boolean;
 }
 
@@ -14,6 +14,7 @@ const WideSaveButton = ({ text, type, onClick, disabled }: Props) => {
         <Button
             type={type}
             data-testid='wide-save-button'
+            disabled={disabled}
             sx={{
                 fontWeight: 'regular',
                 fontSize: '14px',
@@ -30,9 +31,9 @@ const WideSaveButton = ({ text, type, onClick, disabled }: Props) => {
                 paddingRight: '100px',
                 textTransform: 'none',
             }}
-            onClick={() => {
+            onClick={(e) => {
                 if(!disabled && onClick) {
-                    onClick();
+                    onClick(e);
                 }
             }}
         >
