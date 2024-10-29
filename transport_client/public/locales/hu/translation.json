@@ -32,7 +32,9 @@
     "CREATE": "Létrehozás",
     "BACK": "Vissza",
     "NEXT": "Következő",
-    "LOGIN": "Bejelentkezés"
+    "LOGIN": "Bejelentkezés",
+    "FILTER": "Szűrés",
+    "CLEAR_FILTER": "Szűrés törlése"
   },
   "USER": {
     "ID": "Azonosító",
@@ -68,7 +70,8 @@
     "EMPLOYEE_DATA": "Alkalmazotti jogviszony adatai",
     "NAME_OF_PUBLIC_AREA": "Közterület neve",
     "BIRTH_DATE": "Születési idő",
-    "UPLOAD_IMAGE": "Kép feltöltése"
+    "UPLOAD_IMAGE": "Kép feltöltése",
+    "NAME": "Név"
   },
   "TRANSPORTATIONS": {
     "ID": "Azonosító",

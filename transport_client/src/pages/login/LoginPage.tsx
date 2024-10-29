@@ -150,7 +150,7 @@ const LoginPage = () => {
                                     : null
                                 }
                                 <TextField
-                                    label="Email"
+                                    label={t('TEXT.EMAIL')}
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.email}
@@ -168,7 +168,7 @@ const LoginPage = () => {
                                     }}
                                 />
                                 <TextField
-                                    label="Password"
+                                    label={t('TEXT.PASSWORD')}
                                     type={showPassword ? "text" : "password"}
                                     onBlur={handleBlur}
                                     onChange={handleChange}

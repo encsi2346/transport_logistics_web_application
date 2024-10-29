@@ -1,4 +1,4 @@
-import {Box, FormControl, Input, InputAdornment} from "@mui/material";
+import {Box, FormControl, Grid, InputAdornment, Select, TextField, InputLabel, MenuItem, Button} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
@@ -6,16 +6,28 @@ import { useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import UserTableQuery from "./UserTableQuery";
 import SaveButton from "../../components/button/SaveButton";
-import useSelection from "@/components/inputfield/hooks/useSelection";
 import {useTypeSafeTranslation} from "@/components/inputfield/hooks/useTypeSafeTranslation";
+import UserCard from "@/components/layout/UserCard";
+import {useDispatch} from "react-redux";
+import InfiniteScroll from 'react-infinite-scroll';
 
+const limit = 5;
 const UserList = () => {
     const { t } = useTypeSafeTranslation();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
-    const [users, setUsers] = useState([
+    const [users, setUsers] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLast, setIsLast] = useState(false);
+    const [page, setPage] = useState(-1);
+    const [filtersReset, setFiltersReset] = useState(false);
+    const [values, setValues] = useState({
+        name: '',
+        position: ''
+    })
+    const [usersList, setUsersList] = useState([
         {
             id: '1111',
             fullName: 'Példa Elek',
@@ -52,122 +64,244 @@ const UserList = () => {
             validityDateOfDrivingLicence: '2025.12.03'
         },
     ]);
-    const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
+    const [positionList, setPositionList] = useState([
+        {
+            label: 'Sofőr',
+            value: 'driver'
+        },
+        {
+            label: 'HR',
+            value: 'hr'
+        }
+    ]);
 
-    const handleDataChange = () => {
-        handleSelectionChange(selectionModel);
+    const onReset = () => {
+        setValues({
+            name: '',
+            position: ''
+        });
+        setFiltersReset(true);
     };
 
-    const handleLoadUsers = async () => {
-        const getResponse = await fetch(
-            "http://localhost:3001/api/users",
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json"},
-            }
-        );
-        const getUserList = await getResponse.json();
-        const getStatus = getResponse.status;
-        console.log('getUserList', getUserList);
-        console.log('getUserStatus', getStatus);
-        setUsers(getUserList);
+    useEffect(() => {
+        submitData();
+    }, [filtersReset]);
+
+    const handleChange = (prop: any) => (event: any) => {
+        setValues({...values, [prop]: event.target.value });
+    }
+
+    const submitData = () => {
+        try {
+            setFiltersReset(false);
+            //TODO: set search api call
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    }
+
+    const fetchUsers = async (/*size: number, page: number*/) => {
+        try {
+            setIsLoading(true);
+            const getResponse = await fetch(
+                "http://localhost:3001/api/users",
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getUserList = await getResponse.json();
+            const getStatus = getResponse.status;
+            console.log('getUserList', getUserList);
+            console.log('getUserStatus', getStatus);
+            //setUsers((prev) => [...prev, ...users.content]);
+            //setIsLast(users.isLast);
+            //setPage(users.number);
+            setUsersList(getUserList);
+        } catch {}
     }
 
     useEffect(() => {
-        handleLoadUsers();
+        fetchUsers();
     }, []);
+
+    const loadMoreMessage = () => {
+        /*if(isUsersFetching) {
+            fetchUsers(limit, page + 1);
+        }*/
+    };
+
+    const resetUsers = () => {
+        setUsers([]);
+        setPage(-1);
+        setIsLast(false);
+    };
+
+    const onSuccess = () => {
+        setIsLoading(true);
+        resetUsers();
+        submitData();
+        setIsLoading(false);
+    }
+
+    useEffect(() => {
+        resetUsers();
+        //fetchUsers(1000, 0);
+    }, []);
+
+    useEffect(() => {
+        setUsersList(users);
+    }, []);
+
+    useEffect(() => {
+        if (values.name !== '' || values.position !== null) {
+            submitData();
+        }
+    }, [values]);
 
     return (
         <Box>
             <PageHeader text={t('TEXT.USERS')}/>
             <FilterCard>
-                <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
-                    <FormControl sx={{
+                <form
+                    autoComplete='off'
+                    onSubmit={
+                        async (e) => {
+                            e.preventDefault();
+                            submitData();
+                        }}
+                >
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
                         marginTop: 1,
                         marginBottom: 5,
                         marginLeft: 2,
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: 2
+                        gap: 4,
+                        paddingRight: 5
                     }}>
-                        <Input
-                            id="name"
-                            placeholder="Search name"
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                        <Input
-                            id="position"
-                            placeholder="Search position"
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                    </FormControl>
-                    <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('USER.NEW_USER')} onClick={() => navigate(`/users/new`)} />
+                        <FormControl>
+                            <TextField
+                                id="name"
+                                placeholder='Példa Éva'
+                                name='name'
+                                label={t('USER.NAME')}
+                                value={values.name}
+                                onChange={handleChange('name')}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <SearchIcon sx={{color: '#000000'}}/>
+                                        </InputAdornment>
+                                    ),
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
+                                        </InputAdornment>
+                                    )
+                                }}
+                                sx={{
+                                    backgroundColor: `#ffffff`,
+                                    borderRadius: '18px',
+                                    color: `#000000`,
+                                    textDecoration: 'none',
+                                    height: 40,
+                                    width: 250,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    fontSize: "15px",
+                                    "& fieldset": {border: 'none'},
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <InputLabel>{t('USER.POSITION')}</InputLabel>
+                            <Select
+                                id="position"
+                                placeholder='Sofőr'
+                                label={t('USER.POSITION')}
+                                name='position'
+                                value={values.position ?? ''}
+                                onChange={handleChange('position')}
+                                sx={{
+                                    backgroundColor: `#ffffff`,
+                                    borderRadius: '18px',
+                                    color: `#000000`,
+                                    textDecoration: 'none',
+                                    height: 40,
+                                    width: 250,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    fontSize: "15px",
+                                    "& fieldset": {border: 'none'},
+                                }}
+                            >
+                                {Object.values(positionList).map((position) => (
+                                    <MenuItem key={position.value} value={position.value}>
+                                        {position.label}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
+                            <SaveButton onClick={onReset} text={t('TEXT.CLEAR_FILTER')} />
+                            <SaveButton type='submit' text={t('TEXT.FILTER')}/>
+                        </div>
+                        <Box sx={{display: 'inline', alignItems: 'center', paddingLeft: 20}}>
+                            <SaveButton text={t('USER.NEW_USER')} onClick={() => navigate(`/users/new`)}/>
+                        </Box>
                     </Box>
-                </Box>
+                </form>
             </FilterCard>
 
             <ContentCard>
-                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
-                    <UserTableQuery
-                        searchResults={
-                            users
-                                .filter((item) => {
-                                    return search.toLowerCase() === ''
-                                        ? item
-                                        : item.fullName.toLowerCase().includes(search);
-                                })
-                        }
-                        selectionModel={selectionModel}
-                        onSelectionChange={handleSelectionChange}
-                        onDataChange={handleDataChange}
-                    />
+                <Box sx={{display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
+                    <ContentCard>
+                        <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                            {usersList.length === null ? (
+                                    <InfiniteScroll
+                                        useWindow={false}
+                                        loadMore={loadMoreMessage}
+                                        hasMore={!isLast && !isLoading}
+                                    >
+                                        <Grid container rowSpacing={3} columnSpacing={-38} >
+                                            {usersList.map((user) => (
+                                                <Grid item xs={4} key={user._id}>
+                                                    <UserCard
+                                                        onClick={() => navigate(`/users/${user._id}`)}
+                                                        id={user._id}
+                                                        fullName={user.email}
+                                                        position={user.position}
+                                                        phoneNumber={user.phoneNumber}
+                                                        image={user.image}
+                                                    />
+                                                </Grid>
+                                            ))}
+                                            {/*isLoading && <Loading />*/}
+                                        </Grid>
+                                    </InfiniteScroll>
+                                ) : (
+                                    <div>
+                                        <Grid container rowSpacing={3} columnSpacing={-38} >
+                                            {usersList.map((user) => (
+                                                <Grid item xs={4} key={user._id}>
+                                                    <UserCard
+                                                        onClick={() => navigate(`/users/${user._id}`)}
+                                                        id={user._id}
+                                                        fullName={`${user.firstName} ${user.lastName}`}
+                                                        position={user.email}
+                                                        phoneNumber={user.phoneNumber}
+                                                        image={user.image}
+                                                    />
+                                                </Grid>
+                                            ))}
+                                            {/*isLoading && <Loading />*/}
+                                        </Grid>
+                                    </div>
+                                )}
+                        </Box>
+                    </ContentCard>
                 </Box>
             </ContentCard>
         </Box>

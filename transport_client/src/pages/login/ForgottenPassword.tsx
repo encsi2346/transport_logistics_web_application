@@ -1,12 +1,8 @@
 import {Box, FormControl, FormHelperText, TextField, Typography} from "@mui/material";
 import SmallBackgroundCard from "../../components/layout/SmallBackgroundCard";
 import WideSaveButton from "../../components/button/WideSaveButton";
-import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
+import {useTypeSafeTranslation} from "@/components/inputfield/hooks/useTypeSafeTranslation";
 import {useNavigate} from "react-router-dom";
-import TextFieldInput from "../../components/inputField/TextFieldInput";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {resetPasswordFormSchema, ResetPasswordFormSchema} from "./schema/reset-password-schema";
 import React, {useState} from "react";
 
 const ForgottenPassword = () => {
@@ -17,7 +13,7 @@ const ForgottenPassword = () => {
         email: ''
     })
 
-    const {
+   /* const {
         control,
     } = useForm<ResetPasswordFormSchema>({
         defaultValues: {
@@ -25,7 +21,7 @@ const ForgottenPassword = () => {
         },
         resolver: zodResolver(resetPasswordFormSchema),
         mode: 'all',
-    });
+    });*/
 
     const handleChange = (prop: string) => (event: React.ChangeEvent<{value: unknown}>) => {
         const value = event.target.value;
