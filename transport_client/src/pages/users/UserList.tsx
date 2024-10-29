@@ -75,30 +75,44 @@ const UserList = () => {
         }
     ]);
 
+    /*useEffect(() => {
+        submitData();
+    }, [filtersReset]);*/
+
+    const handleChange = (prop: any) => (event: any) => {
+        /*setValues(prevValues => ({
+            ...prevValues,
+            [prop]: event.target.value,
+        }));*/
+        setValues({...values, [prop]: event.target.value });
+    };
+
     const onReset = () => {
         setValues({
             name: '',
             position: ''
         });
         setFiltersReset(true);
+        setUsersList([]);
     };
 
-    useEffect(() => {
-        submitData();
-    }, [filtersReset]);
 
-    const handleChange = (prop: any) => (event: any) => {
-        setValues({...values, [prop]: event.target.value });
-    }
-
-    const submitData = () => {
+    const submitData = async () => {
         try {
             setFiltersReset(false);
-            //TODO: set search api call
+            const getResponse = await fetch(
+            `http://localhost:3001/api/users/search?name=${values.name}&position=${values.position}`,
+            {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const searchUsersQuery = await getResponse.json();
+            setUsersList(searchUsersQuery.content || []);
         } catch (error) {
             console.error('Error submitting form:', error);
         }
-    }
+    };
 
     const fetchUsers = async (/*size: number, page: number*/) => {
         try {
@@ -144,7 +158,7 @@ const UserList = () => {
         setIsLoading(false);
     }
 
-    useEffect(() => {
+   /* useEffect(() => {
         resetUsers();
         //fetchUsers(1000, 0);
     }, []);
@@ -152,12 +166,20 @@ const UserList = () => {
     useEffect(() => {
         setUsersList(users);
     }, []);
+*/
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            if (values.name !== '' || values.position !== '') {
+                submitData();
+            }
+        }, 500); // 500 ms delay
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [values]);
 
     useEffect(() => {
-        if (values.name !== '' || values.position !== null) {
-            submitData();
-        }
-    }, [values]);
+        console.log('usersList', usersList);
+    }, [usersList]);
 
     return (
         <Box>
@@ -197,7 +219,10 @@ const UserList = () => {
                                     ),
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
+                                            <ClearIcon
+                                                sx={{color: '#000000', cursor: 'pointer'}}
+                                                onClick={() => setValues({...values, name: '' })}
+                                            />
                                         </InputAdornment>
                                     )
                                 }}
@@ -259,7 +284,7 @@ const UserList = () => {
                 <Box sx={{display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
                     <ContentCard>
                         <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                            {usersList.length === null ? (
+                            {usersList.length > 0 ? (
                                     <InfiniteScroll
                                         useWindow={false}
                                         loadMore={loadMoreMessage}

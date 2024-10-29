@@ -2,7 +2,7 @@ import express from "express";
 import {
     createUser, deleteUser,
     getAllUsers,
-    getUser, updateUser,
+    getUser, searchUsers, updateUser,
 } from "../controllers/users.js";
 //import { verifyToken} from "../middleware/auth.js";
 
@@ -135,5 +135,38 @@ router.put('/api/users/:id', updateUser);
  *         description: User not found.
  */
 router.delete('/api/users/:id', deleteUser);
+
+/**
+ * @swagger
+ * /api/users/search:
+ *   get:
+ *     summary: Search for users by name and/or position
+ *     description: Returns a list of users filtered by the provided search criteria.
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Name of the user to search for.
+ *       - in: query
+ *         name: position
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Position of the user to search for.
+ *     responses:
+ *       200:
+ *         description: A list of users that match the search criteria.
+ *         content:
+ *               application/json:
+ *                   schema:
+ *                       type: array
+ *                       items:
+ *                            $ref: '#components/schemas/User'
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/api/users/search', searchUsers);
 
 export default router;

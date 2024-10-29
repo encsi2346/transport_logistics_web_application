@@ -161,3 +161,19 @@ export const deleteUser = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const searchUsers = async (req, res) => {
+    const { name, position } = req.query;
+
+    const query = {};
+    if (name) query.fullName = { $regex: name, $options: 'i' };
+    if (position) query.position = { $regex: position, $options: 'i' };
+
+    try {
+        const users = await User.find(query).limit(1000);
+        res.json({ content: users });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
