@@ -10,6 +10,7 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
         'prettier',
         'plugin:import/recommended',
+        'plugin:tailwindcss/recommended',
     ],
     overrides: [],
     parser: '@typescript-eslint/parser',
@@ -17,7 +18,7 @@ module.exports = {
         ecmaVersion: 'latest',
         sourceType: 'module',
     },
-    plugins: ['simple-import-sort', 'import', 'react', 'react-hooks', '@typescript-eslint', 'prettier'],
+    plugins: ['simple-import-sort', 'import', 'react', 'react-hooks', '@typescript-eslint', 'prettier', 'tailwindcss'],
     rules: {
         'react/react-in-jsx-scope': 'off',
         camelcase: 'error',
@@ -29,6 +30,7 @@ module.exports = {
         'prettier/prettier': ['warn', {}, { usePrettierrc: true }],
         'react/prop-types': 'off',
         'no-empty': ['error', { allowEmptyCatch: true }],
+        'tailwindcss/no-custom-classname': 'warn',
     },
     settings: {
         react: {
@@ -38,6 +40,9 @@ module.exports = {
             typescript: {
                 project: './tsconfig.json',
             },
+        },
+        tailwindcss: {
+            config: './tailwind.config.js',  // Path to Tailwind configuration
         },
     },
 };
