@@ -1,4 +1,10 @@
-import {Box, TextField, Typography} from "@mui/material";
+import {
+    Box,
+    IconButton,
+    InputAdornment,
+    TextField,
+    Typography
+} from "@mui/material";
 import SmallBackgroundCard from "../../components/layout/SmallBackgroundCard";
 import WideSaveButton from "../../components/button/WideSaveButton";
 import {loginFormSchema, LoginFormSchema} from "./schema/login-form-schema";
@@ -11,6 +17,9 @@ import {setLogin} from "@/state";
 import { Formik } from "formik";
 import * as yup from "yup";
 import {useTypeSafeTranslation} from "@/hooks/useTypeSafeTranslation";
+import PersonIcon from '@mui/icons-material/Person';
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
 
 const registerSchema = yup.object().shape({
     email: yup.string().email("invalid email").required("required"),
@@ -107,6 +116,11 @@ const LoginPage = () => {
         if (isRegister) await register(values, onSubmitProps);
     };
 
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
     return (
         <Formik onSubmit={handleFormSubmit} initialValues={isLogin ? initialValuesLogin : initialValuesRegister} validationSchema={isLogin ? loginSchema : registerSchema}>
             {({
@@ -145,10 +159,17 @@ const LoginPage = () => {
                                     helperText={touched.email && errors.email}
                                     sx={{ gridColumn: "span 4" }}
                                     data-testid="email-input"
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="start">
+                                                <PersonIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
                                 />
                                 <TextField
                                     label="Password"
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.password}
@@ -157,6 +178,23 @@ const LoginPage = () => {
                                     helperText={touched.password && errors.password}
                                     sx={{ gridColumn: "span 4" }}
                                     data-testid="password-input"
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label={
+                                                        showPassword ? 'hide the password' : 'display the password'
+                                                    }
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+
+                                                >
+                                                    {showPassword ?  <VisibilityOff/> : <Visibility/>}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
                                 />
                             </Box>
                             <Typography
