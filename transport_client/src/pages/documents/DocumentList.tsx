@@ -1,10 +1,10 @@
-import {Box, FormControl, Input, InputAdornment} from "@mui/material";
+import {Box, FormControl, Input, InputAdornment, TextField} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import useSelection from "../../components/inputField/hooks/useSelection";
@@ -19,6 +19,11 @@ const DocumentList = () => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
+    const [values, setValues] = useState({
+        name: '',
+        documentType: ''
+    });
+    const [filtersReset, setFiltersReset] = useState(false);
     const [documents, setDocuments] = useState([
         {
             id: '#15263',
@@ -224,84 +229,146 @@ const DocumentList = () => {
         getDocuments();
     }, []);
 
+    const handleChange = (prop: any) => (event: any) => {
+        setValues({...values, [prop]: event.target.value });
+    };
+
+    const onReset = () => {
+        setValues({
+            name: '',
+            documentType: ''
+        });
+        setFiltersReset(true);
+        setDocuments([]);
+    };
+
+    const submitData = async () => {
+        try {
+            setFiltersReset(false);
+            const getResponse = await fetch(
+                `http://localhost:3001/api/product-categories/search?name=${values.name}&documentType=${values.documentType}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const searchCategoriesQuery = await getResponse.json();
+            setDocuments(searchCategoriesQuery.content || []);
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
+
     return (
         <Box>
             <PageHeader text={t('DOCUMENTS.DOCUMENTS')}/>
             <FilterCard>
-                <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
-                    <FormControl sx={{
-                        marginTop: 1,
-                        marginBottom: 5,
-                        marginLeft: 2,
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: 2
-                    }}>
-                        <Input
-                            id="name"
-                            placeholder={t('DOCUMENTS.DOCUMENT_NAME')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                        <Input
-                            id="position"
-                            placeholder={t('DOCUMENTS.DOCUMENT_TYPE')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                    </FormControl>
-                    <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('DOCUMENTS.UPLOAD_DOCUMENTS')} />
+                <form
+                    autoComplete='off'
+                    onSubmit={
+                        async (e) => {
+                            e.preventDefault();
+                            submitData();
+                        }}
+                >
+                    <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
+                        <Box sx={{
+                            marginTop: 1,
+                            marginBottom: 5,
+                            marginLeft: 2,
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            gap: 4
+                        }}>
+                            <FormControl>
+                                <TextField
+                                    id="name"
+                                    placeholder='Példa Éva'
+                                    name='name'
+                                    label={t('DOCUMENTS.DOCUMENT_NAME')}
+                                    value={values.name}
+                                    onChange={handleChange('name')}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <SearchIcon sx={{color: '#000000'}}/>
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <ClearIcon
+                                                    sx={{color: '#000000', cursor: 'pointer'}}
+                                                    onClick={() => setValues({...values, name: ''})}
+                                                />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    sx={{
+                                        backgroundColor: `#ffffff`,
+                                        borderRadius: '18px',
+                                        color: `#000000`,
+                                        textDecoration: 'none',
+                                        height: 40,
+                                        width: 250,
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        fontSize: "15px",
+                                        "& fieldset": {border: 'none'},
+                                    }}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <TextField
+                                    id="documentType"
+                                    placeholder='Példa Éva'
+                                    name='documentType'
+                                    label={t('DOCUMENTS.DOCUMENT_TYPE')}
+                                    value={values.documentType}
+                                    onChange={handleChange('documentType')}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <SearchIcon sx={{color: '#000000'}}/>
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <ClearIcon
+                                                    sx={{color: '#000000', cursor: 'pointer'}}
+                                                    onClick={() => setValues({...values, documentType: ''})}
+                                                />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    sx={{
+                                        backgroundColor: `#ffffff`,
+                                        borderRadius: '18px',
+                                        color: `#000000`,
+                                        textDecoration: 'none',
+                                        height: 40,
+                                        width: 250,
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        fontSize: "15px",
+                                        "& fieldset": {border: 'none'},
+                                    }}
+                                />
+                            </FormControl>
+                            <div style={{display: 'flex', alignItems: 'center'}}>
+                                <SaveButton onClick={onReset} text={t('TEXT.CLEAR_FILTER')}/>
+                                <SaveButton type='submit' text={t('TEXT.FILTER')}/>
+                            </div>
+                        </Box>
+                        <Box sx={{display: 'inline', alignItems: 'center', paddingLeft: 20}}>
+                            <SaveButton text={t('DOCUMENTS.UPLOAD_DOCUMENTS')}/>
+                        </Box>
                     </Box>
-                </Box>
+                </form>
             </FilterCard>
 
             <ContentCard>
-                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
+            <Box sx={{display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
                     <DocumentTableQuery
                         searchResults={
                             documents

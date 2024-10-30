@@ -1,9 +1,9 @@
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
-import {Box, FormControl, Grid, Input, InputAdornment} from "@mui/material";
+import {Box, FormControl, Grid, Input, InputAdornment, TextField} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
 import CarTypeCard from "../../components/layout/CarTypeCard";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -21,6 +21,12 @@ const CarTypeList = () => {
     const location = useLocation();
     const addCarTypeDialog = useModal(CarTypeAddDialog);
     const [search, setSearch] = useState('');
+    const [values, setValues] = useState({
+        brand: '',
+        fuel: '',
+        numberOfSeats: ''
+    });
+    const [filtersReset, setFiltersReset] = useState(false);
     const [carTypes, setCartTypes] = useState([
         {
             id: 1,
@@ -123,106 +129,169 @@ const CarTypeList = () => {
             .catch(() => null);
     };
 
+    const handleChange = (prop: any) => (event: any) => {
+        setValues({...values, [prop]: event.target.value });
+    };
+
+    const onReset = () => {
+        setValues({
+            brand: '',
+            fuel: '',
+            numberOfSeats: ''
+        });
+        setFiltersReset(true);
+        setCartTypes([]);
+    };
+
+    const submitData = async () => {
+        try {
+            setFiltersReset(false);
+            const getResponse = await fetch(
+                `http://localhost:3001/api/car-types/search?brand=${values.brand}&fuel=${values.fuel}&numberOfSeats=${values.numberOfSeats}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const searchCarTypesQuery = await getResponse.json();
+            setCartTypes(searchCarTypesQuery.content || []);
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
+
     return (
         <Box>
             <PageHeader text={t('TEXT.CAR_TYPES')}/>
             <FilterCard>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 3}}>
-                    <FormControl sx={{
+                    <Box sx={{
                         marginTop: 1,
                         marginBottom: 5,
                         marginLeft: 2,
                         display: 'flex',
                         flexDirection: 'row',
-                        gap: 2
+                        alignItems: 'center',
+                        gap: 4
                     }}>
-                        <Input
-                            id="brand"
-                            placeholder={t('CAR_TYPES.BRAND')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                        <Input
-                            id="fuel"
-                            placeholder={t('CAR_TYPES.FUEL')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                        <Input
-                            id="numberOfSeats"
-                            placeholder={t('CAR_TYPES.NUMBER_OF_SEATS')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                    </FormControl>
-                    <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('CAR_TYPES.ADD_NEW_CAR_TYPE')} onClick={openAddCarTypeDialog} />
+                        <FormControl>
+                            <TextField
+                                id="brand"
+                                placeholder='Példa Éva'
+                                name='brand'
+                                label={t('CAR_TYPES.BRAND')}
+                                value={values.brand}
+                                onChange={handleChange('brand')}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <SearchIcon sx={{color: '#000000'}}/>
+                                        </InputAdornment>
+                                    ),
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <ClearIcon
+                                                sx={{color: '#000000', cursor: 'pointer'}}
+                                                onClick={() => setValues({...values, brand: ''})}
+                                            />
+                                        </InputAdornment>
+                                    )
+                                }}
+                                sx={{
+                                    backgroundColor: `#ffffff`,
+                                    borderRadius: '18px',
+                                    color: `#000000`,
+                                    textDecoration: 'none',
+                                    height: 40,
+                                    width: 250,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    fontSize: "15px",
+                                    "& fieldset": {border: 'none'},
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <TextField
+                                id="fuel"
+                                placeholder='Példa Éva'
+                                name='fuel'
+                                label={t('CAR_TYPES.FUEL')}
+                                value={values.fuel}
+                                onChange={handleChange('fuel')}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <SearchIcon sx={{color: '#000000'}}/>
+                                        </InputAdornment>
+                                    ),
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <ClearIcon
+                                                sx={{color: '#000000', cursor: 'pointer'}}
+                                                onClick={() => setValues({...values, fuel: ''})}
+                                            />
+                                        </InputAdornment>
+                                    )
+                                }}
+                                sx={{
+                                    backgroundColor: `#ffffff`,
+                                    borderRadius: '18px',
+                                    color: `#000000`,
+                                    textDecoration: 'none',
+                                    height: 40,
+                                    width: 250,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    fontSize: "15px",
+                                    "& fieldset": {border: 'none'},
+                                }}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <TextField
+                                id="numberOfSeats"
+                                placeholder='Példa Éva'
+                                name='numberOfSeats'
+                                label={t('CAR_TYPES.NUMBER_OF_SEATS')}
+                                value={values.numberOfSeats}
+                                onChange={handleChange('numberOfSeats')}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <SearchIcon sx={{color: '#000000'}}/>
+                                        </InputAdornment>
+                                    ),
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <ClearIcon
+                                                sx={{color: '#000000', cursor: 'pointer'}}
+                                                onClick={() => setValues({...values, numberOfSeats: ''})}
+                                            />
+                                        </InputAdornment>
+                                    )
+                                }}
+                                sx={{
+                                    backgroundColor: `#ffffff`,
+                                    borderRadius: '18px',
+                                    color: `#000000`,
+                                    textDecoration: 'none',
+                                    height: 40,
+                                    width: 250,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    fontSize: "15px",
+                                    "& fieldset": {border: 'none'},
+                                }}
+                            />
+                        </FormControl>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
+                            <SaveButton onClick={onReset} text={t('TEXT.CLEAR_FILTER')}/>
+                            <SaveButton type='submit' text={t('TEXT.FILTER')}/>
+                        </div>
+                    </Box>
+                    <Box sx={{display: 'inline', alignItems: 'center', paddingLeft: 20}}>
+                        <SaveButton text={t('CAR_TYPES.ADD_NEW_CAR_TYPE')} onClick={openAddCarTypeDialog}/>
                     </Box>
                 </Box>
             </FilterCard>

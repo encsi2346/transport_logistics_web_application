@@ -26,7 +26,7 @@ const UserList = () => {
     const [values, setValues] = useState({
         name: '',
         position: ''
-    })
+    });
     const [usersList, setUsersList] = useState([
         {
             id: '1111',

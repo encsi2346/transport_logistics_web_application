@@ -1,11 +1,11 @@
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
-import {Box, FormControl, Grid, Input, InputAdornment} from "@mui/material";
+import {Box, FormControl, Grid, Input, InputAdornment, TextField} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
 import GoodsTypeCard from "../../components/layout/GoodsTypeCard";
 import {useTypeSafeTranslation} from "../../components/inputfield/hooks/useTypeSafeTranslation";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import SaveButton from "../../components/button/SaveButton";
@@ -20,6 +20,11 @@ const ProductsCategoryList = () => {
     const navigate = useNavigate();
     const addProductCategoryDialog = useModal(ProductCategoryAddDialog);
     const [search, setSearch] = useState('');
+    const [values, setValues] = useState({
+        category: '',
+        availability: ''
+    });
+    const [filtersReset, setFiltersReset] = useState(false);
     const [categories, setCategories] = useState([
         {
             id: 1,
@@ -96,85 +101,149 @@ const ProductsCategoryList = () => {
         handleLoadProductCategories();
     }, []);
 
+
+    const handleChange = (prop: any) => (event: any) => {
+        setValues({...values, [prop]: event.target.value });
+    };
+
+    const onReset = () => {
+        setValues({
+            driverName: '',
+            startDate: ''
+        });
+        setFiltersReset(true);
+        setCategories([]);
+    };
+
+    const submitData = async () => {
+        try {
+            setFiltersReset(false);
+            const getResponse = await fetch(
+                `http://localhost:3001/api/product-categories/search?category=${values.category}&availability=${values.availability}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const searchCategoriesQuery = await getResponse.json();
+            setCategories(searchCategoriesQuery.content || []);
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
+
     return (
         <Box>
             <PageHeader text={t('TEXT.PRODUCT_CATEGORIES')}/>
             <FilterCard>
-                <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
-                    <FormControl sx={{
-                        marginTop: 1,
-                        marginBottom: 5,
-                        marginLeft: 2,
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: 2
-                    }}>
-                        <Input
-                            id="category"
-                            placeholder={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                        <Input
-                            id="availability"
-                            placeholder={t('PRODUCT_CATEGORIES.AVAILABILITY')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                    </FormControl>
-                    <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('PRODUCT_CATEGORIES.NEW_PRODUCT_CATEGORY')} onClick={openAddProductCategoryDialog} />
+                <form
+                    autoComplete='off'
+                    onSubmit={
+                        async (e) => {
+                            e.preventDefault();
+                            submitData();
+                        }}
+                >
+                    <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
+                        <Box sx={{
+                            marginTop: 1,
+                            marginBottom: 5,
+                            marginLeft: 2,
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            gap: 4
+                        }}>
+                            <FormControl>
+                                <TextField
+                                    id="category"
+                                    placeholder='Példa Éva'
+                                    name='category'
+                                    label={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY')}
+                                    value={values.category}
+                                    onChange={handleChange('category')}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <SearchIcon sx={{color: '#000000'}}/>
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <ClearIcon
+                                                    sx={{color: '#000000', cursor: 'pointer'}}
+                                                    onClick={() => setValues({...values, category: ''})}
+                                                />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    sx={{
+                                        backgroundColor: `#ffffff`,
+                                        borderRadius: '18px',
+                                        color: `#000000`,
+                                        textDecoration: 'none',
+                                        height: 40,
+                                        width: 250,
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        fontSize: "15px",
+                                        "& fieldset": {border: 'none'},
+                                    }}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <TextField
+                                    id="availability"
+                                    placeholder='Példa Éva'
+                                    name='availability'
+                                    label={t('PRODUCT_CATEGORIES.AVAILABILITY')}
+                                    value={values.availability}
+                                    onChange={handleChange('availability')}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <SearchIcon sx={{color: '#000000'}}/>
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <ClearIcon
+                                                    sx={{color: '#000000', cursor: 'pointer'}}
+                                                    onClick={() => setValues({...values, availability: ''})}
+                                                />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    sx={{
+                                        backgroundColor: `#ffffff`,
+                                        borderRadius: '18px',
+                                        color: `#000000`,
+                                        textDecoration: 'none',
+                                        height: 40,
+                                        width: 250,
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        fontSize: "15px",
+                                        "& fieldset": {border: 'none'},
+                                    }}
+                                />
+                            </FormControl>
+                            <div style={{display: 'flex', alignItems: 'center'}}>
+                                <SaveButton onClick={onReset} text={t('TEXT.CLEAR_FILTER')}/>
+                                <SaveButton type='submit' text={t('TEXT.FILTER')}/>
+                            </div>
+                        </Box>
+                        <Box sx={{display: 'inline', alignItems: 'center', paddingLeft: 20}}>
+                            <SaveButton text={t('PRODUCT_CATEGORIES.NEW_PRODUCT_CATEGORY')}
+                                        onClick={openAddProductCategoryDialog}/>
+                        </Box>
                     </Box>
-                </Box>
+                </form>
             </FilterCard>
 
             <ContentCard>
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                    <Grid container rowSpacing={3} columnSpacing={-75} >
+                    <Grid container rowSpacing={3} columnSpacing={-75}>
                         {categories
                             .filter((item) => {
                                 return search.toLowerCase() === ''

@@ -1,11 +1,11 @@
-import {Box, FormControl, Input, InputAdornment} from "@mui/material";
+import {Box, FormControl, Input, InputAdornment, TextField} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
 import {useForm} from "react-hook-form";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {useState} from "react";
+import React, {useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import useSelection from "../../components/inputField/hooks/useSelection";
@@ -18,6 +18,11 @@ const TransportationList = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [search, setSearch] = useState('');
+    const [values, setValues] = useState({
+        driverName: '',
+        startDate: ''
+    });
+    const [filtersReset, setFiltersReset] = useState(false);
     const [transportations, setTransportations] = useState([
         {
             id: '1111',
@@ -72,8 +77,12 @@ const TransportationList = () => {
     const onSubmit = handleSubmit((data) => {});
 
     const onReset = () => {
-        reset();
-        onSubmit();
+        setValues({
+            driverName: '',
+            startDate: ''
+        });
+        setFiltersReset(true);
+        setTransportations([]);
     };
 
     const handleDataChange = () => {
@@ -101,84 +110,138 @@ const TransportationList = () => {
         }
     };
 
+    const handleChange = (prop: any) => (event: any) => {
+        setValues({...values, [prop]: event.target.value });
+    };
+
+    const submitData = async () => {
+        try {
+            setFiltersReset(false);
+            const getResponse = await fetch(
+                `http://localhost:3001/api/transportations/search?driverName=${values.driverName}&startDate=${values.startDate}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const searchTransportationsQuery = await getResponse.json();
+            setTransportations(searchTransportationsQuery.content || []);
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
+
     return (
         <Box>
             <PageHeader text={t('TEXT.TRANSPORTATIONS')}/>
             <FilterCard>
-                <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
-                    <FormControl sx={{
-                        marginTop: 1,
-                        marginBottom: 5,
-                        marginLeft: 2,
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: 2
-                    }}>
-                        <Input
-                            id="driverName"
-                            placeholder={t('TRANSPORTATIONS.DRIVER_NAME')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                        <Input
-                            id="startDate"
-                            placeholder={t('TRANSPORTATIONS.START_DATE')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                    </FormControl>
-                    <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('TRANSPORTATIONS.NEW_TRANSPORTATION')} onClick={() => navigate(`/transportations/new/edit`)} />
+                <form
+                    autoComplete='off'
+                    onSubmit={
+                        async (e) => {
+                            e.preventDefault();
+                            submitData();
+                        }}
+                >
+                    <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
+                        <Box sx={{
+                            marginTop: 1,
+                            marginBottom: 5,
+                            marginLeft: 2,
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            gap: 4
+                        }}>
+                            <FormControl>
+                                <TextField
+                                    id="driverName"
+                                    placeholder='Példa Éva'
+                                    name='driverName'
+                                    label={t('TRANSPORTATIONS.DRIVER_NAME')}
+                                    value={values.driverName}
+                                    onChange={handleChange('driverName')}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <SearchIcon sx={{color: '#000000'}}/>
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <ClearIcon
+                                                    sx={{color: '#000000', cursor: 'pointer'}}
+                                                    onClick={() => setValues({...values, driverName: ''})}
+                                                />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    sx={{
+                                        backgroundColor: `#ffffff`,
+                                        borderRadius: '18px',
+                                        color: `#000000`,
+                                        textDecoration: 'none',
+                                        height: 40,
+                                        width: 250,
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        fontSize: "15px",
+                                        "& fieldset": {border: 'none'},
+                                    }}
+                                />
+                            </FormControl>
+                            <FormControl>
+                                <TextField
+                                    id="startDate"
+                                    placeholder='Példa Éva'
+                                    name='startDate'
+                                    label={t('TRANSPORTATIONS.START_DATE')}
+                                    value={values.startDate}
+                                    onChange={handleChange('startDate')}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <SearchIcon sx={{color: '#000000'}}/>
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <ClearIcon
+                                                    sx={{color: '#000000', cursor: 'pointer'}}
+                                                    onClick={() => setValues({...values, startDate: ''})}
+                                                />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    sx={{
+                                        backgroundColor: `#ffffff`,
+                                        borderRadius: '18px',
+                                        color: `#000000`,
+                                        textDecoration: 'none',
+                                        height: 40,
+                                        width: 250,
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        fontSize: "15px",
+                                        "& fieldset": {border: 'none'},
+                                    }}
+                                />
+                            </FormControl>
+                            <div style={{display: 'flex', alignItems: 'center'}}>
+                                <SaveButton onClick={onReset} text={t('TEXT.CLEAR_FILTER')}/>
+                                <SaveButton type='submit' text={t('TEXT.FILTER')}/>
+                            </div>
+                        </Box>
+                        <Box sx={{display: 'inline', alignItems: 'center', paddingLeft: 20}}>
+                            <SaveButton text={t('TRANSPORTATIONS.NEW_TRANSPORTATION')}
+                                        onClick={() => navigate(`/transportations/new/edit`)}/>
+                        </Box>
                     </Box>
-                </Box>
+                </form>
             </FilterCard>
 
             <ContentCard>
-                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
+                <Box sx={{display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
                     <TransportationTableQuery
                         searchResults={
                             transportations
