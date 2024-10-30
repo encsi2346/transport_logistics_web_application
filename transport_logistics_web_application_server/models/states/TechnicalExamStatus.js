@@ -3,7 +3,7 @@
     UP = 'up', //TODO: érvényes
 }
 */
-const TechnicalExamStatus = Object.freeze({
+export const TechnicalExamStatus = Object.freeze({
     DOWN: 'down',
     UP: 'up',
 });

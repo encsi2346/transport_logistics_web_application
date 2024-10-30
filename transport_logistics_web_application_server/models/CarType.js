@@ -14,7 +14,10 @@ const carTypeSchema = new mongoose.Schema({
     selfWeight: Number, //saját tömeg
     usefulWeight: Number, //hasznos teher
     numberOfSeats: Number, //ülések száma
-    fuel: FuelType, //üzemanyag
+    fuel: {
+        type: String,
+        enum: Object.values(FuelType), //üzemanyag
+    },
     vontatas: Number, //TODO: angolul
     height: Number, //magasság
     szelesseg: Number, //szelesseg

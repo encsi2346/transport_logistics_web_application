@@ -6,7 +6,7 @@
     SKIPPED = 'skipped',
 }
 */
-const RouteStatus = Object.freeze({
+export const RouteStatus = Object.freeze({
     ONGOING: 'ongoing',
     COMPLETED: 'completed',
     DELETED: 'deleted',

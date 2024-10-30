@@ -3,7 +3,7 @@
     B = 'b',
 }
 */
-const FuelType = Object.freeze({
+export const FuelType = Object.freeze({
     A: 'a',
     B: 'b',
 });

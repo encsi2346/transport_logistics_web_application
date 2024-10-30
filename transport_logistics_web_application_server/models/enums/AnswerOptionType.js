@@ -3,7 +3,7 @@
     REFUSE = 'refuse',
 }
 */
-const AnswerOptionType = Object.freeze({
-    ACCEPT: 'accept',
-    REFUSE: 'refuse',
+export const AnswerOptionType = Object.freeze({
+    ACCEPTED: 'accepted',
+    REFUSED: 'refused',
 });

@@ -3,14 +3,14 @@ import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
 import { useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import SaveButton from "../../components/button/SaveButton";
-import {useTypeSafeTranslation} from "@/components/inputfield/hooks/useTypeSafeTranslation";
-import UserCard from "@/components/layout/UserCard";
 import {useDispatch} from "react-redux";
-import InfiniteScroll from 'react-infinite-scroll';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useTypeSafeTranslation } from "../../components/inputField/hooks/useTypeSafeTranslation";
+import UserCard from "../../components/layout/UserCard";
 
 const limit = 5;
 const UserList = () => {
@@ -95,7 +95,6 @@ const UserList = () => {
         setFiltersReset(true);
         setUsersList([]);
     };
-
 
     const submitData = async () => {
         try {
@@ -289,10 +288,13 @@ const UserList = () => {
                                         useWindow={false}
                                         loadMore={loadMoreMessage}
                                         hasMore={!isLast && !isLoading}
+                                        dataLength={usersList.length} // Length of the data
+                                        next={loadMoreMessage}        // Function to fetch more data
+                                        loader={<div />}
                                     >
-                                        <Grid container rowSpacing={3} columnSpacing={-38} >
+                                        <Grid container rowSpacing={3}>
                                             {usersList.map((user) => (
-                                                <Grid item xs={4} key={user._id}>
+                                                <Grid item xs={3} key={Math.random()}>
                                                     <UserCard
                                                         onClick={() => navigate(`/users/${user._id}`)}
                                                         id={user._id}

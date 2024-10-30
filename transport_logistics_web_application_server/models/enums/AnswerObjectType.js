@@ -6,7 +6,7 @@
     OTHER = 'other'
 }
 */
-const AnswerObjectType = Object.freeze({
+export const AnswerObjectType = Object.freeze({
     PERSONAL: 'personal',
     B: 'b',
     OVERTIME: 'overtime',

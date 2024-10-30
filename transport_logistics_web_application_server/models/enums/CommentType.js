@@ -4,7 +4,7 @@
     INFO = 'info',
 }
 */
-const CommentType = Object.freeze({
+export const CommentType = Object.freeze({
     ERROR: 'error',
     WARNING: 'warning',
     INFO: 'info',

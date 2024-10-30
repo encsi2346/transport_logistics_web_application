@@ -6,7 +6,7 @@
     RAKTAROS = 'raktaros'
 }
 */
-const Roles = Object.freeze({
+export const Roles = Object.freeze({
     ADMIN: 'admin',
     DRIVER: 'driver',
     HR: 'hr',

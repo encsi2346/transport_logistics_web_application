@@ -8,7 +8,10 @@ const answerSchema = new mongoose.Schema({
         default: uuidv4,
     },
     requestId: String, //kérés azonosítója
-    answerOption: AnswerOptionType, //válasz
+    answerOption:{
+        type: String,
+        enum: Object.values(AnswerOptionType), // válasz
+    },
     reason: String, //indoklás
     userId: String, //válaszoló user
 });

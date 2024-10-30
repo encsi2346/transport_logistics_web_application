@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import {RequestStatus} from "./states/RequestStatus.js";
 import {v4 as uuidv4} from "uuid";
+import {ProductStatus} from "./states/ProductStatus.js";
 
 const requestSchema = new mongoose.Schema({
     requestId: {
@@ -8,10 +9,16 @@ const requestSchema = new mongoose.Schema({
         default: uuidv4,
     },
     title: String, //tárgy
-    typeOfRequest: RequestStatus, //kérés típusa //TODO
+    typeOfRequest:{
+        type: String,
+        enum: Object.values(RequestStatus), //kérés típusa
+    },
     selectedDate: String, //érintett munkanap
     reason: String, //indoklás
-    status: RequestStatus, //állapot
+    status:{
+        type: String,
+        enum: Object.values(RequestStatus), //állapot
+    },
     answerId: String, //feladó
     userId: String, //válasz
 });

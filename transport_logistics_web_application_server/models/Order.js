@@ -13,18 +13,61 @@ const orderSchema = new mongoose.Schema({
         type: String,
         default: uuidv4,
     },
-    status: OrderStatus,
-    company: Company,
-    route: [Route],
-    selectedProducts: [SelectedProduct],
+    status: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "OrderStatus", // Reference to User model for each passenger
+    },
+    company: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Company", // Reference to User model for each passenger
+    },
+    route: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Route", // Reference to User model for each passenger
+        },
+    ],
+    selectedProducts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "SelectedProduct", // Reference to User model for each passenger
+        },
+    ],
     totalWeightsOfSelectedProducts: Number,
-    departurePoint: DockingPoint,
-    destinationPoint: DockingPoint,
-    dockingPoints: [DockingPoint],
-    results: Result,
-    documents: [Document],
-    invoice: Invoice,
-    comments: [Comment],
+    departurePoint: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "DockingPoint", // Reference to User model for each passenger
+    },
+    destinationPoint: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "DockingPoint", // Reference to User model for each passenger
+    },
+    dockingPoints: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "DockingPoint", // Reference to User model for each passenger
+        },
+    ],
+    results: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Result", // Reference to User model for each passenger
+    },
+    documents: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Document", // Reference to User model for each passenger
+        },
+    ],
+    invoice: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Invoice", // Reference to User model for each passenger
+    },
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment", // Reference to User model for each passenger
+        },
+    ],
 });
 
 const Order = mongoose.model('Order', orderSchema);

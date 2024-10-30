@@ -10,7 +10,7 @@
     OTHER = 'other',
 }
 */
-const DocumentType = Object.freeze({
+export const DocumentType = Object.freeze({
     TRANSPORT_BILL: 'transport_bill',
     DELIVERY_BILL: 'delivery_bill',
     INVOICE: 'invoice',

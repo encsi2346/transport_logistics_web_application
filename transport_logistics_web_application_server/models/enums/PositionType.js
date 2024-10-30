@@ -3,7 +3,7 @@
     HR = 'hr', //TODO: kigyűjteni az összeset
 }
 */
-const PositionType = Object.freeze({
+export const PositionType = Object.freeze({
     DRIVER: 'driver',
     HR: 'hr',
 });

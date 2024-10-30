@@ -17,7 +17,10 @@ const serviceSchema = new mongoose.Schema({
     title: String, //tárgy
     description: String, //leírás
     reparation: String, //részletek TODO javítás array --> mit-csere/javítás/átnézés-bruttóár-nettóár
-    car: Car, //szervizelt autó
+    car: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Car", // kategória
+    },
 });
 
 const Service = mongoose.model('Service', serviceSchema);

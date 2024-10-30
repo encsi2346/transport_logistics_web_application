@@ -6,7 +6,7 @@
     DELETED = 'deleted',
 }
 */
-const RequestStatus = Object.freeze({
+export const RequestStatus = Object.freeze({
     DRAFT: 'draft',
     PENDING: 'pending',
     ACCEPTED: 'accepted',

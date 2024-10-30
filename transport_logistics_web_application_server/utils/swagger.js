@@ -950,8 +950,8 @@ const options = {
                  AnswerOptionType: {
                      type: 'string',
                      enum: [
-                         'ACCEPT',
-                         'REFUSE',
+                         'ACCEPTED',
+                         'REFUSED',
                      ],
                  },
                  AnswerObjectType: {

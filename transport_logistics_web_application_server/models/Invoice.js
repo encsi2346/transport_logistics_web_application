@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import {InvoiceStatus} from "./states/InvoiceStatus.js";
 import {v4 as uuidv4} from "uuid";
+import {DocumentType} from "./enums/DocumentType.js";
 
 const invoiceSchema = new mongoose.Schema({
     invoiceId: {
@@ -12,7 +13,10 @@ const invoiceSchema = new mongoose.Schema({
     dateOfCreation: Date, //létrehozás dátuma
     deadlineForPayment: Date, //fizetési határidő
     price: String, //összeg
-    status: InvoiceStatus, //állapot
+    status:{
+        type: String,
+        enum: Object.values(InvoiceStatus), //állapot
+    },
 });
 
 const Invoice = mongoose.model('Invoice', invoiceSchema);

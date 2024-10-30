@@ -3,7 +3,7 @@
     UP = 'up', //TODO: érvényes
 }*/
 
-const MedicalVisitStatus = Object.freeze({
+export const MedicalVisitStatus = Object.freeze({
     DOWN: 'down',
     UP: 'up',
 });

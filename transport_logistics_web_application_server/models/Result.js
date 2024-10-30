@@ -8,7 +8,10 @@ const resultSchema = new mongoose.Schema({
         default: uuidv4,
     },
     orderId: String,
-    customer: Company,
+    customer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Company", // Reference to User model for driver
+    },
     driverId: String,
     driverName: String,
     driverEmail: String,

@@ -6,7 +6,7 @@
     PENDING = 'pending',
 }
 */
-const OrderStatus = Object.freeze({
+export const OrderStatus = Object.freeze({
     ONGOING: 'ongoing',
     COMPLETED: 'completed',
     DELETED: 'deleted',

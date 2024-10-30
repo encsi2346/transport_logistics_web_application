@@ -8,7 +8,10 @@ const carSchema = new mongoose.Schema({
         default: uuidv4,
     },
     name: String,
-    type: CarType, //kiválasztott típus
+    type: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CarType", //kiválasztott típus
+    },
     licencePlate: String, //rendszám
     numberOfRegistrationLicence: String, //forgalmi engedély száma
     chassisNumber: String, //alvázszám

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Address from "./Address.js";
 import {v4 as uuidv4} from "uuid";
+import {CommentType} from "./enums/CommentType.js";
 
 const companySchema = new mongoose.Schema({
     companyId: {
@@ -10,7 +11,10 @@ const companySchema = new mongoose.Schema({
     companyName: String, //megrendelő neve
     email: String, //megrendelő email címe
     phoneNumber: String, //megrendelő telefonszáma
-    address: Address, //megrendelő címe
+    address:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Address", //megrendelő címe
+    },
     contactPersonName: String, //kapcsolattartó
 });
 

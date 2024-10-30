@@ -4,7 +4,7 @@
     C = 'c', //TODO: kikeresni az összeset
 }
 */
-const DrivingLicenceType = Object.freeze({
+export const DrivingLicenceType = Object.freeze({
     A: 'a',
     B: 'b',
     C: 'c',

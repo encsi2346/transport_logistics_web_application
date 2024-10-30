@@ -34,7 +34,10 @@ const UserCard = ({ onClick, id, fullName, position, phoneNumber, image }: Props
         <Box
             onClick={onClick}
             sx={{
-                backgroundColor: `${theme.palette.component.lightMin}`,
+                backgroundColor: '#ffffff', //`${theme.palette.component.lightMin}`,
+                background: 'transparent',
+                border: '2px solid rgba(255, 255, 255, .2)',
+                backdropFilter: 'blur(30px)',
                 borderRadius: '19px',
                 marginRight: '60px',
                 marginBottom: '40px',
@@ -42,10 +45,11 @@ const UserCard = ({ onClick, id, fullName, position, phoneNumber, image }: Props
                 paddingBottom: '20px',
                 paddingLeft: '20px',
                 paddingRight: '20px',
-                boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
+                boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
                 cursor: 'pointer', //TODO: create hover-effect
                 display: 'flex',
-                width: 270
+                width: 400,
+                height: 250
             }}
         >
             <Box sx={{display: 'flex', align: 'center', justifyContent: 'center', backgroundColor: '#ececec', height: 110, width: 110, borderRadius: 90, marginRight: 3}}>

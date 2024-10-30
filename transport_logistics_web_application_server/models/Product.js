@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import {ProductStatus} from "./states/ProductStatus.js";
-import ProductCategory from "./ProductCategory.js";
 import {Double} from "mongodb";
 import {v4 as uuidv4} from "uuid";
 
@@ -11,16 +10,23 @@ const productSchema = new mongoose.Schema({
     },
     name: String, //termék neve
     description: String, //leírás
-    category: ProductCategory, //kategória
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ProductCategory", // kategória
+    },
     articleNumber: Number, //Cikkszám
     barcode: Number, //Vonalkód
     selfWeight: Number, //Önsúly
     maxNumberOfItems: Number, //Max darabszám
     currentNumberOfItems: Number, //Jelenlegi darabszám
-    szazalek: Double, //készletszázalék TODO: angolul
-    status: ProductStatus, //Állapot
+    szazalek: Number, //készletszázalék TODO: angolul
+    status:{
+        type: String,
+        enum: Object.values(ProductStatus), //állapot
+    },
+
 });
 
-const ProductCategory = mongoose.model('Product', productSchema);
+const Product = mongoose.model('Product', productSchema);
 
-export default ProductCategory;
+export default Product;
