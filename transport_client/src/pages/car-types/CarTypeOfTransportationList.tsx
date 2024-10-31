@@ -24,48 +24,36 @@ const CarTypeOfTransportationList = () => {
     const [search, setSearch] = useState('');
     const [typeOfTransportationList, setTypeOfTransportationList] = useState([
         {
-            id: 1,
+            carTypeOfTransportationId: 1,
             type: 'Ponyvás szállítás',
             countOfCars: 12
         },
         {
-            id: 2,
+            carTypeOfTransportationId: 2,
             type: 'Hűtött szállítás',
             countOfCars: 8
         },
         {
-            id: 3,
+            carTypeOfTransportationId: 3,
             type: 'Folyékony szállítás',
             countOfCars: 2
         },
         {
-            id: 4,
+            carTypeOfTransportationId: 4,
             type: 'Jármű szállítás',
             countOfCars: 6
         },
         {
-            id: 5,
+            carTypeOfTransportationId: 5,
             type: 'Konténeres szállítás',
             countOfCars: 5
         },
         {
-            id: 6,
+            carTypeOfTransportationId: 6,
             type: 'Kisteherautó',
             countOfCars: 52
         },
     ]);
-
-    const {
-        setValue,
-        formState: { isValid },
-    } = useForm<CarTypeEditFormSchema>({
-        defaultValues: {
-            carTypes: '',
-        },
-        resolver: zodResolver(carTypeEditFormSchema()),
-        mode: 'all',
-    });
-
 
     const openAddCarTypeDialog = () => {
         addCarTypeDialog
@@ -74,14 +62,14 @@ const CarTypeOfTransportationList = () => {
                 acceptText: t('TEXT.CREATE'),
             })
             .then((value) => {
-                setValue('carTypes', value as string[]);
+                setValue('carTypeOfTransportations', value as string[]);
             })
             .catch(() => null);
     };
 
     return (
         <Box>
-            <PageHeader text={t('TEXT.CAR_TYPES')}/>
+            <PageHeader text={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATIONS')}/>
             {/*<FilterCard>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 3}}>
                     <FormControl sx={{
@@ -189,17 +177,12 @@ const CarTypeOfTransportationList = () => {
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <Grid container rowSpacing={3} columnSpacing={-38} >
                         {typeOfTransportationList
-                            .filter((item) => {
-                                return search.toLowerCase() === ''
-                                    ? item
-                                    : item.type.toLowerCase().includes(search);
-                            })
                             .map((item, index) => {
                                 return (
-                                    <Grid item xs={5} key={item.id}>
+                                    <Grid item xs={5} key={item.carTypeOfTransportationId}>
                                         <CarTypeOfTransportationCard
-                                            onClick={() => navigate(`/type-of-transportation/${item.id}/car-types`)}
-                                            id={item.id}
+                                            onClick={() => navigate(`/type-of-transportation/${item.carTypeOfTransportationId}/car-types`)}
+                                            id={item.carTypeOfTransportationId}
                                             type={item.type}
                                             countOfCars={item.countOfCars}
                                         />

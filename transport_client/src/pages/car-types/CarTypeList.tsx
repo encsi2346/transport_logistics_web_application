@@ -6,7 +6,7 @@ import CarTypeCard from "../../components/layout/CarTypeCard";
 import React, {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import SaveButton from "../../components/button/SaveButton";
 import {useModal} from "@ebay/nice-modal-react";
@@ -16,6 +16,7 @@ import {carTypeEditFormSchema, CarTypeEditFormSchema} from "./schemas/car-type-e
 import {zodResolver} from "@hookform/resolvers/zod";
 
 const CarTypeList = () => {
+    const { id } = useParams();
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const location = useLocation();
@@ -35,7 +36,8 @@ const CarTypeList = () => {
             subType: 'MAXI 250 L3H2 2.3 MJet 3.5',
             licencePlate: 'AAA-123',
             image: '',
-            countOfTransportation: 18
+            countOfTransportation: 18,
+            carTypeOfTransportationId: 2,
         },
         {
             id: 2,
@@ -44,7 +46,8 @@ const CarTypeList = () => {
             subType: 'MAXI 250 L3H2 2.3 MJet 3.5',
             licencePlate: 'BBB-123',
             image: '',
-            countOfTransportation: 3
+            countOfTransportation: 3,
+            carTypeOfTransportationId: 2,
         },
         {
             id: 3,
@@ -53,7 +56,8 @@ const CarTypeList = () => {
             subType: 'MAXI 250 L3H2 2.3 MJet 3.5',
             licencePlate: 'CCC-123',
             image: '',
-            countOfTransportation: 9
+            countOfTransportation: 9,
+            carTypeOfTransportationId: 2,
         },
         {
             id: 4,
@@ -62,7 +66,8 @@ const CarTypeList = () => {
             subType: 'MAXI 250 L3H2 2.3 MJet 3.5',
             licencePlate: 'DDD-123',
             image: '',
-            countOfTransportation: 12
+            countOfTransportation: 12,
+            carTypeOfTransportationId: 2,
         },
         {
             id: 5,
@@ -71,11 +76,12 @@ const CarTypeList = () => {
             subType: 'MAXI 250 L3H2 2.3 MJet 3.5',
             licencePlate: 'EEE-123',
             image: '',
-            countOfTransportation: 14
+            countOfTransportation: 14,
+            carTypeOfTransportationId: 2,
         },
     ]);
 
-    const {
+    /*const {
         setValue,
         formState: { isValid },
     } = useForm<CarTypeEditFormSchema>({
@@ -96,11 +102,11 @@ const CarTypeList = () => {
         },
         resolver: zodResolver(carTypeEditFormSchema()),
         mode: 'all',
-    });
+    });*/
 
     const handleLoadCarTypes = async () => {
         const getResponse = await fetch(
-            'http://localhost:3001/api/car-types',
+            `http://localhost:3001/api/type-of-transportation/${id}/car-types`,
             {
                 method: "GET",
                 headers: { "Content-Type": "application/json"},
@@ -147,7 +153,7 @@ const CarTypeList = () => {
         try {
             setFiltersReset(false);
             const getResponse = await fetch(
-                `http://localhost:3001/api/car-types/search?brand=${values.brand}&fuel=${values.fuel}&numberOfSeats=${values.numberOfSeats}`,
+                `http://localhost:3001/api/type-of-transportation/${id}/car-types/search?brand=${values.brand}&fuel=${values.fuel}&numberOfSeats=${values.numberOfSeats}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json"},
@@ -300,16 +306,11 @@ const CarTypeList = () => {
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <Grid container rowSpacing={3} columnSpacing={-38} >
                         {carTypes
-                            .filter((item) => {
-                                return search.toLowerCase() === ''
-                                    ? item
-                                    : item.brand.toLowerCase().includes(search);
-                            })
                             .map((item, index) => {
                                 return (
                                     <Grid item xs={3} key={item.subType}>
                                         <CarTypeCard
-                                            onClick={() => navigate(`/type-of-transportation/${item.typeid}/car-types/${item.id}`)}
+                                            onClick={() => navigate(`/type-of-transportation/${id}/car-types/${item.id}`)}
                                             id={item.id}
                                             brand={item.brand}
                                             type={item.type}

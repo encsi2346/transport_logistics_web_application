@@ -35,7 +35,8 @@ export const createCarType = async (req, res) => {
             vontatas,
             height,
             szelesseg,
-            long
+            long,
+            carTypeOfTransportationId
         } = req.body;
         const newCarType = new CarType({
             carTypeId,
@@ -50,7 +51,8 @@ export const createCarType = async (req, res) => {
             vontatas,
             height,
             szelesseg,
-            long
+            long,
+            carTypeOfTransportationId
         });
         const savedCarType = await newCarType.save();
         res.status(201).json(savedCarType);
@@ -80,6 +82,7 @@ export const updateCarType = async (req, res) => {
             carType.height = req.body.height;
             carType.szelesseg = req.body.szelesseg;
             carType.long = req.body.long;
+            carType.carTypeOfTransportationId = req.body.carTypeOfTransportationId;
         }
         const updatedCarType = await carType.save();
         res.json(updatedCarType);

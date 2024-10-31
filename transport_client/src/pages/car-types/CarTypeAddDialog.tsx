@@ -22,6 +22,7 @@ import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTyp
 import TextFieldInput from '../../components/inputField/TextFieldInput';
 import SelectInput from "../../components/inputField/SelectInput";
 import DataCard from "@/components/layout/DataCard";
+import moment from "moment/moment";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -77,12 +78,20 @@ const CarTypeAddDialog = NiceModal.create(
         const { t } = useTypeSafeTranslation();
         const { id } = useParams();
         const navigate = useNavigate();
-
+        const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
         const [projects, setProjects] = useState([]);
-
         const [employees, setEmployees] = useState([]);
+        const [values, setValues] = useState({
+            carTypeName: '',
+            carFunctionalDesign: '',
+            performance: '',
+            ownWeight: '',
+            numberOfSeats: '',
+            fuel: '',
+            usefulWeight: '',
+        });
 
-        const {
+        /*const {
             control,
             setValue,
             reset,
@@ -100,7 +109,7 @@ const CarTypeAddDialog = NiceModal.create(
             },
             resolver: zodResolver(carTypeEditFormSchema()),
             mode: 'all',
-        });
+        });*/
 
         const createCarType = (data) => {
             //TODO
@@ -111,9 +120,29 @@ const CarTypeAddDialog = NiceModal.create(
             //TODO
         };
 
-        const onSubmit = handleSubmit((data) => {
+        const handleSubmit = async (e: any) => {
+            e.preventDefault();
+
             let submitData = data as any;
-        });
+            console.log('isEditing', isEditing);
+            console.log('submitData', submitData);
+            if (isEditing) {
+                setInputDisabled(true);
+                createCarType(submitData);
+            } else {
+                setInputDisabled(true);
+                updateCarType(id, submitData);
+            }
+        };
+
+        const handleChange = (prop: any) => (event: any) => {
+            setValues({...values, [prop]: event.target.value });
+        };
+
+        const handleDateChange = (prop: any) => (date: any) => {
+            const value = date ? moment(date).hour(0).minute(0).toISOString() : null;
+            setValues({ ...values, [prop]: value as string });
+        };
 
         return (
             <Dialog
@@ -140,150 +169,196 @@ const CarTypeAddDialog = NiceModal.create(
                 <DialogContent>
                     <Box>
                         <BackgroundCard>
-                            <DataCard>
-                                <Grid item container direction="column" spacing={2}>
-                                    <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                        <Grid item xs={4} md={5}>
-                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                                <TextFieldInput
-                                                    label={t('CAR_TYPES.CAR_TYPE_NAME')}
-                                                    control={control}
-                                                    name='carTypeName'
-                                                    type='text'
-                                                    data-testid='car-type-name-input'
-                                                    required
-                                                />
-                                            </Box>
+                            <form
+                                autoComplete='off'
+                                onSubmit={(e) => handleSubmit(e)}
+                            >
+                                <DataCard>
+                                    <Grid item container direction="column" spacing={2}>
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center'
+                                                }}>
+                                                    <TextFieldInput
+                                                        label={t('CAR_TYPES.CAR_TYPE_NAME')}
+                                                        control={control}
+                                                        name='carTypeName'
+                                                        type='text'
+                                                        data-testid='car-type-name-input'
+                                                        required
+                                                    />
+                                                </Box>
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                        <Grid item xs={4} md={5}>
-                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                                <SelectInput
-                                                    label={t('CAR_TYPES.CAR_FUNCTIONAL_DESIGN')}
-                                                    control={control}
-                                                    name='carFunctionalDesign'
-                                                    data-testid='car-functional-design-input'
-                                                    //options={enumToOptions(userRoles)}  //TODO
-                                                    required
-                                                    InputProps={{
-                                                        endAdornment: (
-                                                            <InputAdornment position='end'>
-                                                                <IconButton onClick={() => setValue('carFunctionalDesign', undefined)} edge="end" >
-                                                                    <ClearRoundedIcon />
-                                                                </IconButton>
-                                                            </InputAdornment>
-                                                        ),
-                                                        sx: {
-                                                            '.MuiSelect-icon': {
-                                                                display: 'none',
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center'
+                                                }}>
+                                                    <SelectInput
+                                                        label={t('CAR_TYPES.CAR_FUNCTIONAL_DESIGN')}
+                                                        control={control}
+                                                        name='carFunctionalDesign'
+                                                        data-testid='car-functional-design-input'
+                                                        //options={enumToOptions(userRoles)}  //TODO
+                                                        required
+                                                        InputProps={{
+                                                            endAdornment: (
+                                                                <InputAdornment position='end'>
+                                                                    <IconButton
+                                                                        onClick={() => setValue('carFunctionalDesign', undefined)}
+                                                                        edge="end">
+                                                                        <ClearRoundedIcon/>
+                                                                    </IconButton>
+                                                                </InputAdornment>
+                                                            ),
+                                                            sx: {
+                                                                '.MuiSelect-icon': {
+                                                                    display: 'none',
+                                                                },
                                                             },
-                                                        },
-                                                    }}
-                                                />
-                                            </Box>
+                                                        }}
+                                                    />
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center'
+                                                }}>
+                                                    <TextFieldInput
+                                                        label={t('CAR_TYPES.PERFORMANCE')}
+                                                        control={control}
+                                                        name='performance'
+                                                        type='number'
+                                                        data-testid='performance-input'
+                                                        required
+                                                    />
+                                                </Box>
+                                            </Grid>
                                         </Grid>
-                                        <Grid item xs={4} md={5}>
-                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                                <TextFieldInput
-                                                    label={t('CAR_TYPES.PERFORMANCE')}
-                                                    control={control}
-                                                    name='performance'
-                                                    type='number'
-                                                    data-testid='performance-input'
-                                                    required
-                                                />
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                        <Grid item xs={4} md={5}>
-                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                                <TextFieldInput
-                                                    label={t('CAR_TYPES.OWN_WEIGHT')}
-                                                    control={control}
-                                                    name='ownWeight'
-                                                    type='number'
-                                                    data-testid='own-weight-input'
-                                                    required
-                                                />
-                                            </Box>
-                                        </Grid>
-                                        <Grid item xs={4} md={5}>
-                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                                <SelectInput
-                                                    label={t('CAR_TYPES.NUMBER_OF_SEATS')}
-                                                    control={control}
-                                                    name='numberOfSeats'
-                                                    data-testid='number-of-seats-input'
-                                                    //options={enumToOptions(userRoles)}
-                                                    required
-                                                    InputProps={{
-                                                        endAdornment: (
-                                                            <InputAdornment position='end'>
-                                                                <IconButton onClick={() => setValue('numberOfSeats', undefined)} edge="end" >
-                                                                    <ClearRoundedIcon />
-                                                                </IconButton>
-                                                            </InputAdornment>
-                                                        ),
-                                                        sx: {
-                                                            '.MuiSelect-icon': {
-                                                                display: 'none',
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center'
+                                                }}>
+                                                    <TextFieldInput
+                                                        label={t('CAR_TYPES.OWN_WEIGHT')}
+                                                        control={control}
+                                                        name='ownWeight'
+                                                        type='number'
+                                                        data-testid='own-weight-input'
+                                                        required
+                                                    />
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center'
+                                                }}>
+                                                    <SelectInput
+                                                        label={t('CAR_TYPES.NUMBER_OF_SEATS')}
+                                                        control={control}
+                                                        name='numberOfSeats'
+                                                        data-testid='number-of-seats-input'
+                                                        //options={enumToOptions(userRoles)}
+                                                        required
+                                                        InputProps={{
+                                                            endAdornment: (
+                                                                <InputAdornment position='end'>
+                                                                    <IconButton
+                                                                        onClick={() => setValue('numberOfSeats', undefined)}
+                                                                        edge="end">
+                                                                        <ClearRoundedIcon/>
+                                                                    </IconButton>
+                                                                </InputAdornment>
+                                                            ),
+                                                            sx: {
+                                                                '.MuiSelect-icon': {
+                                                                    display: 'none',
+                                                                },
                                                             },
-                                                        },
-                                                    }}
-                                                />
-                                            </Box>
+                                                        }}
+                                                    />
+                                                </Box>
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                        <Grid item xs={4} md={5}>
-                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                                <SelectInput
-                                                    label={t('CAR_TYPES.FUEL')}
-                                                    control={control}
-                                                    name='fuel'
-                                                    data-testid='fuel-input'
-                                                    //options={enumToOptions(userRoles)} //TODO
-                                                    required
-                                                    InputProps={{
-                                                        endAdornment: (
-                                                            <InputAdornment position='end'>
-                                                                <IconButton onClick={() => setValue('fuel', undefined)} edge="end" >
-                                                                    <ClearRoundedIcon />
-                                                                </IconButton>
-                                                            </InputAdornment>
-                                                        ),
-                                                        sx: {
-                                                            '.MuiSelect-icon': {
-                                                                display: 'none',
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center'
+                                                }}>
+                                                    <SelectInput
+                                                        label={t('CAR_TYPES.FUEL')}
+                                                        control={control}
+                                                        name='fuel'
+                                                        data-testid='fuel-input'
+                                                        //options={enumToOptions(userRoles)} //TODO
+                                                        required
+                                                        InputProps={{
+                                                            endAdornment: (
+                                                                <InputAdornment position='end'>
+                                                                    <IconButton
+                                                                        onClick={() => setValue('fuel', undefined)}
+                                                                        edge="end">
+                                                                        <ClearRoundedIcon/>
+                                                                    </IconButton>
+                                                                </InputAdornment>
+                                                            ),
+                                                            sx: {
+                                                                '.MuiSelect-icon': {
+                                                                    display: 'none',
+                                                                },
                                                             },
-                                                        },
-                                                    }}
-                                                />
-                                            </Box>
-                                        </Grid>
-                                        <Grid item xs={4} md={5}>
-                                            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                                <TextFieldInput
-                                                    label={t('CAR_TYPES.USEFUL_WEIGHT')}
-                                                    control={control}
-                                                    name='usefulWeight'
-                                                    type='number'
-                                                    data-testid='useful-weight-input'
-                                                    required
-                                                />
-                                            </Box>
+                                                        }}
+                                                    />
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center'
+                                                }}>
+                                                    <TextFieldInput
+                                                        label={t('CAR_TYPES.USEFUL_WEIGHT')}
+                                                        control={control}
+                                                        name='usefulWeight'
+                                                        type='number'
+                                                        data-testid='useful-weight-input'
+                                                        required
+                                                    />
+                                                </Box>
+                                            </Grid>
                                         </Grid>
                                     </Grid>
-                                </Grid>
-                            </DataCard>
+                                </DataCard>
+                            </form>
                         </BackgroundCard>
                     </Box>
                 </DialogContent>
 
                 <DialogActions>
-                    <Button
+                <Button
                         color="error"
                         onClick={() => {
                             modal.reject();

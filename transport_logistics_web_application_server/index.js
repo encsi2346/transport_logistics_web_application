@@ -49,6 +49,7 @@ import routeRoutes from "./routes/route.js";
 import selectedProductRoutes from "./routes/selectedProduct.js";
 import serviceRoutes from "./routes/service.js";
 import transportationRoutes from "./routes/transportation.js";
+import carTypeOfTransportationRoutes from "./routes/carTypeOfTransportation.js";
 
 /*CONFIGURATIONS*/
 const __filename = fileURLToPath(import.meta.url);
@@ -118,6 +119,7 @@ app.use(routeRoutes);
 app.use(selectedProductRoutes);
 app.use(serviceRoutes);
 app.use(transportationRoutes);
+app.use(carTypeOfTransportationRoutes);
 
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec))

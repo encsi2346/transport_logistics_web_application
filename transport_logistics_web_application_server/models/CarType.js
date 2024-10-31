@@ -22,6 +22,10 @@ const carTypeSchema = new mongoose.Schema({
     height: Number, //magasság
     szelesseg: Number, //szelesseg
     long: Number, //hosszúság
+    carTypeOfTransportationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CarTypeOfTransportation", //kiválasztott szállítás típus
+    },
 });
 
 const CarType = mongoose.model('CarType', carTypeSchema);

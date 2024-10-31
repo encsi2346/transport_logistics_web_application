@@ -168,7 +168,8 @@
     "NUMBER_OF_SEATS": "Ülések száma",
     "FUEL": "Üzemanyag",
     "USEFUL_WEIGHT": "Hasznos teher",
-    "BRAND": "Márka"
+    "BRAND": "Márka",
+    "CAR_TYPE_OF_TRANSPORTATIONS": "Szállítási típusok"
   },
   "CAR": {
     "BRAND": "Márka",

@@ -102,6 +102,10 @@ const options = {
                 name: 'VerificationScore',
                 description: 'Operations related to verification score'
             },
+            {
+                name: 'CarTypeOfTransportation',
+                description: 'Operations related to car type of transportation'
+            },
         ],
          components: {
              schemas: {
@@ -234,6 +238,21 @@ const options = {
                          },
                          status: {
                              $ref: '#/components/schemas/ProductStatus',
+                         },
+                     },
+                 },
+                 CarTypeOfTransportation: {
+                     type: 'object',
+                     properties: {
+                         carTypeOfTransportationId: {
+                             type: 'string',
+                             format: 'uuid',
+                         },
+                         type: {
+                             type: 'string',
+                         },
+                         countOfCars: {
+                             type: 'integer',
                          },
                      },
                  },

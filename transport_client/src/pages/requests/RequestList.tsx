@@ -54,7 +54,7 @@ const RequestList = () => {
         },
     ]);
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
-
+/*
     const {
         control,
         setValue,
@@ -73,7 +73,7 @@ const RequestList = () => {
         },
         resolver: zodResolver(carTypeEditFormSchema()),
         mode: 'all',
-    });
+    });*/
 
     const openAddNewRequestDialog = () => {
         addNewRequestDialog
