@@ -1,4 +1,4 @@
-import {Box, FormControl, Input, InputAdornment, TextField} from "@mui/material";
+import {Box, Fab, FormControl, Input, InputAdornment, TextField} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
@@ -14,6 +14,7 @@ import {useForm} from "react-hook-form";
 import {documentEditFormSchema, DocumentEditFormSchema} from "@/pages/documents/schemas/document-edit-form-schema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {InvoiceEditFormSchema, invoiceEditFormSchema} from "@/pages/invoices/schemas/invoice-edit-form-schema";
+import AddIcon from "@mui/icons-material/Add";
 
 const InvoiceList = () => {
     const { t } = useTypeSafeTranslation();
@@ -357,9 +358,6 @@ const InvoiceList = () => {
                                 <SaveButton type='submit' text={t('TEXT.FILTER')}/>
                             </div>
                         </Box>
-                        <Box sx={{display: 'inline', alignItems: 'center', paddingLeft: 20}}>
-                            <SaveButton text={t('INVOICES.UPLOAD_INVOICE')}/>
-                        </Box>
                     </Box>
                 </form>
             </FilterCard>
@@ -379,6 +377,22 @@ const InvoiceList = () => {
                         onSelectionChange={handleSelectionChange}
                         onDataChange={handleDataChange}
                     />
+                    <Fab aria-label="add"
+                         sx={{
+                             margin: 0,
+                             top: 'auto',
+                             right: '40px',
+                             bottom: '40px',
+                             left: 'auto',
+                             position: 'fixed',
+                             width: '70px',
+                             height: '70px',
+                             backgroundColor: '#a40500',
+                             color: '#ffffff'
+                         }}
+                    >
+                        <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                    </Fab>
                 </Box>
             </ContentCard>
         </Box>

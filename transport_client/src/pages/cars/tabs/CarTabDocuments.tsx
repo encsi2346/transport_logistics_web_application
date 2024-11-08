@@ -1,5 +1,5 @@
 import {Box, FormControl, Grid, MenuItem, Select, SelectChangeEvent, SxProps, Theme, Typography} from "@mui/material";
-import NormalText from "../../components/text/NormalText";
+import NormalText from "../../../components/text/NormalText";
 import {useState} from "react";
 import NewExamButton from "@/components/button/NewExamButton";
 

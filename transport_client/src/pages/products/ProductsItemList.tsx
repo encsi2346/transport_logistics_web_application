@@ -1,21 +1,26 @@
-import {Box, FormControl, Input, InputAdornment} from "@mui/material";
+import {Box, Fab, FormControl, Input, InputAdornment} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import useSelection from "../../components/inputField/hooks/useSelection";
 import {useForm} from "react-hook-form";
 import ProductsTableQuery from "./ProductsTableQuery";
 import SaveButton from "../../components/button/SaveButton";
+import AddIcon from "@mui/icons-material/Add";
+import {useModal} from "@ebay/nice-modal-react";
+import CarAddDialog from "../cars/CarAddDialog";
+import ProductItemAddDialog from "./ProductItemAddDialog";
 
 const ProductsItemList = () => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const location = useLocation();
+    const addProductsItemDialog = useModal(ProductItemAddDialog);
     const [search, setSearch] = useState('');
     const [products, setProducts] = useState([
         {
@@ -44,24 +49,17 @@ const ProductsItemList = () => {
             availability: 'Készleten',
         },
     ]);
-    const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
-    const { control, reset, handleSubmit, setValue } = useForm({
-        defaultValues: {
-            taskIdIn: [],
-            onlyActives: false,
-        },
-    });
-
-    const onSubmit = handleSubmit((data) => {});
-
-    const onReset = () => {
-        reset();
-        onSubmit();
-    };
-
-    const handleDataChange = () => {
-        handleSelectionChange(selectionModel);
+    const openAddProductsItemDialog = () => {
+        addProductsItemDialog
+            .show({
+                title: t('PRODUCTS.ADD_NEW_PRODUCT'),
+                acceptText: t('TEXT.CREATE'),
+            })
+            .then((value) => {
+                setValue('products', value as string[]);
+            })
+            .catch(() => null);
     };
 
     const handleLoadProducts = async () => {
@@ -76,7 +74,7 @@ const ProductsItemList = () => {
         const getStatus = getResponse.status;
         console.log('getProductsData', getProductsData);
         console.log('getUserStatus', getStatus);
-        setProducts(getProductsData);
+        //setProducts(getProductsData);
     }
 
     useEffect(() => {
@@ -153,9 +151,6 @@ const ProductsItemList = () => {
                             }}
                         />
                     </FormControl>
-                    <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('PRODUCTS.NEW_PRODUCT')} onClick={() => navigate(`/products-categories/:id/products/new`)} />
-                    </Box>
                 </Box>
             </FilterCard>
 
@@ -170,10 +165,24 @@ const ProductsItemList = () => {
                                         : item.productName.toLowerCase().includes(search);
                                 })
                         }
-                        selectionModel={selectionModel}
-                        onSelectionChange={handleSelectionChange}
-                        onDataChange={handleDataChange}
                     />
+                    <Fab aria-label="add"
+                         onClick={openAddProductsItemDialog}
+                         sx={{
+                             margin: 0,
+                             top: 'auto',
+                             right: '40px',
+                             bottom: '40px',
+                             left: 'auto',
+                             position: 'fixed',
+                             width: '70px',
+                             height: '70px',
+                             backgroundColor: '#a40500',
+                             color: '#ffffff'
+                         }}
+                    >
+                        <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                    </Fab>
                 </Box>
             </ContentCard>
         </Box>

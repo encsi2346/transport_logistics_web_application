@@ -1,4 +1,15 @@
-import {Box, FormControl, Grid, InputAdornment, Select, TextField, InputLabel, MenuItem, Button} from "@mui/material";
+import {
+    Box,
+    FormControl,
+    Grid,
+    InputAdornment,
+    Select,
+    TextField,
+    InputLabel,
+    MenuItem,
+    Button,
+    Fab
+} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
@@ -11,6 +22,7 @@ import {useDispatch} from "react-redux";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useTypeSafeTranslation } from "../../components/inputField/hooks/useTypeSafeTranslation";
 import UserCard from "../../components/layout/UserCard";
+import AddIcon from "@mui/icons-material/Add";
 
 const limit = 5;
 const UserList = () => {
@@ -272,9 +284,6 @@ const UserList = () => {
                             <SaveButton onClick={onReset} text={t('TEXT.CLEAR_FILTER')} />
                             <SaveButton type='submit' text={t('TEXT.FILTER')}/>
                         </div>
-                        <Box sx={{display: 'inline', alignItems: 'center', paddingLeft: 20}}>
-                            <SaveButton text={t('USER.NEW_USER')} onClick={() => navigate(`/users/new`)}/>
-                        </Box>
                     </Box>
                 </form>
             </FilterCard>
@@ -328,6 +337,23 @@ const UserList = () => {
                                     </div>
                                 )}
                         </Box>
+                        <Fab aria-label="add"
+                             onClick={() => navigate(`/users/new`)}
+                             sx={{
+                                 margin: 0,
+                                 top: 'auto',
+                                 right: '40px',
+                                 bottom: '40px',
+                                 left: 'auto',
+                                 position: 'fixed',
+                                 width: '70px',
+                                 height: '70px',
+                                 backgroundColor: '#a40500',
+                                 color: '#ffffff'
+                             }}
+                        >
+                            <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                        </Fab>
                     </ContentCard>
                 </Box>
             </ContentCard>

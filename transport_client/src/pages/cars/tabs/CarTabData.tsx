@@ -2,16 +2,16 @@ import {
     Box,
     Grid, SxProps, Theme, Typography,
 } from "@mui/material";
-import CancelButton from "../../components/button/CancelButton";
-import SaveButton from "../../components/button/SaveButton";
+import CancelButton from "../../../components/button/CancelButton";
+import SaveButton from "../../../components/button/SaveButton";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import NormalText from "../../components/text/NormalText";
+import NormalText from "../../../components/text/NormalText";
 import {useNavigate, useParams} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import {carEditFormSchema, CarEditFormSchema} from "./schemas/car-edit-form-schema";
+import {carEditFormSchema, CarEditFormSchema} from "../schemas/car-edit-form-schema";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 
 const textStyle: SxProps<Theme> = {

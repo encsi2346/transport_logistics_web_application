@@ -1,9 +1,9 @@
 import type {GridActionsColDef, GridColDef, GridSelectionModel, GridSortModel} from '@mui/x-data-grid';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
-import StyledDataGrid, {handleDataGridCellClick, sharedDataGridProps} from "../../components/dataTable/StyledDataGrid";
-import {Pagination} from "../../components/inputField/hooks/usePagination";
-import {Sort} from "../../components/inputField/hooks/useSort";
+import {useTypeSafeTranslation} from "../../../components/inputfield/hooks/useTypeSafeTranslation";
+import StyledDataGrid, {handleDataGridCellClick, sharedDataGridProps} from "../../../components/datatable/StyledDataGrid";
+import {Pagination} from "../../../components/inputfield/hooks/usePagination";
+import {Sort} from "../../../components/inputfield/hooks/useSort";
 import {Box} from "@mui/material";
 import CancelButton from "@/components/button/CancelButton";
 import SaveButton from "@/components/button/SaveButton";

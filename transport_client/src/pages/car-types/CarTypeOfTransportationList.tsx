@@ -1,26 +1,19 @@
 import PageHeader from "../../components/text/PageHeader";
-import FilterCard from "../../components/layout/FilterCard";
-import {Box, FormControl, Grid, Input, InputAdornment} from "@mui/material";
+import {Box, Fab, Grid} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
-import CarTypeCard from "../../components/layout/CarTypeCard";
-import {useState} from "react";
-import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
+import React, {useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
-import SaveButton from "../../components/button/SaveButton";
 import {useModal} from "@ebay/nice-modal-react";
-import CarTypeAddDialog from "./CarTypeAddDialog";
-import {useForm} from "react-hook-form";
-import {carTypeEditFormSchema, CarTypeEditFormSchema} from "./schemas/car-type-edit-form-schema";
-import {zodResolver} from "@hookform/resolvers/zod";
-import CarTypeOfTransportationCard from "@/components/layout/carTypeOfTransportationCard";
+import CarTypeOfTransportationCard from '../../components/layout/carTypeOfTransportationCard';
+import AddIcon from "@mui/icons-material/Add";
+import NewTypeOfTransportationAddDialog from "./NewTypeOfTransportationAddDialog";
 
 const CarTypeOfTransportationList = () => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const location = useLocation();
-    const addCarTypeDialog = useModal(CarTypeAddDialog);
+    const addTypeOfTransportationDialog = useModal(NewTypeOfTransportationAddDialog);
     const [search, setSearch] = useState('');
     const [typeOfTransportationList, setTypeOfTransportationList] = useState([
         {
@@ -55,10 +48,10 @@ const CarTypeOfTransportationList = () => {
         },
     ]);
 
-    const openAddCarTypeDialog = () => {
-        addCarTypeDialog
+    const openAddTypeOfTransportationDialog = () => {
+        addTypeOfTransportationDialog
             .show({
-                title: t('CAR_TYPES.ADD_NEW_CAR_TYPE'),
+                title: t('TYPE_OF_TRANSPORTATION.ADD_NEW_TYPE_OF_TRANSPORTATION'),
                 acceptText: t('TEXT.CREATE'),
             })
             .then((value) => {
@@ -190,6 +183,23 @@ const CarTypeOfTransportationList = () => {
                                 );
                             })}
                     </Grid>
+                    <Fab aria-label="add"
+                         onClick={openAddTypeOfTransportationDialog}
+                         sx={{
+                             margin: 0,
+                             top: 'auto',
+                             right: '40px',
+                             bottom: '40px',
+                             left: 'auto',
+                             position: 'fixed',
+                             width: '70px',
+                             height: '70px',
+                             backgroundColor: '#a40500',
+                             color: '#ffffff'
+                         }}
+                    >
+                        <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                    </Fab>
                 </Box>
             </ContentCard>
         </Box>

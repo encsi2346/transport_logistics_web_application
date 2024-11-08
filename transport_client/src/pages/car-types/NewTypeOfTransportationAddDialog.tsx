@@ -5,7 +5,9 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, FormControl, Grid, InputAdornment, TextField,
+    DialogTitle, FormControl, Grid,
+    IconButton,
+    InputAdornment, TextField
 } from '@mui/material';
 import type {SxProps, Theme} from '@mui/material';
 import type { GridSelectionModel } from '@mui/x-data-grid';
@@ -13,17 +15,15 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useNavigate, useParams} from "react-router-dom";
 import BackgroundCard from "../../components/layout/BackgroundCard";
-import { useTypeSafeTranslation } from '../../components/inputfield/hooks/useTypeSafeTranslation';
-import TextFieldInput from '../../components/inputfield/TextFieldInput';
-import {
-    productCategoryEditFormSchema,
-    ProductCategoryEditFormSchema
-} from "./schemas/product-category-edit-form-schema";
+import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation';
+import TextFieldInput from '../../components/inputField/TextFieldInput';
+//import DatePickerInput from "../../components/inputField/DatePickerInput";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import SelectInput from "../../components/inputField/SelectInput";
+import {RequestEditFormSchema, requestEditFormSchema} from "./schemas/request-edit-form-schema";
 import DataCard from "@/components/layout/DataCard";
-import React, {useEffect, useState} from "react";
 import NormalText from "../../components/text/NormalText";
-import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
+import React, {useState} from "react";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -73,7 +73,7 @@ const cancelTitleStyle: SxProps<Theme> = {
     textTransform: 'none',
 }
 
-const ProductCategoryAddDialog = NiceModal.create(
+const NewTypeOfTransportationAddDialog = NiceModal.create(
     (props: { title: string; acceptText: string; defaultSelected: GridSelectionModel; handleEmployeeAdded: () => void }) => {
         const modal = useModal();
         const { t } = useTypeSafeTranslation();
@@ -83,115 +83,89 @@ const ProductCategoryAddDialog = NiceModal.create(
         const [isEditing, setIsEditing] = useState(true);
         const [productStatusList, setProductStatusList] = useState([]);
         const [values, setValues] = useState({
-            productCategoryId: '',
+            typeOfTransportationId: '',
             name: '',
-            description: '',
-            status: null,
         });
 
-        const handleProductStatusList = async () => {
-            const getResponse = await fetch(
-                "http://localhost:3001/api/productStatus",
-                {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json"},
-                }
-            );
-            const getProductStatusList = await getResponse.json();
-            //const getStatus = getResponse.status;
-            console.log('ProductStatus', getProductStatusList);
-
-            const formattedProductStatusList = getProductStatusList.map(productStatus => ({
-                value: productStatus,
-                label: productStatus.charAt(0).toUpperCase() + productStatus.slice(1)
-            }));
-            console.log('formattedProductStatusList', formattedProductStatusList);
-            setProductStatusList(formattedProductStatusList);
-        }
-
-        useEffect(() => {
-            handleProductStatusList();
-        }, [])
-
-        const getProductCategory = async (id: string) => {
+        const getTypeOfTransportation = async (id: string) => {
             try {
-                const getProductCategoryResponse = await fetch(
-                    `http://localhost:3001/api/product-categories/${id}`,
+                const getTypeOfTransportationResponse = await fetch(
+                    `http://localhost:3001/api/type-of-transportation/${id}`,
                     {
                         method: "GET",
                         headers: { "Content-Type": "application/json"},
                     }
                 );
-                const getProductCategoryData = await getProductCategoryResponse.json();
-                const getStatus = getProductCategoryResponse.status;
-                console.log('getProductCategoryData', getProductCategoryData);
+                const getTypeOfTransportationData = await getTypeOfTransportationResponse.json();
+                const getStatus = getTypeOfTransportationResponse.status;
+                console.log('getTypeOfTransportationData', getTypeOfTransportationData);
                 console.log('getUserStatus', getStatus);
-                //setCar(getCarData);
+                //setTypeOfTransportation(getTypeOfTransportationData);
             } catch (error) {
-                console.error('Error get product category:', error);
+                console.error('Error get type of transportation:', error);
             }
         }
 
-        const createProductCategory = async (data: any) => {
+        const createTypeOfTransportation = async (data: any) => {
             try {
-                const createProductCategoryResponse = await fetch(
-                    `http://localhost:3001/api/product-categories/addProductCategory`,
+                const createTypeOfTransportationResponse = await fetch(
+                    `http://localhost:3001/api/type-of-transportation/addTypeOfTransportation`,
                     {
                         method: "POST",
                         headers: { "Content-Type": "application/json"},
                         body: JSON.stringify(data),
                     }
                 );
-                const getProductCategoryData = await createProductCategoryResponse.json();
-                const getStatus = createProductCategoryResponse.status;
-                console.log('getProductCategoryData', getProductCategoryData);
+                const getTypeOfTransportationData = await createTypeOfTransportationResponse.json();
+                const getStatus = createTypeOfTransportationResponse.status;
+                console.log('getTypeOfTransportationData', getTypeOfTransportationData);
                 console.log('getUserStatus', getStatus);
-                //setCar(getCarData);
-                return getProductCategoryData;
+                //setTypeOfTransportation(getTypeOfTransportationData);
+                return getTypeOfTransportationData;
             } catch (error) {
-                console.error('Error creating product category:', error);
+                console.error('Error creating type of transportation:', error);
             }
         };
 
-        const updateProductCategory = async (id: string, data: any) => {
+        const updateTypeOfTransportation = async (id: string, data: any) => {
             try {
-                const updatedProductCategoryResponse = await fetch(
-                    `http://localhost:3001/api/product-categories/${id}`,
+                const updatedTypeOfTransportationResponse = await fetch(
+                    `http://localhost:3001/api/type-of-transportation/${id}`,
                     {
                         method: "PUT",
                         headers: { "Content-Type": "application/json"},
                         body: JSON.stringify(data),
                     }
                 );
-                const getProductCategoryData = await updatedProductCategoryResponse.json();
-                const getStatus = updatedProductCategoryResponse.status;
-                console.log('getProductCategoryData', getProductCategoryData);
+                const getTypeOfTransportationData = await updatedTypeOfTransportationResponse.json();
+                const getStatus = updatedTypeOfTransportationResponse.status;
+                console.log('getTypeOfTransportationData', getTypeOfTransportationData);
                 console.log('getUserStatus', getStatus);
-                //setCar(getCarData);
-                return getProductCategoryData;
+                //setTypeOfTransportation(getTypeOfTransportationData);
+                return getTypeOfTransportationData;
             } catch (error) {
-                console.error(`Error updating product category with ID ${id}:`, error);
+                console.error(`Error updating type of transportation with ID ${id}:`, error);
             }
         };
 
-        const deleteProductCategory = async (id: string) => {
+        const deleteTypeOfTransportation = async (id: string) => {
             //TODO
             try {
-                const deleteProductCategoryResponse = await fetch(
-                    `http://localhost:3001/api/product-categories/${id}`,
+                const deleteTypeOfTransportationResponse = await fetch(
+                    `http://localhost:3001/api/type-of-transportation/${id}`,
                     {
                         method: "DELETE",
                         headers: { "Content-Type": "application/json"},
                     }
                 );
-                const getProductCategoryData = await deleteProductCategoryResponse.json();
-                const getStatus = deleteProductCategoryResponse.status;
-                console.log('getProductCategoryData', getProductCategoryData);
+                const getTypeOfTransportationData = await deleteTypeOfTransportationResponse.json();
+                const getStatus = deleteTypeOfTransportationResponse.status;
+                console.log('getTypeOfTransportationData', getTypeOfTransportationData);
                 console.log('getUserStatus', getStatus);
-                //setCartTypes(getCarTypesData);
-                return getProductCategoryData;
+                //setTypeOfTransportation(getTypeOfTransportationData);
+                return getTypeOfTransportationData;
             } catch (error) {
-                console.error(`Error deleting product category with ID ${id}:`, error);
+                console.error(`Error deleting type of transportation with ID ${id}:`, error);
             }
         };
 
@@ -203,10 +177,10 @@ const ProductCategoryAddDialog = NiceModal.create(
             console.log('submitData', submitData);
             if (isEditing) {
                 setInputDisabled(true);
-                updateProductCategory(id, submitData);
+                updateTypeOfTransportation(id, submitData);
             } else {
                 setInputDisabled(true);
-                createProductCategory(submitData);
+                createTypeOfTransportation(submitData);
             }
         };
 
@@ -223,7 +197,7 @@ const ProductCategoryAddDialog = NiceModal.create(
                     "& .MuiDialog-container": {
                         "& .MuiPaper-root": {
                             width: "100%",
-                            maxWidth: "700px",
+                            maxWidth: "500px",
                             borderRadius: '19px',
                             display: 'flex',
                             alignItems: 'center',
@@ -244,7 +218,7 @@ const ProductCategoryAddDialog = NiceModal.create(
                                 onSubmit={(e) => handleSubmit(e)}
                             >
                                 <DataCard>
-                                    <Grid item container direction="column" spacing={2} m={10}>
+                                    <Grid item container direction="column" spacing={2}>
                                         <Grid item container direction="column" xs={4} md={10} spacing={15}>
                                             <Grid item xs={4} md={5}>
                                                 <Box sx={{
@@ -253,52 +227,16 @@ const ProductCategoryAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
-                                                    <NormalText text={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_NAME')}/>
+                                                    <NormalText text={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}/>
                                                     <FormControl required fullWidth>
                                                         <TextField
                                                             id="productCategoryName"
                                                             placeholder='Példa Éva'
                                                             name='productCategoryName'
-                                                            label={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_NAME')}
+                                                            label={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}
                                                             value={values.name}
                                                             onChange={handleChange('name')}
                                                             data-testid='product-category-name-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item container direction="column" xs={4} md={10} spacing={15}>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_DESCRIPTION')}/>
-                                                    <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="productDescription"
-                                                            placeholder='Példa Éva'
-                                                            name='productDescription'
-                                                            label={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_DESCRIPTION')}
-                                                            value={values.description}
-                                                            onChange={handleChange('description')}
-                                                            data-testid='product-description-input'
                                                             required
                                                             sx={{
                                                                 backgroundColor: `#ffffff`,
@@ -340,8 +278,7 @@ const ProductCategoryAddDialog = NiceModal.create(
                         color="primary"
                         variant="contained"
                         onClick={() => {
-                            //TODO
-                            //onSubmit();
+                            onSubmit();
                             modal.remove();
                         }}
                         data-testid="confirm-button"
@@ -355,4 +292,4 @@ const ProductCategoryAddDialog = NiceModal.create(
     }
 );
 
-export default ProductCategoryAddDialog;
+export default NewTypeOfTransportationAddDialog;

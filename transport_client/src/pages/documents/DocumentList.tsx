@@ -1,4 +1,4 @@
-import {Box, FormControl, Input, InputAdornment, TextField} from "@mui/material";
+import {Box, Fab, FormControl, Input, InputAdornment, TextField} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
@@ -14,10 +14,15 @@ import {useForm} from "react-hook-form";
 import {carTypeEditFormSchema, CarTypeEditFormSchema} from "@/pages/car-types/schemas/car-type-edit-form-schema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {DocumentEditFormSchema, documentEditFormSchema} from "@/pages/documents/schemas/document-edit-form-schema";
+import AddIcon from "@mui/icons-material/Add";
+import {useModal} from "@ebay/nice-modal-react";
+import NewRequestAddDialog from "../requests/NewRequestAddDialog";
+import NewDocumentAddDialog from "./NewDocumentAddDialog";
 
 const DocumentList = () => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
+    const addNewDocumentDialog = useModal(NewDocumentAddDialog);
     const [search, setSearch] = useState('');
     const [values, setValues] = useState({
         name: '',
@@ -66,7 +71,6 @@ const DocumentList = () => {
             size: '112 kB',
         },
     ]);
-    const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
 
     const [documentTypeList, setDocumentTypeList] = useState([]);
     const [documentStatusList, setDocumentStatusList] = useState([]);
@@ -119,30 +123,6 @@ const DocumentList = () => {
         handleDocumentStatusList();
     }, [])
 
-    const {
-        control,
-        setValue,
-        reset,
-        handleSubmit,
-        formState: { isValid },
-    } = useForm<DocumentEditFormSchema>({
-        defaultValues: {
-            documentId: '',
-            documentType: '',
-            title: '',
-            timeStamp: '',
-            status: '',
-            creator: null,
-            size: null,
-        },
-        resolver: zodResolver(documentEditFormSchema()),
-        mode: 'all',
-    });
-
-    const handleDataChange = () => {
-        handleSelectionChange(selectionModel);
-    };
-
     const getDocuments = async () => {
         try {
             const getDocumentsResponse = await fetch(
@@ -156,7 +136,7 @@ const DocumentList = () => {
             const getStatus = getDocumentsResponse.status;
             console.log('getDocumentsData', getDocumentsData);
             console.log('getUserStatus', getStatus);
-            setDocuments(getDocumentsData);
+            //setDocuments(getDocumentsData);
         } catch (error) {
             console.error('Error get all document:', error);
         }
@@ -223,6 +203,18 @@ const DocumentList = () => {
         } catch (error) {
             console.error(`Error deleting document with ID ${id}:`, error);
         }
+    };
+
+    const openAddNewDocumentDialog = () => {
+        addNewDocumentDialog
+            .show({
+                title: t('DOCUMENTS.ADD_NEW_DOCUMENT'),
+                acceptText: t('DOCUMENT.CREATE'),
+            })
+            .then((value) => {
+                setValue('documents', value as string[]);
+            })
+            .catch(() => null);
     };
 
     useEffect(() => {
@@ -360,9 +352,6 @@ const DocumentList = () => {
                                 <SaveButton type='submit' text={t('TEXT.FILTER')}/>
                             </div>
                         </Box>
-                        <Box sx={{display: 'inline', alignItems: 'center', paddingLeft: 20}}>
-                            <SaveButton text={t('DOCUMENTS.UPLOAD_DOCUMENTS')}/>
-                        </Box>
                     </Box>
                 </form>
             </FilterCard>
@@ -378,10 +367,24 @@ const DocumentList = () => {
                                         : item.documentName.toLowerCase().includes(search);
                                 })
                         }
-                        selectionModel={selectionModel}
-                        onSelectionChange={handleSelectionChange}
-                        onDataChange={handleDataChange}
                     />
+                <Fab aria-label="add"
+                     onClick={openAddNewDocumentDialog}
+                     sx={{
+                         margin: 0,
+                         top: 'auto',
+                         right: '40px',
+                         bottom: '40px',
+                         left: 'auto',
+                         position: 'fixed',
+                         width: '70px',
+                         height: '70px',
+                         backgroundColor: '#a40500',
+                         color: '#ffffff'
+                     }}
+                >
+                    <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                </Fab>
                 </Box>
             </ContentCard>
         </Box>

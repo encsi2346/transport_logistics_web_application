@@ -109,12 +109,17 @@
     "ID": "Azonosító",
     "FULL_NAME": "Teljes név",
     "POSITION": "Pozíció",
-    "NEW_REQUESTS": "Új kérés feladása",
+    "NEW_REQUEST": "Új kérés feladása",
     "STATUS": "Állapot",
     "REASON": "Indoklás",
     "AFFECTED_WORKING_DAY": "Érintett munkanap",
     "OBJECT": "Tárgy",
-    "PERSONAL_REQUESTS": "Személyes kérések"
+    "PERSONAL_REQUESTS": "Személyes kérések",
+    "TITLE": "Tárgy",
+    "TYPE_OF_REQUEST": "Kérés típusa",
+    "SELECTED_DATE": "Kiválasztott dátum",
+    "ANSWER": "Válasz",
+    "USER": "Alkalmazott"
   },
   "PRODUCTS": {
     "ID": "Azonosító",
@@ -126,9 +131,15 @@
     "PRODUCT_CATEGORY_NAME": "Termékkategória neve",
     "PRODUCT_NUMBER": "Cikkszám",
     "BARCODE": "Vonalkód",
-    "OWN_WEIGHT": "Saját súly",
+    "SELF_WEIGHT": "Saját súly",
     "MAX_NUMBER_OF_ITEMS": "Maximális darabszám",
-    "CURRENT_NUMBER_OF_ITEMS": "Jelenlegi darabszám"
+    "CURRENT_NUMBER_OF_ITEMS": "Jelenlegi darabszám",
+    "NAME": "Termék neve",
+    "DESCRIPTION": "Termék leírása",
+    "CATEGORY": "Termékkategória neve",
+    "ARTICLE_NUMBER": "Cikkszám",
+    "SZAZALEK": "Készletszázalék",
+    "STATUS": "Állapot"
   },
   "PRODUCT_CATEGORIES": {
     "NEW_PRODUCT_CATEGORY": "Új termékkategória hozzáadása",
@@ -156,20 +167,30 @@
     "DATE_OF_CREATION": "Létrehozás dátuma",
     "SIZE": "Méret",
     "DOCUMENTS": "Dokumentumok",
-    "UPLOAD_DOCUMENTS": "Új dokumentum feltöltése"
+    "UPLOAD_DOCUMENTS": "Új dokumentum feltöltése",
+    "TITLE": "Cím",
+    "TIMESTAMP": "Létrehozva",
+    "STATUS": "Állapot",
+    "CREATOR": "Létrehozó",
+    "ADD_NEW_DOCUMENT": "Új dokumentum feltöltése"
   },
   "CAR_TYPES": {
     "ADD_NEW_CAR_TYPE": "Új autótípus hozzáadása",
     "CAR_TYPE_DATA": "Autótípus adatok",
     "CAR_TYPE_NAME": "Autótípus neve",
-    "CAR_FUNCTIONAL_DESIGN": "Kivitel",
+    "DESIGN": "Kivitel",
     "PERFORMANCE": "Teljesítmény",
     "OWN_WEIGHT": "Saját súly",
     "NUMBER_OF_SEATS": "Ülések száma",
     "FUEL": "Üzemanyag",
     "USEFUL_WEIGHT": "Hasznos teher",
     "BRAND": "Márka",
-    "CAR_TYPE_OF_TRANSPORTATIONS": "Szállítási típusok"
+    "CAR_TYPE_OF_TRANSPORTATIONS": "Szállítási típusok",
+    "VONTATAS": "Vontatás",
+    "HEIGHT": "Magasság",
+    "SZELESSEG": "Szélesség",
+    "LONG": "Hosszúság",
+    "CAR_TYPE_OF_TRANSPORTATION": "Szállítási típus"
   },
   "CAR": {
     "BRAND": "Márka",
@@ -191,6 +212,20 @@
     "DOCUMENTS": "Dokumentumok",
     "SERVICE": "Szervíz",
     "ERROR_REPORTING": "Hibabejelentés",
-    "NEW_EXAM": "Új műszaki vizsga hozzáadása"
+    "NEW_EXAM": "Új műszaki vizsga hozzáadása",
+    "CARS": "Gépjárművek",
+    "ADD_NEW_CAR": "Új autó hozzáadása",
+    "NUMBER_OF_REGISTRATION_LICENCE": "Első nyilvántartásba vétel",
+    "IMAGES": "Képek",
+    "DATE_OF_DATABASE_REGISTRATION": "Adatbázis regisztráció dátuma",
+    "DATE_OF_LAST_TECHNICAL_EXAMINATION": "Legutóbbi műszaki vizsga időpontja",
+    "DATE_OF_LAST_SERVICE": "Legutóbbi szervíz időpontja",
+    "TOTAL_DRIVEN_KM": "Összes megtett km",
+    "TOTAL_TRANSPORT": "Összes végrehajtott szállítás",
+    "NAME": "Név"
+  },
+  "TYPE_OF_TRANSPORTATION": {
+    "TYPE_OF_TRANSPORTATION_NAME": "Szállítási típus neve",
+    "ADD_NEW_TYPE_OF_TRANSPORTATION": "Új szállítási típus hozzáadása"
   }
 }

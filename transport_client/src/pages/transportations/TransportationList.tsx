@@ -1,4 +1,4 @@
-import {Box, FormControl, Input, InputAdornment, TextField} from "@mui/material";
+import {Box, Fab, FormControl, Input, InputAdornment, TextField} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
@@ -11,6 +11,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import useSelection from "../../components/inputField/hooks/useSelection";
 import SaveButton from "../../components/button/SaveButton";
 import TransportationTableQuery from "./TransportationTableQuery";
+import AddIcon from "@mui/icons-material/Add";
 
 const TransportationList = () => {
     const { id } = useParams();
@@ -232,10 +233,6 @@ const TransportationList = () => {
                                 <SaveButton type='submit' text={t('TEXT.FILTER')}/>
                             </div>
                         </Box>
-                        <Box sx={{display: 'inline', alignItems: 'center', paddingLeft: 20}}>
-                            <SaveButton text={t('TRANSPORTATIONS.NEW_TRANSPORTATION')}
-                                        onClick={() => navigate(`/transportations/new/edit`)}/>
-                        </Box>
                     </Box>
                 </form>
             </FilterCard>
@@ -256,6 +253,23 @@ const TransportationList = () => {
                         onDataChange={handleDataChange}
                         onHandleDelete={() => deleteTransportation(id)}
                     />
+                    <Fab aria-label="add"
+                         onClick={() => navigate(`/transportations/new/edit`)}
+                         sx={{
+                             margin: 0,
+                             top: 'auto',
+                             right: '40px',
+                             bottom: '40px',
+                             left: 'auto',
+                             position: 'fixed',
+                             width: '70px',
+                             height: '70px',
+                             backgroundColor: '#a40500',
+                             color: '#ffffff'
+                         }}
+                    >
+                        <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                    </Fab>
                 </Box>
             </ContentCard>
         </Box>

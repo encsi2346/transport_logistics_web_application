@@ -1,5 +1,5 @@
 import {Box, Grid, SxProps, Theme, Typography} from "@mui/material";
-import NormalText from "../../components/text/NormalText";
+import NormalText from "../../../components/text/NormalText";
 import CancelButton from "@/components/button/CancelButton";
 import SaveButton from "@/components/button/SaveButton";
 import {useNavigate} from "react-router-dom";

@@ -1,4 +1,4 @@
-import {Box, FormControl, Input, InputAdornment, TextField} from "@mui/material";
+import {Box, Fab, FormControl, Input, InputAdornment, TextField} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
@@ -15,6 +15,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {useModal} from "@ebay/nice-modal-react";
 import RequestTableQuery from "./RequestTableQuery";
 import NewRequestAddDialog from "./NewRequestAddDialog";
+import AddIcon from "@mui/icons-material/Add";
 
 const RequestList = () => {
     const { id } = useParams();
@@ -53,42 +54,17 @@ const RequestList = () => {
             position: 'Sofőr',
         },
     ]);
-    const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
-/*
-    const {
-        control,
-        setValue,
-        reset,
-        handleSubmit,
-        formState: { isValid },
-    } = useForm<CarTypeEditFormSchema>({
-        defaultValues: {
-            carTypeName: '',
-            carFunctionalDesign: '',
-            performance: '',
-            ownWeight: '',
-            numberOfSeats: '',
-            fuel: '',
-            usefulWeight: '',
-        },
-        resolver: zodResolver(carTypeEditFormSchema()),
-        mode: 'all',
-    });*/
 
     const openAddNewRequestDialog = () => {
         addNewRequestDialog
             .show({
-                title: t('TEXT.ADD_NEW_REQUEST'),
+                title: t('REQUEST.ADD_NEW_REQUEST'),
                 acceptText: t('TEXT.CREATE'),
             })
             .then((value) => {
                 setValue('carTypes', value as string[]);
             })
             .catch(() => null);
-    };
-
-    const handleDataChange = () => {
-        handleSelectionChange(selectionModel);
     };
 
     const handleLoadRequests = async () => {
@@ -262,9 +238,6 @@ const RequestList = () => {
                                 <SaveButton type='submit' text={t('TEXT.FILTER')}/>
                             </div>
                         </Box>
-                        <Box sx={{display: 'inline', alignItems: 'center', paddingLeft: 20}}>
-                            <SaveButton text={t('REQUEST.NEW_REQUESTS')} onClick={openAddNewRequestDialog}/>
-                        </Box>
                     </Box>
                 </form>
             </FilterCard>
@@ -280,11 +253,25 @@ const RequestList = () => {
                                         : item.fullName.toLowerCase().includes(search);
                                 })
                         }
-                        selectionModel={selectionModel}
-                        onSelectionChange={handleSelectionChange}
-                        onDataChange={handleDataChange}
                         onHandleDelete={() => deleteRequest(id)}
                     />
+                    <Fab aria-label="add"
+                         onClick={openAddNewRequestDialog}
+                         sx={{
+                             margin: 0,
+                             top: 'auto',
+                             right: '40px',
+                             bottom: '40px',
+                             left: 'auto',
+                             position: 'fixed',
+                             width: '70px',
+                             height: '70px',
+                             backgroundColor: '#a40500',
+                             color: '#ffffff'
+                         }}
+                    >
+                        <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                    </Fab>
                 </Box>
             </ContentCard>
         </Box>

@@ -18,10 +18,7 @@ import BackgroundCard from "../../components/layout/BackgroundCard";
 import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation';
 import TextFieldInput from '../../components/inputField/TextFieldInput';
 //import DatePickerInput from "../../components/inputField/DatePickerInput";
-import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
-import SelectInput from "../../components/inputField/SelectInput";
-import {RequestEditFormSchema, requestEditFormSchema} from "./schemas/request-edit-form-schema";
-import DataCard from "@/components/layout/DataCard";
+import DataCard from "../../components/layout/DataCard";
 import React, {useEffect, useState} from "react";
 import NormalText from "../../components/text/NormalText";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -74,7 +71,7 @@ const cancelTitleStyle: SxProps<Theme> = {
     textTransform: 'none',
 }
 
-const NewRequestAddDialog = NiceModal.create(
+const NewDocumentAddDialog = NiceModal.create(
     (props: { title: string; acceptText: string; defaultSelected: GridSelectionModel; handleEmployeeAdded: () => void }) => {
         const modal = useModal();
         const { t } = useTypeSafeTranslation();
@@ -82,124 +79,150 @@ const NewRequestAddDialog = NiceModal.create(
         const navigate = useNavigate();
         const [inputDisabled, setInputDisabled] = useState(false); //isInputDisabled
         const [isEditing, setIsEditing] = useState(true);
-        const [requestStatusList, setRequestStatusList] = useState(true);
-        const [productStatusList, setProductStatusList] = useState([]);
         const [values, setValues] = useState({
-            requestId: '',
+            documentId: '',
+            documentType: '',
             title: '',
-            typeOfRequest: '',
-            selectedDate: '',
-            reason: '',
+            timeStamp: '',
             status: '',
-            answerId: '',
-            userId: '',
+            creator: '',
+            size: '',
         });
 
-        const handleRequestStatusList = async () => {
+
+        const [documentTypeList, setDocumentTypeList] = useState([]);
+        const [documentStatusList, setDocumentStatusList] = useState([]);
+
+        const handleDocumentTypeList = async () => {
             const getResponse = await fetch(
-                "http://localhost:3001/api/requestStatus",
+                "http://localhost:3001/api/documentTypes",
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json"},
                 }
             );
-            const getRequestStatusList = await getResponse.json();
+            const getDocumentTypeList = await getResponse.json();
             //const getStatus = getResponse.status;
-            console.log('RequestStatus', getRequestStatusList);
+            console.log('DocumentTypes', getDocumentTypeList);
 
-            const formattedRequestStatusList = getRequestStatusList.map(requestStatus => ({
-                value: requestStatus,
-                label: requestStatus.charAt(0).toUpperCase() + requestStatus.slice(1)
+            const formattedDocumentTypeList = getDocumentTypeList.map(documentType => ({
+                value: documentType,
+                label: documentType.charAt(0).toUpperCase() + documentType.slice(1)
             }));
-            console.log('formattedRequestStatusList', formattedRequestStatusList);
-            setRequestStatusList(formattedRequestStatusList);
+            console.log('formattedDocumentTypeList', formattedDocumentTypeList);
+            setDocumentTypeList(formattedDocumentTypeList);
         }
 
         useEffect(() => {
-            handleRequestStatusList();
+            handleDocumentTypeList();
         }, [])
 
-        const getRequest = async (id: string) => {
+        const handleDocumentStatusList = async () => {
+            const getResponse = await fetch(
+                "http://localhost:3001/api/documentStatus",
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getDocumentStatusList = await getResponse.json();
+            //const getStatus = getResponse.status;
+            console.log('DocumentStatuses', getDocumentStatusList);
+
+            const formattedDocumentStatusList = getDocumentStatusList.map(documentStatus => ({
+                value: documentStatus,
+                label: documentStatus.charAt(0).toUpperCase() + documentStatus.slice(1)
+            }));
+            console.log('formattedDocumentStatusList', formattedDocumentStatusList);
+            setDocumentStatusList(formattedDocumentStatusList);
+        }
+
+        useEffect(() => {
+            handleDocumentStatusList();
+        }, [])
+
+        const getDocuments = async () => {
             try {
-                const getRequestResponse = await fetch(
-                    `http://localhost:3001/api/requests/${id}`,
+                const getDocumentsResponse = await fetch(
+                    `http://localhost:3001/api/documents`,
                     {
                         method: "GET",
                         headers: { "Content-Type": "application/json"},
                     }
                 );
-                const getRequestData = await getRequestResponse.json();
-                const getStatus = getRequestResponse.status;
-                console.log('getRequestData', getRequestData);
+                const getDocumentsData = await getDocumentsResponse.json();
+                const getStatus = getDocumentsResponse.status;
+                console.log('getDocumentsData', getDocumentsData);
                 console.log('getUserStatus', getStatus);
-                //setCar(getCarData);
+                //setDocuments(getDocumentsData);
             } catch (error) {
-                console.error('Error get request:', error);
+                console.error('Error get all document:', error);
             }
         }
 
-        const createRequest = async (data: any) => {
+        const createDocument = async (data: any) => {
             try {
-                const createRequestResponse = await fetch(
-                    `http://localhost:3001/api/requests/addRequest`,
+                const createDocumentResponse = await fetch(
+                    `http://localhost:3001/api/documents/addDocument`,
                     {
                         method: "POST",
                         headers: { "Content-Type": "application/json"},
                         body: JSON.stringify(data),
                     }
                 );
-                const getRequestData = await createRequestResponse.json();
-                const getStatus = createRequestResponse.status;
-                console.log('getRequestData', getRequestData);
+                const getDocumentData = await createDocumentResponse.json();
+                const getStatus = createDocumentResponse.status;
+                console.log('getDocumentData', getDocumentData);
                 console.log('getUserStatus', getStatus);
                 //setCar(getCarData);
-                return getRequestData;
+                return getDocumentData;
             } catch (error) {
-                console.error('Error creating request:', error);
+                console.error('Error creating document:', error);
             }
         };
 
-        const updateRequest = async (id: string, data: any) => {
+        const updateDocument = async (id: string, data: any) => {
             try {
-                const updatedRequestResponse = await fetch(
-                    `http://localhost:3001/api/requests/${id}`,
+                const updatedDocumentResponse = await fetch(
+                    `http://localhost:3001/api/documents/${id}`,
                     {
                         method: "PUT",
                         headers: { "Content-Type": "application/json"},
                         body: JSON.stringify(data),
                     }
                 );
-                const getRequestData = await updatedRequestResponse.json();
-                const getStatus = updatedRequestResponse.status;
-                console.log('getRequestData', getRequestData);
+                const getDocumentData = await updatedDocumentResponse.json();
+                const getStatus = updatedDocumentResponse.status;
+                console.log('getDocumentData', getDocumentData);
                 console.log('getUserStatus', getStatus);
                 //setCar(getCarData);
-                return getRequestData;
+                return getDocumentData;
             } catch (error) {
-                console.error(`Error updating request with ID ${id}:`, error);
+                console.error(`Error updating document with ID ${id}:`, error);
             }
         };
 
-        const deleteRequest = async (id: string) => {
+        const deleteDocument = async (id: string) => {
             //TODO
             try {
-                const deleteRequestResponse = await fetch(
-                    `http://localhost:3001/api/requests/${id}`,
+                const deleteDocumentResponse = await fetch(
+                    `http://localhost:3001/api/documents/${id}`,
                     {
                         method: "DELETE",
                         headers: { "Content-Type": "application/json"},
                     }
                 );
-                const getRequestData = await deleteRequestResponse.json();
-                const getStatus = deleteRequestResponse.status;
-                console.log('getRequestData', getRequestData);
+                const getDocumentData = await deleteDocumentResponse.json();
+                const getStatus = deleteDocumentResponse.status;
+                console.log('getDocumentData', getDocumentData);
                 console.log('getUserStatus', getStatus);
                 //setCartTypes(getCarTypesData);
-                return getRequestData;
+                return getDocumentData;
             } catch (error) {
-                console.error(`Error deleting request with ID ${id}:`, error);
+                console.error(`Error deleting document with ID ${id}:`, error);
             }
         };
+
 
         const handleSubmit = async (e: any) => {
             e.preventDefault();
@@ -209,16 +232,17 @@ const NewRequestAddDialog = NiceModal.create(
             console.log('submitData', submitData);
             if (isEditing) {
                 setInputDisabled(true);
-                updateRequest(id, submitData);
+                updateDocument(id, submitData);
             } else {
                 setInputDisabled(true);
-                createRequest(submitData);
+                createDocument(submitData);
             }
         };
 
         const handleChange = (prop: any) => (event: any) => {
             setValues({...values, [prop]: event.target.value });
         };
+
 
         return (
             <Dialog
@@ -250,7 +274,7 @@ const NewRequestAddDialog = NiceModal.create(
                                 onSubmit={(e) => handleSubmit(e)}
                             >
                                 <DataCard>
-                                    <Grid item container direction="column" spacing={2}>
+                                    <Grid item container direction="column" spacing={2} ml={5} mr={5}>
                                         <Grid item container direction="row" xs={4} md={10} spacing={15}>
                                             <Grid item xs={4} md={5}>
                                                 <Box sx={{
@@ -259,13 +283,68 @@ const NewRequestAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
-                                                    <NormalText text={t('REQUEST.TITLE')}/>
+                                                    <NormalText text={t('DOCUMENTS.DOCUMENT_TYPE')} required={true}/>
+                                                    <FormControl>
+                                                        <InputLabel>{t('DOCUMENTS.DOCUMENT_TYPE')}</InputLabel>
+                                                        <Select
+                                                            id="documentType"
+                                                            placeholder={t('DOCUMENTS.DOCUMENT_TYPE')}
+                                                            name='documentType'
+                                                            label={t('DOCUMENTS.DOCUMENT_TYPE')}
+                                                            data-testid='documentType'
+                                                            disabled={inputDisabled}
+                                                            required
+                                                            value={values.documentType ?? ''}
+                                                            onChange={handleChange('documentType')}
+                                                            InputProps={{
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <ClearIcon
+                                                                            sx={{color: '#000000', cursor: 'pointer'}}
+                                                                            onClick={() => setValues({
+                                                                                ...values,
+                                                                                documentType: ''
+                                                                            })}
+                                                                        />
+                                                                    </InputAdornment>
+                                                                )
+                                                            }}
+                                                            sx={{
+                                                                backgroundColor: `#ffffff`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                width: 250,
+                                                                display: 'flex',
+                                                                justifyContent: 'center',
+                                                                fontSize: "15px",
+                                                                "& fieldset": {border: 'none'},
+                                                            }}
+                                                        >
+                                                            {/*Object.values(genderList).map((gender) => (
+                                                                    <MenuItem key={gender.value} value={gender.value}>
+                                                                        {gender.label}
+                                                                    </MenuItem>
+                                                                ))*/}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('DOCUMENTS.TITLE')}/>
                                                     <FormControl required fullWidth>
                                                         <TextField
                                                             id="title"
                                                             placeholder='Példa Éva'
                                                             name='title'
-                                                            label={t('REQUEST.TITLE')}
+                                                            label={t('DOCUMENTS.TITLE')}
                                                             value={values.title}
                                                             onChange={handleChange('title')}
                                                             data-testid='title-input'
@@ -286,58 +365,6 @@ const NewRequestAddDialog = NiceModal.create(
                                                     </FormControl>
                                                 </Box>
                                             </Grid>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('REQUEST.TYPE_OF_REQUEST')} required={true}/>
-                                                    <FormControl>
-                                                        <InputLabel>{t('REQUEST.TYPE_OF_REQUEST')}</InputLabel>
-                                                        <Select
-                                                            id="typeOfRequest"
-                                                            placeholder={t('REQUEST.TYPE_OF_REQUEST')}
-                                                            name='typeOfRequest'
-                                                            label={t('REQUEST.TYPE_OF_REQUEST')}
-                                                            data-testid='typeOfRequest'
-                                                            disabled={inputDisabled}
-                                                            required
-                                                            value={values.typeOfRequest ?? ''}
-                                                            onChange={handleChange('typeOfRequest')}
-                                                            InputProps={{
-                                                                endAdornment: (
-                                                                    <InputAdornment position="end">
-                                                                        <ClearIcon
-                                                                            sx={{color: '#000000', cursor: 'pointer'}}
-                                                                            onClick={() => setValues({...values, typeOfRequest: '' })}
-                                                                        />
-                                                                    </InputAdornment>
-                                                                )
-                                                            }}
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '8px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        >
-                                                            {/*Object.values(genderList).map((gender) => (
-                                                                    <MenuItem key={gender.value} value={gender.value}>
-                                                                        {gender.label}
-                                                                    </MenuItem>
-                                                                ))*/}
-                                                        </Select>
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
                                         </Grid>
                                         <Grid item container direction="row" xs={4} md={10} spacing={15}>
                                             <Grid item xs={4} md={5}>
@@ -347,16 +374,16 @@ const NewRequestAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
-                                                    <NormalText text={t('REQUEST.SELECTED_DATE')}/>
+                                                    <NormalText text={t('DOCUMENTS.TIMESTAMP')} required={true}/>
                                                     <FormControl required fullWidth>
                                                         <TextField
-                                                            id="selectedDate"
+                                                            id="timeStamp"
                                                             placeholder='Példa Éva'
-                                                            name='selectedDate'
-                                                            label={t('REQUEST.SELECTED_DATE')}
-                                                            value={values.selectedDate}
-                                                            onChange={handleChange('selectedDate')}
-                                                            data-testid='selected-date-input'
+                                                            name='timeStamp'
+                                                            label={t('DOCUMENTS.TIMESTAMP')}
+                                                            value={values.timeStamp}
+                                                            onChange={handleChange('timeStamp')}
+                                                            data-testid='timestamp-input'
                                                             required
                                                             sx={{
                                                                 backgroundColor: `#ffffff`,
@@ -381,50 +408,14 @@ const NewRequestAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
-                                                    <NormalText text={t('REQUEST.REASON')}/>
-                                                    <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="reason"
-                                                            placeholder='Példa Éva'
-                                                            name='reason'
-                                                            label={t('REQUEST.REASON')}
-                                                            value={values.reason}
-                                                            onChange={handleChange('reason')}
-                                                            data-testid='reason-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('REQUEST.STATUS')} required={true}/>
+                                                    <NormalText text={t('DOCUMENTS.STATUS')} required={true}/>
                                                     <FormControl>
-                                                        <InputLabel>{t('REQUEST.STATUS')}</InputLabel>
+                                                        <InputLabel>{t('DOCUMENTS.STATUS')}</InputLabel>
                                                         <Select
                                                             id="status"
-                                                            placeholder={t('REQUEST.STATUS')}
+                                                            placeholder={t('DOCUMENTS.STATUS')}
                                                             name='status'
-                                                            label={t('REQUEST.STATUS')}
+                                                            label={t('DOCUMENTS.STATUS')}
                                                             data-testid='status'
                                                             disabled={inputDisabled}
                                                             required
@@ -435,7 +426,67 @@ const NewRequestAddDialog = NiceModal.create(
                                                                     <InputAdornment position="end">
                                                                         <ClearIcon
                                                                             sx={{color: '#000000', cursor: 'pointer'}}
-                                                                            onClick={() => setValues({...values, status: '' })}
+                                                                            onClick={() => setValues({
+                                                                                ...values,
+                                                                                status: ''
+                                                                            })}
+                                                                        />
+                                                                    </InputAdornment>
+                                                                )
+                                                            }}
+                                                            sx={{
+                                                                backgroundColor: `#ffffff`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                width: 250,
+                                                                display: 'flex',
+                                                                justifyContent: 'center',
+                                                                fontSize: "15px",
+                                                                "& fieldset": {border: 'none'},
+                                                            }}
+                                                        >
+                                                            {/*Object.values(genderList).map((gender) => (
+                                                                    <MenuItem key={gender.value} value={gender.value}>
+                                                                        {gender.label}
+                                                                    </MenuItem>
+                                                                ))*/}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('DOCUMENTS.CREATOR')} required={true}/>
+                                                    <FormControl>
+                                                        <InputLabel>{t('DOCUMENTS.CREATOR')}</InputLabel>
+                                                        <Select
+                                                            id="creator"
+                                                            placeholder={t('DOCUMENTS.CREATOR')}
+                                                            name='creator'
+                                                            label={t('DOCUMENTS.CREATOR')}
+                                                            data-testid='creator'
+                                                            disabled={inputDisabled}
+                                                            required
+                                                            value={values.creator ?? ''}
+                                                            onChange={handleChange('creator')}
+                                                            InputProps={{
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <ClearIcon
+                                                                            sx={{color: '#000000', cursor: 'pointer'}}
+                                                                            onClick={() => setValues({
+                                                                                ...values,
+                                                                                creator: ''
+                                                                            })}
                                                                         />
                                                                     </InputAdornment>
                                                                 )
@@ -469,52 +520,16 @@ const NewRequestAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
-                                                    <NormalText text={t('REQUEST.ANSWER')}/>
+                                                    <NormalText text={t('DOCUMENTS.SIZE')}/>
                                                     <FormControl required fullWidth>
                                                         <TextField
-                                                            id="answerId"
+                                                            id="size"
                                                             placeholder='Példa Éva'
-                                                            name='answerId'
-                                                            label={t('REQUEST.ANSWER')}
-                                                            value={values.answerId}
-                                                            onChange={handleChange('answerId')}
-                                                            data-testid='answer-id-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('REQUEST.USER')}/>
-                                                    <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="userId"
-                                                            placeholder='Példa Éva'
-                                                            name='userId'
-                                                            label={t('REQUEST.USER')}
-                                                            value={values.userId}
-                                                            onChange={handleChange('userId')}
-                                                            data-testid='user-id-input'
+                                                            name='size'
+                                                            label={t('DOCUMENTS.SIZE')}
+                                                            value={values.size}
+                                                            onChange={handleChange('size')}
+                                                            data-testid='size-input'
                                                             required
                                                             sx={{
                                                                 backgroundColor: `#ffffff`,
@@ -570,4 +585,4 @@ const NewRequestAddDialog = NiceModal.create(
     }
 );
 
-export default NewRequestAddDialog;
+export default NewDocumentAddDialog;

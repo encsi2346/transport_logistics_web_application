@@ -22,7 +22,7 @@ import OrderTabComments from "./OrderTabComments";
 import OrderTabInvoice from "./OrderTabInvoice";
 import OrderTabDocuments from "./OrderTabDocuments";
 import OrderTabDetails from "./OrderTabDetails";
-import CarTabService from "../cars/CarTabService";
+import CarTabService from "../cars/tabs/CarTabService";
 import SaveButton from "../../components/button/SaveButton";
 import OrderTabRoute from "./OrderTabRoute";
 

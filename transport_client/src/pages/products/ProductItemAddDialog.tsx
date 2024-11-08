@@ -7,23 +7,23 @@ import {
     DialogContent,
     DialogTitle, FormControl, Grid,
     IconButton,
-    InputAdornment, InputLabel, MenuItem, Select, TextField
+    InputAdornment, InputLabel, Select, TextField
 } from '@mui/material';
 import type {SxProps, Theme} from '@mui/material';
 import type { GridSelectionModel } from '@mui/x-data-grid';
-import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import React, {useEffect, useState} from "react";
-import {carTypeEditFormSchema, CarTypeEditFormSchema} from "./schemas/car-type-edit-form-schema";
 import {useNavigate, useParams} from "react-router-dom";
 import BackgroundCard from "../../components/layout/BackgroundCard";
 import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation';
 import TextFieldInput from '../../components/inputField/TextFieldInput';
+//import DatePickerInput from "../../components/inputField/DatePickerInput";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SelectInput from "../../components/inputField/SelectInput";
+import {RequestEditFormSchema, requestEditFormSchema} from "./schemas/request-edit-form-schema";
 import DataCard from "@/components/layout/DataCard";
-import moment from "moment/moment";
 import NormalText from "../../components/text/NormalText";
+import React, {useEffect, useState} from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 
 const titleStyle: SxProps<Theme> = {
@@ -74,7 +74,7 @@ const cancelTitleStyle: SxProps<Theme> = {
     textTransform: 'none',
 }
 
-const CarTypeAddDialog = NiceModal.create(
+const NewProductItemAddDialog = NiceModal.create(
     (props: { title: string; acceptText: string; defaultSelected: GridSelectionModel; handleEmployeeAdded: () => void }) => {
         const modal = useModal();
         const { t } = useTypeSafeTranslation();
@@ -84,103 +84,125 @@ const CarTypeAddDialog = NiceModal.create(
         const [isEditing, setIsEditing] = useState(true);
         const [productStatusList, setProductStatusList] = useState([]);
         const [values, setValues] = useState({
-            carTypeId: '',
-            brand: '',
-            typeName: '',
-            design: '',
-            performance: '',
+            productId: '',
+            name: '',
+            description: '',
+            category: '',
+            articleNumber: '',
+            barcode: '',
             selfWeight: '',
-            usefulWeight: '',
-            numberOfSeats: '',
-            fuel: '',
-            vontatas: '',
-            height: '',
-            szelesseg: '',
-            long: '',
-            carTypeOfTransportationId: '',
+            maxNumberOfItems: '',
+            currentNumberOfItems: '',
+            szazalek: '',
+            status: '',
         });
 
-        const getCarType = async (id: string) => {
+        const handleProductStatusList = async () => {
+            const getResponse = await fetch(
+                "http://localhost:3001/api/productStatus",
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getProductStatusList = await getResponse.json();
+            //const getStatus = getResponse.status;
+            console.log('ProductStatus', getProductStatusList);
+
+            const formattedProductStatusList = getProductStatusList.map(productStatus => ({
+                value: productStatus,
+                label: productStatus.charAt(0).toUpperCase() + productStatus.slice(1)
+            }));
+            console.log('formattedProductStatusList', formattedProductStatusList);
+            setProductStatusList(formattedProductStatusList);
+        }
+
+        useEffect(() => {
+            handleProductStatusList();
+        }, [])
+
+        const getProductItem = async (id: string) => {
             try {
-                const getCarTypeResponse = await fetch(
-                    `http://localhost:3001/api/type-of-transportation/${id}`,
+                const getProductItemResponse = await fetch(
+                    `http://localhost:3001/api/products/${id}`,
                     {
                         method: "GET",
                         headers: { "Content-Type": "application/json"},
                     }
                 );
-                const getCarTypeData = await getCarTypeResponse.json();
-                const getStatus = getCarTypeResponse.status;
-                console.log('getCarTypeData', getCarTypeData);
+                const getProductItemData = await getProductItemResponse.json();
+                const getStatus = getProductItemResponse.status;
+                console.log('getProductItemData', getProductItemData);
                 console.log('getUserStatus', getStatus);
-                //setCarType(getCarTypeData);
+                //setCar(getCarData);
             } catch (error) {
-                console.error('Error get type of car:', error);
+                console.error('Error get product:', error);
             }
         }
 
-        const createCarType = async (data: any) => {
+        const createProductItem = async (data: any) => {
             try {
-                const createCarTypeResponse = await fetch(
-                    `http://localhost:3001/api/type-of-transportation/addTypeOfTransportation`,
+                const createProductItemResponse = await fetch(
+                    `http://localhost:3001/api/products/addProduct`,
                     {
                         method: "POST",
                         headers: { "Content-Type": "application/json"},
                         body: JSON.stringify(data),
                     }
                 );
-                const getCarTypeData = await createCarTypeResponse.json();
-                const getStatus = createCarTypeResponse.status;
-                console.log('getCarTypeData', getCarTypeData);
+                const getProductItemData = await createProductItemResponse.json();
+                const getStatus = createProductItemResponse.status;
+                console.log('getProductItemData', getProductItemData);
                 console.log('getUserStatus', getStatus);
-                //setTypeOfTransportation(getTypeOfTransportationData);
-                return getCarTypeData;
+                //setCar(getCarData);
+                return getProductItemData;
             } catch (error) {
-                console.error('Error creating type of car:', error);
+                console.error('Error creating product:', error);
             }
         };
 
-        const updateCarType = async (id: string, data: any) => {
+        const updateProductItem = async (id: string, data: any) => {
             try {
-                const updatedCarTypeResponse = await fetch(
-                    `http://localhost:3001/api/type-of-transportation/${id}`,
+                const updatedProductItemResponse = await fetch(
+                    `http://localhost:3001/api/products/${id}`,
                     {
                         method: "PUT",
                         headers: { "Content-Type": "application/json"},
                         body: JSON.stringify(data),
                     }
                 );
-                const getCarTypeData = await updatedCarTypeResponse.json();
-                const getStatus = updatedCarTypeResponse.status;
-                console.log('getCarTypeData', getCarTypeData);
+                const getProductItemData = await updatedProductItemResponse.json();
+                const getStatus = updatedProductItemResponse.status;
+                console.log('getProductItemData', getProductItemData);
                 console.log('getUserStatus', getStatus);
-                //setCarType(getCarTypeData);
-                return getCarTypeData;
+                //setCar(getCarData);
+                return getProductItemData;
             } catch (error) {
-                console.error(`Error updating type of car with ID ${id}:`, error);
+                console.error(`Error updating product with ID ${id}:`, error);
             }
         };
 
-        const deleteCarType = async (id: string) => {
+        const deleteProductItem = async (id: string) => {
             //TODO
             try {
-                const deleteCarTypeResponse = await fetch(
-                    `http://localhost:3001/api/type-of-transportation/${id}`,
+                const deleteProductItemResponse = await fetch(
+                    `http://localhost:3001/api/products/${id}`,
                     {
                         method: "DELETE",
                         headers: { "Content-Type": "application/json"},
                     }
                 );
-                const getCarTypeData = await deleteCarTypeResponse.json();
-                const getStatus = deleteCarTypeResponse.status;
-                console.log('getCarTypeData', getCarTypeData);
+                const getProductItemData = await deleteProductItemResponse.json();
+                const getStatus = deleteProductItemResponse.status;
+                console.log('getProductItemData', getProductItemData);
                 console.log('getUserStatus', getStatus);
-                //setCarType(getCarTypeData);
-                return getCarTypeData;
+                //setCartTypes(getCarTypesData);
+                return getProductItemData;
             } catch (error) {
-                console.error(`Error deleting type of car with ID ${id}:`, error);
+                console.error(`Error deleting product with ID ${id}:`, error);
             }
         };
+
 
         const handleSubmit = async (e: any) => {
             e.preventDefault();
@@ -190,10 +212,10 @@ const CarTypeAddDialog = NiceModal.create(
             console.log('submitData', submitData);
             if (isEditing) {
                 setInputDisabled(true);
-                updateCarType(id, submitData);
+                updateProductItem(id, submitData);
             } else {
                 setInputDisabled(true);
-                createCarType(submitData);
+                createProductItem(submitData);
             }
         };
 
@@ -210,7 +232,7 @@ const CarTypeAddDialog = NiceModal.create(
                     "& .MuiDialog-container": {
                         "& .MuiPaper-root": {
                             width: "100%",
-                            maxWidth: "1300px",
+                            maxWidth: "1200px",
                             borderRadius: '19px',
                             display: 'flex',
                             alignItems: 'center',
@@ -231,7 +253,7 @@ const CarTypeAddDialog = NiceModal.create(
                                 onSubmit={(e) => handleSubmit(e)}
                             >
                                 <DataCard>
-                                    <Grid item container direction="column" spacing={2} mt={1} mb={1} mr={5} ml={5}>
+                                    <Grid item container direction="column" spacing={2} ml={5} mr={5}>
                                         <Grid item container direction="row" xs={4} md={10} spacing={15}>
                                             <Grid item xs={4} md={5}>
                                                 <Box sx={{
@@ -240,32 +262,20 @@ const CarTypeAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
-                                                    <NormalText text={t('CAR_TYPES.BRAND')} required={true}/>
-                                                    <FormControl>
-                                                        <InputLabel>{t('CAR_TYPES.BRAND')}</InputLabel>
-                                                        <Select
-                                                            id="brand"
-                                                            placeholder={t('CAR_TYPES.BRAND')}
-                                                            name='brand'
-                                                            label={t('CAR_TYPES.BRAND')}
-                                                            data-testid='brand'
-                                                            disabled={inputDisabled}
+                                                    <NormalText text={t('PRODUCTS.NAME')}/>
+                                                    <FormControl required fullWidth>
+                                                        <TextField
+                                                            id="name"
+                                                            placeholder='Példa Éva'
+                                                            name='name'
+                                                            label={t('PRODUCTS.NAME')}
+                                                            value={values.name}
+                                                            onChange={handleChange('name')}
+                                                            data-testid='name-input'
                                                             required
-                                                            value={values.design ?? ''}
-                                                            onChange={handleChange('brand')}
-                                                            InputProps={{
-                                                                endAdornment: (
-                                                                    <InputAdornment position="end">
-                                                                        <ClearIcon
-                                                                            sx={{color: '#000000', cursor: 'pointer'}}
-                                                                            onClick={() => setValues({...values, brand: '' })}
-                                                                        />
-                                                                    </InputAdornment>
-                                                                )
-                                                            }}
                                                             sx={{
                                                                 backgroundColor: `#ffffff`,
-                                                                borderRadius: '8px',
+                                                                borderRadius: '18px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
@@ -275,13 +285,7 @@ const CarTypeAddDialog = NiceModal.create(
                                                                 fontSize: "15px",
                                                                 "& fieldset": {border: 'none'},
                                                             }}
-                                                        >
-                                                            {/*Object.values(genderList).map((gender) => (
-                                                                <MenuItem key={gender.value} value={gender.value}>
-                                                                    {gender.label}
-                                                                </MenuItem>
-                                                            ))*/}
-                                                        </Select>
+                                                        />
                                                     </FormControl>
                                                 </Box>
                                             </Grid>
@@ -292,16 +296,16 @@ const CarTypeAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
-                                                    <NormalText text={t('CAR_TYPES.CAR_TYPE_NAME')}/>
+                                                    <NormalText text={t('PRODUCTS.DESCRIPTION')}/>
                                                     <FormControl required fullWidth>
                                                         <TextField
-                                                            id="typeName"
+                                                            id="description"
                                                             placeholder='Példa Éva'
-                                                            name='typeName'
-                                                            label={t('CAR_TYPES.CAR_TYPE_NAME')}
-                                                            value={values.typeName}
-                                                            onChange={handleChange('typeName')}
-                                                            data-testid='car-type-name-input'
+                                                            name='description'
+                                                            label={t('PRODUCTS.DESCRIPTION')}
+                                                            value={values.description}
+                                                            onChange={handleChange('description')}
+                                                            data-testid='description-input'
                                                             required
                                                             sx={{
                                                                 backgroundColor: `#ffffff`,
@@ -328,25 +332,25 @@ const CarTypeAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
-                                                    <NormalText text={t('CAR_TYPES.DESIGN')} required={true}/>
+                                                    <NormalText text={t('PRODUCTS.CATEGORY')} required={true}/>
                                                     <FormControl>
-                                                        <InputLabel>{t('CAR_TYPES.DESIGN')}</InputLabel>
+                                                        <InputLabel>{t('PRODUCTS.CATEGORY')}</InputLabel>
                                                         <Select
-                                                            id="design"
-                                                            placeholder={t('CAR_TYPES.DESIGN')}
-                                                            name='design'
-                                                            label={t('CAR_TYPES.DESIGN')}
-                                                            data-testid='design'
+                                                            id="category"
+                                                            placeholder={t('PRODUCTS.CATEGORY')}
+                                                            name='category'
+                                                            label={t('PRODUCTS.CATEGORY')}
+                                                            data-testid='category'
                                                             disabled={inputDisabled}
                                                             required
-                                                            value={values.design ?? ''}
-                                                            onChange={handleChange('design')}
+                                                            value={values.category ?? ''}
+                                                            onChange={handleChange('category')}
                                                             InputProps={{
                                                                 endAdornment: (
                                                                     <InputAdornment position="end">
                                                                         <ClearIcon
                                                                             sx={{color: '#000000', cursor: 'pointer'}}
-                                                                            onClick={() => setValues({...values, design: '' })}
+                                                                            onClick={() => setValues({...values, category: '' })}
                                                                         />
                                                                     </InputAdornment>
                                                                 )
@@ -365,10 +369,10 @@ const CarTypeAddDialog = NiceModal.create(
                                                             }}
                                                         >
                                                             {/*Object.values(genderList).map((gender) => (
-                                                                <MenuItem key={gender.value} value={gender.value}>
-                                                                    {gender.label}
-                                                                </MenuItem>
-                                                            ))*/}
+                                                                    <MenuItem key={gender.value} value={gender.value}>
+                                                                        {gender.label}
+                                                                    </MenuItem>
+                                                                ))*/}
                                                         </Select>
                                                     </FormControl>
                                                 </Box>
@@ -380,16 +384,16 @@ const CarTypeAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
-                                                    <NormalText text={t('CAR_TYPES.PERFORMANCE')}/>
+                                                    <NormalText text={t('PRODUCTS.ARTICLE_NUMBER')} required={true}/>
                                                     <FormControl required fullWidth>
                                                         <TextField
-                                                            id="performance"
+                                                            id="articleNumber"
                                                             placeholder='Példa Éva'
-                                                            name='performance'
-                                                            label={t('CAR_TYPES.PERFORMANCE')}
-                                                            value={values.performance}
-                                                            onChange={handleChange('performance')}
-                                                            data-testid='performance-input'
+                                                            name='articleNumber'
+                                                            label={t('PRODUCTS.ARTICLE_NUMBER')}
+                                                            value={values.articleNumber}
+                                                            onChange={handleChange('articleNumber')}
+                                                            data-testid='article-number-input'
                                                             required
                                                             sx={{
                                                                 backgroundColor: `#ffffff`,
@@ -416,13 +420,47 @@ const CarTypeAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
-                                                    <NormalText text={t('CAR_TYPES.OWN_WEIGHT')}/>
+                                                    <NormalText text={t('PRODUCTS.BARCODE')}/>
+                                                    <FormControl required fullWidth>
+                                                        <TextField
+                                                            id="barcode"
+                                                            placeholder='Példa Éva'
+                                                            name='barcode'
+                                                            label={t('PRODUCTS.BARCODE')}
+                                                            value={values.barcode}
+                                                            onChange={handleChange('barcode')}
+                                                            data-testid='barcode-input'
+                                                            required
+                                                            sx={{
+                                                                backgroundColor: `#ffffff`,
+                                                                borderRadius: '18px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                width: 250,
+                                                                display: 'flex',
+                                                                justifyContent: 'center',
+                                                                fontSize: "15px",
+                                                                "& fieldset": {border: 'none'},
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('PRODUCTS.SELF_WEIGHT')}/>
                                                     <FormControl required fullWidth>
                                                         <TextField
                                                             id="selfWeight"
                                                             placeholder='Példa Éva'
                                                             name='selfWeight'
-                                                            label={t('CAR_TYPES.OWN_WEIGHT')}
+                                                            label={t('PRODUCTS.SELF_WEIGHT')}
                                                             value={values.selfWeight}
                                                             onChange={handleChange('selfWeight')}
                                                             data-testid='self-weight-input'
@@ -443,6 +481,8 @@ const CarTypeAddDialog = NiceModal.create(
                                                     </FormControl>
                                                 </Box>
                                             </Grid>
+                                        </Grid>
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
                                             <Grid item xs={4} md={5}>
                                                 <Box sx={{
                                                     display: 'flex',
@@ -450,16 +490,50 @@ const CarTypeAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
-                                                    <NormalText text={t('CAR_TYPES.USEFUL_WEIGHT')}/>
+                                                    <NormalText text={t('PRODUCTS.CURRENT_NUMBER_OF_ITEMS')}/>
                                                     <FormControl required fullWidth>
                                                         <TextField
-                                                            id="usefulWeight"
+                                                            id="currentNumberOfItems"
                                                             placeholder='Példa Éva'
-                                                            name='usefulWeight'
-                                                            label={t('CAR_TYPES.USEFUL_WEIGHT')}
-                                                            value={values.usefulWeight}
-                                                            onChange={handleChange('usefulWeight')}
-                                                            data-testid='useful-weight-input'
+                                                            name='currentNumberOfItems'
+                                                            label={t('PRODUCTS.CURRENT_NUMBER_OF_ITEMS')}
+                                                            value={values.currentNumberOfItems}
+                                                            onChange={handleChange('currentNumberOfItems')}
+                                                            data-testid='current-number-of-items-input'
+                                                            required
+                                                            sx={{
+                                                                backgroundColor: `#ffffff`,
+                                                                borderRadius: '18px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                width: 250,
+                                                                display: 'flex',
+                                                                justifyContent: 'center',
+                                                                fontSize: "15px",
+                                                                "& fieldset": {border: 'none'},
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('PRODUCTS.SZAZALEK')}/>
+                                                    <FormControl required fullWidth>
+                                                        <TextField
+                                                            id="szazalek"
+                                                            placeholder='Példa Éva'
+                                                            name='szazalek'
+                                                            label={t('PRODUCTS.SZAZALEK')}
+                                                            value={values.szazalek}
+                                                            onChange={handleChange('szazalek')}
+                                                            data-testid='szazalek-input'
                                                             required
                                                             sx={{
                                                                 backgroundColor: `#ffffff`,
@@ -486,25 +560,25 @@ const CarTypeAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
-                                                    <NormalText text={t('CAR_TYPES.NUMBER_OF_SEATS')} required={true}/>
+                                                    <NormalText text={t('PRODUCTS.STATUS')} required={true}/>
                                                     <FormControl>
-                                                        <InputLabel>{t('CAR_TYPES.NUMBER_OF_SEATS')}</InputLabel>
+                                                        <InputLabel>{t('PRODUCTS.STATUS')}</InputLabel>
                                                         <Select
-                                                            id="numberOfSeats"
-                                                            placeholder={t('CAR_TYPES.NUMBER_OF_SEATS')}
-                                                            name='numberOfSeats'
-                                                            label={t('CAR_TYPES.NUMBER_OF_SEATS')}
-                                                            data-testid='numberOfSeats'
+                                                            id="status"
+                                                            placeholder={t('PRODUCTS.STATUS')}
+                                                            name='status'
+                                                            label={t('PRODUCTS.STATUS')}
+                                                            data-testid='status'
                                                             disabled={inputDisabled}
                                                             required
-                                                            value={values.numberOfSeats ?? ''}
-                                                            onChange={handleChange('numberOfSeats')}
+                                                            value={values.status ?? ''}
+                                                            onChange={handleChange('status')}
                                                             InputProps={{
                                                                 endAdornment: (
                                                                     <InputAdornment position="end">
                                                                         <ClearIcon
                                                                             sx={{color: '#000000', cursor: 'pointer'}}
-                                                                            onClick={() => setValues({...values, numberOfSeats: '' })}
+                                                                            onClick={() => setValues({...values, status: '' })}
                                                                         />
                                                                     </InputAdornment>
                                                                 )
@@ -523,256 +597,10 @@ const CarTypeAddDialog = NiceModal.create(
                                                             }}
                                                         >
                                                             {/*Object.values(genderList).map((gender) => (
-                                                                <MenuItem key={gender.value} value={gender.value}>
-                                                                    {gender.label}
-                                                                </MenuItem>
-                                                            ))*/}
-                                                        </Select>
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('CAR_TYPES.FUEL')} required={true}/>
-                                                    <FormControl>
-                                                        <InputLabel>{t('CAR_TYPES.FUEL')}</InputLabel>
-                                                        <Select
-                                                            id="fuel"
-                                                            placeholder={t('CAR_TYPES.FUEL')}
-                                                            name='fuel'
-                                                            label={t('CAR_TYPES.FUEL')}
-                                                            data-testid='fuel'
-                                                            disabled={inputDisabled}
-                                                            required
-                                                            value={values.fuel ?? ''}
-                                                            onChange={handleChange('fuel')}
-                                                            InputProps={{
-                                                                endAdornment: (
-                                                                    <InputAdornment position="end">
-                                                                        <ClearIcon
-                                                                            sx={{color: '#000000', cursor: 'pointer'}}
-                                                                            onClick={() => setValues({...values, fuel: '' })}
-                                                                        />
-                                                                    </InputAdornment>
-                                                                )
-                                                            }}
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '8px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        >
-                                                            {/*Object.values(genderList).map((gender) => (
-                                                                <MenuItem key={gender.value} value={gender.value}>
-                                                                    {gender.label}
-                                                                </MenuItem>
-                                                            ))*/}
-                                                        </Select>
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('CAR_TYPES.VONTATAS')}/>
-                                                    <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="vontatas"
-                                                            placeholder='Példa Éva'
-                                                            name='vontatas'
-                                                            label={t('CAR_TYPES.VONTATAS')}
-                                                            value={values.vontatas}
-                                                            onChange={handleChange('vontatas')}
-                                                            data-testid='vontatas-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('CAR_TYPES.HEIGHT')}/>
-                                                    <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="height"
-                                                            placeholder='Példa Éva'
-                                                            name='height'
-                                                            label={t('CAR_TYPES.HEIGHT')}
-                                                            value={values.height}
-                                                            onChange={handleChange('height')}
-                                                            data-testid='height-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('CAR_TYPES.SZELESSEG')}/>
-                                                    <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="szelesseg"
-                                                            placeholder='Példa Éva'
-                                                            name='szelesseg'
-                                                            label={t('CAR_TYPES.SZELESSEG')}
-                                                            value={values.szelesseg}
-                                                            onChange={handleChange('szelesseg')}
-                                                            data-testid='szelesseg-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('CAR_TYPES.LONG')}/>
-                                                    <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="long"
-                                                            placeholder='Példa Éva'
-                                                            name='long'
-                                                            label={t('CAR_TYPES.LONG')}
-                                                            value={values.long}
-                                                            onChange={handleChange('long')}
-                                                            data-testid='long-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')} required={true}/>
-                                                    <FormControl>
-                                                        <InputLabel>{t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}</InputLabel>
-                                                        <Select
-                                                            id="carTypeOfTransportationId"
-                                                            placeholder={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
-                                                            name='carTypeOfTransportationId'
-                                                            label={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
-                                                            data-testid='carTypeOfTransportationId'
-                                                            disabled={inputDisabled}
-                                                            required
-                                                            value={values.carTypeOfTransportationId ?? ''}
-                                                            onChange={handleChange('carTypeOfTransportationId')}
-                                                            InputProps={{
-                                                                endAdornment: (
-                                                                    <InputAdornment position="end">
-                                                                        <ClearIcon
-                                                                            sx={{color: '#000000', cursor: 'pointer'}}
-                                                                            onClick={() => setValues({...values, carTypeOfTransportationId: '' })}
-                                                                        />
-                                                                    </InputAdornment>
-                                                                )
-                                                            }}
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '8px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        >
-                                                            {/*Object.values(genderList).map((gender) => (
-                                                                <MenuItem key={gender.value} value={gender.value}>
-                                                                    {gender.label}
-                                                                </MenuItem>
-                                                            ))*/}
+                                                                    <MenuItem key={gender.value} value={gender.value}>
+                                                                        {gender.label}
+                                                                    </MenuItem>
+                                                                ))*/}
                                                         </Select>
                                                     </FormControl>
                                                 </Box>
@@ -786,7 +614,7 @@ const CarTypeAddDialog = NiceModal.create(
                 </DialogContent>
 
                 <DialogActions>
-                <Button
+                    <Button
                         color="error"
                         onClick={() => {
                             modal.reject();
@@ -815,4 +643,4 @@ const CarTypeAddDialog = NiceModal.create(
     }
 );
 
-export default CarTypeAddDialog;
+export default NewProductItemAddDialog;

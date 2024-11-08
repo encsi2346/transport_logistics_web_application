@@ -1,6 +1,6 @@
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
-import {Box, FormControl, Grid, Input, InputAdornment, TextField} from "@mui/material";
+import {Box, Fab, FormControl, Grid, Input, InputAdornment, TextField} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
 import GoodsTypeCard from "../../components/layout/GoodsTypeCard";
 import {useTypeSafeTranslation} from "../../components/inputfield/hooks/useTypeSafeTranslation";
@@ -14,6 +14,7 @@ import ProductCategoryAddDialog from "./ProductCategoryAddDialog";
 import {useForm} from "react-hook-form";
 import {carTypeEditFormSchema, CarTypeEditFormSchema} from "../car-types/schemas/car-type-edit-form-schema";
 import {zodResolver} from "@hookform/resolvers/zod";
+import AddIcon from "@mui/icons-material/Add";
 
 const ProductsCategoryList = () => {
     const { t } = useTypeSafeTranslation();
@@ -53,23 +54,6 @@ const ProductsCategoryList = () => {
         },
     ]);
 
-    const {
-        setValue,
-        formState: { isValid },
-    } = useForm<CarTypeEditFormSchema>({
-        defaultValues: {
-            carTypeName: '',
-            carFunctionalDesign: '',
-            performance: '',
-            ownWeight: '',
-            numberOfSeats: '',
-            fuel: '',
-            usefulWeight: '',
-        },
-        resolver: zodResolver(carTypeEditFormSchema()),
-        mode: 'all',
-    });
-
     const openAddProductCategoryDialog = () => {
         addProductCategoryDialog
             .show({
@@ -94,7 +78,8 @@ const ProductsCategoryList = () => {
         const getStatus = getResponse.status;
         console.log('getProductCategoriesData', getProductCategoriesData);
         console.log('getUserStatus', getStatus);
-        setCategories(getProductCategoriesData);
+        //TODO
+        //setCategories(getProductCategoriesData);
     }
 
     useEffect(() => {
@@ -233,10 +218,6 @@ const ProductsCategoryList = () => {
                                 <SaveButton type='submit' text={t('TEXT.FILTER')}/>
                             </div>
                         </Box>
-                        <Box sx={{display: 'inline', alignItems: 'center', paddingLeft: 20}}>
-                            <SaveButton text={t('PRODUCT_CATEGORIES.NEW_PRODUCT_CATEGORY')}
-                                        onClick={openAddProductCategoryDialog}/>
-                        </Box>
                     </Box>
                 </form>
             </FilterCard>
@@ -263,6 +244,23 @@ const ProductsCategoryList = () => {
                                 );
                             })}
                     </Grid>
+                    <Fab aria-label="add"
+                         onClick={openAddProductCategoryDialog}
+                         sx={{
+                             margin: 0,
+                             top: 'auto',
+                             right: '40px',
+                             bottom: '40px',
+                             left: 'auto',
+                             position: 'fixed',
+                             width: '70px',
+                             height: '70px',
+                             backgroundColor: '#a40500',
+                             color: '#ffffff'
+                         }}
+                    >
+                        <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                    </Fab>
                 </Box>
             </ContentCard>
         </Box>
