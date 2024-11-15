@@ -1,12 +1,34 @@
-import {useEffect, useState} from "react";
-import {useForm} from "react-hook-form";
-import {documentEditFormSchema, DocumentEditFormSchema} from "@/pages/documents/schemas/document-edit-form-schema";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {OrderEditFormSchema, orderEditFormSchema} from "@/pages/orders/schemas/order-edit-form-schema";
+import React, {useEffect, useState} from "react";
+import {useTypeSafeTranslation} from '../../components/inputfield/hooks/useTypeSafeTranslation';
+import {useLocation, useNavigate} from "react-router-dom";
+import {useModal} from "@ebay/nice-modal-react";
+import OrderAddDialog from "./OrderAddDialog";
+import PageHeader from "../../components/text/PageHeader";
+import {Box, Fab, Grid} from "@mui/material";
+import ContentCard from "../../components/layout/ContentCard";
+import AddIcon from "@mui/icons-material/Add";
+import OrderCard from "../../components/layout/OrderCard";
 
 
 const OrderList = () => {
+    const { t } = useTypeSafeTranslation();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const addOrderDialog = useModal(OrderAddDialog);
     const [orderStatusList, setOrderStatusList] = useState([]);
+    const [orders, setOrders] = useState([]);
+
+    const openAddOrderDialog = () => {
+        addOrderDialog
+            .show({
+                title: t('ORDER.ADD_NEW_ORDER'),
+                acceptText: t('TEXT.CREATE'),
+            })
+            .then((value) => {
+                setValue('products', value as string[]);
+            })
+            .catch(() => null);
+    };
 
     const handleOrderStatusList = async () => {
         const getResponse = await fetch(
@@ -32,32 +54,6 @@ const OrderList = () => {
         handleOrderStatusList();
     }, [])
 
-    const {
-        control,
-        setValue,
-        reset,
-        handleSubmit,
-        formState: { isValid },
-    } = useForm<OrderEditFormSchema>({
-        defaultValues: {
-            orderId: '',
-            status: '',
-            company: '',
-            route: [],
-            selectedProducts: [],
-            totalWeightsOfSelectedProducts: null,
-            departurePoint: '',
-            destinationPoint: '',
-            dockingPoints: [],
-            results: '',
-            documents: [],
-            invoice: '',
-            comments: [],
-        },
-        resolver: zodResolver(orderEditFormSchema()),
-        mode: 'all',
-    });
-
     const getOrders = async () => {
         const getResponse = await fetch(
             `http://localhost:3001/api/orders`,
@@ -70,8 +66,12 @@ const OrderList = () => {
         const getStatus = getResponse.status;
         console.log('getOrdersData', getOrdersData);
         console.log('getUserStatus', getStatus);
-        //setCartTypes(getOrdersData);
+        setOrders(getOrdersData);
     }
+
+    useEffect(() => {
+        getOrders();
+    }, []);
 
     const getOrder = async (id: string) => {
         try {
@@ -160,9 +160,45 @@ const OrderList = () => {
     }, []);
 
     return (
-        <div>
-
-        </div>
+        <Box>
+            <PageHeader text={t('ORDERS.ORDERS')}/>
+            <ContentCard>
+                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
+                    <Grid container rowSpacing={3} columnSpacing={-75}>
+                        {orders
+                            .map((item, index) => {
+                                return (
+                                    <Grid item xs={3} key={item.id}>
+                                        <OrderCard
+                                            onClick={() => navigate(`/orders/${item.id}`)}
+                                            id={item.id}
+                                            status={item.status}
+                                            company={item.company}
+                                        />
+                                    </Grid>
+                                );
+                            })}
+                    </Grid>
+                    <Fab aria-label="add"
+                         onClick={openAddOrderDialog}
+                         sx={{
+                             margin: 0,
+                             top: 'auto',
+                             right: '40px',
+                             bottom: '40px',
+                             left: 'auto',
+                             position: 'fixed',
+                             width: '70px',
+                             height: '70px',
+                             backgroundColor: '#a40500',
+                             color: '#ffffff'
+                         }}
+                    >
+                        <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                    </Fab>
+                </Box>
+            </ContentCard>
+        </Box>
     );
 };
 

@@ -227,5 +227,8 @@
   "TYPE_OF_TRANSPORTATION": {
     "TYPE_OF_TRANSPORTATION_NAME": "Szállítási típus neve",
     "ADD_NEW_TYPE_OF_TRANSPORTATION": "Új szállítási típus hozzáadása"
+  },
+  "ORDERS": {
+    "ORDERS": "Megrendelések"
   }
 }

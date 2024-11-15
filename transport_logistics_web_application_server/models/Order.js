@@ -14,8 +14,8 @@ const orderSchema = new mongoose.Schema({
         default: uuidv4,
     },
     status: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "OrderStatus", // Reference to User model for each passenger
+        type: String,
+        enum: Object.values(OrderStatus),
     },
     company: {
         type: mongoose.Schema.Types.ObjectId,

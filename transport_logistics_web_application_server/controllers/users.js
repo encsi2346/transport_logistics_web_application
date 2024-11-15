@@ -163,10 +163,10 @@ export const deleteUser = async (req, res) => {
 };
 
 export const searchUsers = async (req, res) => {
-    const { name, position } = req.query;
+    const { firstName, position } = req.query;
 
     const query = {};
-    if (name) query.fullName = { $regex: name, $options: 'i' };
+    if (firstName) query.firstName = { $regex: firstName, $options: 'i' };
     if (position) query.position = { $regex: position, $options: 'i' };
 
     try {

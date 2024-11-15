@@ -71,7 +71,7 @@ router.get('/api/answers/:id', getAnswer);
  *       400:
  *         description: Bad request.
  */
-router.post('/api/answers/addCar', createAnswer);
+router.post('/api/answers/addAnswer', createAnswer);
 
 /**
  * @swagger

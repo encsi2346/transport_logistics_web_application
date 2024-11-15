@@ -144,7 +144,7 @@ router.delete('/api/users/:id', deleteUser);
  *     description: Returns a list of users filtered by the provided search criteria.
  *     parameters:
  *       - in: query
- *         name: name
+ *         name: firstName
  *         schema:
  *           type: string
  *         required: false
