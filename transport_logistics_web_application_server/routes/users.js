@@ -2,7 +2,7 @@ import express from "express";
 import {
     createUser, deleteUser,
     getAllUsers,
-    getUser, searchUsers, updateUser,
+    getUser, getUserImage, removeUserImage, searchUsers, updateUser, uploadUserImage,
 } from "../controllers/users.js";
 //import { verifyToken} from "../middleware/auth.js";
 
@@ -168,5 +168,78 @@ router.delete('/api/users/:id', deleteUser);
  *         description: Internal server error
  */
 router.get('/api/users/search', searchUsers);
+
+/**
+ * @swagger
+ * /api/users/get-image:
+ *   get:
+ *     summary: Get image of a user.
+ *     tags: [Users]
+ *     description: Retrieve the image of a user based on their userId.
+ *     parameters:
+ *       - in: query
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user whose image to retrieve.
+ *     responses:
+ *       200:
+ *         description: User image retrieved successfully.
+ *       404:
+ *         description: User image not found.
+ */
+router.get("/api/users/get-image", getUserImage);
+
+/**
+ * @swagger
+ * /api/users/upload-image:
+ *   post:
+ *     summary: Upload or update an image for a user.
+ *     tags: [Users]
+ *     description: Upload a new image or update the existing image for a user.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *                 format: base64
+ *     responses:
+ *       200:
+ *         description: Image updated successfully.
+ *       201:
+ *         description: New image uploaded successfully.
+ *       500:
+ *         description: Internal server error.
+ */
+router.get("/api/users/upload-image", uploadUserImage);
+
+/**
+ * @swagger
+ * /api/users/remove-image:
+ *   delete:
+ *     summary: Remove a user's image.
+ *     tags: [Users]
+ *     description: Delete the image associated with a user's userId.
+ *     parameters:
+ *       - in: query
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user whose image to delete.
+ *     responses:
+ *       200:
+ *         description: Image deleted successfully.
+ *       404:
+ *         description: Image not found.
+ */
+router.get("/api/users/remove-image", removeUserImage);
 
 export default router;

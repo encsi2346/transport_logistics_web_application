@@ -21,12 +21,13 @@ import {useNavigate, useParams} from "react-router-dom";
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setMode} from "@/state";
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import ClearIcon from "@mui/icons-material/Clear";
 //import {DatePicker} from "@mui/x-date-pickers";
 import moment from "moment";
+import axios from "axios";
 
 const textStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -48,10 +49,24 @@ interface Props {
     isInputDisabled?: boolean;
 }
 
+function convertToBase64(file){
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+            resolve(fileReader.result)
+        };
+        fileReader.onerror = (error) => {
+            reject(error)
+        }
+    })
+}
+
 const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
     const theme = useTheme();
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
     const [isProfilePage, setIsProfilePage] = useState(true);
@@ -91,6 +106,108 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         picturePath: '',
         images: [],
     });
+    const [image, setImage] = useState({ image : "", userId: user.userId });
+    const [allImage, setAllImage] = useState(null);
+
+    const updateImage = async (newImage) => {
+        try{
+            await axios.post('http://localhost:3001/api/users/update-image', {
+                image: newImage.image,
+                userId: newImage.userId
+            });
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    const handleSubmitImage = (e) => {
+        e.preventDefault();
+        updateImage(image)
+        console.log("Uploaded")
+    }
+
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await convertToBase64(file);
+        console.log(base64)
+        setImage({ ...image, image : base64, userId: user.userId })
+    }
+
+    const deleteImage = async () => {
+        try {
+            // Send a DELETE request with the userId as a query parameter
+            await axios.delete("http://localhost:3001/api/users/delete-image", {
+                params: {
+                    userId: user.userId,
+                },
+            });
+            console.log("Image deleted successfully");
+            setAllImage(null); // Optionally, clear the image state after deletion
+        } catch (error) {
+            alert("Error deleting image. Please try again.");
+            console.error("Error deleting image:", error);
+        }
+    };
+
+    const handleDeleteImage = (e) => {
+        e.preventDefault();
+        deleteImage();
+    };
+
+
+    useEffect(() => {
+        getImage();
+    }, []);
+
+    useEffect(() => {
+        console.log('user', user.userId);
+    }, [user]);
+
+    useEffect(() => {
+        console.log('allimages', allImage);
+    }, [allImage]);
+
+   /* const submitImage = async (e) => {
+        e.preventDefault();
+
+        if (!image) {
+            alert("Please select an image to upload.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("image", image);
+
+        try {
+            await axios.post("http://localhost:3001/api/upload-image", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+            alert("Image uploaded successfully!");
+            getImage(); // Refresh the image list after upload
+        } catch (error) {
+            console.error("Error uploading image:", error);
+            alert("Failed to upload image.");
+        }
+    };
+
+    const onInputChange = (e) => {
+        console.log(e.target.files[0]);
+        setImage(e.target.files[0]);
+    };
+*/
+    const getImage = async () => {
+        try {
+            const response = await axios.get("http://localhost:3001/api/users/get-image", {
+                params: {
+                    userId: user.userId, // Pass userId as a query parameter
+                },
+            });
+            setAllImage(response.data.image);
+        } catch (error) {
+            console.error("Error fetching images:", error);
+        }
+    };
+
 
     const handleChangeLanguage = (event: SelectChangeEvent) => {
         setLanguageValue(event.target.value as string);
@@ -324,10 +441,10 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     return (
         <Box>
-            <form
+            {/*<form
                 autoComplete='off'
                 onSubmit={(e) => handleSubmit(e)}
-            >
+            >*/}
                 <PageHeader text={t('USER.NEW_USER')}/>
                 {/*TODO: különböző formok a backgroundokhoz*/}
                 <BackgroundCard>
@@ -872,10 +989,26 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         >
                                             <Box>
                                                 {/* TODO: Add image picker component */}
-                                                <PhotoLibraryIcon sx={iconStyle}/>
-                                                <Typography sx={textStyle}>
-                                                    {t('USER.UPLOAD_IMAGE')}
-                                                </Typography>
+                                                <form onSubmit={handleSubmitImage}>
+                                                    {/*<PhotoLibraryIcon sx={iconStyle} onChange={onInputChange}/>
+                                                        <Typography sx={textStyle}>
+                                                            {t('USER.UPLOAD_IMAGE')}
+                                                        </Typography>*/}
+                                                    <input
+                                                        type="file"
+                                                        label="Image"
+                                                        name="myFile"
+                                                        id='file-upload'
+                                                        accept='.jpeg, .png, .jpg'
+                                                        onChange={(e) => handleFileUpload(e)}
+                                                    />
+                                                    <img
+                                                        src={allImage !== null ? (image.image || allImage[0]?.image) : ""}
+                                                        alt="" height={100}
+                                                        width={100}/>
+                                                    <button type='submit'>Submit</button>
+                                                </form>
+                                                <button onClick={handleDeleteImage}>Delete Image</button>
                                             </Box>
                                         </Box>
                                     </Grid>
@@ -1404,7 +1537,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                         <SaveButton text={t('TEXT.SAVE')} type='submit'/>
                     </Box>
                 </BackgroundCard>
-            </form>
+            {/*</form>*/}
         </Box>
 );
 };

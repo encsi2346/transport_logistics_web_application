@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         enum: Object.values(ProductStatus), //állapot
     },
-
+    image: String, //kép
 });
 
 const Product = mongoose.model('Product', productSchema);

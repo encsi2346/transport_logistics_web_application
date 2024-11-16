@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import ImageDetails from "../models/ImageDetails.js";
 
 export const getAllUsers = async (req, res) => {
     try {
@@ -28,8 +29,6 @@ export const createUser = async (req, res) => {
             familyName,
             email,
             password,
-            picturePath,
-            images,
             gender,
             nationality,
             birthPlace,
@@ -63,8 +62,6 @@ export const createUser = async (req, res) => {
             familyName,
             email,
             password,
-            picturePath,
-            images,
             gender,
             nationality,
             birthPlace,
@@ -112,8 +109,6 @@ export const updateUser = async (req, res) => {
             user.familyName = req.body.familyName;
             user.email = req.body.email;
             user.password = req.body.password;
-            user.picturePath = req.body.picturePath;
-            user.images = req.body.images;
             user.gender = req.body.gender;
             user.nationality = req.body.nationality;
             user.birthPlace = req.body.birthPlace;
@@ -177,3 +172,96 @@ export const searchUsers = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 }
+
+export const getUserImage = async (req, res) => {
+    /*const { userId } = req.query;
+    try {
+        const images = await User.find({ userId: userId });
+        res.status(200).json({ status: "ok", data: images });
+    } catch (error) {
+        res.json({ status: error });
+    }*/
+    const { userId } = req.query;
+    try {
+        const user = await User.findOne({ userId });
+        if (user && user.image) {
+            res.status(200).json({ status: "ok", image: user.image });
+        } else {
+            res.status(404).json({ status: "error", message: "Image not found for this user." });
+        }
+    } catch (error) {
+        res.status(500).json({ status: "error", message: error.message });
+    }
+};
+
+export const uploadUserImage = async (req, res) => {
+    /*const { image, userId } = req.body;
+
+    try {
+        // Check if an image with this userId already exists
+        const existingImage = await User.findOne({ userId: userId });
+
+        if (existingImage) {
+            // Update the existing image
+            existingImage.image = image;
+            await existingImage.save();
+            res.status(200).json({ msg: "Image updated successfully!" });
+        } else {
+            // Create a new image entry if it doesn't exist
+            const newImage = await User.create({ image, userId });
+            await newImage.save();
+            res.status(201).json({ msg: "New image uploaded successfully!" });
+        }
+    } catch (error) {
+        res.status(500).json({ status: "error", message: error.message });
+    }*/
+    const { image, userId } = req.body;
+
+    try {
+        const user = await User.findOne({ userId });
+
+        if (user) {
+            // Update the existing user's image
+            user.image = image;
+            await user.save();
+            res.status(200).json({ msg: "Image updated successfully!" });
+        } else {
+            res.status(404).json({ status: "error", message: "User not found." });
+        }
+    } catch (error) {
+        res.status(500).json({ status: "error", message: error.message });
+    }
+};
+
+export const removeUserImage = async (req, res) => {
+    /*const { userId } = req.query; // Extract userId from query parameters
+
+    try {
+        // Find and delete the image by userId
+        const deletedImage = await User.findOneAndDelete({ userId: userId });
+
+        if (deletedImage) {
+            res.status(200).json({ msg: "Image deleted successfully!" });
+        } else {
+            res.status(404).json({ msg: "Image not found for this user." });
+        }
+    } catch (error) {
+        res.status(500).json({ status: "error", message: error.message });
+    }*/
+    const { userId } = req.query;
+
+    try {
+        const user = await User.findOne({ userId });
+
+        if (user && user.image) {
+            // Remove the user's image
+            user.image = null; // Set image to null
+            await user.save();
+            res.status(200).json({ msg: "Image removed successfully!" });
+        } else {
+            res.status(404).json({ status: "error", message: "Image not found for this user." });
+        }
+    } catch (error) {
+        res.status(500).json({ status: "error", message: error.message });
+    }
+};

@@ -29,11 +29,7 @@ const UserSchema = new mongoose.Schema({
         required: true,
         min: 5,
     },
-    picturePath: { //TODO:törlés
-        type: String,
-        default: "",
-    },
-    images: [String], //képek
+    image: String, //profilkép
     gender: String, //nem
     nationality: String, //állampolgárság
     birthPlace: String, //születési hely

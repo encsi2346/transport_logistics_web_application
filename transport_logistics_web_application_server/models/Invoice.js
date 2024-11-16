@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import {InvoiceStatus} from "./states/InvoiceStatus.js";
 import {v4 as uuidv4} from "uuid";
-import {DocumentType} from "./enums/DocumentType.js";
 
 const invoiceSchema = new mongoose.Schema({
     invoiceId: {

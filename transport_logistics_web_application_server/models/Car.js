@@ -23,6 +23,7 @@ const carSchema = new mongoose.Schema({
     dateOfLastService: Date, //legutóbbi szervíz időpontja
     totalDrivenKm: Number, //összes megtett km
     totalTransport: Number, //összes végrehajtott szállítás
+    image: String, //kép
 });
 
 const Car = mongoose.model('Car', carSchema);

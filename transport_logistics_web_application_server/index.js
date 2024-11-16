@@ -50,6 +50,8 @@ import selectedProductRoutes from "./routes/selectedProduct.js";
 import serviceRoutes from "./routes/service.js";
 import transportationRoutes from "./routes/transportation.js";
 import carTypeOfTransportationRoutes from "./routes/carTypeOfTransportation.js";
+import ImageDetails from "./models/ImageDetails.js";
+
 
 /*CONFIGURATIONS*/
 const __filename = fileURLToPath(import.meta.url);
@@ -65,16 +67,31 @@ app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));
 app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
 
+const Images = mongoose.model("ImageDetails");
+
 /*FILE STORAGE*/
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "public/assets");
+        cb(null, "../transport_client/src/images");
     },
     filename: function(req, file, cb) {
-        cb(null, file.originalname);
+        const uniqueSuffix = Date.now();
+        cb(null, uniqueSuffix + "-" + file.originalname);
     }
 });
 const upload = multer({ storage });
+
+/*app.post("/api/upload-image", upload.single("image"), async (req, res) => {
+    console.log(req.body);
+    const imageName = req.file.filename;
+
+    try {
+        await Images.create({ image: imageName });
+        res.json({ status: "ok" });
+    } catch (error) {
+        res.json({ status: error });
+    }
+});*/
 
 /*ROUTES WITH FILES*/
 app.post("/auth/register", upload.single("picture"), registration);
