@@ -8,6 +8,7 @@ import {Box, Fab, Grid} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
 import AddIcon from "@mui/icons-material/Add";
 import OrderCard from "../../components/layout/OrderCard";
+import TabComponent from "../../components/layout/TabComponent";
 
 
 const OrderList = () => {
@@ -163,6 +164,9 @@ const OrderList = () => {
         <Box>
             <PageHeader text={t('ORDERS.ORDERS')}/>
             <ContentCard>
+                <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10}}>
+                    <TabComponent />
+                </Box>
                 <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
                     <Grid container rowSpacing={3} columnSpacing={-75}>
                         {orders

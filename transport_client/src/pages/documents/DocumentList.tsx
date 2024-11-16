@@ -18,6 +18,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {useModal} from "@ebay/nice-modal-react";
 import NewRequestAddDialog from "../requests/NewRequestAddDialog";
 import NewDocumentAddDialog from "./NewDocumentAddDialog";
+import TabComponent from "../../components/layout/TabComponent";
 
 const DocumentList = () => {
     const { t } = useTypeSafeTranslation();
@@ -254,107 +255,9 @@ const DocumentList = () => {
     return (
         <Box>
             <PageHeader text={t('DOCUMENTS.DOCUMENTS')}/>
-            <FilterCard>
-                <form
-                    autoComplete='off'
-                    onSubmit={
-                        async (e) => {
-                            e.preventDefault();
-                            submitData();
-                        }}
-                >
-                    <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
-                        <Box sx={{
-                            marginTop: 1,
-                            marginBottom: 5,
-                            marginLeft: 2,
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            gap: 4
-                        }}>
-                            <FormControl>
-                                <TextField
-                                    id="name"
-                                    placeholder='Példa Éva'
-                                    name='name'
-                                    label={t('DOCUMENTS.DOCUMENT_NAME')}
-                                    value={values.name}
-                                    onChange={handleChange('name')}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <SearchIcon sx={{color: '#000000'}}/>
-                                            </InputAdornment>
-                                        ),
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <ClearIcon
-                                                    sx={{color: '#000000', cursor: 'pointer'}}
-                                                    onClick={() => setValues({...values, name: ''})}
-                                                />
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                    sx={{
-                                        backgroundColor: `#ffffff`,
-                                        borderRadius: '18px',
-                                        color: `#000000`,
-                                        textDecoration: 'none',
-                                        height: 40,
-                                        width: 250,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        fontSize: "15px",
-                                        "& fieldset": {border: 'none'},
-                                    }}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <TextField
-                                    id="documentType"
-                                    placeholder='Példa Éva'
-                                    name='documentType'
-                                    label={t('DOCUMENTS.DOCUMENT_TYPE')}
-                                    value={values.documentType}
-                                    onChange={handleChange('documentType')}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <SearchIcon sx={{color: '#000000'}}/>
-                                            </InputAdornment>
-                                        ),
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <ClearIcon
-                                                    sx={{color: '#000000', cursor: 'pointer'}}
-                                                    onClick={() => setValues({...values, documentType: ''})}
-                                                />
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                    sx={{
-                                        backgroundColor: `#ffffff`,
-                                        borderRadius: '18px',
-                                        color: `#000000`,
-                                        textDecoration: 'none',
-                                        height: 40,
-                                        width: 250,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        fontSize: "15px",
-                                        "& fieldset": {border: 'none'},
-                                    }}
-                                />
-                            </FormControl>
-                            <div style={{display: 'flex', alignItems: 'center'}}>
-                                <SaveButton onClick={onReset} text={t('TEXT.CLEAR_FILTER')}/>
-                                <SaveButton type='submit' text={t('TEXT.FILTER')}/>
-                            </div>
-                        </Box>
-                    </Box>
-                </form>
-            </FilterCard>
+            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10}}>
+                <TabComponent />
+            </Box>
 
             <ContentCard>
             <Box sx={{display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>

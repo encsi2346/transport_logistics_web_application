@@ -56,8 +56,6 @@ const OrderCard = ({ onClick, id, status, company }: Props) => {
                 borderColor: "#A3A3A3",
                 marginRight: '60px',
                 marginBottom: '40px',
-                paddingBottom: '5px',
-                paddingRight: '5px',
                 boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
                 cursor: 'pointer',
                 display: 'flex',
@@ -154,7 +152,6 @@ const OrderCard = ({ onClick, id, status, company }: Props) => {
                 width: '500px',
                 paddingLeft: '35px',
                 paddingTop: '30px',
-                paddingBottom: '30px',
                 paddingRight: '15px',
                 backgroundColor: '#F9F9F9',
                 borderRadius: '0 19px 19px 0'
