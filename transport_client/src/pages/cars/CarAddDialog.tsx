@@ -19,6 +19,11 @@ import NormalText from "../../components/text/NormalText";
 import React, {useState} from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import Headline from "../../components/text/Headline";
+import DatePicker from "react-datepicker";
+import moment from "moment/moment";
+
+import "react-datepicker/dist/react-datepicker.css";
+import "./CarAddDialog.css";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -193,6 +198,11 @@ const NewCarAddDialog = NiceModal.create(
 
         const handleChange = (prop: any) => (event: any) => {
             setValues({...values, [prop]: event.target.value });
+        };
+
+        const handleDateChange = (prop: any) => (date: any) => {
+            const value = date ? moment(date).toISOString() : null;
+            setValues({ ...values, [prop]: value as string });
         };
 
         return (
@@ -966,27 +976,14 @@ const NewCarAddDialog = NiceModal.create(
                                                 }}>
                                                     <NormalText text={t('CAR.NUMBER_OF_REGISTRATION_LICENCE')}/>
                                                     <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="numberOfRegistrationLicence"
-                                                            placeholder='Példa Éva'
+                                                        <DatePicker
                                                             name='numberOfRegistrationLicence'
-                                                            label={t('CAR.NUMBER_OF_REGISTRATION_LICENCE')}
-                                                            value={values.numberOfRegistrationLicence}
-                                                            onChange={handleChange('numberOfRegistrationLicence')}
                                                             data-testid='number-of-registration-licence-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
+                                                            //disabled={inputDisabled}
+                                                            value={values.numberOfRegistrationLicence}
+                                                            onChange={handleDateChange('numberOfRegistrationLicence')}
+                                                            //dateFormat="dd/MM/yyyy"
+                                                            className={'date-picker-class'}
                                                         />
                                                     </FormControl>
                                                 </Box>
@@ -1072,61 +1069,14 @@ const NewCarAddDialog = NiceModal.create(
                                                 }}>
                                                     <NormalText text={t('CAR.DATE_OF_FIRST_REGISTRATION')} required={true}/>
                                                     <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="dateOfFirstRegistration"
-                                                            placeholder='Példa Éva'
+                                                        <DatePicker
                                                             name='dateOfFirstRegistration'
-                                                            label={t('CAR.DATE_OF_FIRST_REGISTRATION')}
-                                                            value={values.dateOfFirstRegistration}
-                                                            onChange={handleChange('dateOfFirstRegistration')}
                                                             data-testid='date-of-first-registration-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('CAR.IMAGES')}/>
-                                                    <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="images"
-                                                            placeholder='images Éva'
-                                                            name='images'
-                                                            label={t('CAR.IMAGES')}
-                                                            value={values.images}
-                                                            onChange={handleChange('images')}
-                                                            data-testid='images-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
+                                                            //disabled={inputDisabled}
+                                                            value={values.dateOfFirstRegistration}
+                                                            onChange={handleDateChange('dateOfFirstRegistration')}
+                                                            //dateFormat="dd/MM/yyyy"
+                                                            className={'date-picker-class'}
                                                         />
                                                     </FormControl>
                                                 </Box>
@@ -1142,27 +1092,14 @@ const NewCarAddDialog = NiceModal.create(
                                                 }}>
                                                     <NormalText text={t('CAR.DATE_OF_DATABASE_REGISTRATION')} required={true}/>
                                                     <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="dateOfDatabaseRegistration"
-                                                            placeholder='Példa Éva'
+                                                        <DatePicker
                                                             name='dateOfDatabaseRegistration'
-                                                            label={t('CAR.DATE_OF_DATABASE_REGISTRATION')}
-                                                            value={values.dateOfDatabaseRegistration}
-                                                            onChange={handleChange('dateOfDatabaseRegistration')}
                                                             data-testid='date-of-database-registration-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
+                                                            //disabled={inputDisabled}
+                                                            value={values.dateOfDatabaseRegistration}
+                                                            onChange={handleDateChange('dateOfDatabaseRegistration')}
+                                                            //dateFormat="dd/MM/yyyy"
+                                                            className={'date-picker-class'}
                                                         />
                                                     </FormControl>
                                                 </Box>
@@ -1176,27 +1113,14 @@ const NewCarAddDialog = NiceModal.create(
                                                 }}>
                                                     <NormalText text={t('CAR.DATE_OF_LAST_TECHNICAL_EXAMINATION')}/>
                                                     <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="dateOfLastTechnicalExamination"
-                                                            placeholder='Példa Éva'
+                                                        <DatePicker
                                                             name='dateOfLastTechnicalExamination'
-                                                            label={t('CAR.DATE_OF_LAST_TECHNICAL_EXAMINATION')}
-                                                            value={values.dateOfLastTechnicalExamination}
-                                                            onChange={handleChange('dateOfLastTechnicalExamination')}
                                                             data-testid='date-of-last-technical-examination-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
+                                                            //disabled={inputDisabled}
+                                                            value={values.dateOfLastTechnicalExamination}
+                                                            onChange={handleDateChange('dateOfLastTechnicalExamination')}
+                                                            //dateFormat="dd/MM/yyyy"
+                                                            className={'date-picker-class'}
                                                         />
                                                     </FormControl>
                                                 </Box>
@@ -1212,27 +1136,14 @@ const NewCarAddDialog = NiceModal.create(
                                                 }}>
                                                     <NormalText text={t('CAR.DATE_OF_LAST_SERVICE')} required={true}/>
                                                     <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="dateOfLastService"
-                                                            placeholder='Példa Éva'
+                                                        <DatePicker
                                                             name='dateOfLastService'
-                                                            label={t('CAR.DATE_OF_LAST_SERVICE')}
-                                                            value={values.dateOfLastService}
-                                                            onChange={handleChange('dateOfLastService')}
                                                             data-testid='date-of-last-service-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
+                                                            //disabled={inputDisabled}
+                                                            value={values.dateOfLastService}
+                                                            onChange={handleDateChange('dateOfLastService')}
+                                                            //dateFormat="dd/MM/yyyy"
+                                                            className={'date-picker-class'}
                                                         />
                                                     </FormControl>
                                                 </Box>

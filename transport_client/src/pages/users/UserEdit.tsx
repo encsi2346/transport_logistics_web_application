@@ -28,6 +28,10 @@ import ClearIcon from "@mui/icons-material/Clear";
 //import {DatePicker} from "@mui/x-date-pickers";
 import moment from "moment";
 import axios from "axios";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import "./Users.css";
 
 const textStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -108,6 +112,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     });
     const [image, setImage] = useState({ image : "", userId: user.userId, carId: null, productId: null });
     const [allImage, setAllImage] = useState(null);
+    const [startDate, setStartDate] = useState(new Date());
 
     //TODO: create separate image handdling by entities
     /*const getImage = async () => {
@@ -436,9 +441,13 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     };
 
     const handleDateChange = (prop: any) => (date: any) => {
-        const value = date ? moment(date).hour(0).minute(0).toISOString() : null;
+        const value = date ? moment(date).toISOString() : null;
         setValues({ ...values, [prop]: value as string });
     };
+
+    useEffect(() => {
+        console.log('birthDate', values.birthDate);
+    }, [values.birthDate]);
 
     return (
         <Box>
@@ -714,15 +723,15 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         }}>
                                             <NormalText text={t('USER.BIRTH_DATE')} required={true}/>
                                             <FormControl required>
-                                                {/*<DatePicker
+                                                <DatePicker
                                                     name='birthDate'
                                                     data-testid='birth-date-input'
-                                                    disabled={inputDisabled}
+                                                    //disabled={inputDisabled}
                                                     value={values.birthDate}
                                                     onChange={handleDateChange('birthDate')}
-                                                    onPointerEnterCapture={undefined}
-                                                    onPointerLeaveCapture={undefined}
-                                                />*/}
+                                                    //dateFormat="dd/MM/yyyy"
+                                                    className={'date-picker-class'}
+                                                />
                                             </FormControl>
                                         </Box>
                                     </Grid>
@@ -769,15 +778,15 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         }}>
                                             <NormalText text={t('USER.VALIDITY_DATE_OF_ID_CARD')} required={true}/>
                                             <FormControl required>
-                                                {/*<DatePicker
+                                                <DatePicker
                                                     name='validityDateOfIDCard'
                                                     data-testid='validity-date-of-id-card-input'
-                                                    disabled={inputDisabled}
+                                                    //disabled={inputDisabled}
                                                     value={values.validityDateOfIDCard}
                                                     onChange={handleDateChange('validityDateOfIDCard')}
-                                                    onPointerEnterCapture={undefined}
-                                                    onPointerLeaveCapture={undefined}
-                                                />*/}
+                                                    //dateFormat="dd/MM/yyyy"
+                                                    className={'date-picker-class'}
+                                                />
                                             </FormControl>
                                         </Box>
                                     </Grid>
@@ -883,15 +892,15 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                             <NormalText text={t('USER.VALIDITY_DATE_OF_DRIVING_LICENCE')}
                                                         required={true}/>
                                             <FormControl required>
-                                                {/*<DatePicker
+                                                <DatePicker
                                                     name='validityDateOfDrivingLicence'
                                                     data-testid='validity-date-of-driving-licence-input'
-                                                    disabled={inputDisabled}
+                                                    //disabled={inputDisabled}
                                                     value={values.validityDateOfDrivingLicence}
                                                     onChange={handleDateChange('validityDateOfDrivingLicence')}
-                                                    onPointerEnterCapture={undefined}
-                                                    onPointerLeaveCapture={undefined}
-                                                />*/}
+                                                    //dateFormat="dd/MM/yyyy"
+                                                    className={'date-picker-class'}
+                                                />
                                             </FormControl>
                                         </Box>
                                     </Grid>
@@ -904,15 +913,15 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         }}>
                                             <NormalText text={t('USER.DATE_OF_MEDICAL_VISIT')} required={true}/>
                                             <FormControl required>
-                                                {/*<DatePicker
+                                                <DatePicker
                                                     name='dateOfMedicalVisit'
                                                     data-testid='date-of-medical-visit-input'
-                                                    disabled={inputDisabled}
+                                                    //disabled={inputDisabled}
                                                     value={values.dateOfMedicalVisit}
                                                     onChange={handleDateChange('dateOfMedicalVisit')}
-                                                    onPointerEnterCapture={undefined}
-                                                    onPointerLeaveCapture={undefined}
-                                                />*/}
+                                                    //dateFormat="dd/MM/yyyy"
+                                                    className={'date-picker-class'}
+                                                />
                                             </FormControl>
                                         </Box>
                                     </Grid>
@@ -1333,15 +1342,15 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         }}>
                                             <NormalText text={t('USER.DATE_OF_REGISTRATION')} required={true}/>
                                             <FormControl required>
-                                                {/*<DatePicker
+                                                <DatePicker
                                                     name='dateOfRegistration'
                                                     data-testid='date-of-registration-input'
-                                                    disabled={inputDisabled}
+                                                    //disabled={inputDisabled}
                                                     value={values.dateOfRegistration}
                                                     onChange={handleDateChange('dateOfRegistration')}
-                                                    onPointerEnterCapture={undefined}
-                                                    onPointerLeaveCapture={undefined}
-                                                />*/}
+                                                    //dateFormat="dd/MM/yyyy"
+                                                    className={'date-picker-class'}
+                                                />
                                             </FormControl>
                                         </Box>
                                     </Grid>
@@ -1354,15 +1363,15 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         }}>
                                             <NormalText text={t('USER.START_DATE_OF_CONTRACT')} required={true}/>
                                             <FormControl required>
-                                                {/*<DatePicker
+                                                <DatePicker
                                                     name='startDateOfContract'
                                                     data-testid='start-date-of-contract-input'
-                                                    disabled={inputDisabled}
+                                                    //disabled={inputDisabled}
                                                     value={values.startDateOfContract}
                                                     onChange={handleDateChange('startDateOfContract')}
-                                                    onPointerEnterCapture={undefined}
-                                                    onPointerLeaveCapture={undefined}
-                                                />*/}
+                                                    //dateFormat="dd/MM/yyyy"
+                                                    className={'date-picker-class'}
+                                                />
                                             </FormControl>
                                         </Box>
                                     </Grid>
@@ -1375,15 +1384,15 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                         }}>
                                             <NormalText text={t('USER.END_DATE_OF_CONTRACT')} required={false}/>
                                             <FormControl required>
-                                                {/*<DatePicker
+                                                <DatePicker
                                                     name='endDateOfContract'
                                                     data-testid='end-date-of-contract-input'
-                                                    disabled={inputDisabled}
+                                                    //disabled={inputDisabled}
                                                     value={values.endDateOfContract}
                                                     onChange={handleDateChange('endDateOfContract')}
-                                                    onPointerEnterCapture={undefined}
-                                                    onPointerLeaveCapture={undefined}
-                                                />*/}
+                                                    //dateFormat="dd/MM/yyyy"
+                                                    className={'date-picker-class'}
+                                                />
                                             </FormControl>
                                         </Box>
                                     </Grid>

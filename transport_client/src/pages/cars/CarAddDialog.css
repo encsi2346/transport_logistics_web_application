@@ -1,0 +1,30 @@
+.react-datepicker-ignore-onclickoutside {
+    border: none;
+    border-radius: 8px;
+    background-color: var(#ffffff);
+    color: #000000;
+    text-decoration: none;
+    height: 40px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    padding-left: 15px;
+"& fieldset": {border: none};
+}
+
+
+.date-picker-class {
+    border: none;
+    border-radius: 8px;
+    background-color: var(#ffffff);
+    color: #000000;
+    text-decoration: none;
+    height: 40px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    padding-left: 15px;
+"& fieldset": {border: none};
+}

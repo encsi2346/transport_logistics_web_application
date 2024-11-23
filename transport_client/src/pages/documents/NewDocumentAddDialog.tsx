@@ -22,7 +22,11 @@ import DataCard from "../../components/layout/DataCard";
 import React, {useEffect, useState} from "react";
 import NormalText from "../../components/text/NormalText";
 import ClearIcon from "@mui/icons-material/Clear";
+import DatePicker from "react-datepicker";
+import moment from "moment/moment";
 
+import "react-datepicker/dist/react-datepicker.css";
+import "./NewDocumentAddDialog.css";
 
 function convertToBase64(file){
     return new Promise((resolve, reject) => {
@@ -264,6 +268,11 @@ const NewDocumentAddDialog = NiceModal.create(
             setValues({...values, title : base64 });
         }
 
+        const handleDateChange = (prop: any) => (date: any) => {
+            const value = date ? moment(date).toISOString() : null;
+            setValues({ ...values, [prop]: value as string });
+        };
+
         return (
             <Dialog
                 {...muiDialogV5(modal)}
@@ -396,27 +405,14 @@ const NewDocumentAddDialog = NiceModal.create(
                                                 }}>
                                                     <NormalText text={t('DOCUMENTS.TIMESTAMP')} required={true}/>
                                                     <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="timeStamp"
-                                                            placeholder='Példa Éva'
+                                                        <DatePicker
                                                             name='timeStamp'
-                                                            label={t('DOCUMENTS.TIMESTAMP')}
-                                                            value={values.timeStamp}
-                                                            onChange={handleChange('timeStamp')}
                                                             data-testid='timestamp-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
+                                                            //disabled={inputDisabled}
+                                                            value={values.timeStamp}
+                                                            onChange={handleDateChange('timeStamp')}
+                                                            //dateFormat="dd/MM/yyyy"
+                                                            className={'date-picker-class'}
                                                         />
                                                     </FormControl>
                                                 </Box>
