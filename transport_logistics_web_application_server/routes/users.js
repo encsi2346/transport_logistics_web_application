@@ -169,6 +169,7 @@ router.delete('/api/users/:id', deleteUser);
  */
 router.get('/api/users/search', searchUsers);
 
+//TODO
 /**
  * @swagger
  * /api/users/get-image:
@@ -191,6 +192,7 @@ router.get('/api/users/search', searchUsers);
  */
 router.get("/api/users/get-image", getUserImage);
 
+//TODO
 /**
  * @swagger
  * /api/users/upload-image:
@@ -218,8 +220,9 @@ router.get("/api/users/get-image", getUserImage);
  *       500:
  *         description: Internal server error.
  */
-router.get("/api/users/upload-image", uploadUserImage);
+router.post("/api/users/upload-image", uploadUserImage);
 
+//TODO
 /**
  * @swagger
  * /api/users/remove-image:
@@ -240,6 +243,6 @@ router.get("/api/users/upload-image", uploadUserImage);
  *       404:
  *         description: Image not found.
  */
-router.get("/api/users/remove-image", removeUserImage);
+router.delete("/api/users/remove-image", removeUserImage);
 
 export default router;

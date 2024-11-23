@@ -25,6 +25,20 @@ import DataCard from "@/components/layout/DataCard";
 import NormalText from "../../components/text/NormalText";
 import React, {useEffect, useState} from "react";
 import ClearIcon from "@mui/icons-material/Clear";
+import axios from 'axios';
+
+function convertToBase64(file){
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+            resolve(fileReader.result)
+        };
+        fileReader.onerror = (error) => {
+            reject(error)
+        }
+    })
+}
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -96,6 +110,8 @@ const NewProductItemAddDialog = NiceModal.create(
             szazalek: '',
             status: '',
         });
+        const [image, setImage] = useState({ image : "", userId: null, carId: null, productId: id });
+        const [allImage, setAllImage] = useState(null);
 
         const handleProductStatusList = async () => {
             const getResponse = await fetch(
@@ -222,6 +238,76 @@ const NewProductItemAddDialog = NiceModal.create(
         const handleChange = (prop: any) => (event: any) => {
             setValues({...values, [prop]: event.target.value });
         };
+
+
+        //TODO: common image handling
+        const getImage = async () => {
+            try {
+                const response = await axios.get("http://localhost:3001/api/get-image", {
+                    params: {
+                        productId: id, // Pass userId as a query parameter
+                    },
+                });
+                setAllImage(response.data.data);
+            } catch (error) {
+                console.error("Error fetching images:", error);
+            }
+        };
+
+        const updateImage = async (updatedImage) => {
+            try {
+                await axios.put('http://localhost:3001/api/update-image', updatedImage);
+                console.log("Image updated successfully");
+            } catch (error) {
+                console.error("Error updating image:", error);
+            }
+        };
+
+        const deleteImage = async () => {
+            try {
+                // Send a DELETE request with the userId as a query parameter
+                await axios.delete("http://localhost:3001/api/delete-image", {
+                    params: {
+                        productId: id,
+                    },
+                });
+                console.log("Image deleted successfully");
+                setAllImage(null); // Optionally, clear the image state after deletion
+            } catch (error) {
+                console.error("Error deleting image:", error);
+            }
+        };
+
+        const handleSubmitImage = (e) => {
+            e.preventDefault();
+            updateImage(image);
+            console.log("Uploaded");
+        }
+
+        const handleFileUpload = async (e) => {
+            const file = e.target.files[0];
+            const base64 = await convertToBase64(file);
+            console.log(base64);
+            setImage({ ...image, image : base64, productId: id });
+        }
+
+        const handleDeleteImage = (e) => {
+            e.preventDefault();
+            deleteImage();
+        };
+
+
+        useEffect(() => {
+            getImage();
+        }, []);
+
+        useEffect(() => {
+            console.log('product', id);
+        }, [id]);
+
+        useEffect(() => {
+            console.log('allimages', allImage);
+        }, [allImage]);
 
         return (
             <Dialog
@@ -609,6 +695,47 @@ const NewProductItemAddDialog = NiceModal.create(
                                     </Grid>
                                 </DataCard>
                             </form>
+
+                            <Grid container direction="column" spacing={2}>
+                                <Grid item>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            backgroundColor: '#ffffff',
+                                            width: 250,
+                                            height: 250,
+                                            borderRadius: 4,
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        <Box>
+                                            {/* TODO: Add image picker component */}
+                                            <form onSubmit={handleSubmitImage}>
+                                                {/*<PhotoLibraryIcon sx={iconStyle} onChange={onInputChange}/>
+                                                        <Typography sx={textStyle}>
+                                                            {t('USER.UPLOAD_IMAGE')}
+                                                        </Typography>*/}
+                                                <input
+                                                    type="file"
+                                                    label="Image"
+                                                    name="myFile"
+                                                    id='file-upload'
+                                                    accept='.jpeg, .png, .jpg'
+                                                    onChange={(e) => handleFileUpload(e)}
+                                                />
+                                                <img
+                                                    src={allImage !== null ? (image.image || allImage[0]?.image) : ""}
+                                                    alt="" height={100}
+                                                    width={100}/>
+                                                <button type='submit'>Submit</button>
+                                            </form>
+                                            <button onClick={handleDeleteImage}>Delete Image</button>
+                                        </Box>
+                                    </Box>
+                                </Grid>
+                            </Grid>
                         </BackgroundCard>
                     </Box>
                 </DialogContent>

@@ -8,7 +8,17 @@ const ImageDetailsSchema = new mongoose.Schema({
         userId: {
             type: String,
             default: uuidv4,
-            required: true,
+            //required: true,
+        },
+        carId: {
+            type: String,
+            default: uuidv4,
+            //required: true,
+        },
+        productId: {
+            type: String,
+            default: uuidv4,
+            //required: true,
         },
     },
     {

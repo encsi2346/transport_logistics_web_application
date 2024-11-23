@@ -104,34 +104,36 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         lineManager: '',
         healthProblem: '',
         picturePath: '',
-        images: [],
+        image: null,
     });
-    const [image, setImage] = useState({ image : "", userId: user.userId });
+    const [image, setImage] = useState({ image : "", userId: user.userId, carId: null, productId: null });
     const [allImage, setAllImage] = useState(null);
 
+    //TODO: create separate image handdling by entities
+    /*const getImage = async () => {
+        try {
+            const response = await axios.get("http://localhost:3001/api/users/get-image", {
+                params: {
+                    userId: user.userId, // Pass userId as a query parameter
+                },
+            });
+            setAllImage(response.data.image);
+        } catch (error) {
+            console.error("Error fetching images:", error);
+        }
+    };
+
+
     const updateImage = async (newImage) => {
-        try{
+        try {
             await axios.post('http://localhost:3001/api/users/update-image', {
                 image: newImage.image,
                 userId: newImage.userId
             });
-        }catch(error){
+        } catch(error){
             console.log(error)
         }
-    }
-
-    const handleSubmitImage = (e) => {
-        e.preventDefault();
-        updateImage(image)
-        console.log("Uploaded")
-    }
-
-    const handleFileUpload = async (e) => {
-        const file = e.target.files[0];
-        const base64 = await convertToBase64(file);
-        console.log(base64)
-        setImage({ ...image, image : base64, userId: user.userId })
-    }
+    };
 
     const deleteImage = async () => {
         try {
@@ -142,12 +144,67 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                 },
             });
             console.log("Image deleted successfully");
+            alert("Image deleted successfully!");
             setAllImage(null); // Optionally, clear the image state after deletion
         } catch (error) {
             alert("Error deleting image. Please try again.");
             console.error("Error deleting image:", error);
         }
+    };*/
+
+
+    //TODO: common image handling
+    const getImage = async () => {
+        try {
+            const response = await axios.get("http://localhost:3001/api/get-image", {
+                params: {
+                    userId: user.userId, // Pass userId as a query parameter
+                },
+            });
+            setAllImage(response.data.data);
+        } catch (error) {
+            console.error("Error fetching images:", error);
+        }
     };
+
+    const updateImage = async (updatedImage) => {
+        try {
+            await axios.put('http://localhost:3001/api/update-image', updatedImage);
+            console.log("Image updated successfully");
+        } catch (error) {
+            console.error("Error updating image:", error);
+        }
+    };
+
+    const deleteImage = async () => {
+        try {
+            // Send a DELETE request with the userId as a query parameter
+            await axios.delete("http://localhost:3001/api/delete-image", {
+                params: {
+                    userId: user.userId,
+                },
+            });
+            console.log("Image deleted successfully");
+            setAllImage(null); // Optionally, clear the image state after deletion
+        } catch (error) {
+            console.error("Error deleting image:", error);
+        }
+    };
+
+
+
+    const handleSubmitImage = (e) => {
+        e.preventDefault();
+        updateImage(image);
+        console.log("Uploaded");
+    }
+
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await convertToBase64(file);
+        console.log(base64);
+        setImage({ ...image, image : base64, userId: user.userId });
+    }
 
     const handleDeleteImage = (e) => {
         e.preventDefault();
@@ -195,19 +252,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         setImage(e.target.files[0]);
     };
 */
-    const getImage = async () => {
-        try {
-            const response = await axios.get("http://localhost:3001/api/users/get-image", {
-                params: {
-                    userId: user.userId, // Pass userId as a query parameter
-                },
-            });
-            setAllImage(response.data.image);
-        } catch (error) {
-            console.error("Error fetching images:", error);
-        }
-    };
-
 
     const handleChangeLanguage = (event: SelectChangeEvent) => {
         setLanguageValue(event.target.value as string);
@@ -277,49 +321,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     useEffect(() => {
         handleGenderList();
     }, []);
-
-    /*const {
-        control,
-        setValue,
-        reset,
-        handleSubmit,
-        formState: { isValid },
-    } = useForm<UserEditFormSchema>({
-        defaultValues: {
-            userId: '',
-            familyName: '',
-            firstName: '',
-            gender: 'male',
-            nationality: '',
-            birthPlace: '',
-            birthDate: '',
-            IDCardNumber: '',
-            validityDateOfIDCard: '',
-            drivingLicenceNumber: '',
-            drivingLicenceCategories: 'A',
-            validityDateOfDrivingLicence: '',
-            dateOfMedicalVisit: '',
-            medicalVisitStatus: '',
-            email: '',
-            phoneNumber: null,
-            country: '',
-            postcode: null,
-            city: '',
-            nameOfPublicArea: '',
-            typeOfPublicArea: '',
-            houseNumber: null,
-            dateOfRegistration: '',
-            startDateOfContract: '',
-            endDateOfContract: '',
-            position: '',
-            lineManager: '',
-            healthProblem: '',
-            picturePath: '',
-            images: [],
-        },
-        resolver: zodResolver(userEditFormSchema(isEditing)),
-        mode: 'all',
-    });*/
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();

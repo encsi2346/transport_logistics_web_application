@@ -13,7 +13,8 @@ export const getDocument = async (req, res) => {
     try {
         const { id } = req.params;
         const document = await Document.findById(id);
-        res.status(200).json(document);
+        //res.status(200).json(document);
+        res.status(200).json({ status: "ok", data: document });
     } catch (err) {
         res.status(404).json({ message: err.message });
     }

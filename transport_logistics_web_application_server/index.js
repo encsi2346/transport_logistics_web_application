@@ -155,6 +155,61 @@ app.get('/', (req, resp) => {
     resp.send('Welcome to mongodb API')
 })
 
+//TODO: shared image handling functions
+app.get("/api/get-image", async (req, res) => {
+    const { userId } = req.query; // Extract userId from query parameters
+    try {
+        // Find images where the userId matches the provided userId
+        const images = await ImageDetails.find({ userId: userId });
+        res.status(200).json({ status: "ok", data: images });
+    } catch (error) {
+        res.status(500).json({ status: "error", message: error.message });
+    }
+});
+
+app.put("/api/update-image", async (req, res) => {
+    const { image, userId } = req.body;
+
+    try {
+        // Check if an image with this userId already exists
+        const existingImage = await ImageDetails.findOne({ userId: userId });
+
+        if (existingImage) {
+            // Update the existing image
+            existingImage.image = image;
+            await existingImage.save();
+            res.status(200).json({ msg: "Image updated successfully!" });
+        } else {
+            // Create a new image entry if it doesn't exist
+            const newImage = await ImageDetails.create({ image, userId });
+            await newImage.save();
+            res.status(201).json({ msg: "New image uploaded successfully!" });
+        }
+    } catch (error) {
+        res.status(500).json({ status: "error", message: error.message });
+    }
+});
+
+app.delete("/api/delete-image", async (req, res) => {
+    const { userId } = req.query; // Extract userId from query parameters
+
+    try {
+        // Find and delete the image by userId
+        const deletedImage = await ImageDetails.findOneAndDelete({ userId: userId });
+
+        if (deletedImage) {
+            res.status(200).json({ msg: "Image deleted successfully!" });
+        } else {
+            res.status(404).json({ msg: "Image not found for this user." });
+        }
+    } catch (error) {
+        res.status(500).json({ status: "error", message: error.message });
+    }
+});
+
+
+
+
 /*const multer = require('multer');
 const fs = require('fs');
 const { User, VerificationScore } = require('./VerificationScore');

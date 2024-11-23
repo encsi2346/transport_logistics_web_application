@@ -12,9 +12,9 @@ const documentSchema = new mongoose.Schema({
         type: String,
         enum: Object.values(DocumentType), //dokumentum típus
     },
-    title: String, //dokumentum neve
+    title: String, //dokumentum neve -- ez lesz a feltöltött valami
     timeStamp: String, //létrehozás dátuma
-    status:{
+    status: {
         type: String,
         enum: Object.values(DocumentStatus), //állapot
     },

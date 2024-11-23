@@ -173,6 +173,7 @@ export const searchUsers = async (req, res) => {
     }
 }
 
+//TODO: separate the image handling by entities
 export const getUserImage = async (req, res) => {
     /*const { userId } = req.query;
     try {
@@ -183,19 +184,20 @@ export const getUserImage = async (req, res) => {
     }*/
     const { userId } = req.query;
     try {
-        const user = await User.findOne({ userId });
-        if (user && user.image) {
+        const user = await User.find({ userId });
+       // if (user /*&& user.image*/) {
             res.status(200).json({ status: "ok", image: user.image });
-        } else {
-            res.status(404).json({ status: "error", message: "Image not found for this user." });
-        }
+        //} else {
+        //    res.status(404).json({ status: "error", message: "Image not found for this user." });
+        //}
     } catch (error) {
         res.status(500).json({ status: "error", message: error.message });
     }
 };
 
+//TODO
 export const uploadUserImage = async (req, res) => {
-    /*const { image, userId } = req.body;
+    const { image, userId } = req.body;
 
     try {
         // Check if an image with this userId already exists
@@ -214,8 +216,8 @@ export const uploadUserImage = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ status: "error", message: error.message });
-    }*/
-    const { image, userId } = req.body;
+    }
+    /*const { image, userId } = req.body;
 
     try {
         const user = await User.findOne({ userId });
@@ -230,11 +232,12 @@ export const uploadUserImage = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ status: "error", message: error.message });
-    }
+    }*/
 };
 
+//TODO
 export const removeUserImage = async (req, res) => {
-    /*const { userId } = req.query; // Extract userId from query parameters
+    const { userId } = req.query; // Extract userId from query parameters
 
     try {
         // Find and delete the image by userId
@@ -247,13 +250,13 @@ export const removeUserImage = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ status: "error", message: error.message });
-    }*/
-    const { userId } = req.query;
+    }
+    /*const { userId } = req.query;
 
     try {
         const user = await User.findOne({ userId });
 
-        if (user && user.image) {
+        if (user) {
             // Remove the user's image
             user.image = null; // Set image to null
             await user.save();
@@ -263,5 +266,5 @@ export const removeUserImage = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ status: "error", message: error.message });
-    }
+    }*/
 };

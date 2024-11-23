@@ -4,15 +4,29 @@ import {
 } from "@mui/material";
 import CancelButton from "../../../components/button/CancelButton";
 import SaveButton from "../../../components/button/SaveButton";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import NormalText from "../../../components/text/NormalText";
 import {useNavigate, useParams} from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {carEditFormSchema, CarEditFormSchema} from "../schemas/car-edit-form-schema";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
+import axios from "axios";
+
+function convertToBase64(file){
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+            resolve(fileReader.result)
+        };
+        fileReader.onerror = (error) => {
+            reject(error)
+        }
+    })
+}
 
 const textStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -52,9 +66,13 @@ const CarTabData = ({ isEditing = false, isInputDisabled }: Props) => {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    //const car = useSelector((state) => state.car);
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
     const [isProfilePage, setIsProfilePage] = useState(true);
     const [t, i18n] = useTranslation();
+    const [image, setImage] = useState({ image : "", userId: null, carId: id, productId: null });
+    const [allImage, setAllImage] = useState(null);
+
 
     const {
         control,
@@ -76,6 +94,78 @@ const CarTabData = ({ isEditing = false, isInputDisabled }: Props) => {
     const handleEditClicked = () => {
         setInputDisabled(!inputDisabled);
     };
+
+    //TODO: common image handling
+    const getImage = async () => {
+        try {
+            const response = await axios.get("http://localhost:3001/api/get-image", {
+                params: {
+                    carId: id, // Pass userId as a query parameter
+                },
+            });
+            setAllImage(response.data.data);
+        } catch (error) {
+            console.error("Error fetching images:", error);
+        }
+    };
+
+    const updateImage = async (updatedImage) => {
+        try {
+            await axios.put('http://localhost:3001/api/update-image', updatedImage);
+            console.log("Image updated successfully");
+        } catch (error) {
+            console.error("Error updating image:", error);
+        }
+    };
+
+    const deleteImage = async () => {
+        try {
+            // Send a DELETE request with the userId as a query parameter
+            await axios.delete("http://localhost:3001/api/delete-image", {
+                params: {
+                    carId: id,
+                },
+            });
+            console.log("Image deleted successfully");
+            setAllImage(null); // Optionally, clear the image state after deletion
+        } catch (error) {
+            console.error("Error deleting image:", error);
+        }
+    };
+
+
+
+    const handleSubmitImage = (e) => {
+        e.preventDefault();
+        updateImage(image);
+        console.log("Uploaded");
+    }
+
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await convertToBase64(file);
+        console.log(base64);
+        setImage({ ...image, image : base64, carId: id });
+    }
+
+    const handleDeleteImage = (e) => {
+        e.preventDefault();
+        deleteImage();
+    };
+
+
+    useEffect(() => {
+        getImage();
+    }, []);
+
+    useEffect(() => {
+        console.log('car', id);
+    }, [id]);
+
+    useEffect(() => {
+        console.log('allimages', allImage);
+    }, [allImage]);
+
 
     return (
         <Box sx={{paddingTop: 7, paddingLeft: 5}}>
@@ -203,29 +293,45 @@ const CarTabData = ({ isEditing = false, isInputDisabled }: Props) => {
 
                 {/* Second Column */}
                 <Grid item xs={12} md={4}>
-                    <Grid container direction="column" spacing={3}>
-                            <Grid item>
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        backgroundColor: '#ffffff',
-                                        width: 250,
-                                        height: 250,
-                                        borderRadius: 4,
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    <Box>
-                                        {/* TODO: Add image picker component */}
-                                        <PhotoLibraryIcon sx={iconStyle} />
-                                        <Typography sx={textStyle}>
-                                            {t('USER.UPLOAD_IMAGE')}
-                                        </Typography>
-                                    </Box>
+                    <Grid container direction="column" spacing={2}>
+                        <Grid item>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: '#ffffff',
+                                    width: 250,
+                                    height: 250,
+                                    borderRadius: 4,
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <Box>
+                                    {/* TODO: Add image picker component */}
+                                    <form onSubmit={handleSubmitImage}>
+                                        {/*<PhotoLibraryIcon sx={iconStyle} onChange={onInputChange}/>
+                                                        <Typography sx={textStyle}>
+                                                            {t('USER.UPLOAD_IMAGE')}
+                                                        </Typography>*/}
+                                        <input
+                                            type="file"
+                                            label="Image"
+                                            name="myFile"
+                                            id='file-upload'
+                                            accept='.jpeg, .png, .jpg'
+                                            onChange={(e) => handleFileUpload(e)}
+                                        />
+                                        <img
+                                            src={allImage !== null ? (image.image || allImage[0]?.image) : ""}
+                                            alt="" height={100}
+                                            width={100}/>
+                                        <button type='submit'>Submit</button>
+                                    </form>
+                                    <button onClick={handleDeleteImage}>Delete Image</button>
                                 </Box>
-                            </Grid>
+                            </Box>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>

@@ -23,6 +23,20 @@ import React, {useEffect, useState} from "react";
 import NormalText from "../../components/text/NormalText";
 import ClearIcon from "@mui/icons-material/Clear";
 
+
+function convertToBase64(file){
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+            resolve(fileReader.result)
+        };
+        fileReader.onerror = (error) => {
+            reject(error)
+        }
+    })
+}
+
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
     fontSize: '22px',
@@ -82,7 +96,7 @@ const NewDocumentAddDialog = NiceModal.create(
         const [values, setValues] = useState({
             documentId: '',
             documentType: '',
-            title: '',
+            title: null,
             timeStamp: '',
             status: '',
             creator: '',
@@ -243,6 +257,12 @@ const NewDocumentAddDialog = NiceModal.create(
             setValues({...values, [prop]: event.target.value });
         };
 
+        const handleFileUpload = async (e) => {
+            const file = e.target.files[0];
+            const base64 = await convertToBase64(file);
+            console.log(base64);
+            setValues({...values, title : base64 });
+        }
 
         return (
             <Dialog
@@ -331,7 +351,7 @@ const NewDocumentAddDialog = NiceModal.create(
                                                     </FormControl>
                                                 </Box>
                                             </Grid>
-                                            <Grid item xs={4} md={5}>
+                                            {/*<Grid item xs={4} md={5}>
                                                 <Box sx={{
                                                     display: 'flex',
                                                     flexDirection: 'column',
@@ -364,7 +384,7 @@ const NewDocumentAddDialog = NiceModal.create(
                                                         />
                                                     </FormControl>
                                                 </Box>
-                                            </Grid>
+                                            </Grid>*/}
                                         </Grid>
                                         <Grid item container direction="row" xs={4} md={10} spacing={15}>
                                             <Grid item xs={4} md={5}>
@@ -545,6 +565,20 @@ const NewDocumentAddDialog = NiceModal.create(
                                                             }}
                                                         />
                                                     </FormControl>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid container direction="column" spacing={2}>
+                                            <Grid item>
+                                                <Box>
+                                                    <input
+                                                        type="file"
+                                                        label="Title"
+                                                        name="title"
+                                                        id='file-upload'
+                                                        accept='.doc, .docx, .pdf'
+                                                        onChange={(e) => handleFileUpload(e)}
+                                                    />
                                                 </Box>
                                             </Grid>
                                         </Grid>
