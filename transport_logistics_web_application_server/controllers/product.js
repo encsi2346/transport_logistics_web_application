@@ -1,4 +1,5 @@
 import Product from '../models/Product.js';
+import ProductCategory from "../models/ProductCategory.js";
 
 export const getAllProduct = async (req, res) => {
     try {
@@ -93,5 +94,66 @@ export const deleteProduct = async (req, res) => {
         res.json({ message: 'Product deleted' });
     } catch (error) {
         res.status(500).json({ message: error.message });
+    }
+};
+
+
+export const paginatedProduct = async (req, res) => {
+    try {
+        const { featured, name, category, sortBy, priceRange, page = 1, limit = 10 } = req.query;
+        const query = {};
+        //query.quantity = { $gte: 1 }
+        if (featured) {
+            query.featured = true;
+        }
+        if (category) {
+            try {
+                // Find the category by ID
+                const categoryData = await ProductCategory.findOne({ _id: category });
+
+                // Check if category data is found
+                if (!categoryData) {
+                    return res.status(400).json({ error: 'Category not found' });
+                }
+                query.category = categoryData._id;
+            } catch (err) {
+                console.error('Error while fetching category:', err);
+                return res.status(500).json({ error: 'Error retrieving category data' });
+            }
+        }
+        if (name) {
+            query.name = name;
+        }
+        if (priceRange) {
+            const [minPrice, maxPrice] = String(priceRange).split('-').map(Number);
+            query.price = { $gte: minPrice, $lte: maxPrice };
+        }
+
+        const parsedPage = parseInt(page, 10) || 1;  // Default page to 1 if invalid
+        const parsedLimit = parseInt(limit, 10) || 10;  // Default limit to 10 if invalid
+
+        const options = {
+            skip: (parsedPage - 1) * parsedLimit,
+            limit: parsedLimit,
+            sort: sortBy === "asc" ? { name: 1 } : { name: -1 },
+        };
+
+        const products = await Product.find(query, null, options).populate("category", "name");
+        const total = await Product.countDocuments(query);
+        const totalPublished = await Product.countDocuments({ isDisplayed: true, ...query });
+
+        const totalPages = Math.ceil(total / parsedLimit);
+        const paginatedProducts = {
+            products,
+            total,
+            limit: parsedLimit,
+            page: parsedPage,
+            pages: totalPages,
+            totalPublished
+        };
+        return res.status(200).send(paginatedProducts);
+    } catch (error) {
+        console.error('Error in getPaginatedProducts middleware:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 };

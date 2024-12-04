@@ -1,5 +1,12 @@
 import express from 'express';
-import {createProduct, deleteProduct, getAllProduct, getProduct, updateProduct} from "../controllers/product.js";
+import {
+    createProduct,
+    deleteProduct,
+    getAllProduct,
+    getProduct,
+    paginatedProduct,
+    updateProduct
+} from "../controllers/product.js";
 
 const router = express.Router();
 
@@ -128,5 +135,8 @@ router.put('/api/products/:id', updateProduct);
  *         description: Product not found.
  */
 router.delete('/api/products/:id', deleteProduct);
+
+
+router.get("/products", paginatedProduct);
 
 export default router;
