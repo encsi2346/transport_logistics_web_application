@@ -11,7 +11,8 @@ import {useSelector} from "react-redux";
 import DocumentRouting from "./pages/documents/DocumentRouting";
 import InvoiceRouting from "./pages/invoices/InvoiceRouting";
 import OrderRouting from "./pages/orders/OrderRouting";
-import Dashboard from "@/pages/dashborad/Dashboard";
+import Dashboard from "./pages/dashborad/Dashboard";
+import ResetPassword from './pages/login/ResetPassword';
 
 const Router = () => {
     const isAuth = Boolean(useSelector((state) => state.token));
@@ -21,6 +22,7 @@ const Router = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/forgotten-password" element={<ForgottenPassword />} />
             <Route path="/logout" element={<LoginPage />} />
+            <Route path="/auth/resetPassword" element={<ResetPassword />} />
 
             <Route>
                 <Route element={isAuth ? <Layout /> : <Navigate to="/login" />}>

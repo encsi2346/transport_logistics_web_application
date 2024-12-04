@@ -7,10 +7,14 @@ import {
     FormControl,
     Grid,
     IconButton,
-    InputAdornment, InputLabel,
+    InputAdornment,
+    InputLabel,
     MenuItem,
     Select,
-    SelectChangeEvent, SxProps, TextField, Theme, Typography,
+    SelectChangeEvent,
+    SxProps,
+    TextField,
+    Theme,
     useTheme
 } from "@mui/material";
 import CancelButton from "../../components/button/CancelButton";
@@ -23,12 +27,12 @@ import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import { useTranslation } from "react-i18next";
 import {useDispatch, useSelector} from "react-redux";
 import {setMode} from "@/state";
-import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import ClearIcon from "@mui/icons-material/Clear";
-//import {DatePicker} from "@mui/x-date-pickers";
 import moment from "moment";
 import axios from "axios";
 import DatePicker from "react-datepicker";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./Users.css";
@@ -157,6 +161,21 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         }
     };*/
 
+    const notify = ({text, type}) => {
+        if (type === 'success') {
+            toast.success(`${text}`, {
+                position: "bottom-right"
+            });
+        } else if (type === 'warning') {
+            toast.warning(`${text}`, {
+                position: "bottom-right"
+            });
+        } else if (type === 'error') {
+            toast.error(`${text}`, {
+                position: "bottom-right"
+            });
+        }
+    };
 
     //TODO: common image handling
     const getImage = async () => {
@@ -176,8 +195,10 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         try {
             await axios.put('http://localhost:3001/api/update-image', updatedImage);
             console.log("Image updated successfully");
+            notify( { text:'You have successfully update the users image!', type: 'success'});
         } catch (error) {
             console.error("Error updating image:", error);
+            notify( { text:'Something went wrong with the image uploading!', type: 'error'});
         }
     };
 
@@ -195,8 +216,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             console.error("Error deleting image:", error);
         }
     };
-
-
 
     const handleSubmitImage = (e) => {
         e.preventDefault();
@@ -380,9 +399,11 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             console.log('getUserData', getUserData);
             console.log('getUserStatus', getStatus);
             //setCar(getCarData);
+            notify( { text:'You have successfully create new user!', type: 'success'});
             return getUserData;
         } catch (error) {
             console.error('Error creating user:', error);
+            notify( { text:'Something went wrong with the user creation!', type: 'error'});
         }
     };
 
@@ -1548,6 +1569,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                     </Box>
                 </BackgroundCard>
             {/*</form>*/}
+            <ToastContainer />
         </Box>
 );
 };

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { v4 as uuidv4 } from 'uuid';
+import bcrypt from "bcrypt";
 
 const UserSchema = new mongoose.Schema({
     userId: {
@@ -29,6 +30,14 @@ const UserSchema = new mongoose.Schema({
         required: true,
         min: 5,
     },
+    confirm_password: {
+        type: String,
+        required: false,
+    },
+    status: {
+        type: String,
+        default: 'active',
+    },
     image: String, //profilkép
     gender: String, //nem
     nationality: String, //állampolgárság
@@ -57,6 +66,15 @@ const UserSchema = new mongoose.Schema({
     //createdAt: String, //TODO:iődsor?
     //voicePath: String, //TODO: idősor?
 }, { timestamps: true } );
+
+UserSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) {
+        return next();
+    }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
 
 const User = mongoose.model("User", UserSchema);
 export default User;

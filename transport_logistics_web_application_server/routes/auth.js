@@ -1,5 +1,5 @@
 import express from "express";
-import {login, registration} from "../controllers/auth.js";
+import {login, registration, requestPasswordReset, resetPassword} from "../controllers/auth.js";
 
 const router = express.Router();
 
@@ -62,5 +62,73 @@ router.post("/auth/register", registration);
  *         description: Internal server error. Failed to log in user.
  */
 router.post("/auth/login", login);
+
+// Route to request password reset
+/**
+ * @swagger
+ * /auth/requestPasswordReset:
+ *   post:
+ *     summary: request password reset
+ *     tags: [Authentication]
+ *     description: request password reset
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: string
+ *     responses:
+ *       200:
+ *         description: request password reset successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: request password reset.
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Bad request. Invalid credentials.
+ *       500:
+ *         description: Internal server error. Failed to log in user.
+ */
+router.post('/auth/requestPasswordReset', requestPasswordReset);
+
+// Route to reset password
+/**
+ * @swagger
+ * /auth/resetPassword:
+ *   post:
+ *     summary: request password reset
+ *     tags: [Authentication]
+ *     description: request password reset
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: string
+ *     responses:
+ *       200:
+ *         description: request password reset successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   description: request password reset.
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Bad request. Invalid credentials.
+ *       500:
+ *         description: Internal server error. Failed to log in user.
+ */
+router.post('/auth/resetPassword', resetPassword);
 
 export default router;

@@ -4,6 +4,7 @@ import WideSaveButton from "../../components/button/WideSaveButton";
 import {useTypeSafeTranslation} from "@/components/inputfield/hooks/useTypeSafeTranslation";
 import {useNavigate} from "react-router-dom";
 import React, {useState} from "react";
+import axios from "axios";
 
 const ForgottenPassword = () => {
     const { t } = useTypeSafeTranslation();
@@ -32,14 +33,30 @@ const ForgottenPassword = () => {
         }
     }
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
-            console.log('handleSubmit');
-            console.log('values.email', values.email);
-            //TODO: api call
-        } catch {}
+            if (!values.email) {
+                setEmailError(true);
+                return;
+            }
+
+            const response = await axios.post(
+                'http://localhost:3001/auth/requestPasswordReset',
+                { email: values.email }
+            );
+
+            if (response.status === 200) {
+                alert('Password reset link sent to your email!');
+            } else {
+                alert('Failed to send password reset link. Please try again.');
+            }
+            console.log(response.data);
+        } catch (error: any) {
+            console.error('Error requesting password reset:', error);
+            alert(error.response?.data?.message || 'Something went wrong.');
+        }
     };
 
     return (
