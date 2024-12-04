@@ -14,15 +14,18 @@ const useTransportationCar = () => {
         handleSubmit,
         formState: { isValid },
     } = useForm<TransportationCarFormSchema>({
+        defaultValues: {
+        },
         resolver: zodResolver(transportationCarFormSchema),
         mode: 'all',
     });
 
     const onSubmit = handleSubmit((data) => {
-        //if (loadedTransportation.canModifyBaseData) {
+        console.log("onSubmit called");
+        if (loadedTransportation.canModifyBaseData) {
             submitCarForm();
-        //} else {
-        //}
+        } else {
+        }
     });
 
     return { control, isValid, preValidationError, onSubmit };

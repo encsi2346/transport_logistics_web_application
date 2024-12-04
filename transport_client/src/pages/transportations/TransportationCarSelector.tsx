@@ -1,5 +1,15 @@
 import BackgroundCard from "../../components/layout/BackgroundCard";
-import {Box, Grid, IconButton, InputAdornment} from "@mui/material";
+import {
+    Box,
+    FormControl,
+    Grid,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField
+} from "@mui/material";
 import NormalText from "../../components/text/NormalText";
 import DataCard from "../../components/layout/DataCard";
 import Headline from "../../components/text/Headline";
@@ -14,319 +24,635 @@ import TextFieldInput from "../../components/inputField/TextFieldInput";
 import {TransportationSteps} from "./enums/transportation-steps";
 import {useTransportationStore} from "./stores/useTransportationStore";
 import useTransportationCar from "./hooks/useTransportationCar";
+import React, {useEffect, useState} from "react";
+import DatePicker from "react-datepicker";
+import moment from "moment/moment";
 
-const TransportationCarSelector = () => {
+interface Props {
+    setCurrentStep: (step: number) => void;
+}
+
+
+const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const thisStep = TransportationSteps.CAR;
     const currentStep = useTransportationStore((state) => state.currentStep);
     const isStepDone = currentStep > thisStep;
     const isActiveStep = thisStep === currentStep;
+    const [typeOfTransportationList, setTypeOfTransportationList] = useState([]);
+    const [carTypes, setCartTypes] = useState([]);
+    const [values, setValues] = useState({
+        selectedTypeOfTransportationId: '',
+        selectedCarTypeId: '',
+        selectedCarId: '',
+    });
 
-    const setCurrentStep = useTransportationStore((state) => state.setCurrentStep);
+    //const setCurrentStep = useTransportationStore((state) => state.setCurrentStep);
     const loadedTransportation = useTransportationStore((state) => state.loadedTransportation);
 
     const { control, isValid, preValidationError, onSubmit} = useTransportationCar();
 
     const handleCancelClicked = () => {
+        setCurrentStep(0);
         navigate(-1);
     };
 
+    const handleNextClicked  = () => {
+        console.log("Before submit, currentStep:", currentStep);
+        onSubmit(); // Calls the `onSubmit` from the hook
+        setCurrentStep(1); // Move to the next step
+        console.log("Next step triggered, currentStep:", currentStep);
+    };
+
+    useEffect(() => {
+        console.log('currentStep-car', currentStep);
+    }, [currentStep]);
+
+    useEffect(() => {
+        console.log('isActiveStep', isActiveStep);
+    }, [isActiveStep]);
+
+    const handleLoadTypeOfTransportation = async () => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/type-of-transportation`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getTypeOfTransportationData = await getResponse.json();
+        const getStatus = getResponse.status;
+        console.log('getTypeOfTransportationData', getTypeOfTransportationData);
+        console.log('getUserStatus', getStatus);
+        setTypeOfTransportationList(getTypeOfTransportationData);
+    }
+
+    useEffect(() => {
+        handleLoadTypeOfTransportation();
+    }, []);
+
+    const handleLoadCarTypes = async () => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/type-of-transportation/${values.selectedTypeOfTransportationId}/car-types`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getCarTypesData = await getResponse.json();
+        const getStatus = getResponse.status;
+        console.log('getCarTypesData', getCarTypesData);
+        console.log('getUserStatus', getStatus);
+        setCartTypes(getCarTypesData);
+    }
+
+    useEffect(() => {
+        handleLoadCarTypes();
+    }, [values.selectedTypeOfTransportationId]);
+
+    const handleChange = (prop: any) => (event: any) => {
+        setValues({...values, [prop]: event.target.value });
+        console.log('values', values);
+    };
+
+    const handleDateChange = (prop: any) => (date: any) => {
+        const value = date ? moment(date).toISOString() : null;
+        setValues({ ...values, [prop]: value as string });
+    };
+
     return (
-        <form autoComplete='off' noValidate onSubmit={(e) => e.preventDefault()}>
+        <form autoComplete='off' noValidate onSubmit={(e) => {
+            console.log('Form submission attempted');
+            e.preventDefault(); // Check if this prevents the event from propagating.
+        }}>
             {isActiveStep && (
                 <Box>
                     <BackgroundCard>
                         <Grid item container direction="column" spacing={2}>
                             <Grid item container direction="row" xs={4} md={8} spacing={6}>
                                 <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TRANSPORTATIONS.SELECTED_CAR_TYPE')} />
-                                        <SelectInput
-                                            placeholder={t('TRANSPORTATIONS.SELECTED_CAR_TYPE')}
-                                            control={control}
-                                            name='selectedCarType'
-                                            data-testid='selected-car-type-input'
-                                            disabled={!isActiveStep}
-                                            //options={enumToOptions(userRoles)} //TODO
-                                            required
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position='end'>
-                                                        <IconButton >
-                                                            <ClearRoundedIcon />
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                                sx: {
-                                                    '.MuiSelect-icon': {
-                                                        display: 'none',
-                                                    },
-                                                },
-                                            }}
-                                        />
+                                    <Box sx={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center'
+                                    }}>
+                                        <NormalText text={t('TRANSPORTATIONS.SELECTED_TRANSPORTATION_TYPE')}/>
+                                        <FormControl>
+                                            <InputLabel>{t('TRANSPORTATIONS.SELECTED_TRANSPORTATION_TYPE')}</InputLabel>
+                                            <Select
+                                                id="selectedTypeOfTransportationId"
+                                                placeholder={t('TRANSPORTATIONS.SELECTED_TRANSPORTATION_TYPE')}
+                                                label={t('TRANSPORTATIONS.SELECTED_TRANSPORTATION_TYPE')}
+                                                name='selectedTypeOfTransportationId'
+                                                data-testid='selected-type-of-transportation-id-input'
+                                                value={values.selectedTypeOfTransportationId ?? ''}
+                                                onChange={handleChange('selectedTypeOfTransportationId')}
+                                                sx={{
+                                                    backgroundColor: `#ffffff`,
+                                                    borderRadius: '18px',
+                                                    color: `#000000`,
+                                                    textDecoration: 'none',
+                                                    height: 40,
+                                                    width: 250,
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    fontSize: "15px",
+                                                    "& fieldset": {border: 'none'},
+                                                }}
+                                            >
+                                                {Object.values(typeOfTransportationList).map((type) => (
+                                                    <MenuItem key={type._id} value={type._id}>
+                                                        {type.type}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={4} md={4}>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center'
+                                    }}>
+                                        <NormalText text={t('TRANSPORTATIONS.SELECTED_CAR_TYPE')}/>
+                                        <FormControl>
+                                            <InputLabel>{t('TRANSPORTATIONS.SELECTED_CAR_TYPE')}</InputLabel>
+                                            <Select
+                                                id="selectedCarTypeId"
+                                                placeholder={t('TRANSPORTATIONS.SELECTED_CAR_TYPE')}
+                                                label={t('TRANSPORTATIONS.SELECTED_CAR_TYPE')}
+                                                name='selectedCarTypeId'
+                                                data-testid='selected-car-type-id-input'
+                                                value={values.selectedCarTypeId ?? ''}
+                                                onChange={handleChange('selectedCarTypeId')}
+                                                sx={{
+                                                    backgroundColor: `#ffffff`,
+                                                    borderRadius: '18px',
+                                                    color: `#000000`,
+                                                    textDecoration: 'none',
+                                                    height: 40,
+                                                    width: 250,
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    fontSize: "15px",
+                                                    "& fieldset": {border: 'none'},
+                                                }}
+                                            >
+                                                {Object.values(carTypes).map((type) => (
+                                                    <MenuItem key={type._id} value={type._id}>
+                                                        {type.brand} + {type.typeName}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
                                     </Box>
                                 </Grid>
                             </Grid>
                         </Grid>
                         <DataCard>
                             <Headline text={t('TRANSPORTATIONS.CAR_TYPE_DATA')} />
-                            <Grid item container direction="column" spacing={2}>
-                                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('CAR_TYPES.CAR_FUNCTIONAL_DESIGN')} />
-                                            <SelectInput
-                                                placeholder={t('CAR_TYPES.CAR_FUNCTIONAL_DESIGN')}
-                                                control={control}
-                                                name='carFunctionalDesign'
-                                                data-testid='car-functional-design-input'
-                                                disabled={!isActiveStep}
-                                                //options={enumToOptions(userRoles)} //TODO
-                                                required
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment position='end'>
-                                                            <IconButton>
-                                                                <ClearRoundedIcon />
-                                                            </IconButton>
-                                                        </InputAdornment>
-                                                    ),
-                                                    sx: {
-                                                        '.MuiSelect-icon': {
-                                                            display: 'none',
-                                                        },
-                                                    },
-                                                }}
-                                            />
-                                        </Box>
+                            <Grid container direction="row" spacing={2}>
+                                    <Grid item container direction="column" spacing={2} xs={4}>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR_TYPES.DESIGN')}/>
+                                                <FormControl>
+                                                    <InputLabel>{t('CAR_TYPES.DESIGN')}</InputLabel>
+                                                    <Select
+                                                        id="design"
+                                                        placeholder={t('CAR_TYPES.DESIGN')}
+                                                        label={t('CAR_TYPES.DESIGN')}
+                                                        name='design'
+                                                        data-testid='design-input'
+                                                        value={values.design ?? ''}
+                                                        onChange={handleChange('design')}
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    >
+                                                        {Object.values(carTypes).map((type) => (
+                                                            <MenuItem key={type._id} value={type._id}>
+                                                                {type.brand} + {type.typeName}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item >
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR_TYPES.PERFORMANCE')}/>
+                                                <FormControl required fullWidth>
+                                                    <TextField
+                                                        id="performance"
+                                                        placeholder={t('CAR_TYPES.PERFORMANCE')}
+                                                        name='performance'
+                                                        label={t('CAR_TYPES.PERFORMANCE')}
+                                                        value={values.performance}
+                                                        onChange={handleChange('performance')}
+                                                        data-testid='performance-input'
+                                                        required
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('CAR_TYPES.PERFORMANCE')} />
-                                            <TextFieldInput
-                                                placeholder={t('CAR_TYPES.PERFORMANCE')}
-                                                control={control}
-                                                name='performance'
-                                                type='number'
-                                                data-testid='performance-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
+                                    <Grid item container direction="column" spacing={2} xs={4}>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR_TYPES.OWN_WEIGHT')}/>
+                                                <FormControl required fullWidth>
+                                                    <TextField
+                                                        id="ownWeight"
+                                                        placeholder={t('CAR_TYPES.OWN_WEIGHT')}
+                                                        name='ownWeight'
+                                                        label={t('CAR_TYPES.OWN_WEIGHT')}
+                                                        value={values.ownWeight}
+                                                        onChange={handleChange('ownWeight')}
+                                                        data-testid='own-weight-input'
+                                                        required
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR_TYPES.NUMBER_OF_SEATS')}/>
+                                                <FormControl>
+                                                    <InputLabel>{t('CAR_TYPES.NUMBER_OF_SEATS')}</InputLabel>
+                                                    <Select
+                                                        id="numberOfSeats"
+                                                        placeholder={t('CAR_TYPES.CAR_FUNCTIONAL_DESIGN')}
+                                                        label={t('CAR_TYPES.CAR_FUNCTIONAL_DESIGN')}
+                                                        name='numberOfSeats'
+                                                        data-testid='number-of-seats-input'
+                                                        value={values.numberOfSeats ?? ''}
+                                                        onChange={handleChange('numberOfSeats')}
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    >
+                                                        {Object.values(carTypes).map((type) => (
+                                                            <MenuItem key={type._id} value={type._id}>
+                                                                {type.brand} + {type.typeName}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('CAR_TYPES.OWN_WEIGHT')} />
-                                            <TextFieldInput
-                                                placeholder={t('CAR_TYPES.OWN_WEIGHT')}
-                                                control={control}
-                                                name='ownWeight'
-                                                type='number'
-                                                data-testid='own-weight-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
+                                    <Grid item container direction="column" spacing={2} xs={4}>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR_TYPES.FUEL')}/>
+                                                <FormControl>
+                                                    <InputLabel>{t('CAR_TYPES.FUEL')}</InputLabel>
+                                                    <Select
+                                                        id="fuel"
+                                                        placeholder={t('CAR_TYPES.FUEL')}
+                                                        label={t('CAR_TYPES.FUEL')}
+                                                        name='fuel'
+                                                        data-testid='fuel-input'
+                                                        value={values.fuel ?? ''}
+                                                        onChange={handleChange('fuel')}
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    >
+                                                        {Object.values(carTypes).map((type) => (
+                                                            <MenuItem key={type._id} value={type._id}>
+                                                                {type.brand} + {type.typeName}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR_TYPES.USEFUL_WEIGHT')}/>
+                                                <FormControl required fullWidth>
+                                                    <TextField
+                                                        id="usefulWeight"
+                                                        placeholder={t('CAR_TYPES.USEFUL_WEIGHT')}
+                                                        name='usefulWeight'
+                                                        label={t('CAR_TYPES.USEFUL_WEIGHT')}
+                                                        value={values.usefulWeight}
+                                                        onChange={handleChange('usefulWeight')}
+                                                        data-testid='useful-weight-input'
+                                                        required
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('CAR_TYPES.NUMBER_OF_SEATS')} />
-                                            <SelectInput
-                                                placeholder={t('CAR_TYPES.NUMBER_OF_SEATS')}
-                                                control={control}
-                                                name='numberOfSeats'
-                                                data-testid='number-of-seats-input'
-                                                disabled={!isActiveStep}
-                                                //options={enumToOptions(userRoles)} //TODO
-                                                required
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment position='end'>
-                                                            <IconButton>
-                                                                <ClearRoundedIcon />
-                                                            </IconButton>
-                                                        </InputAdornment>
-                                                    ),
-                                                    sx: {
-                                                        '.MuiSelect-icon': {
-                                                            display: 'none',
-                                                        },
-                                                    },
-                                                }}
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('CAR_TYPES.FUEL')} />
-                                            <SelectInput
-                                                placeholder={t('CAR_TYPES.FUEL')}
-                                                control={control}
-                                                name='fuel'
-                                                data-testid='fuel-input'
-                                                disabled={!isActiveStep}
-                                                //options={enumToOptions(userRoles)} //TODO
-                                                required
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment position='end'>
-                                                            <IconButton>
-                                                                <ClearRoundedIcon />
-                                                            </IconButton>
-                                                        </InputAdornment>
-                                                    ),
-                                                    sx: {
-                                                        '.MuiSelect-icon': {
-                                                            display: 'none',
-                                                        },
-                                                    },
-                                                }}
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('CAR_TYPES.USEFUL_WEIGHT')} />
-                                            <TextFieldInput
-                                                placeholder={t('CAR_TYPES.USEFUL_WEIGHT')}
-                                                control={control}
-                                                name='usefulWeight'
-                                                type='number'
-                                                data-testid='useful-weight-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                </Grid>
                             </Grid>
                         </DataCard>
 
                         <Grid item container direction="column" spacing={2}>
                             <Grid item container direction="row" xs={4} md={8} spacing={6}>
                                 <Grid item xs={4} md={4}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <NormalText text={t('TRANSPORTATIONS.SELECTED_CAR')} />
-                                        <SelectInput
-                                            placeholder={t('TRANSPORTATIONS.SELECTED_CAR')}
-                                            control={control}
-                                            name='selectedCar'
-                                            data-testid='selected-car-input'
-                                            disabled={!isActiveStep}
-                                            //options={enumToOptions(userRoles)} //TODO
-                                            required
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position='end'>
-                                                        <IconButton>
-                                                            <ClearRoundedIcon />
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                                sx: {
-                                                    '.MuiSelect-icon': {
-                                                        display: 'none',
-                                                    },
-                                                },
-                                            }}
-                                        />
+                                    <Box sx={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center'
+                                    }}>
+                                        <NormalText text={t('TRANSPORTATIONS.SELECTED_CAR')}/>
+                                        <FormControl>
+                                            <InputLabel>{t('TRANSPORTATIONS.SELECTED_CAR')}</InputLabel>
+                                            <Select
+                                                id="selectedCar"
+                                                placeholder={t('TRANSPORTATIONS.SELECTED_CAR')}
+                                                label={t('TRANSPORTATIONS.SELECTED_CAR')}
+                                                name='selectedCar'
+                                                data-testid='selected-car-input'
+                                                value={values.selectedCar ?? ''}
+                                                onChange={handleChange('selectedCar')}
+                                                sx={{
+                                                    backgroundColor: `#ffffff`,
+                                                    borderRadius: '18px',
+                                                    color: `#000000`,
+                                                    textDecoration: 'none',
+                                                    height: 40,
+                                                    width: 250,
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    fontSize: "15px",
+                                                    "& fieldset": {border: 'none'},
+                                                }}
+                                            >
+                                                {Object.values(carTypes).map((type) => (
+                                                    <MenuItem key={type._id} value={type._id}>
+                                                        {type.brand} + {type.typeName}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
                                     </Box>
                                 </Grid>
                             </Grid>
                         </Grid>
                         <DataCard>
                             <Headline text={t('TRANSPORTATIONS.CAR_DATA')} />
-                            <Grid item container direction="column" spacing={2}>
-                                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('CAR.LICENCE_PLATE')} />
-                                            <TextFieldInput
-                                                placeholder={t('CAR.LICENCE_PLATE')}
-                                                control={control}
-                                                name='licencePlate'
-                                                type='text'
-                                                data-testid='licence-plate-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
+                            <Grid container direction="row" spacing={2}>
+                                <Grid item container direction="column" spacing={2} xs={4}>
+                                    <Grid item>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start'
+                                        }}>
+                                            <NormalText text={t('CAR.LICENCE_PLATE')}/>
+                                            <FormControl required fullWidth>
+                                                <TextField
+                                                    id="licencePlate"
+                                                    placeholder={t('CAR.LICENCE_PLATE')}
+                                                    name='licencePlate'
+                                                    label={t('CAR.LICENCE_PLATE')}
+                                                    value={values.licencePlate}
+                                                    onChange={handleChange('licencePlate')}
+                                                    data-testid='licence-plate-input'
+                                                    required
+                                                    sx={{
+                                                        backgroundColor: `#ffffff`,
+                                                        borderRadius: '18px',
+                                                        color: `#000000`,
+                                                        textDecoration: 'none',
+                                                        height: 40,
+                                                        width: 250,
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        fontSize: "15px",
+                                                        "& fieldset": {border: 'none'},
+                                                    }}
+                                                />
+                                            </FormControl>
                                         </Box>
                                     </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')} />
-                                            <TextFieldInput
-                                                placeholder={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')}
-                                                control={control}
-                                                name='registrationCertificationNumber'
-                                                type='text'
-                                                data-testid='registration-certification-number-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('CAR.CHASSIS_NUMBER')} />
-                                            <TextFieldInput
-                                                placeholder={t('CAR.CHASSIS_NUMBER')}
-                                                control={control}
-                                                name='chassisNumber'
-                                                type='text'
-                                                data-testid='chassis-number-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
+                                    <Grid item>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start'
+                                        }}>
+                                            <NormalText text={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')}/>
+                                            <FormControl required fullWidth>
+                                                <TextField
+                                                    id="registrationCertificationNumber"
+                                                    placeholder={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')}
+                                                    name='registrationCertificationNumber'
+                                                    label={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')}
+                                                    value={values.registrationCertificationNumber}
+                                                    onChange={handleChange('registrationCertificationNumber')}
+                                                    data-testid='registration-certification-number-input'
+                                                    required
+                                                    sx={{
+                                                        backgroundColor: `#ffffff`,
+                                                        borderRadius: '18px',
+                                                        color: `#000000`,
+                                                        textDecoration: 'none',
+                                                        height: 40,
+                                                        width: 250,
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        fontSize: "15px",
+                                                        "& fieldset": {border: 'none'},
+                                                    }}
+                                                />
+                                            </FormControl>
                                         </Box>
                                     </Grid>
                                 </Grid>
-                                <Grid item container direction="row" xs={4} md={8} spacing={6}>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('CAR.YEAR_OF_PRODUCTION')} />
-                                            {/*
-                                            TODO
-                                            <DatePickerInput
-                                                placeholder={t('CAR.YEAR_OF_PRODUCTION')}
-                                                control={control}
-                                                name='yearOfProduction'
-                                                data-testid='year-of-production-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                            */}
+                                <Grid item container direction="column" spacing={2} xs={4}>
+                                    <Grid>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start'
+                                        }}>
+                                            <NormalText text={t('CAR.CHASSIS_NUMBER')}/>
+                                            <FormControl required fullWidth>
+                                                <TextField
+                                                    id="chassisNumber"
+                                                    placeholder={t('CAR.CHASSIS_NUMBER')}
+                                                    name='chassisNumber'
+                                                    label={t('CAR.CHASSIS_NUMBER')}
+                                                    value={values.chassisNumber}
+                                                    onChange={handleChange('chassisNumber')}
+                                                    data-testid='chassis-number-input'
+                                                    required
+                                                    sx={{
+                                                        backgroundColor: `#ffffff`,
+                                                        borderRadius: '18px',
+                                                        color: `#000000`,
+                                                        textDecoration: 'none',
+                                                        height: 40,
+                                                        width: 250,
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        fontSize: "15px",
+                                                        "& fieldset": {border: 'none'},
+                                                    }}
+                                                />
+                                            </FormControl>
                                         </Box>
                                     </Grid>
-                                    <Grid item xs={4} md={4}>
-                                        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                            <NormalText text={t('CAR.DATE_OF_FIRST_REGISTRATION')} />
-                                            {/*
-                                            TODO
-                                            <DatePickerInput
-                                                placeholder={t('CAR.DATE_OF_FIRST_REGISTRATION')}
-                                                control={control}
-                                                name='dateOfFirstRegistration'
-                                                data-testid='date-of-registration-input'
-                                                disabled={!isActiveStep}
-                                                required
-                                            />
-                                            */}
+                                    <Grid item>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start'
+                                        }}>
+                                            <NormalText text={t('CAR.YEAR_OF_PRODUCTION')} required={false}/>
+                                            <FormControl required>
+                                                <DatePicker
+                                                    name='yearOfProduction'
+                                                    data-testid='year-of-production-input'
+                                                    //disabled={inputDisabled}
+                                                    value={values.yearOfProduction}
+                                                    onChange={handleDateChange('yearOfProduction')}
+                                                    //dateFormat="dd/MM/yyyy"
+                                                    className={'date-picker-class'}
+                                                />
+                                            </FormControl>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                                <Grid item container direction="column" spacing={2} xs={4}>
+                                    <Grid item>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start'
+                                        }}>
+                                            <NormalText text={t('CAR.DATE_OF_FIRST_REGISTRATION')} required={false}/>
+                                            <FormControl required>
+                                                <DatePicker
+                                                    name='dateOfFirstRegistration'
+                                                    data-testid='date-of-first-registration-input'
+                                                    //disabled={inputDisabled}
+                                                    value={values.dateOfFirstRegistration}
+                                                    onChange={handleDateChange('dateOfFirstRegistration')}
+                                                    //dateFormat="dd/MM/yyyy"
+                                                    className={'date-picker-class'}
+                                                />
+                                            </FormControl>
                                         </Box>
                                     </Grid>
                                 </Grid>
                             </Grid>
                         </DataCard>
 
-                        {!isStepDone && (
+                        {/*!isStepDone && (*/}
                             <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                                 <CancelButton text={t('TEXT.CANCEL')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
-                                <SaveButton text={t('TEXT.NEXT')}  disabled={!isValid || !isActiveStep} onClick={onSubmit}/>
+                                <SaveButton text={t('TEXT.NEXT')}  /*disabled={!isValid || !isActiveStep}*/ onClick={handleNextClicked}/>
                             </Box>
-                        )}
+                        {/*})*/}
                     </BackgroundCard>
                 </Box>
             )}

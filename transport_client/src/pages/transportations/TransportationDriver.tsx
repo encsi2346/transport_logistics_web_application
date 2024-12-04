@@ -1,4 +1,4 @@
-import {Box, Grid, Typography} from "@mui/material";
+import {Box, FormControl, Grid, InputLabel, MenuItem, Select, Typography} from "@mui/material";
 import BackgroundCard from "../../components/layout/BackgroundCard";
 import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
@@ -8,9 +8,15 @@ import {TransportationSteps} from "./enums/transportation-steps";
 import {useTransportationStore} from "./stores/useTransportationStore";
 import useTransportationDriver from "./hooks/useTransportationDriver";
 import SelectInput from "../../components/inputField/SelectInput";
-import {useState} from "react";
+import React, {useState} from "react";
+import NormalText from "../../components/text/NormalText";
 //TODO
-const TransportationDriver = () => {
+
+interface Props {
+    setCurrentStep: (step: number) => void;
+}
+
+const TransportationDriver = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const [positions, setPositions] = useState([
@@ -52,14 +58,23 @@ const TransportationDriver = () => {
     const currentStep = useTransportationStore((state) => state.currentStep);
     const isStepDone = currentStep > thisStep;
     const isActiveStep = thisStep === currentStep;
+    const [values, setValues] = useState({
+        position: '',
+    });
 
-    const setCurrentStep = useTransportationStore((state) => state.setCurrentStep);
+    //const setCurrentStep = useTransportationStore((state) => state.setCurrentStep);
     const loadedTransportation = useTransportationStore((state) => state.loadedTransportation);
 
     const { control, isValid, preValidationError, onSubmit} = useTransportationDriver();
 
     const handleCancelClicked = () => {
+        setCurrentStep(0);
         navigate(-1);
+    };
+
+    const handleNextClicked  = () => {
+        onSubmit(); // Calls the `onSubmit` from the hook
+        setCurrentStep(3); // Move to the next step
     };
 
     const dragStartHandler = (
@@ -89,6 +104,11 @@ const TransportationDriver = () => {
         event.preventDefault();
     };
 
+    const handleChange = (prop: any) => (event: any) => {
+        setValues({...values, [prop]: event.target.value });
+        console.log('values', values);
+    };
+
     return (
         <form autoComplete='off' noValidate onSubmit={(e) => e.preventDefault()}>
             {isActiveStep && (
@@ -97,21 +117,43 @@ const TransportationDriver = () => {
                         <Grid item xs={4} md={3}>
                             <Box sx={{ width: 300, height: 500}}>
                                 <BackgroundCard>
-                                    <SelectInput
-                                        label={t('TRANSPORTATIONS.POSITION')}
-                                        control={control}
-                                        name='userPosition'
-                                        data-testid='user-position-input'
-                                        options={positions}
-                                        required
-                                        InputProps={{
-                                            sx: {
-                                                '.MuiSelect-icon': {
-                                                    display: 'none',
-                                                },
-                                            },
-                                        }}
-                                    />
+                                    <Box sx={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center'
+                                    }}>
+                                        <FormControl>
+                                            <InputLabel>{t('TRANSPORTATIONS.POSITION')}</InputLabel>
+                                            <Select
+                                                id="userPosition"
+                                                placeholder={t('TRANSPORTATIONS.POSITION')}
+                                                label={t('TRANSPORTATIONS.POSITION')}
+                                                name='userPosition'
+                                                data-testid='user-position-input'
+                                                value={values.userPosition ?? ''}
+                                                onChange={handleChange('userPosition')}
+                                                sx={{
+                                                    backgroundColor: `#ffffff`,
+                                                    borderRadius: '18px',
+                                                    color: `#000000`,
+                                                    textDecoration: 'none',
+                                                    height: 40,
+                                                    width: 250,
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    fontSize: "15px",
+                                                    "& fieldset": {border: 'none'},
+                                                }}
+                                            >
+                                                {Object.values(positions).map((pos) => (
+                                                    <MenuItem key={pos.value} value={pos.value}>
+                                                        {pos.label}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
                                 </BackgroundCard>
                                 <Grid item container direction="column" sx={{ marginTop: -53, marginLeft: 7, gap: 2}}>
                                     <Grid item xs={4} md={3}>
@@ -225,7 +267,7 @@ const TransportationDriver = () => {
                                     {!isStepDone && (
                                         <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                                             <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
-                                            <SaveButton text={t('TEXT.NEXT')}  disabled={!isValid || !isActiveStep} onClick={onSubmit}/>
+                                            <SaveButton text={t('TEXT.NEXT')}  disabled={!isValid || !isActiveStep} onClick={handleNextClicked}/>
                                         </Box>
                                     )}
                                 </BackgroundCard>

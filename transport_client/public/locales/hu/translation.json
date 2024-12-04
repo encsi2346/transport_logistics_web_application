@@ -103,7 +103,8 @@
     "ADD_LOADING_POINT": "Rakodási pont hozzáadása",
     "PASSENGER": "Utas",
     "POSITION": "Pozíció",
-    "PRODUCT_CATEGORY": "Termékkategória"
+    "PRODUCT_CATEGORY": "Termékkategória",
+    "SELECTED_TRANSPORTATION_TYPE": "Kiválasztott szállítási típus"
   },
   "REQUEST": {
     "ID": "Azonosító",

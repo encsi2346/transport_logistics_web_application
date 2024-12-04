@@ -1,4 +1,4 @@
-import {Box, Grid} from "@mui/material";
+import {Box, FormControl, Grid, InputLabel, MenuItem, Select} from "@mui/material";
 import BackgroundCard from "../../components/layout/BackgroundCard";
 import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
@@ -8,7 +8,7 @@ import {TransportationSteps} from "./enums/transportation-steps";
 import {useTransportationStore} from "./stores/useTransportationStore";
 import useTransportationShipment from "./hooks/useTransportationShipment";
 import SelectInput from "../../components/inputField/SelectInput";
-import {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {
     DndContext,
     DragEndEvent,
@@ -41,7 +41,12 @@ export type Item = {
     amountOfProduct: string;
 };
 //TODO
-const TransportationShipment = () => {
+
+interface Props {
+    setCurrentStep: (step: number) => void;
+}
+
+const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const [productCategories, setProductCategories] = useState([
@@ -60,14 +65,25 @@ const TransportationShipment = () => {
     ]);
     const thisStep = TransportationSteps.SHIPMENT;
     const currentStep = useTransportationStore((state) => state.currentStep);
+    //const setCurrentStep = useTransportationStore((state) => state.setCurrentStep);
     const isStepDone = currentStep > thisStep;
     const isActiveStep = thisStep === currentStep;
+    const [values, setValues] = useState({
+        productCategory: '',
+    });
 
     const { control, isValid, preValidationError, onSubmit} = useTransportationShipment();
 
     const handleCancelClicked = () => {
+        setCurrentStep(0);
         navigate(-1);
     };
+
+    const handleNextClicked  = () => {
+        onSubmit(); // Calls the `onSubmit` from the hook
+        setCurrentStep(4); // Move to the next step
+    };
+
     const [itemContainer, setItemContainer] = useState<Container>({
         id: "itemContainer",
         title: "ItemContainer",
@@ -238,22 +254,22 @@ const TransportationShipment = () => {
     }
 
 
-const createNewContainer = () => {
-    const containerToAdd: Container = {
-        id: generateId(),
-        title: `Container ${containers.length + 1}`,
-    };
+    const createNewContainer = () => {
+        const containerToAdd: Container = {
+            id: generateId(),
+            title: `Container ${containers.length + 1}`,
+        };
 
-    setContainers([...containers, containerToAdd]);
-}
+        setContainers([...containers, containerToAdd]);
+    }
 
-const deleteContainer = (id: Id) => {
-    const filteredContainers = containers.filter((con) => con.id !== id);
-    setContainers(filteredContainers);
+    const deleteContainer = (id: Id) => {
+        const filteredContainers = containers.filter((con) => con.id !== id);
+        setContainers(filteredContainers);
 
-    const newItems = items.filter((t) => t.containerId !== id);
-    setItems(newItems);
-}
+        const newItems = items.filter((t) => t.containerId !== id);
+        setItems(newItems);
+    }
 
     const addBackItem = (itemId: Id, itemName: string, amountOfProduct: string) => {
         const newItem: Item = {
@@ -274,6 +290,11 @@ const deleteContainer = (id: Id) => {
         addBackItem(id, removedItem[0].productName, removedItem[0].amountOfProduct);
     }
 
+    const handleChange = (prop: any) => (event: any) => {
+        setValues({...values, [prop]: event.target.value });
+        console.log('values', values);
+    };
+
     return (
         <form autoComplete='off' noValidate onSubmit={(e) => e.preventDefault()}>
             {isActiveStep && (
@@ -289,21 +310,43 @@ const deleteContainer = (id: Id) => {
                                 <Grid item xs={4} md={3}>
                                     <Box sx={{ width: 300, height: 600}}>
                                         <BackgroundCard>
-                                            <SelectInput
-                                                label={t('TRANSPORTATIONS.PRODUCT_CATEGORY')}
-                                                control={control}
-                                                name='productCategory'
-                                                data-testid='product-category-input'
-                                                options={productCategories}
-                                                required
-                                                InputProps={{
-                                                    sx: {
-                                                        '.MuiSelect-icon': {
-                                                            display: 'none',
-                                                        },
-                                                    },
-                                                }}
-                                            />
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'row',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center'
+                                            }}>
+                                                <FormControl>
+                                                    <InputLabel>{t('TRANSPORTATIONS.PRODUCT_CATEGORY')}</InputLabel>
+                                                    <Select
+                                                        id="productCategory"
+                                                        placeholder={t('TRANSPORTATIONS.PRODUCT_CATEGORY')}
+                                                        label={t('TRANSPORTATIONS.PRODUCT_CATEGORY')}
+                                                        name='productCategory'
+                                                        data-testid='product-category-input'
+                                                        value={values.productCategory ?? ''}
+                                                        onChange={handleChange('productCategory')}
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    >
+                                                        {Object.values(productCategories).map((cat) => (
+                                                            <MenuItem key={cat.value} value={cat.value}>
+                                                                {cat.label}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </Box>
 
                                             <SortableContext items={containersId}>
                                                 <ItemContainer
@@ -383,7 +426,7 @@ const deleteContainer = (id: Id) => {
                                             {!isStepDone && (
                                                 <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                                                     <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
-                                                    <SaveButton text={t('TEXT.NEXT')}  disabled={!isValid || !isActiveStep} onClick={onSubmit}/>
+                                                    <SaveButton text={t('TEXT.NEXT')}  disabled={!isValid || !isActiveStep} onClick={handleNextClicked}/>
                                                 </Box>
                                             )}
                                         </BackgroundCard>

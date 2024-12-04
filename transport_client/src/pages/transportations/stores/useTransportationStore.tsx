@@ -4,8 +4,8 @@ import { TransportationSteps } from '../enums/transportation-steps';
 
 interface TransportationState {
     currentStep: TransportationSteps;
-    transportation: string[];
-    loadedTransportation: string[];
+    transportation: any; //string[];
+    loadedTransportation: any; //string[];
     submitCarForm: () => void;
     submitDetailsForm: () => void;
     submitDriverForm: () => void;
@@ -13,12 +13,12 @@ interface TransportationState {
     submitOverviewForm: () => void;
     setCurrentStep: (currentStep: TransportationSteps) => void;
     setLoadedTransportation: (loadedTransportation: string[]) => void;
-    setTransportation: () => void;
+    setTransportation: (transportation: any) => void;
     resetStore: () => void;
 }
 
 export const useTransportationStore = create<TransportationState>((set) => ({
-    currentStep: TransportationSteps.DRIVER,
+    currentStep: TransportationSteps.CAR,
     transportation: {},
     loadedTransportation: { canModifyBaseData: true },
     submitCarForm: () =>
@@ -59,6 +59,11 @@ export const useTransportationStore = create<TransportationState>((set) => ({
         set((state) => ({
             ...state,
             loadedTransportation,
+        })),
+    setTransportation: (transportation) =>
+        set((state) => ({
+            ...state,
+            transportation,
         })),
     resetStore: () =>
         set(() => ({

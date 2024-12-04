@@ -86,9 +86,10 @@ function StepIconStyled(props: StepIconProps) {
 }
 
 interface Props {
-    currentStep: number
+    currentStep: number;
+    setCurrentStep: (step: number) => void;
 }
-const StepperComponent = ({ currentStep }: Props) => {
+const StepperComponent = ({ currentStep, setCurrentStep }: Props) => {
     const { t } = useTypeSafeTranslation();
     const steps = [
         `${t('TRANSPORTATIONS.CAR')}`,
@@ -111,6 +112,13 @@ const StepperComponent = ({ currentStep }: Props) => {
 
     const isStepSkipped = (step: number) => {
         return skipped.has(step);
+    };
+
+    const handleNext = () => {
+        if (activeStep < steps.length - 1) {
+            setActiveStep(activeStep + 1);
+            setCurrentStep(activeStep + 1); // Pass the step change back to the parent component
+        }
     };
 
     return (
