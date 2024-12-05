@@ -19,9 +19,9 @@ const iconProps = {
     sx: {
         width: '40px',
         height: '40px',
-        color: '#A3A3A3',
+        color: '#e0e0e0',
         '&:hover': {
-            color: 'rgb(200,200,200)',
+            color: '#7c0000',
         }
     },
 };
@@ -33,79 +33,90 @@ const Sidebar = () => {
 
     const navLinks = [
         {
-            icon:   <Tooltip title={t('TEXT.DASHBOARD')}>
-                <HomeRoundedIcon {...iconProps} />
-            </Tooltip>,
+            icon:
+                <Tooltip title={t('TEXT.DASHBOARD')}>
+                    <HomeRoundedIcon {...iconProps} />
+                </Tooltip>,
             label: t('TEXT.DASHBOARD'),
             route: '/dashboard',
         },
         {
-            icon:   <Tooltip title={t('TEXT.USERS')}>
-                <PeopleAltIcon {...iconProps} />
-            </Tooltip>,
+            icon:
+                <Tooltip title={t('TEXT.USERS')}>
+                    <PeopleAltIcon {...iconProps} />
+                </Tooltip>,
             label: t('TEXT.USERS'),
             route: '/users',
         },
         {
-            icon:   <Tooltip title={t('TEXT.TRANSPORTATION')}>
-                <ListAltIcon {...iconProps} />
-            </Tooltip>,
+            icon:
+                <Tooltip title={t('TEXT.TRANSPORTATION')}>
+                    <ListAltIcon {...iconProps} />
+                </Tooltip>,
             label: t('TEXT.TRANSPORTATION'),
             route: '/transportations',
         },
         {
-            icon:   <Tooltip title={t('TEXT.CAR_TYPES')}>
-                <LocalShippingIcon {...iconProps} />
-            </Tooltip>,
+            icon:
+                <Tooltip title={t('TEXT.CAR_TYPES')}>
+                    <LocalShippingIcon {...iconProps} />
+                </Tooltip>,
             label: t('TEXT.CAR_TYPES'),
             route: '/type-of-transportation',
         },
         {
-            icon:   <Tooltip title={t('TEXT.PRODUCT_CATEGORIES')}>
-                <Inventory2Icon {...iconProps} />
-            </Tooltip>,
+            icon:
+                <Tooltip title={t('TEXT.PRODUCT_CATEGORIES')}>
+                    <Inventory2Icon {...iconProps} />
+                </Tooltip>,
             label: t('TEXT.PRODUCT_CATEGORIES'),
             route: '/products-categories',
         },
         {
-            icon:   <Tooltip title={t('TEXT.ORDERS')}>
-                <BubbleChartIcon {...iconProps} />
-            </Tooltip>,
+            icon:
+                <Tooltip title={t('TEXT.ORDERS')}>
+                    <BubbleChartIcon {...iconProps} />
+                </Tooltip>,
             label: t('TEXT.ORDERS'),
             route: '/orders',
         },
         {
-            icon:   <Tooltip title={t('TEXT.REQUESTS')}>
-                <EmailIcon {...iconProps} />
-            </Tooltip>,
+            icon:
+                <Tooltip title={t('TEXT.REQUESTS')}>
+                    <EmailIcon {...iconProps} />
+                </Tooltip>,
             label: t('TEXT.REQUESTS'),
             route: '/requests',
         },
         {
-            icon:   <Tooltip title={t('TEXT.PROFILE')}>
-                <PersonIcon {...iconProps} />
-            </Tooltip>,
+            icon:
+                <Tooltip title={t('TEXT.PROFILE')}>
+                    <PersonIcon {...iconProps} />
+                </Tooltip>,
             label: t('TEXT.PROFILE'),
             route: '/users/profile',
         },
         {
-            icon:   <Tooltip title={t('TEXT.DOCUMENTS')}>
-                <FileCopyIcon {...iconProps} />
-            </Tooltip>,
+            icon:
+                <Tooltip title={t('TEXT.DOCUMENTS')}>
+                    <FileCopyIcon {...iconProps} />
+                </Tooltip>,
             label: t('TEXT.DOCUMENTS'),
             route: '/documents',
         },
         {
-            icon:   <Tooltip title={t('TEXT.INVOICES')}>
-                <ReceiptIcon {...iconProps} />
-            </Tooltip>,
+            icon:
+                <Tooltip title={t('TEXT.INVOICES')}>
+                    <ReceiptIcon {...iconProps} />
+                </Tooltip>,
             label: t('TEXT.INVOICES'),
             route: '/invoices',
         },
         {
-            icon:   <Tooltip title={t('TEXT.LOGOUT')}>
-                <LogoutIcon {...iconProps} />
-            </Tooltip>,
+            icon:
+                <Tooltip title={t('TEXT.LOGOUT')}>
+                    <LogoutIcon {...iconProps} />
+                </Tooltip>,
             label: t('TEXT.LOGOUT'),
             route: '/logout',
         },
@@ -126,7 +137,7 @@ const Sidebar = () => {
             id="sidebar"
             PaperProps={{
                 sx: {
-                    width: 70,
+                    width: 90,
                     border: 'none',
                     display: 'flex',
                     justifyContent: 'start',
@@ -135,7 +146,11 @@ const Sidebar = () => {
                     position: 'fixed',
                     minHeight: '100%',
                     height: '100%',
-                    backgroundColor: `${theme.palette.component.dark}`,
+                    background: 'linear-gradient(to bottom, #d73f3b, #a40500)', // Gradient color
+                    borderTopLeftRadius: 0,
+                    borderTopRightRadius: 40, // Round the top-right corner
+                    borderBottomLeftRadius: 0,
+                    borderBottomRightRadius: 0, // Round the bottom-right corner
                 },
             }}
             variant="permanent"

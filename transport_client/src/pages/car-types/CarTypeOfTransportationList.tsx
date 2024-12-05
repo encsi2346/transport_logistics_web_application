@@ -155,7 +155,7 @@ const CarTypeOfTransportationList = () => {
                         {typeOfTransportationList
                             .map((item, index) => {
                                 return (
-                                    <Grid item xs={5} key={item.carTypeOfTransportationId}>
+                                    <Grid item xs={5} key={item._id}>
                                         <CarTypeOfTransportationCard
                                             onClick={() => navigate(`/type-of-transportation/${item._id}/car-types`)}
                                             id={item.carTypeOfTransportationId}

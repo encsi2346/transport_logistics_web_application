@@ -4,7 +4,7 @@ import {
     deleteCarType,
     getAllCarTypes,
     getCarType,
-    paginatedCarType,
+    paginatedCarType, searchCarTypes,
     updateCarType
 } from "../controllers/carType.js";
 
@@ -137,5 +137,7 @@ router.put('/api/car-types/:id', updateCarType);
 router.delete('/api/car-types/:id', deleteCarType);
 
 router.get("/api/paginated-car-type", paginatedCarType);
+
+router.get('/api/car-types/search', searchCarTypes);
 
 export default router;

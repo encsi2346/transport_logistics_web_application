@@ -93,10 +93,6 @@ const CarList = () => {
         }
     };
 
-    useEffect(() => {
-        handleLoadPaginatedCars();
-    }, [page, limit, search]);
-
     const handlePageChange = (newPage: any) => {
         setPage((newPage + 1)); // Convert to 1-based index and string
         handleLoadPaginatedCars(); // Fetch data for the new page
@@ -142,6 +138,11 @@ const CarList = () => {
         setCars([]);
     };
 
+    useEffect(() => {
+        handleLoadPaginatedCars();
+    }, [page, limit, search, onReset]);
+
+
     const submitData = async () => {
         try {
             setFiltersReset(false);
@@ -153,6 +154,7 @@ const CarList = () => {
                 }
             );
             const searchCarTypesQuery = await getResponse.json();
+            console.log('searchCarTypesQuery', searchCarTypesQuery);
             setCars(searchCarTypesQuery.content || []);
         } catch (error) {
             console.error('Error submitting form:', error);

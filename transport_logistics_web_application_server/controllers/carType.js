@@ -2,6 +2,7 @@ import CarType from '../models/CarType.js';
 import ProductCategory from "../models/ProductCategory.js";
 import Product from "../models/Product.js";
 import CarTypeOfTransportation from "../models/CarTypeOfTransportation.js";
+import User from "../models/User.js";
 
 export const getAllCarTypes = async (req, res) => {
     try {
@@ -165,3 +166,19 @@ export const paginatedCarType = async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+export const searchCarTypes = async (req, res) => {
+    try {
+        const { brand } = req.query;
+        console.log('Search query:', req.query);
+
+        const query = {};
+        if (brand) query.brand = brand; //{ $regex: brand, $options: 'i' };
+
+        const carTypes = await CarType.find(query);
+        res.json({ content: carTypes });
+    } catch (error) {
+        console.error('Error fetching cartypes:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}

@@ -147,12 +147,13 @@ const CarTypeList = () => {
         try {
             setFiltersReset(false);
             const getResponse = await fetch(
-                `http://localhost:3001/api/type-of-transportation/${id}/car-types/search?brand=${values.brand}&fuel=${values.fuel}&numberOfSeats=${values.numberOfSeats}`,
+                `http://localhost:3001/api/car-types/search?brand=${values.brand}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json"},
                 }
             );
+            console.log('Brand value:', values.brand);
             const searchCarTypesQuery = await getResponse.json();
             setCartTypes(searchCarTypesQuery.content || []);
         } catch (error) {
@@ -225,7 +226,7 @@ const CarTypeList = () => {
                                     }}
                                 />
                             </FormControl>
-                            <FormControl>
+                            {/* <FormControl>
                                 <TextField
                                     id="fuel"
                                     placeholder='Példa Éva'
@@ -298,7 +299,7 @@ const CarTypeList = () => {
                                         "& fieldset": {border: 'none'},
                                     }}
                                 />
-                            </FormControl>
+                            </FormControl>*/}
                             <div style={{display: 'flex', alignItems: 'center'}}>
                                 <SaveButton onClick={onReset} text={t('TEXT.CLEAR_FILTER')}/>
                                 <SaveButton type='submit' text={t('TEXT.FILTER')}/>
@@ -314,7 +315,7 @@ const CarTypeList = () => {
                         {carTypes
                             .map((item, index) => {
                                 return (
-                                    <Grid item xs={3} key={item.carTypeId}>
+                                    <Grid item xs={3} key={item._id}>
                                         <CarTypeCard
                                             onClick={() => navigate(`/type-of-transportation/${id}/car-types/${item._id}/cars`)}
                                             carTypeId={item.carTypeId}

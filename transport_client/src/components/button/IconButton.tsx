@@ -1,14 +1,13 @@
 import {Button, useTheme} from "@mui/material";
 
 interface Props {
-    text?: string;
     type?: string;
     onClick?: () => void;
     disabled?: boolean;
     icon?: React.ReactNode;
 }
 
-const SaveButton = ({ text, type, onClick, disabled, icon }: Props) => {
+const IconButton = ({ type, onClick, disabled, icon }: Props) => {
     const theme = useTheme();
 
     return (
@@ -16,31 +15,29 @@ const SaveButton = ({ text, type, onClick, disabled, icon }: Props) => {
             type={type}
             data-testid='save-button'
             sx={{
-                fontWeight: 'regular',
-                fontSize: '14px',
                 color: `${theme.palette.component.lightMin}`,
                 backgroundColor: `${theme.palette.component.dark}`,
-                borderRadius: '31px',
-                marginLeft: '20px',
-                marginRight: '20px',
-                marginTop: '20px',
-                marginBottom: '20px',
-                paddingTop: '4px',
-                paddingBottom: '4px',
-                paddingLeft: '30px',
-                paddingRight: '30px',
-                textTransform: 'none',
+                borderRadius: '8px',
+                marginLeft: '10px',
+                paddingTop: '5px',
+                paddingBottom: '5px',
+                paddingLeft: '5px',
+                paddingRight: '5px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minWidth: '50px',
+                height: '50px',
             }}
             onClick={() => {
                 if(!disabled && onClick) {
                     onClick();
                 }
             }}
-            startIcon={icon}
         >
-            {text}
+            {icon}
         </Button>
     );
 };
 
-export default SaveButton;
+export default IconButton;

@@ -7,7 +7,7 @@ import {
     TextField,
     InputLabel,
     MenuItem,
-    Fab
+    Fab, Tooltip
 } from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
@@ -23,6 +23,8 @@ import { useTypeSafeTranslation } from "../../components/inputField/hooks/useTyp
 import UserCard from "../../components/layout/UserCard";
 import AddIcon from "@mui/icons-material/Add";
 import {BallTriangle, Circles, Oval, Puff, Rings, SpinningCircles, TailSpin, ThreeDots} from "react-loading-icons";
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from "../../components/button/IconButton";
 
 const UserList = () => {
     const { t } = useTypeSafeTranslation();
@@ -179,31 +181,47 @@ const UserList = () => {
                                 value={values.name}
                                 onChange={handleChange('name')}
                                 InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <SearchIcon sx={{color: '#000000'}}/>
-                                        </InputAdornment>
-                                    ),
                                     endAdornment: (
                                         <InputAdornment position="end">
-                                            <ClearIcon
-                                                sx={{color: '#000000', cursor: 'pointer'}}
-                                                onClick={() => setValues({...values, name: '' })}
-                                            />
+                                            <Box
+                                                onClick={submitData}
+                                                sx={{
+                                                    backgroundColor: '#DD1C13',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    paddingBottom: '7px',
+                                                    paddingTop: '7px',
+                                                    paddingLeft: '10px',
+                                                    paddingRight: '10px',
+                                                    borderRadius: '6px',
+                                                    cursor: 'pointer'
+                                                }}
+                                            >
+                                                <SearchIcon sx={{color: '#e0e0e0'}}/>
+                                            </Box>
                                         </InputAdornment>
                                     )
                                 }}
                                 sx={{
-                                    backgroundColor: `#ffffff`,
-                                    borderRadius: '18px',
+                                    backgroundColor: `rgba(255, 255, 255, 0.76)`,
+                                    borderRadius: '8px',
                                     color: `#000000`,
                                     textDecoration: 'none',
-                                    height: 40,
-                                    width: 250,
+                                    height: 50,
+                                    width: 350,
                                     display: 'flex',
                                     justifyContent: 'center',
-                                    fontSize: "15px",
-                                    "& fieldset": {border: 'none'},
+                                    fontSize: "14px",
+                                    fontWeight: "600",
+                                    "& .MuiInputBase-input": {
+                                        fontSize: '14px',
+                                        fontWeight: '600',
+                                    },
+                                    "& fieldset": {
+                                        border: '#ffffff',
+                                        borderWidth: '5px'
+                                    },
                                 }}
                             />
                         </FormControl>
@@ -217,16 +235,27 @@ const UserList = () => {
                                 value={values.position ?? ''}
                                 onChange={handleChange('position')}
                                 sx={{
-                                    backgroundColor: `#ffffff`,
-                                    borderRadius: '18px',
+                                    backgroundColor: `rgba(255, 255, 255, 0.76)`,
+                                    borderRadius: '8px',
                                     color: `#000000`,
                                     textDecoration: 'none',
-                                    height: 40,
-                                    width: 250,
+                                    height: 50,
+                                    width: 350,
                                     display: 'flex',
                                     justifyContent: 'center',
-                                    fontSize: "15px",
-                                    "& fieldset": {border: 'none'},
+                                    fontSize: "14px",
+                                    fontWeight: "600",
+                                    "& .MuiInputBase-input": {
+                                        fontSize: '14px',
+                                        fontWeight: '600',
+                                    },
+                                    "& fieldset": {
+                                        border: '#ffffff',
+                                        borderWidth: '5px'
+                                    },
+                                    "& .MuiSelect-icon": {
+                                        color: '#DD1C13', // Change the arrow color here
+                                    },
                                 }}
                             >
                                 {Object.values(positionList).map((position) => (
@@ -237,8 +266,9 @@ const UserList = () => {
                             </Select>
                         </FormControl>
                         <div style={{display: 'flex', alignItems: 'center'}}>
-                            <SaveButton onClick={onReset} text={t('TEXT.CLEAR_FILTER')} />
-                            <SaveButton type='submit' text={t('TEXT.FILTER')}/>
+                            <Tooltip title={t('TEXT.CLEAR_FILTER')}>
+                                <IconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '50px'}}/>}/>
+                            </Tooltip>
                         </div>
                     </Box>
                 </form>
