@@ -1,4 +1,4 @@
-import {Box, Fab, FormControl, Input, InputAdornment} from "@mui/material";
+import {Box, Fab, FormControl, Input, InputAdornment, TextField, Tooltip} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
@@ -16,6 +16,8 @@ import {useModal} from "@ebay/nice-modal-react";
 import CarAddDialog from "../cars/CarAddDialog";
 import ProductItemAddDialog from "./ProductItemAddDialog";
 import {toast, ToastContainer} from "react-toastify";
+import IconButton from "../../components/button/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const ProductsItemList = () => {
     const { id } = useParams();
@@ -24,6 +26,11 @@ const ProductsItemList = () => {
     const location = useLocation();
     const addProductsItemDialog = useModal(ProductItemAddDialog);
     const [search, setSearch] = useState('name');
+    const [values, setValues] = useState({
+        driverName: '',
+        startDate: ''
+    });
+    const [filtersReset, setFiltersReset] = useState(false);
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
@@ -34,6 +41,13 @@ const ProductsItemList = () => {
         pages: pages,
         pageSize: limit,
         total: total
+    });
+
+    const { control, reset, handleSubmit, setValue } = useForm({
+        defaultValues: {
+            taskIdIn: [],
+            onlyActives: false,
+        },
     });
 
     const notify = ({text, type}) => {
@@ -130,81 +144,125 @@ const ProductsItemList = () => {
         }
     }, [products]);
 
+    const onSubmit = handleSubmit((data) => {});
+
+    const onReset = () => {
+        setValues({
+            driverName: '',
+            startDate: ''
+        });
+        setFiltersReset(true);
+        setTransportations([]);
+    };
+
+    const handleChange = (prop: any) => (event: any) => {
+        setValues({...values, [prop]: event.target.value });
+    };
+
+    const submitData = async () => {
+        try {
+            setFiltersReset(false);
+            const getResponse = await fetch(
+                `http://localhost:3001/api/transportations/search?driverName=${values.driverName}&startDate=${values.startDate}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const searchTransportationsQuery = await getResponse.json();
+            setTransportations(searchTransportationsQuery.content || []);
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
+
     return (
         <Box>
             <PageHeader text={t('PRODUCTS.PRODUCTS')}/>
             <FilterCard>
-                <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
-                    <FormControl sx={{
-                        marginTop: 1,
-                        marginBottom: 5,
-                        marginLeft: 2,
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: 2
-                    }}>
-                        <Input
-                            id="category"
-                            placeholder={t('PRODUCTS.PRODUCT_NAME')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                        {/*<Input
-                            id="availability"
-                            placeholder={t('PRODUCTS.AVAILABILITY')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />*/}
-                    </FormControl>
-                </Box>
+                <form
+                    autoComplete='off'
+                    onSubmit={
+                        async (e) => {
+                            e.preventDefault();
+                            submitData();
+                        }}
+                >
+                    <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
+                        <Box sx={{
+                            marginTop: 1,
+                            marginBottom: 5,
+                            marginLeft: 2,
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            gap: 4
+                        }}>
+                        <FormControl>
+                            <TextField
+                                id="category"
+                                placeholder={t('PRODUCTS.PRODUCT_NAME')}
+                                name='category'
+                                label={t('PRODUCTS.PRODUCT_NAME')}
+                                value={values.category}
+                                onChange={handleChange('category')}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <Box
+                                                onClick={submitData}
+                                                sx={{
+                                                    backgroundColor: '#DD1C13',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    paddingBottom: '7px',
+                                                    paddingTop: '7px',
+                                                    paddingLeft: '10px',
+                                                    paddingRight: '10px',
+                                                    borderRadius: '6px',
+                                                    cursor: 'pointer'
+                                                }}
+                                            >
+                                                <SearchIcon sx={{color: '#e0e0e0'}}/>
+                                            </Box>
+                                        </InputAdornment>
+                                    )
+                                }}
+                                sx={{
+                                    backgroundColor: `rgba(255, 255, 255, 0.76)`,
+                                    borderRadius: '8px',
+                                    color: `#000000`,
+                                    textDecoration: 'none',
+                                    height: 50,
+                                    width: 350,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    fontSize: "14px",
+                                    fontWeight: "600",
+                                    "& .MuiInputBase-input": {
+                                        fontSize: '14px',
+                                        fontWeight: '600',
+                                    },
+                                    "& fieldset": {
+                                        border: '#ffffff',
+                                        borderWidth: '5px'
+                                    },
+                                }}
+                            />
+                        </FormControl>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
+                            <Tooltip title={t('TEXT.CLEAR_FILTER')}>
+                                <IconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '50px'}}/>}/>
+                            </Tooltip>
+                        </div>
+                    </Box>
+                    </Box>
+                </form>
             </FilterCard>
 
             <ContentCard>
-                <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
+                <Box sx={{display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
                     {/*<ProductsTableQuery
                         searchResults={
                             products

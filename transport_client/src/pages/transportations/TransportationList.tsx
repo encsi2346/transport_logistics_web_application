@@ -1,4 +1,4 @@
-import {Box, Fab, FormControl, Input, InputAdornment, TextField} from "@mui/material";
+import {Box, Fab, FormControl, Input, InputAdornment, TextField, Tooltip} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
@@ -12,6 +12,8 @@ import useSelection from "../../components/inputField/hooks/useSelection";
 import SaveButton from "../../components/button/SaveButton";
 import TransportationTableQuery from "./TransportationTableQuery";
 import AddIcon from "@mui/icons-material/Add";
+import IconButton from "../../components/button/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const TransportationList = () => {
     const { id } = useParams();
@@ -157,80 +159,60 @@ const TransportationList = () => {
                             <FormControl>
                                 <TextField
                                     id="driverName"
-                                    placeholder='Példa Éva'
+                                    placeholder={t('TRANSPORTATIONS.DRIVER_NAME')}
                                     name='driverName'
                                     label={t('TRANSPORTATIONS.DRIVER_NAME')}
                                     value={values.driverName}
                                     onChange={handleChange('driverName')}
                                     InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <SearchIcon sx={{color: '#000000'}}/>
-                                            </InputAdornment>
-                                        ),
                                         endAdornment: (
                                             <InputAdornment position="end">
-                                                <ClearIcon
-                                                    sx={{color: '#000000', cursor: 'pointer'}}
-                                                    onClick={() => setValues({...values, driverName: ''})}
-                                                />
+                                                <Box
+                                                    onClick={submitData}
+                                                    sx={{
+                                                        backgroundColor: '#DD1C13',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        paddingBottom: '7px',
+                                                        paddingTop: '7px',
+                                                        paddingLeft: '10px',
+                                                        paddingRight: '10px',
+                                                        borderRadius: '6px',
+                                                        cursor: 'pointer'
+                                                    }}
+                                                >
+                                                    <SearchIcon sx={{color: '#e0e0e0'}}/>
+                                                </Box>
                                             </InputAdornment>
                                         )
                                     }}
                                     sx={{
-                                        backgroundColor: `#ffffff`,
-                                        borderRadius: '18px',
+                                        backgroundColor: `rgba(255, 255, 255, 0.76)`,
+                                        borderRadius: '8px',
                                         color: `#000000`,
                                         textDecoration: 'none',
-                                        height: 40,
-                                        width: 250,
+                                        height: 50,
+                                        width: 350,
                                         display: 'flex',
                                         justifyContent: 'center',
-                                        fontSize: "15px",
-                                        "& fieldset": {border: 'none'},
-                                    }}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <TextField
-                                    id="startDate"
-                                    placeholder='Példa Éva'
-                                    name='startDate'
-                                    label={t('TRANSPORTATIONS.START_DATE')}
-                                    value={values.startDate}
-                                    onChange={handleChange('startDate')}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <SearchIcon sx={{color: '#000000'}}/>
-                                            </InputAdornment>
-                                        ),
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <ClearIcon
-                                                    sx={{color: '#000000', cursor: 'pointer'}}
-                                                    onClick={() => setValues({...values, startDate: ''})}
-                                                />
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                    sx={{
-                                        backgroundColor: `#ffffff`,
-                                        borderRadius: '18px',
-                                        color: `#000000`,
-                                        textDecoration: 'none',
-                                        height: 40,
-                                        width: 250,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        fontSize: "15px",
-                                        "& fieldset": {border: 'none'},
+                                        fontSize: "14px",
+                                        fontWeight: "600",
+                                        "& .MuiInputBase-input": {
+                                            fontSize: '14px',
+                                            fontWeight: '600',
+                                        },
+                                        "& fieldset": {
+                                            border: '#ffffff',
+                                            borderWidth: '5px'
+                                        },
                                     }}
                                 />
                             </FormControl>
                             <div style={{display: 'flex', alignItems: 'center'}}>
-                                <SaveButton onClick={onReset} text={t('TEXT.CLEAR_FILTER')}/>
-                                <SaveButton type='submit' text={t('TEXT.FILTER')}/>
+                                <Tooltip title={t('TEXT.CLEAR_FILTER')}>
+                                    <IconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '50px'}}/>}/>
+                                </Tooltip>
                             </div>
                         </Box>
                     </Box>

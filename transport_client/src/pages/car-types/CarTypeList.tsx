@@ -1,6 +1,6 @@
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
-import {Box, Fab, FormControl, Grid, Input, InputAdornment, TextField} from "@mui/material";
+import {Box, Fab, FormControl, Grid, Input, InputAdornment, TextField, Tooltip} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
 import React, {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
@@ -12,6 +12,8 @@ import {useModal} from "@ebay/nice-modal-react";
 import CarTypeAddDialog from "./CarTypeAddDialog";
 import CarTypeCard from "../../components/layout/CarTypeCard";
 import AddIcon from '@mui/icons-material/Add';
+import IconButton from "../../components/button/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 
 const CarTypeList = () => {
@@ -192,117 +194,60 @@ const CarTypeList = () => {
                             <FormControl>
                                 <TextField
                                     id="brand"
-                                    placeholder='Példa Éva'
+                                    placeholder={t('CAR_TYPES.BRAND')}
                                     name='brand'
                                     label={t('CAR_TYPES.BRAND')}
                                     value={values.brand}
                                     onChange={handleChange('brand')}
                                     InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <SearchIcon sx={{color: '#000000'}}/>
-                                            </InputAdornment>
-                                        ),
                                         endAdornment: (
                                             <InputAdornment position="end">
-                                                <ClearIcon
-                                                    sx={{color: '#000000', cursor: 'pointer'}}
-                                                    onClick={() => setValues({...values, brand: ''})}
-                                                />
+                                                <Box
+                                                    onClick={submitData}
+                                                    sx={{
+                                                        backgroundColor: '#DD1C13',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        paddingBottom: '7px',
+                                                        paddingTop: '7px',
+                                                        paddingLeft: '10px',
+                                                        paddingRight: '10px',
+                                                        borderRadius: '6px',
+                                                        cursor: 'pointer'
+                                                    }}
+                                                >
+                                                    <SearchIcon sx={{color: '#e0e0e0'}}/>
+                                                </Box>
                                             </InputAdornment>
                                         )
                                     }}
                                     sx={{
-                                        backgroundColor: `#ffffff`,
-                                        borderRadius: '18px',
+                                        backgroundColor: `rgba(255, 255, 255, 0.76)`,
+                                        borderRadius: '8px',
                                         color: `#000000`,
                                         textDecoration: 'none',
-                                        height: 40,
-                                        width: 250,
+                                        height: 50,
+                                        width: 350,
                                         display: 'flex',
                                         justifyContent: 'center',
-                                        fontSize: "15px",
-                                        "& fieldset": {border: 'none'},
+                                        fontSize: "14px",
+                                        fontWeight: "600",
+                                        "& .MuiInputBase-input": {
+                                            fontSize: '14px',
+                                            fontWeight: '600',
+                                        },
+                                        "& fieldset": {
+                                            border: '#ffffff',
+                                            borderWidth: '5px'
+                                        },
                                     }}
                                 />
                             </FormControl>
-                            {/* <FormControl>
-                                <TextField
-                                    id="fuel"
-                                    placeholder='Példa Éva'
-                                    name='fuel'
-                                    label={t('CAR_TYPES.FUEL')}
-                                    value={values.fuel}
-                                    onChange={handleChange('fuel')}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <SearchIcon sx={{color: '#000000'}}/>
-                                            </InputAdornment>
-                                        ),
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <ClearIcon
-                                                    sx={{color: '#000000', cursor: 'pointer'}}
-                                                    onClick={() => setValues({...values, fuel: ''})}
-                                                />
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                    sx={{
-                                        backgroundColor: `#ffffff`,
-                                        borderRadius: '18px',
-                                        color: `#000000`,
-                                        textDecoration: 'none',
-                                        height: 40,
-                                        width: 250,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        fontSize: "15px",
-                                        "& fieldset": {border: 'none'},
-                                    }}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <TextField
-                                    id="numberOfSeats"
-                                    placeholder='Példa Éva'
-                                    name='numberOfSeats'
-                                    label={t('CAR_TYPES.NUMBER_OF_SEATS')}
-                                    value={values.numberOfSeats}
-                                    onChange={handleChange('numberOfSeats')}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <SearchIcon sx={{color: '#000000'}}/>
-                                            </InputAdornment>
-                                        ),
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <ClearIcon
-                                                    sx={{color: '#000000', cursor: 'pointer'}}
-                                                    onClick={() => setValues({...values, numberOfSeats: ''})}
-                                                />
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                    sx={{
-                                        backgroundColor: `#ffffff`,
-                                        borderRadius: '18px',
-                                        color: `#000000`,
-                                        textDecoration: 'none',
-                                        height: 40,
-                                        width: 250,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        fontSize: "15px",
-                                        "& fieldset": {border: 'none'},
-                                    }}
-                                />
-                            </FormControl>*/}
                             <div style={{display: 'flex', alignItems: 'center'}}>
-                                <SaveButton onClick={onReset} text={t('TEXT.CLEAR_FILTER')}/>
-                                <SaveButton type='submit' text={t('TEXT.FILTER')}/>
+                                <Tooltip title={t('TEXT.CLEAR_FILTER')}>
+                                    <IconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '50px'}}/>}/>
+                                </Tooltip>
                             </div>
                         </Box>
                     </Box>
