@@ -1,12 +1,19 @@
 import type { GridActionsColDef, GridColDef, GridSelectionModel, GridSortModel } from '@mui/x-data-grid';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import StyledDataGrid, {handleDataGridCellClick, sharedDataGridProps} from "../../components/dataTable/StyledDataGrid";
 import {Pagination} from "../../components/inputField/hooks/usePagination";
 import {Sort} from "../../components/inputField/hooks/useSort";
-import {Tooltip} from "@mui/material";
+import {Box, Tooltip} from "@mui/material";
 import {GridActionsCellItem, GridRowParams} from "@mui/x-data-grid";
 import EditIcon from '@mui/icons-material/Edit';
+import {useState} from "react";
+import Popper, {PopperPlacementType} from "@mui/material/Popper";
+import Fade from "@mui/material/Fade";
+import Paper from "@mui/material/Paper";
+import NormalText from "../../components/text/NormalText";
+import DeleteIcon from "@mui/icons-material/Delete";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 interface Props {
     data?: string[];
@@ -34,10 +41,23 @@ const DocumentTable = ({
    onPageSizeChange,
    onSortChange,
    onSelectionChange,
+                           onHandleDelete,
 }: Props) => {
+    const { id } = useParams();
     const { t } = useTypeSafeTranslation();
     const location = useLocation();
     const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+    const [open, setOpen] = useState(false);
+    const [placement, setPlacement] = useState<PopperPlacementType>();
+
+    const handleClick =
+        (newPlacement: PopperPlacementType) =>
+            (event: MouseEvent<HTMLButtonElement>) => {
+                setAnchorEl(event.currentTarget);
+                setOpen((prev) => placement !== newPlacement || !prev);
+                setPlacement(newPlacement);
+            };
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
@@ -77,19 +97,72 @@ const DocumentTable = ({
             field: 'actions',
             headerName: t('TEXT.ACTIONS'),
             type: 'actions',
-            width: 300,
+            width: 200,
             getActions: (params: GridRowParams) => [
-                <GridActionsCellItem
-                    key={`${params.id}_open`}
-                    icon={
-                        <Tooltip title={t('TEXT.EDIT')}>
-                            <EditIcon width="16px" height="16px" sx={{ color: "#ff0000"}}/>
-                        </Tooltip>
-                    }
-                    label={t('TEXT.EDIT')}
-                    //onClick={}
-                    data-testid='edit-button'
-                />,
+                <Box>
+                    <Popper
+                        sx={{
+                            zIndex: 1200,
+                            borderRadius: '8px',
+                        }}
+                        open={open}
+                        anchorEl={anchorEl}
+                        placement={placement}
+                        transition
+                    >
+                        {({ TransitionProps }) => (
+                            <Fade {...TransitionProps} timeout={350}>
+                                <Paper>
+                                    <Box
+                                        data-testid="edit-button"
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            padding: '10px',
+                                            cursor: 'pointer',
+                                            '&:hover': {
+                                                backgroundColor: '#f0f0f0',
+                                                borderRadius: '4px',
+                                                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                                            },
+                                        }}>
+                                        <EditIcon width="18px" height="18px" sx={{ color: "#ff0000" }} />
+                                        <NormalText text={t('TEXT.EDIT')} />
+                                    </Box>
+                                    <Box
+                                        onClick={() => onHandleDelete(id)}
+                                        data-testid="remove-button"
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            padding: '10px',
+                                            cursor: 'pointer',
+                                            '&:hover': {
+                                                backgroundColor: '#f0f0f0',
+                                                borderRadius: '4px',
+                                                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                                            },
+                                        }}
+                                    >
+                                        <DeleteIcon width="18px" height="18px" sx={{ color: "#ff0000" }} />
+                                        <NormalText text={t('TEXT.REMOVE')} />
+                                    </Box>
+                                </Paper>
+                            </Fade>
+                        )}
+                    </Popper>
+                    <GridActionsCellItem
+                        key={`${id}_settings`}
+                        icon={
+                            <Tooltip title={t('TEXT.SETTINGS')}>
+                                <MoreVertIcon width="50px" height="50px" sx={{ color: "#ff0000" }} />
+                            </Tooltip>
+                        }
+                        label={t('TEXT.SETTINGS')}
+                        data-testid="settings-button"
+                        onClick={handleClick('right-end')}
+                    />
+                </Box>
             ],
         });
     }

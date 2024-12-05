@@ -1,4 +1,4 @@
-import {Box, Fab, FormControl, Input, InputAdornment, TextField} from "@mui/material";
+import {Box, Fab, FormControl, Input, InputAdornment, TextField, Tooltip} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
@@ -15,6 +15,8 @@ import {documentEditFormSchema, DocumentEditFormSchema} from "@/pages/documents/
 import {zodResolver} from "@hookform/resolvers/zod";
 import {InvoiceEditFormSchema, invoiceEditFormSchema} from "@/pages/invoices/schemas/invoice-edit-form-schema";
 import AddIcon from "@mui/icons-material/Add";
+import IconButton from "../../components/button/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const InvoiceList = () => {
     const { t } = useTypeSafeTranslation();
@@ -75,7 +77,7 @@ const InvoiceList = () => {
     const { selectionModel, handleSelectionChange, resetSelection } = useSelection();
     const [invoiceStatusList, setInvoiceStatusList] = useState([]);
 
-    const handleInvoiceStatusList = async () => {
+    /*const handleInvoiceStatusList = async () => {
         const getResponse = await fetch(
             "http://localhost:3001/api/invoiceStatus",
             {
@@ -97,7 +99,7 @@ const InvoiceList = () => {
 
     useEffect(() => {
         handleInvoiceStatusList();
-    }, [])
+    }, [])*/
 
     const {
         control,
@@ -123,7 +125,7 @@ const InvoiceList = () => {
         handleSelectionChange(selectionModel);
     };
 
-    const getInvoices = async () => {
+    /*const getInvoices = async () => {
         try {
             const getInvoiceResponse = await fetch(
                 `http://localhost:3001/api/invoices`,
@@ -226,7 +228,7 @@ const InvoiceList = () => {
 
     useEffect(() => {
         getInvoices();
-    }, []);
+    }, []);*/
 
     const handleChange = (prop: any) => (event: any) => {
         setValues({...values, [prop]: event.target.value });
@@ -282,80 +284,60 @@ const InvoiceList = () => {
                             <FormControl>
                                 <TextField
                                     id="name"
-                                    placeholder='Példa Éva'
+                                    placeholder={t('INVOICES.COMPANY_NAME')}
                                     name='name'
                                     label={t('INVOICES.COMPANY_NAME')}
                                     value={values.name}
                                     onChange={handleChange('name')}
                                     InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <SearchIcon sx={{color: '#000000'}}/>
-                                            </InputAdornment>
-                                        ),
                                         endAdornment: (
                                             <InputAdornment position="end">
-                                                <ClearIcon
-                                                    sx={{color: '#000000', cursor: 'pointer'}}
-                                                    onClick={() => setValues({...values, name: ''})}
-                                                />
+                                                <Box
+                                                    onClick={submitData}
+                                                    sx={{
+                                                        backgroundColor: '#DD1C13',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        paddingBottom: '7px',
+                                                        paddingTop: '7px',
+                                                        paddingLeft: '10px',
+                                                        paddingRight: '10px',
+                                                        borderRadius: '6px',
+                                                        cursor: 'pointer'
+                                                    }}
+                                                >
+                                                    <SearchIcon sx={{color: '#e0e0e0'}}/>
+                                                </Box>
                                             </InputAdornment>
                                         )
                                     }}
                                     sx={{
-                                        backgroundColor: `#ffffff`,
-                                        borderRadius: '18px',
+                                        backgroundColor: `rgba(255, 255, 255, 0.76)`,
+                                        borderRadius: '8px',
                                         color: `#000000`,
                                         textDecoration: 'none',
-                                        height: 40,
-                                        width: 250,
+                                        height: 50,
+                                        width: 350,
                                         display: 'flex',
                                         justifyContent: 'center',
-                                        fontSize: "15px",
-                                        "& fieldset": {border: 'none'},
-                                    }}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <TextField
-                                    id="orderId"
-                                    placeholder='Példa Éva'
-                                    name='orderId'
-                                    label={t('INVOICES.ORDER_ID')}
-                                    value={values.availability}
-                                    onChange={handleChange('orderId')}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <SearchIcon sx={{color: '#000000'}}/>
-                                            </InputAdornment>
-                                        ),
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <ClearIcon
-                                                    sx={{color: '#000000', cursor: 'pointer'}}
-                                                    onClick={() => setValues({...values, orderId: ''})}
-                                                />
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                    sx={{
-                                        backgroundColor: `#ffffff`,
-                                        borderRadius: '18px',
-                                        color: `#000000`,
-                                        textDecoration: 'none',
-                                        height: 40,
-                                        width: 250,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        fontSize: "15px",
-                                        "& fieldset": {border: 'none'},
+                                        fontSize: "14px",
+                                        fontWeight: "600",
+                                        "& .MuiInputBase-input": {
+                                            fontSize: '14px',
+                                            fontWeight: '600',
+                                        },
+                                        "& fieldset": {
+                                            border: '#ffffff',
+                                            borderWidth: '5px'
+                                        },
                                     }}
                                 />
                             </FormControl>
                             <div style={{display: 'flex', alignItems: 'center'}}>
-                                <SaveButton onClick={onReset} text={t('TEXT.CLEAR_FILTER')}/>
-                                <SaveButton type='submit' text={t('TEXT.FILTER')}/>
+                                <Tooltip title={t('TEXT.CLEAR_FILTER')}>
+                                    <IconButton onClick={onReset} icon={<DeleteIcon sx={{width: '50px'}}/>}/>
+                                </Tooltip>
                             </div>
                         </Box>
                     </Box>
