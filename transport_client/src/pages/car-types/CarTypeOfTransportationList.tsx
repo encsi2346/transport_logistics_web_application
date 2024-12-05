@@ -1,7 +1,7 @@
 import PageHeader from "../../components/text/PageHeader";
 import {Box, Fab, Grid} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import {useModal} from "@ebay/nice-modal-react";
@@ -15,38 +15,23 @@ const CarTypeOfTransportationList = () => {
     const location = useLocation();
     const addTypeOfTransportationDialog = useModal(NewTypeOfTransportationAddDialog);
     const [search, setSearch] = useState('');
-    const [typeOfTransportationList, setTypeOfTransportationList] = useState([
-        {
-            carTypeOfTransportationId: 1,
-            type: 'Ponyvás szállítás',
-            countOfCars: 12
-        },
-        {
-            carTypeOfTransportationId: 2,
-            type: 'Hűtött szállítás',
-            countOfCars: 8
-        },
-        {
-            carTypeOfTransportationId: 3,
-            type: 'Folyékony szállítás',
-            countOfCars: 2
-        },
-        {
-            carTypeOfTransportationId: 4,
-            type: 'Jármű szállítás',
-            countOfCars: 6
-        },
-        {
-            carTypeOfTransportationId: 5,
-            type: 'Konténeres szállítás',
-            countOfCars: 5
-        },
-        {
-            carTypeOfTransportationId: 6,
-            type: 'Kisteherautó',
-            countOfCars: 52
-        },
-    ]);
+    const [typeOfTransportationList, setTypeOfTransportationList] = useState([]);
+
+    const handleLoadTypeOfTransportation = async () => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/type-of-transportation`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getTypeOfTransportationData = await getResponse.json();
+        setTypeOfTransportationList(getTypeOfTransportationData);
+    }
+
+    useEffect(() => {
+        handleLoadTypeOfTransportation();
+    }, []);
 
     const openAddTypeOfTransportationDialog = () => {
         addTypeOfTransportationDialog
@@ -174,7 +159,7 @@ const CarTypeOfTransportationList = () => {
                                 return (
                                     <Grid item xs={5} key={item.carTypeOfTransportationId}>
                                         <CarTypeOfTransportationCard
-                                            onClick={() => navigate(`/type-of-transportation/${item.carTypeOfTransportationId}/car-types`)}
+                                            onClick={() => navigate(`/type-of-transportation/${item._id}/car-types`)}
                                             id={item.carTypeOfTransportationId}
                                             type={item.type}
                                             countOfCars={item.countOfCars}

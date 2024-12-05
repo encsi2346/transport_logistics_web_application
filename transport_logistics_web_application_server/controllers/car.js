@@ -1,4 +1,6 @@
 import Car from '../models/Car.js';
+import CarTypeOfTransportation from "../models/CarTypeOfTransportation.js";
+import CarType from "../models/CarType.js";
 
 export const getAllCars = async (req, res) => {
     try {
@@ -104,3 +106,73 @@ export const deleteCar = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const updateCountOfCars = async () => {
+    try {
+        // Step 1: For each Car document, increment the countOfCars in the corresponding CarType
+        const cars = await Car.find().populate('type');
+        const carTypesCountMap = {};
+
+        // Create a map to count the cars per CarType
+        cars.forEach(car => {
+            const carTypeId = car.type._id;
+            if (carTypesCountMap[carTypeId]) {
+                carTypesCountMap[carTypeId]++;
+            } else {
+                carTypesCountMap[carTypeId] = 1;
+            }
+        });
+
+        // Step 2: Update the countOfCars for each CarType
+        for (const carTypeId in carTypesCountMap) {
+            await CarType.findByIdAndUpdate(
+                carTypeId,
+                { countOfCars: carTypesCountMap[carTypeId] },
+                { new: true } // Optionally return the updated document
+            );
+        }
+
+        console.log('Count of cars updated successfully.');
+    } catch (error) {
+        console.error('Error updating countOfCars:', error);
+    }
+}
+
+// Function to update countOfCars for each transportation type
+export const updateTransportationTypeCounts = async () => {
+    try {
+        // Step 1: Get all cars with populated 'type' (which refers to CarType)
+        const cars = await Car.find().populate('type');
+
+        // Create a map to store the count of cars for each transportation type
+        const transportationTypeCounts = {};
+
+        // Step 2: Count the cars for each transportation type
+        for (const car of cars) {
+            const carType = car.type; // The CarType object
+            const transportationTypeId = carType.carTypeOfTransportationId; // The transportation type ID from CarType
+
+            if (transportationTypeCounts[transportationTypeId]) {
+                transportationTypeCounts[transportationTypeId]++;
+            } else {
+                transportationTypeCounts[transportationTypeId] = 1;
+            }
+        }
+
+        // Step 3: Update the countOfCars for each CarTypeOfTransportation
+        for (const transportationTypeId in transportationTypeCounts) {
+            const count = transportationTypeCounts[transportationTypeId];
+
+            // Find the CarTypeOfTransportation and update its countOfCars
+            await CarTypeOfTransportation.findByIdAndUpdate(
+                transportationTypeId,
+                { countOfCars: count },
+                { new: true } // Optionally return the updated document
+            );
+        }
+
+        console.log('Transportation type counts updated successfully.');
+    } catch (error) {
+        console.error('Error updating transportation type counts:', error);
+    }
+}

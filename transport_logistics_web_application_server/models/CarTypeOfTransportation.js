@@ -8,7 +8,10 @@ const carTypeOfTransportationSchema = new mongoose.Schema({
         default: uuidv4,
     },
     type: String, //típus neve
-    countOfCars: Number, //ilyen típusú autók száma
+    countOfCars: {
+        type: Number,
+        default: 0, // Initialize countOfCars to 0
+    }, //ilyen típusú autók száma
 });
 
 const CarTypeOfTransportation = mongoose.model('CarTypeOfTransportation', carTypeOfTransportationSchema);

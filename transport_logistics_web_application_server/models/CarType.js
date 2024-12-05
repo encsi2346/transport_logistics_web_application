@@ -26,6 +26,10 @@ const carTypeSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "CarTypeOfTransportation", //kiválasztott szállítás típus
     },
+    countOfCars: {
+        type: Number,
+        default: 0, // Initialize countOfCars to 0
+    },
 });
 
 const CarType = mongoose.model('CarType', carTypeSchema);

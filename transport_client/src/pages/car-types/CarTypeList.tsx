@@ -37,82 +37,74 @@ const CarTypeList = () => {
         carTypeOfTransportationId: '',
     });
     const [filtersReset, setFiltersReset] = useState(false);
-    const [carTypes, setCartTypes] = useState([
-        {
-            carTypeId: 1,
-            brand: 'Fiat',
-            typeName: 'Ducato MAXI 250 L3H2 2.3 MJet 3.5',
-            design: 'kisbusz',
-            usefulWeight: 200,
-            height: 2,
-            szelesseg: 2,
-            long: 3,
-            carTypeOfTransportationId: 2,
-        },
-        {
-            carTypeId: 2,
-            brand: 'Fiat',
-            typeName: 'Ducato MAXI 250 L3H2 2.3 MJet 3.5',
-            design: 'kisbusz',
-            usefulWeight: 200,
-            height: 2,
-            szelesseg: 2,
-            long: 3,
-            carTypeOfTransportationId: 2,
-        },
-        {
-            carTypeId: 3,
-            brand: 'Fiat',
-            typeName: 'Ducato MAXI 250 L3H2 2.3 MJet 3.5',
-            design: 'kisbusz',
-            usefulWeight: 200,
-            height: 2,
-            szelesseg: 2,
-            long: 3,
-            carTypeOfTransportationId: 2,
-        },
-        {
-            carTypeId: 4,
-            brand: 'Fiat',
-            typeName: 'Ducato MAXI 250 L3H2 2.3 MJet 3.5',
-            design: 'kisbusz',
-            usefulWeight: 200,
-            height: 2,
-            szelesseg: 2,
-            long: 3,
-            carTypeOfTransportationId: 2,
-        },
-        {
-            carTypeId: 5,
-            brand: 'Fiat',
-            typeName: 'Ducato MAXI 250 L3H2 2.3 MJet 3.5',
-            design: 'kisbusz',
-            usefulWeight: 200,
-            height: 2,
-            szelesseg: 2,
-            long: 3,
-            carTypeOfTransportationId: 2,
-        },
-    ]);
+    const [search, setSearch] = useState('typeName');
+    const [carTypes, setCartTypes] = useState([]);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const [pages, setPages] = useState(1);
+    const [total, setTotal] = useState(0);
+    const [pagination, setPagination] = useState({
+        page: page - 1,
+        pages: pages,
+        pageSize: limit,
+        total: total
+    });
 
-    const handleLoadCarTypes = async () => {
-        const getResponse = await fetch(
-            `http://localhost:3001/api/type-of-transportation/${id}/car-types`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json"},
+    const handleLoadPaginatedCarTypes = async () => {
+        try {
+            const params = new URLSearchParams({
+                sortBy: search,
+                page: String(page),
+                limit: String(limit),
+                typeOfTransportation: id,
+            });
+
+            const response = await fetch(
+                `http://localhost:3001/api/paginated-car-type?${params.toString()}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch products: ${response.statusText}`);
             }
-        );
-        const getCarTypesData = await getResponse.json();
-        const getStatus = getResponse.status;
-        console.log('getCarTypesData', getCarTypesData);
-        console.log('getUserStatus', getStatus);
-        setCartTypes(getCarTypesData);
-    }
+
+            const data = await response.json();
+            setCartTypes(data.carTypes || []);
+            setPage(data.page);
+            setLimit(data.limit);
+            setPages(data.pages);
+            setTotal(data.total);
+        } catch (error) {
+            console.error('Error loading paginated products:', error);
+        }
+    };
 
     useEffect(() => {
-        handleLoadCarTypes();
-    }, []);
+        handleLoadPaginatedCarTypes();
+    }, [page, limit, search]);
+
+    const handlePageChange = (newPage: any) => {
+        setPage((newPage + 1)); // Convert to 1-based index and string
+        handleLoadPaginatedCarTypes(); // Fetch data for the new page
+    };
+
+    const handlePageSizeChange = (newPageSize: any) => {
+        setLimit(newPageSize); // Ensure limit remains a string
+        setPage(1); // Reset to page 1 whenever limit changes
+        handleLoadPaginatedCarTypes();
+    };
+
+    useEffect(() => {
+        setPagination({
+            page: page - 1, // Adjust for 0-based indexing
+            pages: pages,
+            pageSize: limit,
+            total: total
+        });
+    }, [page, limit, pages, total]);
 
     const openAddCarTypeDialog = () => {
         addCarTypeDialog

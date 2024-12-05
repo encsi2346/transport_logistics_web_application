@@ -1,4 +1,7 @@
 import CarType from '../models/CarType.js';
+import ProductCategory from "../models/ProductCategory.js";
+import Product from "../models/Product.js";
+import CarTypeOfTransportation from "../models/CarTypeOfTransportation.js";
 
 export const getAllCarTypes = async (req, res) => {
     try {
@@ -102,5 +105,63 @@ export const deleteCarType = async (req, res) => {
         res.json({ message: 'CarType deleted' });
     } catch (error) {
         res.status(500).json({ message: error.message });
+    }
+};
+
+export const paginatedCarType = async (req, res) => {
+    try {
+        const { featured, typeName, carTypeOfTransportationId, sortBy, page = 1, limit = 10 } = req.query;
+        const query = {};
+        //query.quantity = { $gte: 1 }
+        if (featured) {
+            query.featured = true;
+        }
+        if (carTypeOfTransportationId) {
+            try {
+                // Find the category by ID
+                const typeOfTransportationData = await CarTypeOfTransportation.findOne({ _id: carTypeOfTransportationId });
+
+                // Check if category data is found
+                if (!typeOfTransportationData) {
+                    return res.status(400).json({ error: 'Transportation type not found' });
+                }
+                query.carTypeOfTransportationId = typeOfTransportationData._id;
+            } catch (err) {
+                console.error('Error while fetching type of transportation:', err);
+                return res.status(500).json({ error: 'Error retrieving type of transportation data' });
+            }
+        }
+        if (typeName) {
+            query.typeName = typeName;
+        }
+
+        const parsedPage = parseInt(page, 10) || 1;  // Default page to 1 if invalid
+        const parsedLimit = parseInt(limit, 10) || 10;  // Default limit to 10 if invalid
+
+        const options = {
+            skip: (parsedPage - 1) * parsedLimit,
+            limit: parsedLimit,
+            sort: sortBy === "asc" ? { typeName: 1 } : { typeName: -1 },
+        };
+
+        const carTypes = await CarType.find(query, null, options).populate("carTypeOfTransportationId", "typeName");
+        const total = await CarType.countDocuments(query);
+        const totalPublished = await CarType.countDocuments({ isDisplayed: true, ...query });
+
+        console.log('carTypes', carTypes);
+
+        const totalPages = Math.ceil(total / parsedLimit);
+        const paginatedCarTypes = {
+            carTypes,
+            total,
+            limit: parsedLimit,
+            page: parsedPage,
+            pages: totalPages,
+            totalPublished
+        };
+        return res.status(200).send(paginatedCarTypes);
+    } catch (error) {
+        console.error('Error in getPaginatedCarTypes middleware:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 };

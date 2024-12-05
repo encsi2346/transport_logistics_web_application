@@ -1,5 +1,12 @@
 import express from 'express';
-import {createCarType, deleteCarType, getAllCarTypes, getCarType, updateCarType} from "../controllers/carType.js";
+import {
+    createCarType,
+    deleteCarType,
+    getAllCarTypes,
+    getCarType,
+    paginatedCarType,
+    updateCarType
+} from "../controllers/carType.js";
 
 const router = express.Router();
 
@@ -128,5 +135,7 @@ router.put('/api/car-types/:id', updateCarType);
  *         description: CarType not found.
  */
 router.delete('/api/car-types/:id', deleteCarType);
+
+router.get("/api/paginated-car-type", paginatedCarType);
 
 export default router;

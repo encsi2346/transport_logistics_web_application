@@ -51,6 +51,7 @@ import serviceRoutes from "./routes/service.js";
 import transportationRoutes from "./routes/transportation.js";
 import carTypeOfTransportationRoutes from "./routes/carTypeOfTransportation.js";
 import ImageDetails from "./models/ImageDetails.js";
+import {updateCountOfCars, updateTransportationTypeCounts} from "./controllers/car.js";
 
 
 /*CONFIGURATIONS*/
@@ -281,4 +282,9 @@ mongoose.connect(process.env.MONGO_URL, {
     /*ADD DATA ONE TIME*/
     //User.insertMany(users);
     //ProductCategory.insertMany(books);
+
+    // Run the script
+    updateCountOfCars();
+    updateTransportationTypeCounts();
+
 }).catch((error) => console.log(`${error} did not connect`));
