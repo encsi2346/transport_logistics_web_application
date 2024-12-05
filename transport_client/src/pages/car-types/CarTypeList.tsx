@@ -316,7 +316,7 @@ const CarTypeList = () => {
                                 return (
                                     <Grid item xs={3} key={item.carTypeId}>
                                         <CarTypeCard
-                                            onClick={() => navigate(`/type-of-transportation/${id}/car-types/${item.carTypeId}/cars`)}
+                                            onClick={() => navigate(`/type-of-transportation/${id}/car-types/${item._id}/cars`)}
                                             carTypeId={item.carTypeId}
                                             brand={item.brand}
                                             typeName={item.typeName}

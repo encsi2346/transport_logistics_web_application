@@ -176,3 +176,59 @@ export const updateTransportationTypeCounts = async () => {
         console.error('Error updating transportation type counts:', error);
     }
 }
+
+export const paginatedCar = async (req, res) => {
+    try {
+        const { featured, name, type, sortBy, page = 1, limit = 10 } = req.query;
+        const query = {};
+        //query.quantity = { $gte: 1 }
+        if (featured) {
+            query.featured = true;
+        }
+        if (type) {
+            try {
+                // Find the category by ID
+                const typeData = await CarType.findOne({ _id: type });
+
+                // Check if category data is found
+                if (!typeData) {
+                    return res.status(400).json({ error: 'Car type not found' });
+                }
+                query.type = typeData._id;
+            } catch (err) {
+                console.error('Error while fetching type:', err);
+                return res.status(500).json({ error: 'Error retrieving type data' });
+            }
+        }
+        if (name) {
+            query.name = name;
+        }
+
+        const parsedPage = parseInt(page, 10) || 1;  // Default page to 1 if invalid
+        const parsedLimit = parseInt(limit, 10) || 10;  // Default limit to 10 if invalid
+
+        const options = {
+            skip: (parsedPage - 1) * parsedLimit,
+            limit: parsedLimit,
+            sort: sortBy === "asc" ? { name: 1 } : { name: -1 },
+        };
+
+        const cars = await Car.find(query, null, options).populate("type", "name");
+        const total = await Car.countDocuments(query);
+        const totalPublished = await Car.countDocuments({ isDisplayed: true, ...query });
+
+        const totalPages = Math.ceil(total / parsedLimit);
+        const paginatedCars = {
+            cars,
+            total,
+            limit: parsedLimit,
+            page: parsedPage,
+            pages: totalPages,
+            totalPublished
+        };
+        return res.status(200).send(paginatedCars);
+    } catch (error) {
+        console.error('Error in getPaginatedCars middleware:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};

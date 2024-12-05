@@ -36,53 +36,18 @@ const CarList = () => {
         totalTransport: '',
     });
     const [filtersReset, setFiltersReset] = useState(false);
-    const [cars, setCars] = useState([
-        {
-            carId: 1,
-            name: 'alfa',
-            licencePlate: 'AAA-123',
-            type: 2,
-            image: '',
-            totalTransport: 18,
-            totalDrivenKm: 200,
-        },
-        {
-            carId: 2,
-            name: 'beta',
-            licencePlate: 'BBB-123',
-            type: 2,
-            image: '',
-            totalTransport: 2,
-            totalDrivenKm: 60,
-        },
-        {
-            carId: 3,
-            name: 'gamma',
-            licencePlate: 'CCC-123',
-            type: 2,
-            image: '',
-            totalTransport: 12,
-            totalDrivenKm: 360,
-        },
-        {
-            carId: 4,
-            name: 'omega',
-            licencePlate: 'DDD-123',
-            type: 2,
-            image: '',
-            totalTransport: 9,
-            totalDrivenKm: 335,
-        },
-        {
-            carId: 5,
-            name: 'delta',
-            licencePlate: 'EEE-123',
-            type: 2,
-            image: '',
-            totalTransport: 14,
-            totalDrivenKm: 120,
-        },
-    ]);
+    const [cars, setCars] = useState([]);
+    const [search, setSearch] = useState('type');
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const [pages, setPages] = useState(1);
+    const [total, setTotal] = useState(0);
+    const [pagination, setPagination] = useState({
+        page: page - 1,
+        pages: pages,
+        pageSize: limit,
+        total: total
+    });
 
     const openAddCarDialog = () => {
         addCarDialog
@@ -96,24 +61,61 @@ const CarList = () => {
             .catch(() => null);
     };
 
-    const handleLoadCars = async () => {
-        const getResponse = await fetch(
-            `http://localhost:3001/api/type-of-transportation/${id}/car-types/${id}/cars`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json"},
+    const handleLoadPaginatedCars = async () => {
+        try {
+            const params = new URLSearchParams({
+                sortBy: search,
+                page: String(page),
+                limit: String(limit),
+                type: id,
+            });
+
+            const response = await fetch(
+                `http://localhost:3001/api/paginated-cars?${params.toString()}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch products: ${response.statusText}`);
             }
-        );
-        const getCarsData = await getResponse.json();
-        const getStatus = getResponse.status;
-        console.log('getCarsData', getCarsData);
-        console.log('getUserStatus', getStatus);
-        //setCars(getCarsData);
-    }
+
+            const data = await response.json();
+            setCars(data.cars || []);
+            setPage(data.page);
+            setLimit(data.limit);
+            setPages(data.pages);
+            setTotal(data.total);
+        } catch (error) {
+            console.error('Error loading paginated products:', error);
+        }
+    };
 
     useEffect(() => {
-        handleLoadCars();
-    }, []);
+        handleLoadPaginatedCars();
+    }, [page, limit, search]);
+
+    const handlePageChange = (newPage: any) => {
+        setPage((newPage + 1)); // Convert to 1-based index and string
+        handleLoadPaginatedCars(); // Fetch data for the new page
+    };
+
+    const handlePageSizeChange = (newPageSize: any) => {
+        setLimit(newPageSize); // Ensure limit remains a string
+        setPage(1); // Reset to page 1 whenever limit changes
+        handleLoadPaginatedCars();
+    };
+
+    useEffect(() => {
+        setPagination({
+            page: page - 1, // Adjust for 0-based indexing
+            pages: pages,
+            pageSize: limit,
+            total: total
+        });
+    }, [page, limit, pages, total]);
 
     const handleChange = (prop: any) => (event: any) => {
         setValues({...values, [prop]: event.target.value });
@@ -273,12 +275,12 @@ const CarList = () => {
                         {cars
                             .map((item, index) => {
                                 return (
-                                    <Grid item xs={3} key={item.type}>
+                                    <Grid item xs={3} key={item.carId}>
                                         <CarCard
-                                            onClick={() => navigate(`/type-of-transportation/${id}/car-types/${id}/cars/${item.carId}`)}
+                                            onClick={() => navigate(`/type-of-transportation/${id}/car-types/${id}/cars/${item._id}`)}
                                             carId={item.carId}
                                             name={item.name}
-                                            type={item.type}
+                                            /*TODO: type={item.type}*/
                                             licencePlate={item.licencePlate}
                                             image={item.image}
                                             totalDrivenKm={item.totalDrivenKm}

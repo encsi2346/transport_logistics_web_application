@@ -147,9 +147,7 @@ const CarTypeOfTransportationList = () => {
                         <SaveButton text={t('CAR_TYPES.ADD_NEW_CAR_TYPE')} onClick={openAddCarTypeDialog} />
                     </Box>
                 </Box>
-            </FilterCard>
-            TODO: a szállítási típusokon(ezek szállítási típusok) belül nyissa meg a cartypeot(ezek konkrét autótípusok) és azon belül a konkrét autókat(ezek vannak rendszámozva)
-            */}
+            </FilterCard>            */}
 
             <ContentCard>
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
