@@ -17,3 +17,55 @@
 .task > ::-webkit-scrollbar-thumb {
     @apply bg-sky-500 rounded-xl;
 }
+/*
+.background-light {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #f1ecec, #e5c7ba);
+    overflow: hidden;
+    z-index: -1;
+}
+
+.background-dark {
+    background: linear-gradient(#3f3d3d, #1c1818);
+}
+
+
+.background-light .paper-layer {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d4a89b, #e6c5b7);
+    box-shadow: inset -10px -10px 15px rgba(255, 255, 255, 0.5),
+    inset 10px 10px 20px rgba(0, 0, 0, 0.2);
+    z-index: -2;
+}
+
+.background-light .layer1 {
+    top: 20%;
+    left: 10%;
+    width: 300px;
+    height: 300px;
+}
+
+.background-light .layer2 {
+    top: 30%;
+    right: 20%;
+    width: 400px;
+    height: 400px;
+}
+
+.background-light .layer3 {
+    bottom: 15%;
+    left: 25%;
+    width: 250px;
+    height: 250px;
+}
+
+.background-light .layer4 {
+    top: 40%;
+    right: 5%;
+    width: 350px;
+    height: 350px;
+}
+*/

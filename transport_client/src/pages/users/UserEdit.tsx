@@ -11,10 +11,8 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    SelectChangeEvent,
-    SxProps,
-    TextField,
-    Theme,
+    SelectChangeEvent, SxProps,
+    TextField, Theme, Tooltip,
     useTheme
 } from "@mui/material";
 import CancelButton from "../../components/button/CancelButton";
@@ -36,6 +34,19 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./Users.css";
+import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
+import DeleteIcon from "@mui/icons-material/Delete";
+import UniqueIconButton from "../../components/button/UniqueIconButton";
+import UploadIcon from '@mui/icons-material/Upload';
+
+const iconStyle: SxProps<Theme> = {
+    fontSize: 100,
+    color: '#A3A3A3',
+    marginLeft: '40px',
+    marginRight: '40px',
+    marginTop: '20px',
+    marginBottom: '10px',
+}
 
 interface Props {
     isEditing?: boolean;
@@ -357,6 +368,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             console.log('getUserData', getUserData);
             console.log('getUserStatus', getStatus);
             //setUsers(getUserList);
+            setValues(getUserData);
         } catch (error) {
             console.error('Error get user:', error);
         }
@@ -428,7 +440,9 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     };
 
     useEffect(() => {
-        getUser(id);
+        if (id !== undefined) {
+            getUser(id);
+        }
     }, [id]);
 
     const handleChange = (prop: any) => (event: any) => {
@@ -454,7 +468,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                 autoComplete='off'
                 onSubmit={(e) => handleSubmit(e)}
             >*/}
-                <PageHeader text={t('USER.NEW_USER')}/>
+                <PageHeader text={id !== undefined ? `${values.familyName} ${values.firstName}`: t('USER.NEW_USER')}/>
                 {/*TODO: különböző formok a backgroundokhoz*/}
                 <BackgroundCard>
                     <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
@@ -989,36 +1003,64 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
-                                                backgroundColor: '#ffffff',
-                                                width: 250,
-                                                height: 250,
-                                                borderRadius: 4,
-                                                cursor: 'pointer'
                                             }}
                                         >
-                                            <Box>
-                                                {/* TODO: Add image picker component */}
-                                                <form onSubmit={handleSubmitImage}>
-                                                    {/*<PhotoLibraryIcon sx={iconStyle} onChange={onInputChange}/>
-                                                        <Typography sx={textStyle}>
-                                                            {t('USER.UPLOAD_IMAGE')}
-                                                        </Typography>*/}
-                                                    <input
-                                                        type="file"
-                                                        label="Image"
-                                                        name="myFile"
-                                                        id='file-upload'
-                                                        accept='.jpeg, .png, .jpg'
-                                                        onChange={(e) => handleFileUpload(e)}
-                                                    />
-                                                    <img
-                                                        src={allImage !== null ? (image.image || allImage[0]?.image) : ""}
-                                                        alt="" height={100}
-                                                        width={100}/>
-                                                    <button type='submit'>Submit</button>
-                                                </form>
-                                                <button onClick={handleDeleteImage}>Delete Image</button>
-                                            </Box>
+                                            {/* TODO: Add image picker component */}
+                                            <form onSubmit={handleSubmitImage}>
+                                                <Box sx={{display: 'flex', marginBottom: '10px'}}>
+                                                    <Box sx={{
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        backgroundColor: '#ffffff',
+                                                        width: 250,
+                                                        height: 250,
+                                                        borderRadius: 4,
+                                                        cursor: 'pointer'
+                                                    }}>
+                                                        {allImage?.length > 0 ? (
+                                                            <img
+                                                                src={allImage?.length > 0 ? (image.image || allImage[0]?.image) : ""}
+                                                                alt=""
+                                                                height={150}
+                                                                width={150}
+                                                            />
+                                                        ) : (
+                                                            <PhotoLibraryIcon sx={iconStyle}/>
+                                                        )}
+                                                    </Box>
+                                                    <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                                                        <Box sx={{display: 'flex', marginBottom: '10px'}}>
+                                                            <Tooltip title={t('TEXT.SAVE')}>
+                                                                <UniqueIconButton
+                                                                    type='submit'
+                                                                    icon={<UploadIcon sx={{width: '50px'}}/>}
+                                                                    color='#ffffff'
+                                                                    backgroundColor='#A3A3A3'
+                                                                />
+                                                            </Tooltip>
+                                                        </Box>
+                                                        <Box sx={{display: 'flex'}}>
+                                                            <Tooltip title={t('TEXT.REMOVE_IMAGE')}>
+                                                                <UniqueIconButton
+                                                                    onClick={handleDeleteImage}
+                                                                    icon={<DeleteIcon sx={{width: '50px'}}/>}
+                                                                    color='#A3A3A3'
+                                                                    backgroundColor='#ffffff'
+                                                                />
+                                                            </Tooltip>
+                                                        </Box>
+                                                    </Box>
+                                                </Box>
+                                                <input
+                                                    type="file"
+                                                    name="myFile"
+                                                    id='file-upload'
+                                                    accept='.jpeg, .png, .jpg'
+                                                    onChange={(e) => handleFileUpload(e)}
+                                                />
+                                            </form>
                                         </Box>
                                     </Grid>
                                 </Grid>

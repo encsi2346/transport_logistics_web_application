@@ -12,7 +12,7 @@ import useSelection from "../../components/inputField/hooks/useSelection";
 import SaveButton from "../../components/button/SaveButton";
 import TransportationTableQuery from "./TransportationTableQuery";
 import AddIcon from "@mui/icons-material/Add";
-import IconButton from "../../components/button/IconButton";
+import UniqueIconButton from "../../components/button/UniqueIconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const TransportationList = () => {
@@ -211,7 +211,7 @@ const TransportationList = () => {
                             </FormControl>
                             <div style={{display: 'flex', alignItems: 'center'}}>
                                 <Tooltip title={t('TEXT.CLEAR_FILTER')}>
-                                    <IconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '50px'}}/>}/>
+                                    <UniqueIconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '50px'}}/>}/>
                                 </Tooltip>
                             </div>
                         </Box>

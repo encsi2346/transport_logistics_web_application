@@ -34,7 +34,8 @@
     "NEXT": "Következő",
     "LOGIN": "Bejelentkezés",
     "FILTER": "Szűrés",
-    "CLEAR_FILTER": "Szűrés törlése"
+    "CLEAR_FILTER": "Szűrés törlése",
+    "REMOVE_IMAGE": "Kép törlése"
   },
   "USER": {
     "ID": "Azonosító",

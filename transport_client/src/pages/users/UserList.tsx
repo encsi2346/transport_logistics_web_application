@@ -24,7 +24,7 @@ import UserCard from "../../components/layout/UserCard";
 import AddIcon from "@mui/icons-material/Add";
 import {BallTriangle, Circles, Oval, Puff, Rings, SpinningCircles, TailSpin, ThreeDots} from "react-loading-icons";
 import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from "../../components/button/IconButton";
+import UniqueIconButton from "../../components/button/UniqueIconButton";
 
 const UserList = () => {
     const { t } = useTypeSafeTranslation();
@@ -267,7 +267,7 @@ const UserList = () => {
                         </FormControl>
                         <div style={{display: 'flex', alignItems: 'center'}}>
                             <Tooltip title={t('TEXT.CLEAR_FILTER')}>
-                                <IconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '50px'}}/>}/>
+                                <UniqueIconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '50px'}}/>}/>
                             </Tooltip>
                         </div>
                     </Box>
@@ -293,8 +293,11 @@ const UserList = () => {
                                                     <UserCard
                                                         onClick={() => navigate(`/users/${user._id}`)}
                                                         id={user._id}
-                                                        fullName={user.email}
+                                                        firstName={user.firstName}
+                                                        familyName={user.familyName}
+                                                        email={user.email}
                                                         position={user.position}
+                                                        status={user.status}
                                                         phoneNumber={user.phoneNumber}
                                                         image={user.image}
                                                     />
@@ -311,8 +314,11 @@ const UserList = () => {
                                                     <UserCard
                                                         onClick={() => navigate(`/users/${user._id}`)}
                                                         id={user._id}
-                                                        fullName={`${user.firstName} ${user.lastName}`}
-                                                        position={user.email}
+                                                        firstName={user.firstName}
+                                                        familyName={user.familyName}
+                                                        email={user.email}
+                                                        position={user.position}
+                                                        status={user.status}
                                                         phoneNumber={user.phoneNumber}
                                                         image={user.image}
                                                     />

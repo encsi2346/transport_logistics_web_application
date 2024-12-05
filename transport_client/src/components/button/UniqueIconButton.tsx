@@ -5,9 +5,11 @@ interface Props {
     onClick?: () => void;
     disabled?: boolean;
     icon?: React.ReactNode;
+    backgroundColor?: string;
+    color?: string;
 }
 
-const IconButton = ({ type, onClick, disabled, icon }: Props) => {
+const UniqueIconButton = ({ type, onClick, disabled, icon, backgroundColor, color }: Props) => {
     const theme = useTheme();
 
     return (
@@ -15,8 +17,8 @@ const IconButton = ({ type, onClick, disabled, icon }: Props) => {
             type={type}
             data-testid='save-button'
             sx={{
-                color: `${theme.palette.component.lightMin}`,
-                backgroundColor: `${theme.palette.component.dark}`,
+                color: color || `${theme.palette.component.lightMin}`,
+                backgroundColor: backgroundColor || `${theme.palette.component.dark}`,
                 borderRadius: '8px',
                 marginLeft: '10px',
                 paddingTop: '5px',
@@ -29,15 +31,11 @@ const IconButton = ({ type, onClick, disabled, icon }: Props) => {
                 minWidth: '50px',
                 height: '50px',
             }}
-            onClick={() => {
-                if(!disabled && onClick) {
-                    onClick();
-                }
-            }}
+            onClick={() => !disabled && onClick && onClick()}
         >
             {icon}
         </Button>
     );
 };
 
-export default IconButton;
+export default UniqueIconButton;
