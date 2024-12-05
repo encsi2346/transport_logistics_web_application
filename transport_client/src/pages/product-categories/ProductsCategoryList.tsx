@@ -4,16 +4,13 @@ import {Box, Fab, FormControl, Grid, Input, InputAdornment, TextField} from "@mu
 import ContentCard from "../../components/layout/ContentCard";
 import GoodsTypeCard from "../../components/layout/GoodsTypeCard";
 import {useTypeSafeTranslation} from "../../components/inputfield/hooks/useTypeSafeTranslation";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import SaveButton from "../../components/button/SaveButton";
 import {useModal} from "@ebay/nice-modal-react";
 import ProductCategoryAddDialog from "./ProductCategoryAddDialog";
-import {useForm} from "react-hook-form";
-import {carTypeEditFormSchema, CarTypeEditFormSchema} from "../car-types/schemas/car-type-edit-form-schema";
-import {zodResolver} from "@hookform/resolvers/zod";
 import AddIcon from "@mui/icons-material/Add";
 
 const ProductsCategoryList = () => {
@@ -22,37 +19,13 @@ const ProductsCategoryList = () => {
     const addProductCategoryDialog = useModal(ProductCategoryAddDialog);
     const [search, setSearch] = useState('');
     const [values, setValues] = useState({
-        category: '',
-        availability: ''
+        productCategoryId: '',
+        name: '',
+        description: '',
+        status: '',
     });
     const [filtersReset, setFiltersReset] = useState(false);
-    const [categories, setCategories] = useState([
-        {
-            id: 1,
-            category: 'Kategória1',
-            availability: 'Készleten',
-        },
-        {
-            id: 2,
-            category: 'Kategória3',
-            availability: 'Készlethiány',
-        },
-        {
-            id: 3,
-            category: 'Kategória4',
-            availability: 'Készleten',
-        },
-        {
-            id: 4,
-            category: 'Kategória5',
-            availability: 'Készlethiány',
-        },
-        {
-            id: 5,
-            category: 'Kategória2',
-            availability: 'Készleten',
-        },
-    ]);
+    const [categories, setCategories] = useState([]);
 
     const openAddProductCategoryDialog = () => {
         addProductCategoryDialog
@@ -75,11 +48,7 @@ const ProductsCategoryList = () => {
             }
         );
         const getProductCategoriesData = await getResponse.json();
-        const getStatus = getResponse.status;
-        console.log('getProductCategoriesData', getProductCategoriesData);
-        console.log('getUserStatus', getStatus);
-        //TODO
-        //setCategories(getProductCategoriesData);
+        setCategories(getProductCategoriesData);
     }
 
     useEffect(() => {
@@ -143,10 +112,10 @@ const ProductsCategoryList = () => {
                                 <TextField
                                     id="category"
                                     placeholder='Példa Éva'
-                                    name='category'
+                                    name='name'
                                     label={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY')}
-                                    value={values.category}
-                                    onChange={handleChange('category')}
+                                    value={values.name}
+                                    onChange={handleChange('name')}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -157,7 +126,7 @@ const ProductsCategoryList = () => {
                                             <InputAdornment position="end">
                                                 <ClearIcon
                                                     sx={{color: '#000000', cursor: 'pointer'}}
-                                                    onClick={() => setValues({...values, category: ''})}
+                                                    onClick={() => setValues({...values, name: ''})}
                                                 />
                                             </InputAdornment>
                                         )
@@ -180,10 +149,10 @@ const ProductsCategoryList = () => {
                                 <TextField
                                     id="availability"
                                     placeholder='Példa Éva'
-                                    name='availability'
+                                    name='status'
                                     label={t('PRODUCT_CATEGORIES.AVAILABILITY')}
-                                    value={values.availability}
-                                    onChange={handleChange('availability')}
+                                    value={values.status}
+                                    onChange={handleChange('status')}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -194,7 +163,7 @@ const ProductsCategoryList = () => {
                                             <InputAdornment position="end">
                                                 <ClearIcon
                                                     sx={{color: '#000000', cursor: 'pointer'}}
-                                                    onClick={() => setValues({...values, availability: ''})}
+                                                    onClick={() => setValues({...values, status: ''})}
                                                 />
                                             </InputAdornment>
                                         )
@@ -229,16 +198,16 @@ const ProductsCategoryList = () => {
                             .filter((item) => {
                                 return search.toLowerCase() === ''
                                     ? item
-                                    : item.category.toLowerCase().includes(search);
+                                    : item.name.toLowerCase().includes(search);
                             })
                             .map((item, index) => {
                                 return (
                                     <Grid item xs={3} key={item.id}>
                                         <GoodsTypeCard
-                                            onClick={() => navigate(`/products-categories/${item.id}/products`)}
-                                            id={item.id}
-                                            category={item.category}
-                                            availability={item.availability}
+                                            onClick={() => navigate(`/products-categories/${item._id}/products`)}
+                                            id={item._id}
+                                            name={item.name}
+                                            status={item.status}
                                         />
                                     </Grid>
                                 );

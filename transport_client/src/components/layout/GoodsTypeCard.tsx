@@ -28,11 +28,11 @@ const iconStyle: SxProps<Theme> = {
 interface Props {
     onClick: () => void;
     id: number;
-    category: string;
-    availability: string;
+    name: string;
+    status: string;
 }
 
-const GoodsTypeCard = ({ onClick, id, category, availability }: Props) => {
+const GoodsTypeCard = ({ onClick, id, name, status }: Props) => {
     const theme = useTheme();
 
     return (
@@ -68,8 +68,8 @@ const GoodsTypeCard = ({ onClick, id, category, availability }: Props) => {
                 paddingLeft: '20px', // Add padding to start from the left
                 marginBottom: '10px'
             }}>
-                <Typography sx={mainTextStyle}>{category}</Typography>
-                <Typography sx={mediumTextStyle}>{availability}</Typography>
+                <Typography sx={mainTextStyle}>{name}</Typography>
+                <Typography sx={mediumTextStyle}>{status}</Typography>
             </Box>
         </Box>
     );

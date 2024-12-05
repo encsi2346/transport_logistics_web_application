@@ -3,7 +3,7 @@ import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -17,6 +17,7 @@ import CarAddDialog from "../cars/CarAddDialog";
 import ProductItemAddDialog from "./ProductItemAddDialog";
 
 const ProductsItemList = () => {
+    const { id } = useParams();
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const location = useLocation();
@@ -72,6 +73,7 @@ const ProductsItemList = () => {
                 sortBy: search, // Assuming `search` is a state variable for the product name search
                 page: String(page),
                 limit: String(limit),
+                category: id,
             });
 
             const response = await fetch(
@@ -123,6 +125,10 @@ const ProductsItemList = () => {
             total: total
         });
     }, [page, limit, pages, total]);
+
+    useEffect(() => {
+        console.log('id', id);
+    }, []);
 
     return (
         <Box>
@@ -210,7 +216,7 @@ const ProductsItemList = () => {
                         }
                     />*/}
                     <ProductsTableQuery
-                            searchResults={products/*filter((item) => {
+                            searchResults={products/*.filter((item) => {
                                 return search.toLowerCase() === ''
                                     ? item
                                     : item.name.toLowerCase().includes(search);
