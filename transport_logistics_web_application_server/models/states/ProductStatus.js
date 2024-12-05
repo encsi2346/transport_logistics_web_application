@@ -5,7 +5,7 @@
 */
 export const ProductStatus = {
     IN_STOCK: 'in_stock',
-    STOCK_SHORTAGE: 'stock_shortage',
+    OUT_OF_STOCK: 'out_of_stock',
 };
 
 /*export const ProductStatus = Object.freeze({

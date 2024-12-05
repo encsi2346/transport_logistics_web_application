@@ -953,7 +953,7 @@ const options = {
                      type: 'string',
                      enum: [
                          'IN_STOCK',
-                         'STOCK_SHORTAGE',
+                         'OUT_OF_STOCK',
                      ],
                  },
                  RequestStatus: {

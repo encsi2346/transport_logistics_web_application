@@ -15,6 +15,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {useModal} from "@ebay/nice-modal-react";
 import CarAddDialog from "../cars/CarAddDialog";
 import ProductItemAddDialog from "./ProductItemAddDialog";
+import {toast, ToastContainer} from "react-toastify";
 
 const ProductsItemList = () => {
     const { id } = useParams();
@@ -35,6 +36,21 @@ const ProductsItemList = () => {
         total: total
     });
 
+    const notify = ({text, type}) => {
+        if (type === 'success') {
+            toast.success(`${text}`, {
+                position: "bottom-right"
+            });
+        } else if (type === 'warning') {
+            toast.warning(`${text}`, {
+                position: "bottom-right"
+            });
+        } else if (type === 'error') {
+            toast.error(`${text}`, {
+                position: "bottom-right"
+            });
+        }
+    };
 
     const openAddProductsItemDialog = () => {
         addProductsItemDialog
@@ -48,29 +64,10 @@ const ProductsItemList = () => {
             .catch(() => null);
     };
 
-    /*const handleLoadProducts = async () => {
-        const getResponse = await fetch(
-            `http://localhost:3001/api/products`,
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json"},
-            }
-        );
-        const getProductsData = await getResponse.json();
-        const getStatus = getResponse.status;
-        console.log('getProductsData', getProductsData);
-        console.log('getUserStatus', getStatus);
-        setProducts(getProductsData);
-    }
-
-    useEffect(() => {
-        handleLoadProducts();
-    }, []);*/
-
     const handleLoadPaginatedProducts = async () => {
         try {
             const params = new URLSearchParams({
-                sortBy: search, // Assuming `search` is a state variable for the product name search
+                sortBy: search,
                 page: String(page),
                 limit: String(limit),
                 category: id,
@@ -89,9 +86,6 @@ const ProductsItemList = () => {
             }
 
             const data = await response.json();
-            console.log('Paginated Products:', data);
-
-            // Update the state with the fetched products
             setProducts(data.products || []);
             setPage(data.page);
             setLimit(data.limit);
@@ -127,8 +121,14 @@ const ProductsItemList = () => {
     }, [page, limit, pages, total]);
 
     useEffect(() => {
-        console.log('id', id);
-    }, []);
+        if (products.length > 0) {
+            products.map((product) => {
+                if (product.status === 'out_of_stock') {
+                    notify( { text:'OUT OF STOCK!', type: 'error'});
+                }
+            })
+        }
+    }, [products]);
 
     return (
         <Box>
@@ -245,6 +245,7 @@ const ProductsItemList = () => {
                     </Fab>
                 </Box>
             </ContentCard>
+            <ToastContainer />
         </Box>
     );
 };
