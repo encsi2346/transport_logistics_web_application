@@ -37,21 +37,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import "react-datepicker/dist/react-datepicker.css";
 import "./Users.css";
 
-const textStyle: SxProps<Theme> = {
-    fontWeight: 'bold',
-    fontSize: '18px',
-    color: '#A3A3A3',
-}
-
-const iconStyle: SxProps<Theme> = {
-    fontSize: 100,
-    color: '#A3A3A3',
-    marginLeft: '40px',
-    marginRight: '40px',
-    marginTop: '20px',
-    marginBottom: '10px',
-}
-
 interface Props {
     isEditing?: boolean;
     isInputDisabled?: boolean;
@@ -182,7 +167,7 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         try {
             const response = await axios.get("http://localhost:3001/api/get-image", {
                 params: {
-                    userId: user.userId, // Pass userId as a query parameter
+                    userId: user.userId,
                 },
             });
             setAllImage(response.data.data);
@@ -204,14 +189,13 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
 
     const deleteImage = async () => {
         try {
-            // Send a DELETE request with the userId as a query parameter
             await axios.delete("http://localhost:3001/api/delete-image", {
                 params: {
                     userId: user.userId,
                 },
             });
             console.log("Image deleted successfully");
-            setAllImage(null); // Optionally, clear the image state after deletion
+            setAllImage(null);
         } catch (error) {
             console.error("Error deleting image:", error);
         }
@@ -220,7 +204,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
     const handleSubmitImage = (e) => {
         e.preventDefault();
         updateImage(image);
-        console.log("Uploaded");
     }
 
     const handleFileUpload = async (e) => {
@@ -311,14 +294,11 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
             }
         );
         const getGenderList = await getResponse.json();
-        //const getStatus = getResponse.status;
-        console.log('genders', getGenderList);
 
         const formattedGenderList = getGenderList.map(gender => ({
             value: gender,
             label: gender.charAt(0).toUpperCase() + gender.slice(1)
         }));
-        console.log('formattedGenderList', formattedGenderList);
         setGenderList(formattedGenderList);
     };
 
@@ -350,8 +330,6 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
         e.preventDefault();
 
         let submitData = data as any;
-        console.log('isEditing', isEditing);
-        console.log('submitData', submitData);
         if (isEditing) {
             setInputDisabled(true);
             createUser(submitData);

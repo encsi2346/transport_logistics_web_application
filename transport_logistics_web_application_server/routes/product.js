@@ -137,6 +137,6 @@ router.put('/api/products/:id', updateProduct);
 router.delete('/api/products/:id', deleteProduct);
 
 
-router.get("/products", paginatedProduct);
+router.get("/api/paginated-products", paginatedProduct);
 
 export default router;

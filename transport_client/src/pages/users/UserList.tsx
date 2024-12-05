@@ -7,7 +7,6 @@ import {
     TextField,
     InputLabel,
     MenuItem,
-    Button,
     Fab
 } from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
@@ -23,8 +22,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useTypeSafeTranslation } from "../../components/inputField/hooks/useTypeSafeTranslation";
 import UserCard from "../../components/layout/UserCard";
 import AddIcon from "@mui/icons-material/Add";
+import {BallTriangle, Circles, Oval, Puff, Rings, SpinningCircles, TailSpin, ThreeDots} from "react-loading-icons";
 
-const limit = 5;
 const UserList = () => {
     const { t } = useTypeSafeTranslation();
     const dispatch = useDispatch();
@@ -39,43 +38,7 @@ const UserList = () => {
         name: '',
         position: ''
     });
-    const [usersList, setUsersList] = useState([
-        {
-            id: '1111',
-            fullName: 'Példa Elek',
-            position: 'Sofőr',
-            drivingLicenceCategories: 'A1, A2, B, C',
-            validityDateOfDrivingLicence: '2025.12.03'
-        },
-        {
-            id: '1112',
-            fullName: 'Példa Teodor',
-            position: 'Sofőr',
-            drivingLicenceCategories: 'B, C',
-            validityDateOfDrivingLicence: '2025.12.03'
-        },
-        {
-            id: '1113',
-            fullName: 'Példa Kálmán',
-            position: 'Sofőr',
-            drivingLicenceCategories: 'B, C, D',
-            validityDateOfDrivingLicence: '2024.08.02'
-        },
-        {
-            id: '1114',
-            fullName: 'Példa Tivadar',
-            position: 'Sofőr',
-            drivingLicenceCategories: 'B, C',
-            validityDateOfDrivingLicence: '2025.11.21'
-        },
-        {
-            id: '1115',
-            fullName: 'Példa Zoltán',
-            position: 'Sofőr',
-            drivingLicenceCategories: 'B',
-            validityDateOfDrivingLicence: '2025.12.03'
-        },
-    ]);
+    const [usersList, setUsersList] = useState([]);
     const [positionList, setPositionList] = useState([
         {
             label: 'Sofőr',
@@ -87,15 +50,7 @@ const UserList = () => {
         }
     ]);
 
-    /*useEffect(() => {
-        submitData();
-    }, [filtersReset]);*/
-
     const handleChange = (prop: any) => (event: any) => {
-        /*setValues(prevValues => ({
-            ...prevValues,
-            [prop]: event.target.value,
-        }));*/
         setValues({...values, [prop]: event.target.value });
     };
 
@@ -125,6 +80,7 @@ const UserList = () => {
         }
     };
 
+    //TODO: a usereket infinity scrollban töltöm be
     const fetchUsers = async (/*size: number, page: number*/) => {
         try {
             setIsLoading(true);
@@ -297,8 +253,8 @@ const UserList = () => {
                                         useWindow={false}
                                         loadMore={loadMoreMessage}
                                         hasMore={!isLast && !isLoading}
-                                        dataLength={usersList.length} // Length of the data
-                                        next={loadMoreMessage}        // Function to fetch more data
+                                        dataLength={usersList.length}
+                                        next={loadMoreMessage}
                                         loader={<div />}
                                     >
                                         <Grid container rowSpacing={3}>
@@ -314,7 +270,7 @@ const UserList = () => {
                                                     />
                                                 </Grid>
                                             ))}
-                                            {/*isLoading && <Loading />*/}
+                                            {isLoading && <ThreeDots fill="#DD1C13" strokeOpacity={.125} speed={.75} width={80}/>}
                                         </Grid>
                                     </InfiniteScroll>
                                 ) : (
@@ -332,7 +288,7 @@ const UserList = () => {
                                                     />
                                                 </Grid>
                                             ))}
-                                            {/*isLoading && <Loading />*/}
+                                            {isLoading && <ThreeDots fill="#DD1C13" strokeOpacity={.125} speed={.75} width={80}/>}
                                         </Grid>
                                     </div>
                                 )}
@@ -348,7 +304,7 @@ const UserList = () => {
                                  position: 'fixed',
                                  width: '70px',
                                  height: '70px',
-                                 backgroundColor: '#a40500',
+                                 backgroundColor: '#DD1C13',
                                  color: '#ffffff'
                              }}
                         >

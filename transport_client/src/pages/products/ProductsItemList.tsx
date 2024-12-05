@@ -21,34 +21,19 @@ const ProductsItemList = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const addProductsItemDialog = useModal(ProductItemAddDialog);
-    const [search, setSearch] = useState('');
-    const [products, setProducts] = useState([
-        {
-            id: 1,
-            productName: 'Termék1',
-            availability: 'Készleten',
-        },
-        {
-            id: 2,
-            productName: 'Termék2',
-            availability: 'Készlethiány',
-        },
-        {
-            id: 3,
-            productName: 'Termék3',
-            availability: 'Készleten',
-        },
-        {
-            id: 4,
-            productName: 'Termék4',
-            availability: 'Készlethiány',
-        },
-        {
-            id: 5,
-            productName: 'Termék5',
-            availability: 'Készleten',
-        },
-    ]);
+    const [search, setSearch] = useState('name');
+    const [products, setProducts] = useState([]);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const [pages, setPages] = useState(1);
+    const [total, setTotal] = useState(0);
+    const [pagination, setPagination] = useState({
+        page: page - 1,
+        pages: pages,
+        pageSize: limit,
+        total: total
+    });
+
 
     const openAddProductsItemDialog = () => {
         addProductsItemDialog
@@ -62,7 +47,7 @@ const ProductsItemList = () => {
             .catch(() => null);
     };
 
-    const handleLoadProducts = async () => {
+    /*const handleLoadProducts = async () => {
         const getResponse = await fetch(
             `http://localhost:3001/api/products`,
             {
@@ -74,12 +59,70 @@ const ProductsItemList = () => {
         const getStatus = getResponse.status;
         console.log('getProductsData', getProductsData);
         console.log('getUserStatus', getStatus);
-        //setProducts(getProductsData);
+        setProducts(getProductsData);
     }
 
     useEffect(() => {
         handleLoadProducts();
-    }, []);
+    }, []);*/
+
+    const handleLoadPaginatedProducts = async () => {
+        try {
+            const params = new URLSearchParams({
+                sortBy: search, // Assuming `search` is a state variable for the product name search
+                page: String(page),
+                limit: String(limit),
+            });
+
+            const response = await fetch(
+                `http://localhost:3001/api/paginated-products?${params.toString()}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch products: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log('Paginated Products:', data);
+
+            // Update the state with the fetched products
+            setProducts(data.products || []);
+            setPage(data.page);
+            setLimit(data.limit);
+            setPages(data.pages);
+            setTotal(data.total);
+        } catch (error) {
+            console.error('Error loading paginated products:', error);
+        }
+    };
+
+    useEffect(() => {
+        handleLoadPaginatedProducts();
+    }, [page, limit, search]);
+
+    const handlePageChange = (newPage: any) => {
+        setPage((newPage + 1)); // Convert to 1-based index and string
+        handleLoadPaginatedProducts(); // Fetch data for the new page
+    };
+
+    const handlePageSizeChange = (newPageSize: any) => {
+        setLimit(newPageSize); // Ensure limit remains a string
+        setPage(1); // Reset to page 1 whenever limit changes
+        handleLoadPaginatedProducts();
+    };
+
+    useEffect(() => {
+        setPagination({
+            page: page - 1, // Adjust for 0-based indexing
+            pages: pages,
+            pageSize: limit,
+            total: total
+        });
+    }, [page, limit, pages, total]);
 
     return (
         <Box>
@@ -122,7 +165,7 @@ const ProductsItemList = () => {
                                 paddingRight: 1
                             }}
                         />
-                        <Input
+                        {/*<Input
                             id="availability"
                             placeholder={t('PRODUCTS.AVAILABILITY')}
                             autoFocus
@@ -149,14 +192,14 @@ const ProductsItemList = () => {
                                 paddingLeft: 1,
                                 paddingRight: 1
                             }}
-                        />
+                        />*/}
                     </FormControl>
                 </Box>
             </FilterCard>
 
             <ContentCard>
                 <Box sx={{ display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
-                    <ProductsTableQuery
+                    {/*<ProductsTableQuery
                         searchResults={
                             products
                                 .filter((item) => {
@@ -165,7 +208,18 @@ const ProductsItemList = () => {
                                         : item.productName.toLowerCase().includes(search);
                                 })
                         }
+                    />*/}
+                    <ProductsTableQuery
+                            searchResults={products/*filter((item) => {
+                                return search.toLowerCase() === ''
+                                    ? item
+                                    : item.name.toLowerCase().includes(search);
+                            })*/}
+                            defaultPagination={pagination}
+                            onPageChange={handlePageChange}
+                            onPageSizeChange={handlePageSizeChange}
                     />
+
                     <Fab aria-label="add"
                          onClick={openAddProductsItemDialog}
                          sx={{

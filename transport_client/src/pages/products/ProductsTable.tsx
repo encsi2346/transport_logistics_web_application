@@ -42,18 +42,18 @@ const ProductsTable = ({
 
     const columns: (GridColDef | GridActionsColDef)[] = [
         {
-            field: 'id',
+            field: '_id',
             headerName: `${t('PRODUCTS.ID')}`,
             width: 170,
         },
         {
-            field: 'productName',
+            field: 'name',
             headerName: `${t('PRODUCTS.PRODUCT_NAME')}`,
             width: 250,
         },
         {
-            field: 'availability',
-            headerName: `${t('PRODUCTS.AVAILABILITY')}`,
+            field: 'status',
+            headerName: `${t('PRODUCTS.STATUS')}`,
             width: 250,
         },
     ];
@@ -95,6 +95,7 @@ const ProductsTable = ({
             pagination
             rows={data ?? []}
             columns={columns}
+            getRowId={(row) => row._id}
             rowHeight={data?.length ? 60 : 120}
             rowCount={data?.length ?? 0}
             checkboxSelection={allowSelection}
@@ -114,7 +115,7 @@ const ProductsTable = ({
             }}
             initialState={{
                 sorting: {
-                    sortModel: [{ field: defaultSort?.sortBy ?? 'productName', sort: defaultSort?.sortDir ?? 'asc' }],
+                    sortModel: [{ field: defaultSort?.sortBy ?? 'name', sort: defaultSort?.sortDir ?? 'asc' }],
                 },
                 pagination: { page: defaultPagination?.page, pageSize: defaultPagination?.pageSize },
             }}
