@@ -28,3 +28,33 @@
     padding-left: 15px;
 "& fieldset": {border: none};
 }
+
+.react-datepicker__input-container{
+    border: none;
+    border-radius: 8px;
+    background-color: var(#ffffff);
+    color: #000000;
+    text-decoration: none;
+    height: 40px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    padding-left: 15px;
+"& fieldset": {border: none};
+}
+
+.react-datepicker-wrapper{
+    border: none;
+    border-radius: 8px;
+    background-color: var(#ffffff);
+    color: #000000;
+    text-decoration: none;
+    height: 40px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    padding-left: 15px;
+"& fieldset": {border: none};
+}

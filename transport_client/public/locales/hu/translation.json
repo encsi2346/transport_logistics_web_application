@@ -78,8 +78,8 @@
     "DRIVER_NAME": "Sofőr neve",
     "START_PLACE": "Indulási hely",
     "END_PLACE": "Érkezési hely",
-    "START_DATE": "Indulási dátum",
-    "END_DATE": "Érkezési dátum",
+    "DESTINATION_DATE": "Indulási dátum",
+    "ARRIVAL_DATE": "Érkezési dátum",
     "NEW_TRANSPORTATION": "Új szállítási terv létrehozása",
     "SELECTED_CAR": "Kiválasztott autó",
     "SELECTED_CAR_TYPE": "Kiválasztott autótípus",
@@ -97,14 +97,16 @@
     "NAME_OF_PUBLIC_AREA": "Közterület neve",
     "TYPE_OF_PUBLIC_AREA": "Közterület jellege",
     "HOUSE_NUMBER": "Házszám",
-    "START_TIME": "Indulási idő",
+    "DESTINATION_TIME": "Indulási idő",
     "ARRIVAL_DATA": "Érkezési adatok",
-    "END_TIME": "Érkezési idő",
+    "ARRIVAL_TIME": "Érkezési idő",
     "ADD_LOADING_POINT": "Rakodási pont hozzáadása",
     "PASSENGER": "Utas",
     "POSITION": "Pozíció",
     "PRODUCT_CATEGORY": "Termékkategória",
-    "SELECTED_TRANSPORTATION_TYPE": "Kiválasztott szállítási típus"
+    "SELECTED_TRANSPORTATION_TYPE": "Kiválasztott szállítási típus",
+    "IS_IT_OWN_LOCATION": "Saját cím-e",
+    "PASSENGERS": "Utasok"
   },
   "REQUEST": {
     "ID": "Azonosító",
@@ -191,7 +193,10 @@
     "HEIGHT": "Magasság",
     "SZELESSEG": "Szélesség",
     "LONG": "Hosszúság",
-    "CAR_TYPE_OF_TRANSPORTATION": "Szállítási típus"
+    "CAR_TYPE_OF_TRANSPORTATION": "Szállítási típus",
+    "WIDTH": "Szélesség",
+    "TYPE_NAME": "Típus neve",
+    "TOWING": "Vontatás"
   },
   "CAR": {
     "BRAND": "Márka",

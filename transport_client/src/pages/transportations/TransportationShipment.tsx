@@ -75,8 +75,8 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
     const { control, isValid, preValidationError, onSubmit} = useTransportationShipment();
 
     const handleCancelClicked = () => {
-        setCurrentStep(0);
-        navigate(-1);
+        setCurrentStep(2);
+        //navigate(-1);
     };
 
     const handleNextClicked  = () => {

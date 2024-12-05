@@ -3,8 +3,6 @@ import {
     Box,
     FormControl,
     Grid,
-    IconButton,
-    InputAdornment,
     InputLabel,
     MenuItem,
     Select,
@@ -17,23 +15,19 @@ import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
 import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeSafeTranslation";
 import {useNavigate} from "react-router-dom";
-import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
-import SelectInput from "../../components/inputField/SelectInput";
-import TextFieldInput from "../../components/inputField/TextFieldInput";
-//import DatePickerInput from "../../components/inputField/DatePickerInput";
 import {TransportationSteps} from "./enums/transportation-steps";
 import {useTransportationStore} from "./stores/useTransportationStore";
 import useTransportationCar from "./hooks/useTransportationCar";
 import React, {useEffect, useState} from "react";
 import DatePicker from "react-datepicker";
 import moment from "moment/moment";
+import "./Transportations.css";
 
 interface Props {
     setCurrentStep: (step: number) => void;
 }
 
-
-const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
+const TransportationCarSelector = ({ setCurrentStep }: Props) => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const thisStep = TransportationSteps.CAR;
@@ -47,8 +41,39 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
         selectedCarTypeId: '',
         selectedCarId: '',
     });
+    const [selectedCarTypeData, setSelectedCarTypeData] = useState({
+        carTypeId: '',
+        brand: '',
+        typeName: '',
+        design: '',
+        performance: '',
+        selfWeight: 0,
+        usefulWeight: 0,
+        numberOfSeats: 0,
+        fuel: '',
+        towing: 0,
+        height: 0,
+        width: 0,
+        long: 0,
+        carTypeOfTransportationId: '',
+    });
+    const [selectedCarData, setSelectedCarData] = useState({
+        carId: '',
+        name: '',
+        type: '',
+        licencePlate: '',
+        numberOfRegistrationLicence: '',
+        chassisNumber: '',
+        yearOfProduction: '',
+        dateOfFirstRegistration: '',
+        dateOfDatabaseRegistration: '',
+        dateOfLastTechnicalExamination: '',
+        dateOfLastService: '',
+        totalDrivenKm: 0,
+        totalTransport: 0,
+        image: '',
+    });
 
-    //const setCurrentStep = useTransportationStore((state) => state.setCurrentStep);
     const loadedTransportation = useTransportationStore((state) => state.loadedTransportation);
 
     const { control, isValid, preValidationError, onSubmit} = useTransportationCar();
@@ -59,19 +84,9 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
     };
 
     const handleNextClicked  = () => {
-        console.log("Before submit, currentStep:", currentStep);
-        onSubmit(); // Calls the `onSubmit` from the hook
-        setCurrentStep(1); // Move to the next step
-        console.log("Next step triggered, currentStep:", currentStep);
+        onSubmit();
+        setCurrentStep(1);
     };
-
-    useEffect(() => {
-        console.log('currentStep-car', currentStep);
-    }, [currentStep]);
-
-    useEffect(() => {
-        console.log('isActiveStep', isActiveStep);
-    }, [isActiveStep]);
 
     const handleLoadTypeOfTransportation = async () => {
         const getResponse = await fetch(
@@ -82,9 +97,6 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
             }
         );
         const getTypeOfTransportationData = await getResponse.json();
-        const getStatus = getResponse.status;
-        console.log('getTypeOfTransportationData', getTypeOfTransportationData);
-        console.log('getUserStatus', getStatus);
         setTypeOfTransportationList(getTypeOfTransportationData);
     }
 
@@ -101,9 +113,6 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
             }
         );
         const getCarTypesData = await getResponse.json();
-        const getStatus = getResponse.status;
-        console.log('getCarTypesData', getCarTypesData);
-        console.log('getUserStatus', getStatus);
         setCartTypes(getCarTypesData);
     }
 
@@ -111,9 +120,49 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
         handleLoadCarTypes();
     }, [values.selectedTypeOfTransportationId]);
 
+    const getSelectedCarType = async () => {
+        try {
+            const getCarTypeResponse = await fetch(
+                `http://localhost:3001/api/car-types/${values.selectedCarTypeId}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getCarTypeData = await getCarTypeResponse.json();
+            const getStatus = getCarTypeResponse.status;
+            setSelectedCarTypeData(getCarTypeData);
+        } catch (error) {
+            console.error('Error get car type:', error);
+        }
+    }
+
+    useEffect(() => {
+        getSelectedCarType();
+    }, [values.selectedCarTypeId]);
+
+    const getSelectedCar = async () => {
+        try {
+            const getCarResponse = await fetch(
+                `http://localhost:3001/api/cars/${values.selectedCarId}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getCarData = await getCarResponse.json();
+            setSelectedCarData(getCarData);
+        } catch (error) {
+            console.error('Error get car:', error);
+        }
+    }
+
+    useEffect(() => {
+        getSelectedCar();
+    }, [values.selectedCarId]);
+
     const handleChange = (prop: any) => (event: any) => {
         setValues({...values, [prop]: event.target.value });
-        console.log('values', values);
     };
 
     const handleDateChange = (prop: any) => (date: any) => {
@@ -122,10 +171,7 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
     };
 
     return (
-        <form autoComplete='off' noValidate onSubmit={(e) => {
-            console.log('Form submission attempted');
-            e.preventDefault(); // Check if this prevents the event from propagating.
-        }}>
+        <form autoComplete='off' noValidate onSubmit={(e) => (e.preventDefault())}>
             {isActiveStep && (
                 <Box>
                     <BackgroundCard>
@@ -139,7 +185,7 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                         alignItems: 'center'
                                     }}>
                                         <NormalText text={t('TRANSPORTATIONS.SELECTED_TRANSPORTATION_TYPE')}/>
-                                        <FormControl>
+                                        <FormControl required>
                                             <InputLabel>{t('TRANSPORTATIONS.SELECTED_TRANSPORTATION_TYPE')}</InputLabel>
                                             <Select
                                                 id="selectedTypeOfTransportationId"
@@ -149,6 +195,7 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                                 data-testid='selected-type-of-transportation-id-input'
                                                 value={values.selectedTypeOfTransportationId ?? ''}
                                                 onChange={handleChange('selectedTypeOfTransportationId')}
+                                                required
                                                 sx={{
                                                     backgroundColor: `#ffffff`,
                                                     borderRadius: '18px',
@@ -179,7 +226,7 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                         alignItems: 'center'
                                     }}>
                                         <NormalText text={t('TRANSPORTATIONS.SELECTED_CAR_TYPE')}/>
-                                        <FormControl>
+                                        <FormControl required>
                                             <InputLabel>{t('TRANSPORTATIONS.SELECTED_CAR_TYPE')}</InputLabel>
                                             <Select
                                                 id="selectedCarTypeId"
@@ -189,6 +236,7 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                                 data-testid='selected-car-type-id-input'
                                                 value={values.selectedCarTypeId ?? ''}
                                                 onChange={handleChange('selectedCarTypeId')}
+                                                required
                                                 sx={{
                                                     backgroundColor: `#ffffff`,
                                                     borderRadius: '18px',
@@ -213,10 +261,12 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                 </Grid>
                             </Grid>
                         </Grid>
+
                         <DataCard>
                             <Headline text={t('TRANSPORTATIONS.CAR_TYPE_DATA')} />
-                            <Grid container direction="row" spacing={2}>
-                                    <Grid item container direction="column" spacing={2} xs={4}>
+                            <Grid container>
+                                <Grid container direction="row" spacing={2}>
+                                    <Grid item container direction="column" spacing={2} xs={3}>
                                         <Grid item>
                                             <Box sx={{
                                                 display: 'flex',
@@ -233,8 +283,8 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                                         label={t('CAR_TYPES.DESIGN')}
                                                         name='design'
                                                         data-testid='design-input'
-                                                        value={values.design ?? ''}
-                                                        onChange={handleChange('design')}
+                                                        value={selectedCarTypeData.design ?? ''}
+                                                        disabled={true}
                                                         sx={{
                                                             backgroundColor: `#ffffff`,
                                                             borderRadius: '18px',
@@ -265,16 +315,15 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('CAR_TYPES.PERFORMANCE')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl fullWidth>
                                                     <TextField
                                                         id="performance"
                                                         placeholder={t('CAR_TYPES.PERFORMANCE')}
                                                         name='performance'
                                                         label={t('CAR_TYPES.PERFORMANCE')}
-                                                        value={values.performance}
-                                                        onChange={handleChange('performance')}
+                                                        value={selectedCarTypeData.performance}
+                                                        disabled={true}
                                                         data-testid='performance-input'
-                                                        required
                                                         sx={{
                                                             backgroundColor: `#ffffff`,
                                                             borderRadius: '18px',
@@ -292,7 +341,7 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                             </Box>
                                         </Grid>
                                     </Grid>
-                                    <Grid item container direction="column" spacing={2} xs={4}>
+                                    <Grid item container direction="column" spacing={2} xs={3}>
                                         <Grid item>
                                             <Box sx={{
                                                 display: 'flex',
@@ -301,16 +350,15 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('CAR_TYPES.OWN_WEIGHT')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl fullWidth>
                                                     <TextField
-                                                        id="ownWeight"
+                                                        id="selfWeight"
                                                         placeholder={t('CAR_TYPES.OWN_WEIGHT')}
-                                                        name='ownWeight'
+                                                        name='selfWeight'
                                                         label={t('CAR_TYPES.OWN_WEIGHT')}
-                                                        value={values.ownWeight}
-                                                        onChange={handleChange('ownWeight')}
-                                                        data-testid='own-weight-input'
-                                                        required
+                                                        value={selectedCarTypeData.selfWeight}
+                                                        disabled={true}
+                                                        data-testid='self-weight-input'
                                                         sx={{
                                                             backgroundColor: `#ffffff`,
                                                             borderRadius: '18px',
@@ -343,8 +391,8 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                                         label={t('CAR_TYPES.CAR_FUNCTIONAL_DESIGN')}
                                                         name='numberOfSeats'
                                                         data-testid='number-of-seats-input'
-                                                        value={values.numberOfSeats ?? ''}
-                                                        onChange={handleChange('numberOfSeats')}
+                                                        value={selectedCarTypeData.numberOfSeats ?? ''}
+                                                        disabled={true}
                                                         sx={{
                                                             backgroundColor: `#ffffff`,
                                                             borderRadius: '18px',
@@ -368,7 +416,7 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                             </Box>
                                         </Grid>
                                     </Grid>
-                                    <Grid item container direction="column" spacing={2} xs={4}>
+                                    <Grid item container direction="column" spacing={2} xs={3}>
                                         <Grid item>
                                             <Box sx={{
                                                 display: 'flex',
@@ -385,8 +433,8 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                                         label={t('CAR_TYPES.FUEL')}
                                                         name='fuel'
                                                         data-testid='fuel-input'
-                                                        value={values.fuel ?? ''}
-                                                        onChange={handleChange('fuel')}
+                                                        value={selectedCarTypeData.fuel ?? ''}
+                                                        disabled={true}
                                                         sx={{
                                                             backgroundColor: `#ffffff`,
                                                             borderRadius: '18px',
@@ -417,16 +465,15 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('CAR_TYPES.USEFUL_WEIGHT')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl fullWidth>
                                                     <TextField
                                                         id="usefulWeight"
                                                         placeholder={t('CAR_TYPES.USEFUL_WEIGHT')}
                                                         name='usefulWeight'
                                                         label={t('CAR_TYPES.USEFUL_WEIGHT')}
-                                                        value={values.usefulWeight}
-                                                        onChange={handleChange('usefulWeight')}
+                                                        value={selectedCarTypeData.usefulWeight}
+                                                        disabled={true}
                                                         data-testid='useful-weight-input'
-                                                        required
                                                         sx={{
                                                             backgroundColor: `#ffffff`,
                                                             borderRadius: '18px',
@@ -444,6 +491,210 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                             </Box>
                                         </Grid>
                                     </Grid>
+                                    <Grid item container direction="column" spacing={2} xs={3}>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR_TYPES.WIDTH')}/>
+                                                <FormControl>
+                                                    <InputLabel>{t('CAR_TYPES.WIDTH')}</InputLabel>
+                                                    <TextField
+                                                        id="width"
+                                                        placeholder={t('CAR_TYPES.WIDTH')}
+                                                        name='width'
+                                                        label={t('CAR_TYPES.WIDTH')}
+                                                        value={selectedCarTypeData.width}
+                                                        disabled={true}
+                                                        data-testid='width-input'
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR_TYPES.TYPE_NAME')}/>
+                                                <FormControl fullWidth>
+                                                    <TextField
+                                                        id="typeName"
+                                                        placeholder={t('CAR_TYPES.TYPE_NAME')}
+                                                        name='typeName'
+                                                        label={t('CAR_TYPES.TYPE_NAME')}
+                                                        value={selectedCarTypeData.typeName}
+                                                        disabled={true}
+                                                        data-testid='type-name-input'
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid container direction="row" spacing={2}>
+                                    <Grid item xs={3}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start'
+                                        }}>
+                                            <NormalText text={t('CAR_TYPES.TOWING')}/>
+                                            <FormControl fullWidth>
+                                                <TextField
+                                                    id="towing"
+                                                    placeholder={t('CAR_TYPES.TOWING')}
+                                                    name='towing'
+                                                    label={t('CAR_TYPES.TOWING')}
+                                                    value={selectedCarTypeData.towing}
+                                                    disabled={true}
+                                                    data-testid='towing-input'
+                                                    sx={{
+                                                        backgroundColor: `#ffffff`,
+                                                        borderRadius: '18px',
+                                                        color: `#000000`,
+                                                        textDecoration: 'none',
+                                                        height: 40,
+                                                        width: 250,
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        fontSize: "15px",
+                                                        "& fieldset": {border: 'none'},
+                                                    }}
+                                                />
+                                            </FormControl>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start'
+                                        }}>
+                                            <NormalText text={t('CAR_TYPES.HEIGHT')}/>
+                                            <FormControl fullWidth>
+                                                <TextField
+                                                    id="height"
+                                                    placeholder={t('CAR_TYPES.HEIGHT')}
+                                                    name='height'
+                                                    label={t('CAR_TYPES.HEIGHT')}
+                                                    value={selectedCarTypeData.height}
+                                                    disabled={true}
+                                                    data-testid='height-input'
+                                                    sx={{
+                                                        backgroundColor: `#ffffff`,
+                                                        borderRadius: '18px',
+                                                        color: `#000000`,
+                                                        textDecoration: 'none',
+                                                        height: 40,
+                                                        width: 250,
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        fontSize: "15px",
+                                                        "& fieldset": {border: 'none'},
+                                                    }}
+                                                />
+                                            </FormControl>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start'
+                                        }}>
+                                            <NormalText text={t('CAR_TYPES.LONG')}/>
+                                            <FormControl fullWidth>
+                                                <TextField
+                                                    id="long"
+                                                    placeholder={t('CAR_TYPES.LONG')}
+                                                    name='long'
+                                                    label={t('CAR_TYPES.LONG')}
+                                                    value={selectedCarTypeData.long}
+                                                    disabled={true}
+                                                    data-testid='long-input'
+                                                    sx={{
+                                                        backgroundColor: `#ffffff`,
+                                                        borderRadius: '18px',
+                                                        color: `#000000`,
+                                                        textDecoration: 'none',
+                                                        height: 40,
+                                                        width: 250,
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        fontSize: "15px",
+                                                        "& fieldset": {border: 'none'},
+                                                    }}
+                                                />
+                                            </FormControl>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start'
+                                        }}>
+                                            <NormalText text={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}/>
+                                            <FormControl fullWidth>
+                                                <TextField
+                                                    id="carTypeOfTransportationId"
+                                                    placeholder={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
+                                                    name='carTypeOfTransportationId'
+                                                    label={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
+                                                    value={selectedCarTypeData.carTypeOfTransportationId}
+                                                    disabled={true}
+                                                    data-testid='car-type-of-transportation-id-input'
+                                                    sx={{
+                                                        backgroundColor: `#ffffff`,
+                                                        borderRadius: '18px',
+                                                        color: `#000000`,
+                                                        textDecoration: 'none',
+                                                        height: 40,
+                                                        width: 250,
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        fontSize: "15px",
+                                                        "& fieldset": {border: 'none'},
+                                                    }}
+                                                />
+                                            </FormControl>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </DataCard>
 
@@ -457,7 +708,7 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                         alignItems: 'center'
                                     }}>
                                         <NormalText text={t('TRANSPORTATIONS.SELECTED_CAR')}/>
-                                        <FormControl>
+                                        <FormControl required>
                                             <InputLabel>{t('TRANSPORTATIONS.SELECTED_CAR')}</InputLabel>
                                             <Select
                                                 id="selectedCar"
@@ -465,8 +716,9 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                                 label={t('TRANSPORTATIONS.SELECTED_CAR')}
                                                 name='selectedCar'
                                                 data-testid='selected-car-input'
-                                                value={values.selectedCar ?? ''}
+                                                value={values.selectedCarId ?? ''}
                                                 onChange={handleChange('selectedCar')}
+                                                required
                                                 sx={{
                                                     backgroundColor: `#ffffff`,
                                                     borderRadius: '18px',
@@ -491,154 +743,349 @@ const TransportationCarSelector = ({ setCurrentStep }: { setCurrentStep: (step: 
                                 </Grid>
                             </Grid>
                         </Grid>
+
                         <DataCard>
                             <Headline text={t('TRANSPORTATIONS.CAR_DATA')} />
-                            <Grid container direction="row" spacing={2}>
-                                <Grid item container direction="column" spacing={2} xs={4}>
-                                    <Grid item>
-                                        <Box sx={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'flex-start'
-                                        }}>
-                                            <NormalText text={t('CAR.LICENCE_PLATE')}/>
-                                            <FormControl required fullWidth>
-                                                <TextField
-                                                    id="licencePlate"
-                                                    placeholder={t('CAR.LICENCE_PLATE')}
-                                                    name='licencePlate'
-                                                    label={t('CAR.LICENCE_PLATE')}
-                                                    value={values.licencePlate}
-                                                    onChange={handleChange('licencePlate')}
-                                                    data-testid='licence-plate-input'
-                                                    required
-                                                    sx={{
-                                                        backgroundColor: `#ffffff`,
-                                                        borderRadius: '18px',
-                                                        color: `#000000`,
-                                                        textDecoration: 'none',
-                                                        height: 40,
-                                                        width: 250,
-                                                        display: 'flex',
-                                                        justifyContent: 'center',
-                                                        fontSize: "15px",
-                                                        "& fieldset": {border: 'none'},
-                                                    }}
-                                                />
-                                            </FormControl>
-                                        </Box>
+                            <Grid container>
+                                <Grid container direction="row" spacing={2}>
+                                    <Grid item container direction="column" spacing={2} xs={3}>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR.LICENCE_PLATE')}/>
+                                                <FormControl fullWidth>
+                                                    <TextField
+                                                        id="licencePlate"
+                                                        placeholder={t('CAR.LICENCE_PLATE')}
+                                                        name='licencePlate'
+                                                        label={t('CAR.LICENCE_PLATE')}
+                                                        value={selectedCarData.licencePlate}
+                                                        disabled={true}
+                                                        data-testid='licence-plate-input'
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')}/>
+                                                <FormControl fullWidth>
+                                                    <TextField
+                                                        id="numberOfRegistrationLicence"
+                                                        placeholder={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')}
+                                                        name='numberOfRegistrationLicence'
+                                                        label={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')}
+                                                        value={selectedCarData.numberOfRegistrationLicence}
+                                                        disabled={true}
+                                                        data-testid='registration-certification-number-input'
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item>
-                                        <Box sx={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'flex-start'
-                                        }}>
-                                            <NormalText text={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')}/>
-                                            <FormControl required fullWidth>
-                                                <TextField
-                                                    id="registrationCertificationNumber"
-                                                    placeholder={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')}
-                                                    name='registrationCertificationNumber'
-                                                    label={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')}
-                                                    value={values.registrationCertificationNumber}
-                                                    onChange={handleChange('registrationCertificationNumber')}
-                                                    data-testid='registration-certification-number-input'
-                                                    required
-                                                    sx={{
-                                                        backgroundColor: `#ffffff`,
-                                                        borderRadius: '18px',
-                                                        color: `#000000`,
-                                                        textDecoration: 'none',
-                                                        height: 40,
-                                                        width: 250,
-                                                        display: 'flex',
-                                                        justifyContent: 'center',
-                                                        fontSize: "15px",
-                                                        "& fieldset": {border: 'none'},
-                                                    }}
-                                                />
-                                            </FormControl>
-                                        </Box>
+                                    <Grid item container direction="column" spacing={2} xs={3}>
+                                        <Grid>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR.CHASSIS_NUMBER')}/>
+                                                <FormControl fullWidth>
+                                                    <TextField
+                                                        id="chassisNumber"
+                                                        placeholder={t('CAR.CHASSIS_NUMBER')}
+                                                        name='chassisNumber'
+                                                        label={t('CAR.CHASSIS_NUMBER')}
+                                                        value={selectedCarData.chassisNumber}
+                                                        disabled={true}
+                                                        data-testid='chassis-number-input'
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR.YEAR_OF_PRODUCTION')} required={false}/>
+                                                <FormControl>
+                                                    <DatePicker
+                                                        name='yearOfProduction'
+                                                        data-testid='year-of-production-input'
+                                                        disabled={true}
+                                                        value={selectedCarData.yearOfProduction}
+                                                        //dateFormat="dd/MM/yyyy"
+                                                        className={'date-picker-class'}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item container direction="column" spacing={2} xs={3}>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR.DATE_OF_FIRST_REGISTRATION')} required={false}/>
+                                                <FormControl>
+                                                    <DatePicker
+                                                        name='dateOfFirstRegistration'
+                                                        data-testid='date-of-first-registration-input'
+                                                        disabled={true}
+                                                        value={selectedCarData.dateOfFirstRegistration}
+                                                        //dateFormat="dd/MM/yyyy"
+                                                        className={'date-picker-class'}
+                                                        //TODO: disabled format in css
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR.NAME')} required={false}/>
+                                                <FormControl>
+                                                    <TextField
+                                                        id="name"
+                                                        placeholder={t('CAR.NAME')}
+                                                        name='name'
+                                                        label={t('CAR.NAME')}
+                                                        value={selectedCarData.name}
+                                                        disabled={true}
+                                                        data-testid='name-input'
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item container direction="column" spacing={2} xs={3}>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR.TYPE')} required={false}/>
+                                                <FormControl>
+                                                    <TextField
+                                                        id="type"
+                                                        placeholder={t('CAR.TYPE')}
+                                                        name='type'
+                                                        label={t('CAR.TYPE')}
+                                                        value={selectedCarData.type}
+                                                        disabled={true}
+                                                        data-testid='type-input'
+                                                        sx={{
+                                                            backgroundColor: `#ffffff`,
+                                                            borderRadius: '18px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            width: 250,
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            fontSize: "15px",
+                                                            "& fieldset": {border: 'none'},
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'flex-start'
+                                            }}>
+                                                <NormalText text={t('CAR.DATE_OF_DATABASE_REGISTRATION')} required={false}/>
+                                                <FormControl>
+                                                    <DatePicker
+                                                        name='dateOfDatabaseRegistration'
+                                                        data-testid='date-of-database-registration-input'
+                                                        disabled={true}
+                                                        value={selectedCarData.dateOfDatabaseRegistration}
+                                                        //dateFormat="dd/MM/yyyy"
+                                                        className={'date-picker-class'}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                                <Grid item container direction="column" spacing={2} xs={4}>
-                                    <Grid>
+                                <Grid container direction="row" spacing={2}>
+                                    <Grid item xs={3}>
                                         <Box sx={{
                                             display: 'flex',
                                             flexDirection: 'column',
                                             justifyContent: 'space-between',
                                             alignItems: 'flex-start'
                                         }}>
-                                            <NormalText text={t('CAR.CHASSIS_NUMBER')}/>
-                                            <FormControl required fullWidth>
-                                                <TextField
-                                                    id="chassisNumber"
-                                                    placeholder={t('CAR.CHASSIS_NUMBER')}
-                                                    name='chassisNumber'
-                                                    label={t('CAR.CHASSIS_NUMBER')}
-                                                    value={values.chassisNumber}
-                                                    onChange={handleChange('chassisNumber')}
-                                                    data-testid='chassis-number-input'
-                                                    required
-                                                    sx={{
-                                                        backgroundColor: `#ffffff`,
-                                                        borderRadius: '18px',
-                                                        color: `#000000`,
-                                                        textDecoration: 'none',
-                                                        height: 40,
-                                                        width: 250,
-                                                        display: 'flex',
-                                                        justifyContent: 'center',
-                                                        fontSize: "15px",
-                                                        "& fieldset": {border: 'none'},
-                                                    }}
-                                                />
-                                            </FormControl>
-                                        </Box>
-                                    </Grid>
-                                    <Grid item>
-                                        <Box sx={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'flex-start'
-                                        }}>
-                                            <NormalText text={t('CAR.YEAR_OF_PRODUCTION')} required={false}/>
-                                            <FormControl required>
+                                            <NormalText text={t('CAR.DATE_OF_LAST_TECHNICAL_EXAMINATION')}/>
+                                            <FormControl fullWidth>
                                                 <DatePicker
-                                                    name='yearOfProduction'
-                                                    data-testid='year-of-production-input'
-                                                    //disabled={inputDisabled}
-                                                    value={values.yearOfProduction}
-                                                    onChange={handleDateChange('yearOfProduction')}
+                                                    name='dateOfLastTechnicalExamination'
+                                                    data-testid='date-of-last-technical-examination-input'
+                                                    disabled={true}
+                                                    value={selectedCarData.dateOfLastTechnicalExamination}
                                                     //dateFormat="dd/MM/yyyy"
                                                     className={'date-picker-class'}
                                                 />
                                             </FormControl>
                                         </Box>
                                     </Grid>
-                                </Grid>
-                                <Grid item container direction="column" spacing={2} xs={4}>
-                                    <Grid item>
+                                    <Grid item xs={3}>
                                         <Box sx={{
                                             display: 'flex',
                                             flexDirection: 'column',
                                             justifyContent: 'space-between',
                                             alignItems: 'flex-start'
                                         }}>
-                                            <NormalText text={t('CAR.DATE_OF_FIRST_REGISTRATION')} required={false}/>
-                                            <FormControl required>
+                                            <NormalText text={t('CAR.DATE_OF_LAST_SERVICE')}/>
+                                            <FormControl fullWidth>
                                                 <DatePicker
-                                                    name='dateOfFirstRegistration'
-                                                    data-testid='date-of-first-registration-input'
-                                                    //disabled={inputDisabled}
-                                                    value={values.dateOfFirstRegistration}
-                                                    onChange={handleDateChange('dateOfFirstRegistration')}
+                                                    name='dateOfLastService'
+                                                    data-testid='date-of-last-service-input'
+                                                    disabled={true}
+                                                    value={selectedCarData.dateOfLastService}
                                                     //dateFormat="dd/MM/yyyy"
                                                     className={'date-picker-class'}
+                                                />
+                                            </FormControl>
+                                        </Box>
+                                    </Grid>
+                                    <Grid xs={3}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start'
+                                        }}>
+                                            <NormalText text={t('CAR.TOTAL_DRIVEN_KM')}/>
+                                            <FormControl fullWidth>
+                                                <TextField
+                                                    id="totalDrivenKm"
+                                                    placeholder={t('CAR.TOTAL_DRIVEN_KM')}
+                                                    name='totalDrivenKm'
+                                                    label={t('CAR.TOTAL_DRIVEN_KM')}
+                                                    value={selectedCarData.totalDrivenKm}
+                                                    disabled={true}
+                                                    data-testid='total-driven-km-input'
+                                                    sx={{
+                                                        backgroundColor: `#ffffff`,
+                                                        borderRadius: '18px',
+                                                        color: `#000000`,
+                                                        textDecoration: 'none',
+                                                        height: 40,
+                                                        width: 250,
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        fontSize: "15px",
+                                                        "& fieldset": {border: 'none'},
+                                                    }}
+                                                />
+                                            </FormControl>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start'
+                                        }}>
+                                            <NormalText text={t('CAR.TOTAL_TRANSPORT')} required={false}/>
+                                            <FormControl>
+                                                <TextField
+                                                    id="totalTransport"
+                                                    placeholder={t('CAR.TOTAL_TRANSPORT')}
+                                                    name='totalTransport'
+                                                    label={t('CAR.TOTAL_TRANSPORT')}
+                                                    value={selectedCarData.totalTransport}
+                                                    disabled={true}
+                                                    data-testid='total-transport-input'
+                                                    sx={{
+                                                        backgroundColor: `#ffffff`,
+                                                        borderRadius: '18px',
+                                                        color: `#000000`,
+                                                        textDecoration: 'none',
+                                                        height: 40,
+                                                        width: 250,
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        fontSize: "15px",
+                                                        "& fieldset": {border: 'none'},
+                                                    }}
                                                 />
                                             </FormControl>
                                         </Box>

@@ -17,7 +17,7 @@ const carSchema = new mongoose.Schema({
     chassisNumber: String, //alvázszám
     yearOfProduction: Date, //gyártási év //TODO: date vagy int?
     dateOfFirstRegistration: Date, //első nyilvántartásba vétel
-    images: [String], //képek
+    //images: [String], //képek
     dateOfDatabaseRegistration: Date, //adatbázis regisztráció dátuma
     dateOfLastTechnicalExamination: Date, //legutóbbi műszaki vizsga időpontja
     dateOfLastService: Date, //legutóbbi szervíz időpontja

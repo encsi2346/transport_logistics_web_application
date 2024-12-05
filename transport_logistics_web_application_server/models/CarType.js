@@ -18,9 +18,9 @@ const carTypeSchema = new mongoose.Schema({
         type: String,
         enum: Object.values(FuelType), //üzemanyag
     },
-    vontatas: Number, //TODO: angolul
+    towing: Number, //vontatas
     height: Number, //magasság
-    szelesseg: Number, //szelesseg
+    width: Number, //szelesseg
     long: Number, //hosszúság
     carTypeOfTransportationId: {
         type: mongoose.Schema.Types.ObjectId,

@@ -68,8 +68,8 @@ const TransportationDriver = ({ setCurrentStep }: { setCurrentStep: (step: numbe
     const { control, isValid, preValidationError, onSubmit} = useTransportationDriver();
 
     const handleCancelClicked = () => {
-        setCurrentStep(0);
-        navigate(-1);
+        setCurrentStep(1);
+        //navigate(-1);
     };
 
     const handleNextClicked  = () => {
