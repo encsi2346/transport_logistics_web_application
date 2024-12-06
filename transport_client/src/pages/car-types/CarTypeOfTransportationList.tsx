@@ -1,5 +1,5 @@
 import PageHeader from "../../components/text/PageHeader";
-import {Box, Fab, Grid} from "@mui/material";
+import {Box, Fab, Grid, Tooltip} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
 import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -8,6 +8,10 @@ import {useModal} from "@ebay/nice-modal-react";
 import CarTypeOfTransportationCard from '../../components/layout/carTypeOfTransportationCard';
 import AddIcon from "@mui/icons-material/Add";
 import NewTypeOfTransportationAddDialog from "./NewTypeOfTransportationAddDialog";
+import UniqueIconButton from "../../components/button/UniqueIconButton";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from "@mui/icons-material/Delete";
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 const CarTypeOfTransportationList = () => {
     const { t } = useTypeSafeTranslation();
@@ -15,6 +19,7 @@ const CarTypeOfTransportationList = () => {
     const location = useLocation();
     const addTypeOfTransportationDialog = useModal(NewTypeOfTransportationAddDialog);
     const [search, setSearch] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
     const [typeOfTransportationList, setTypeOfTransportationList] = useState([]);
     const [values, setValues] = useState({
         _id: '',
@@ -80,6 +85,25 @@ const CarTypeOfTransportationList = () => {
         }
     };
 
+    const getTypeOfTransportation = async (id: string) => {
+        try {
+            const getTypeOfTransportationResponse = await fetch(
+                `http://localhost:3001/api/type-of-transportation/${id}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getTypeOfTransportationData = await getTypeOfTransportationResponse.json();
+            const getStatus = getTypeOfTransportationResponse.status;
+            console.log('getTypeOfTransportationData', getTypeOfTransportationData);
+            console.log('getUserStatus', getStatus);
+            //setTypeOfTransportation(getTypeOfTransportationData);
+        } catch (error) {
+            console.error('Error get type of transportation:', error);
+        }
+    }
+
     const openAddTypeOfTransportationDialog = () => {
         addTypeOfTransportationDialog
             .show({
@@ -110,19 +134,28 @@ const CarTypeOfTransportationList = () => {
 
     return (
         <Box>
-            <PageHeader text={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATIONS')}/>
+            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                <PageHeader text={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATIONS')}/>
+                <Tooltip title={t('TEXT.EDIT')}>
+                    <UniqueIconButton
+                        onClick={() => setIsEditing(!isEditing)}
+                        icon={isEditing ? <ClearRoundedIcon sx={{width: 30, height: 30}} /> : <EditIcon sx={{width: 30, height: 30}}/>}/>
+                </Tooltip>
+            </Box>
             <ContentCard>
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                    <Grid container rowSpacing={3} columnSpacing={-38} >
+                    <Grid container rowSpacing={3} columnSpacing={-38}>
                         {typeOfTransportationList
                             .map((item, index) => {
                                 return (
                                     <Grid item xs={5} key={item._id}>
                                         <CarTypeOfTransportationCard
                                             onClick={() => navigate(`/type-of-transportation/${item._id}/car-types`)}
-                                            id={item.carTypeOfTransportationId}
+                                            id={item._id}
                                             type={item.type}
                                             countOfCars={item.countOfCars}
+                                            isEditing={isEditing}
+                                            refreshParent={handleLoadTypeOfTransportation}
                                         />
                                     </Grid>
                                 );

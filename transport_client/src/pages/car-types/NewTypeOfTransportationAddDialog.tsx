@@ -88,46 +88,6 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
             countOfCars: 0
         });
 
-        const getTypeOfTransportation = async (id: string) => {
-            try {
-                const getTypeOfTransportationResponse = await fetch(
-                    `http://localhost:3001/api/type-of-transportation/${id}`,
-                    {
-                        method: "GET",
-                        headers: { "Content-Type": "application/json"},
-                    }
-                );
-                const getTypeOfTransportationData = await getTypeOfTransportationResponse.json();
-                const getStatus = getTypeOfTransportationResponse.status;
-                console.log('getTypeOfTransportationData', getTypeOfTransportationData);
-                console.log('getUserStatus', getStatus);
-                //setTypeOfTransportation(getTypeOfTransportationData);
-            } catch (error) {
-                console.error('Error get type of transportation:', error);
-            }
-        }
-
-        const deleteTypeOfTransportation = async (id: string) => {
-            //TODO
-            try {
-                const deleteTypeOfTransportationResponse = await fetch(
-                    `http://localhost:3001/api/type-of-transportation/${id}`,
-                    {
-                        method: "DELETE",
-                        headers: { "Content-Type": "application/json"},
-                    }
-                );
-                const getTypeOfTransportationData = await deleteTypeOfTransportationResponse.json();
-                const getStatus = deleteTypeOfTransportationResponse.status;
-                console.log('getTypeOfTransportationData', getTypeOfTransportationData);
-                console.log('getUserStatus', getStatus);
-                //setTypeOfTransportation(getTypeOfTransportationData);
-                return getTypeOfTransportationData;
-            } catch (error) {
-                console.error(`Error deleting type of transportation with ID ${id}:`, error);
-            }
-        };
-
         const handleChange = (prop: any) => (event: any) => {
             setValues({...values, [prop]: event.target.value });
         };
