@@ -10,7 +10,6 @@ import AddIcon from "@mui/icons-material/Add";
 import NewTypeOfTransportationAddDialog from "./NewTypeOfTransportationAddDialog";
 import UniqueIconButton from "../../components/button/UniqueIconButton";
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from "@mui/icons-material/Delete";
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 const CarTypeOfTransportationList = () => {
@@ -84,25 +83,6 @@ const CarTypeOfTransportationList = () => {
             console.error(`Error updating type of transportation with ID ${id}:`, error);
         }
     };
-
-    const getTypeOfTransportation = async (id: string) => {
-        try {
-            const getTypeOfTransportationResponse = await fetch(
-                `http://localhost:3001/api/type-of-transportation/${id}`,
-                {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json"},
-                }
-            );
-            const getTypeOfTransportationData = await getTypeOfTransportationResponse.json();
-            const getStatus = getTypeOfTransportationResponse.status;
-            console.log('getTypeOfTransportationData', getTypeOfTransportationData);
-            console.log('getUserStatus', getStatus);
-            //setTypeOfTransportation(getTypeOfTransportationData);
-        } catch (error) {
-            console.error('Error get type of transportation:', error);
-        }
-    }
 
     const openAddTypeOfTransportationDialog = () => {
         addTypeOfTransportationDialog

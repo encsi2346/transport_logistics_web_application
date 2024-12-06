@@ -5,25 +5,18 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, FormControl, Grid,
-    IconButton,
-    InputAdornment, TextField
+    DialogTitle,
+    FormControl,
+    Grid,
+    TextField
 } from '@mui/material';
 import type {SxProps, Theme} from '@mui/material';
-import type { GridSelectionModel } from '@mui/x-data-grid';
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
 import {useNavigate, useParams} from "react-router-dom";
 import BackgroundCard from "../../components/layout/BackgroundCard";
 import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation';
-import TextFieldInput from '../../components/inputField/TextFieldInput';
-//import DatePickerInput from "../../components/inputField/DatePickerInput";
-import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
-import SelectInput from "../../components/inputField/SelectInput";
-import {RequestEditFormSchema, requestEditFormSchema} from "./schemas/request-edit-form-schema";
 import DataCard from "@/components/layout/DataCard";
 import NormalText from "../../components/text/NormalText";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -77,11 +70,7 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
     (props: { title: string; acceptText: string; resolveText: string }) => {
         const modal = useModal();
         const { t } = useTypeSafeTranslation();
-        const { id } = useParams();
-        const navigate = useNavigate();
-        const [inputDisabled, setInputDisabled] = useState(false); //isInputDisabled
         const [isEditing, setIsEditing] = useState(true);
-        const [productStatusList, setProductStatusList] = useState([]);
         const [values, setValues] = useState({
             carTypeOfTransportationId: '',
             type: '',
@@ -118,10 +107,7 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
                 <DialogContent>
                     <Box>
                         <BackgroundCard>
-                            <form
-                                autoComplete='off'
-                                //onSubmit={(e) => handleSubmit(e)}
-                            >
+                            <form autoComplete='off'>
                                 <DataCard>
                                     <Grid item container direction="column" spacing={2}>
                                         <Grid item container direction="column" xs={4} md={10} spacing={15}>
