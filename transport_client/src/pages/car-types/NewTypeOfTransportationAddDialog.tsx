@@ -23,7 +23,7 @@ import SelectInput from "../../components/inputField/SelectInput";
 import {RequestEditFormSchema, requestEditFormSchema} from "./schemas/request-edit-form-schema";
 import DataCard from "@/components/layout/DataCard";
 import NormalText from "../../components/text/NormalText";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -74,7 +74,7 @@ const cancelTitleStyle: SxProps<Theme> = {
 }
 
 const NewTypeOfTransportationAddDialog = NiceModal.create(
-    (props: { title: string; acceptText: string; defaultSelected: GridSelectionModel; handleEmployeeAdded: () => void }) => {
+    (props: { title: string; acceptText: string; resolveText: string }) => {
         const modal = useModal();
         const { t } = useTypeSafeTranslation();
         const { id } = useParams();
@@ -83,8 +83,9 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
         const [isEditing, setIsEditing] = useState(true);
         const [productStatusList, setProductStatusList] = useState([]);
         const [values, setValues] = useState({
-            typeOfTransportationId: '',
-            name: '',
+            carTypeOfTransportationId: '',
+            type: '',
+            countOfCars: 0
         });
 
         const getTypeOfTransportation = async (id: string) => {
@@ -105,48 +106,6 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
                 console.error('Error get type of transportation:', error);
             }
         }
-
-        const createTypeOfTransportation = async (data: any) => {
-            try {
-                const createTypeOfTransportationResponse = await fetch(
-                    `http://localhost:3001/api/type-of-transportation/addTypeOfTransportation`,
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json"},
-                        body: JSON.stringify(data),
-                    }
-                );
-                const getTypeOfTransportationData = await createTypeOfTransportationResponse.json();
-                const getStatus = createTypeOfTransportationResponse.status;
-                console.log('getTypeOfTransportationData', getTypeOfTransportationData);
-                console.log('getUserStatus', getStatus);
-                //setTypeOfTransportation(getTypeOfTransportationData);
-                return getTypeOfTransportationData;
-            } catch (error) {
-                console.error('Error creating type of transportation:', error);
-            }
-        };
-
-        const updateTypeOfTransportation = async (id: string, data: any) => {
-            try {
-                const updatedTypeOfTransportationResponse = await fetch(
-                    `http://localhost:3001/api/type-of-transportation/${id}`,
-                    {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json"},
-                        body: JSON.stringify(data),
-                    }
-                );
-                const getTypeOfTransportationData = await updatedTypeOfTransportationResponse.json();
-                const getStatus = updatedTypeOfTransportationResponse.status;
-                console.log('getTypeOfTransportationData', getTypeOfTransportationData);
-                console.log('getUserStatus', getStatus);
-                //setTypeOfTransportation(getTypeOfTransportationData);
-                return getTypeOfTransportationData;
-            } catch (error) {
-                console.error(`Error updating type of transportation with ID ${id}:`, error);
-            }
-        };
 
         const deleteTypeOfTransportation = async (id: string) => {
             //TODO
@@ -169,21 +128,6 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
             }
         };
 
-        const handleSubmit = async (e: any) => {
-            e.preventDefault();
-
-            let submitData = data as any;
-            console.log('isEditing', isEditing);
-            console.log('submitData', submitData);
-            if (isEditing) {
-                setInputDisabled(true);
-                updateTypeOfTransportation(id, submitData);
-            } else {
-                setInputDisabled(true);
-                createTypeOfTransportation(submitData);
-            }
-        };
-
         const handleChange = (prop: any) => (event: any) => {
             setValues({...values, [prop]: event.target.value });
         };
@@ -197,7 +141,8 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
                     "& .MuiDialog-container": {
                         "& .MuiPaper-root": {
                             width: "100%",
-                            maxWidth: "500px",
+                            maxWidth: "700px",
+                            height: "600px",
                             borderRadius: '19px',
                             display: 'flex',
                             alignItems: 'center',
@@ -215,7 +160,7 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
                         <BackgroundCard>
                             <form
                                 autoComplete='off'
-                                onSubmit={(e) => handleSubmit(e)}
+                                //onSubmit={(e) => handleSubmit(e)}
                             >
                                 <DataCard>
                                     <Grid item container direction="column" spacing={2}>
@@ -225,22 +170,26 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
                                                     display: 'flex',
                                                     flexDirection: 'column',
                                                     justifyContent: 'space-between',
-                                                    alignItems: 'start'
+                                                    alignItems: 'start',
+                                                    marginTop: '60px',
+                                                    marginBottom: '60px',
+                                                    marginLeft: '100px',
+                                                    marginRight: '100px'
                                                 }}>
                                                     <NormalText text={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}/>
                                                     <FormControl required fullWidth>
                                                         <TextField
-                                                            id="productCategoryName"
-                                                            placeholder='Példa Éva'
-                                                            name='productCategoryName'
+                                                            id="type"
+                                                            placeholder={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}
+                                                            name='type'
                                                             label={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}
-                                                            value={values.name}
-                                                            onChange={handleChange('name')}
-                                                            data-testid='product-category-name-input'
+                                                            value={values.type}
+                                                            onChange={handleChange('type')}
+                                                            data-testid='type-input'
                                                             required
                                                             sx={{
                                                                 backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                borderRadius: '13px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
@@ -254,6 +203,46 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
                                                     </FormControl>
                                                 </Box>
                                             </Grid>
+                                            {!isEditing && (
+                                                <Grid item xs={4} md={5}>
+                                                    <Box sx={{
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'start',
+                                                        marginTop: '30px',
+                                                        marginBottom: '30px',
+                                                        marginLeft: '100px',
+                                                        marginRight: '100px'
+                                                    }}>
+                                                        <NormalText text={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}/>
+                                                        <FormControl required fullWidth>
+                                                            <TextField
+                                                                id="type"
+                                                                placeholder={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}
+                                                                name='type'
+                                                                label={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}
+                                                                value={values.type}
+                                                                onChange={handleChange('type')}
+                                                                data-testid='type-input'
+                                                                required
+                                                                sx={{
+                                                                    backgroundColor: `#ffffff`,
+                                                                    borderRadius: '13px',
+                                                                    color: `#000000`,
+                                                                    textDecoration: 'none',
+                                                                    height: 40,
+                                                                    width: 250,
+                                                                    display: 'flex',
+                                                                    justifyContent: 'center',
+                                                                    fontSize: "15px",
+                                                                    "& fieldset": {border: 'none'},
+                                                                }}
+                                                            />
+                                                        </FormControl>
+                                                    </Box>
+                                                </Grid>
+                                            )}
                                         </Grid>
                                     </Grid>
                                 </DataCard>
@@ -272,13 +261,13 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
                         data-testid="cancel-button"
                         sx={cancelTitleStyle}
                     >
-                        {t('TEXT.CANCEL')}
+                        {props.resolveText}
                     </Button>
                     <Button
                         color="primary"
                         variant="contained"
                         onClick={() => {
-                            onSubmit();
+                            modal.resolve(values);
                             modal.remove();
                         }}
                         data-testid="confirm-button"

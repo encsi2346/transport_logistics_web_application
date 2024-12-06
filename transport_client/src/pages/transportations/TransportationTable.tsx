@@ -83,12 +83,12 @@ const TransportationTable = ({
         },
         {
             field: 'startDate',
-            headerName: `${t('TRANSPORTATIONS.START_DATE')}`,
+            headerName: `${t('TRANSPORTATIONS.DEPARTURE_DATE')}`,
             width: 200,
         },
         {
             field: 'endDate',
-            headerName: `${t('TRANSPORTATIONS.END_DATE')}`,
+            headerName: `${t('TRANSPORTATIONS.ARRIVAL_DATE')}`,
             width: 200,
         },
     ];

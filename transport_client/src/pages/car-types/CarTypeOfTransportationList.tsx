@@ -16,6 +16,11 @@ const CarTypeOfTransportationList = () => {
     const addTypeOfTransportationDialog = useModal(NewTypeOfTransportationAddDialog);
     const [search, setSearch] = useState('');
     const [typeOfTransportationList, setTypeOfTransportationList] = useState([]);
+    const [values, setValues] = useState({
+        _id: '',
+        type: '',
+        countOfCars: ''
+    });
 
     const handleLoadTypeOfTransportation = async () => {
         const getResponse = await fetch(
@@ -33,14 +38,72 @@ const CarTypeOfTransportationList = () => {
         handleLoadTypeOfTransportation();
     }, []);
 
+    const createTypeOfTransportation = async (data: any) => {
+        try {
+            const createTypeOfTransportationResponse = await fetch(
+                `http://localhost:3001/api/type-of-transportation/addCarTypeOfTransportation`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getTypeOfTransportationData = await createTypeOfTransportationResponse.json();
+            const getStatus = createTypeOfTransportationResponse.status;
+            console.log('getTypeOfTransportationData', getTypeOfTransportationData);
+            console.log('getUserStatus', getStatus);
+            setTypeOfTransportationList(getTypeOfTransportationData);
+            return getTypeOfTransportationData;
+        } catch (error) {
+            console.error('Error creating type of transportation:', error);
+        }
+    };
+
+    const updateTypeOfTransportation = async (id: string, data: any) => {
+        try {
+            const updatedTypeOfTransportationResponse = await fetch(
+                `http://localhost:3001/api/type-of-transportation/${id}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getTypeOfTransportationData = await updatedTypeOfTransportationResponse.json();
+            const getStatus = updatedTypeOfTransportationResponse.status;
+            console.log('getTypeOfTransportationData', getTypeOfTransportationData);
+            console.log('getUserStatus', getStatus);
+            setTypeOfTransportationList(getTypeOfTransportationData);
+            return getTypeOfTransportationData;
+        } catch (error) {
+            console.error(`Error updating type of transportation with ID ${id}:`, error);
+        }
+    };
+
     const openAddTypeOfTransportationDialog = () => {
         addTypeOfTransportationDialog
             .show({
                 title: t('TYPE_OF_TRANSPORTATION.ADD_NEW_TYPE_OF_TRANSPORTATION'),
                 acceptText: t('TEXT.CREATE'),
+                resolveText: t('TEXT.CANCEL')
             })
             .then((value) => {
-                setValue('carTypeOfTransportations', value as string[]);
+                if (value._id) {
+                    // If the modal returns an ID, update the existing type
+                    updateTypeOfTransportation(value._id, {
+                        carTypeOfTransportationId: value.carTypeOfTransportationId,
+                        type: value.type,
+                        countOfCars: value.countOfCars
+                    });
+                } else {
+                    // Otherwise, create a new type of transportation
+                    createTypeOfTransportation({
+                        carTypeOfTransportationId: value.carTypeOfTransportationId,
+                        type: value.type,
+                        countOfCars: value.countOfCars
+                    });
+                }
+                handleLoadTypeOfTransportation();
             })
             .catch(() => null);
     };
@@ -48,107 +111,6 @@ const CarTypeOfTransportationList = () => {
     return (
         <Box>
             <PageHeader text={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATIONS')}/>
-            {/*<FilterCard>
-                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 3}}>
-                    <FormControl sx={{
-                        marginTop: 1,
-                        marginBottom: 5,
-                        marginLeft: 2,
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: 2
-                    }}>
-                        <Input
-                            id="brand"
-                            placeholder={t('CAR_TYPES.BRAND')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                        <Input
-                            id="fuel"
-                            placeholder={t('CAR_TYPES.FUEL')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                        <Input
-                            id="numberOfSeats"
-                            placeholder={t('CAR_TYPES.NUMBER_OF_SEATS')}
-                            autoFocus
-                            onChange={(e) => setSearch(e.target.value)}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <SearchIcon sx={{color: '#000000'}}/>
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                                <InputAdornment position="end" onClick={() => setSearch('')}>
-                                    <ClearIcon sx={{color: '#000000', cursor: 'pointer'}}/>
-                                </InputAdornment>
-                            }
-                            disableUnderline={true}
-                            sx={{
-                                backgroundColor: `#ffffff`,
-                                borderRadius: '13px',
-                                color: `#000000`,
-                                textDecoration: 'none',
-                                height: 40,
-                                width: 250,
-                                fontSize: "15px",
-                                paddingLeft: 1,
-                                paddingRight: 1
-                            }}
-                        />
-                    </FormControl>
-                    <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                        <SaveButton text={t('CAR_TYPES.ADD_NEW_CAR_TYPE')} onClick={openAddCarTypeDialog} />
-                    </Box>
-                </Box>
-            </FilterCard>            */}
-
             <ContentCard>
                 <Box sx={{display: 'flex', flexDirection: 'column'}}>
                     <Grid container rowSpacing={3} columnSpacing={-38} >
