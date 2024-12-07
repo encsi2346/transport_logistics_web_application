@@ -34,9 +34,27 @@ const ProductsCategoryList = () => {
             .show({
                 title: t('PRODUCT_CATEGORIES.NEW_PRODUCT_CATEGORY'),
                 acceptText: t('TEXT.CREATE'),
+                resolveText: t('TEXT.CANCEL')
             })
             .then((value) => {
-                setValue('carTypes', value as string[]);
+                if (value._id) {
+                    // If the modal returns an ID, update the existing type
+                    updateProductCategory(value._id, {
+                        productCategoryId: value.productCategoryId,
+                        name: value.name,
+                        description: value.description,
+                        status: value.status
+                    });
+                } else {
+                    // Otherwise, create a new type of transportation
+                    createProductCategory({
+                        productCategoryId: value.productCategoryId,
+                        name: value.name,
+                        description: value.description,
+                        status: value.status,
+                    });
+                }
+                handleLoadProductCategories();
             })
             .catch(() => null);
     };
@@ -85,6 +103,112 @@ const ProductsCategoryList = () => {
             setCategories(searchCategoriesQuery.content || []);
         } catch (error) {
             console.error('Error submitting form:', error);
+        }
+    };
+
+    const handleProductStatusList = async () => {
+        const getResponse = await fetch(
+            "http://localhost:3001/api/productStatus",
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getProductStatusList = await getResponse.json();
+        //const getStatus = getResponse.status;
+        console.log('ProductStatus', getProductStatusList);
+
+        const formattedProductStatusList = getProductStatusList.map(productStatus => ({
+            value: productStatus,
+            label: productStatus.charAt(0).toUpperCase() + productStatus.slice(1)
+        }));
+        console.log('formattedProductStatusList', formattedProductStatusList);
+        setProductStatusList(formattedProductStatusList);
+    }
+
+    useEffect(() => {
+        handleProductStatusList();
+    }, [])
+
+    const getProductCategory = async (id: string) => {
+        try {
+            const getProductCategoryResponse = await fetch(
+                `http://localhost:3001/api/product-categories/${id}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getProductCategoryData = await getProductCategoryResponse.json();
+            const getStatus = getProductCategoryResponse.status;
+            console.log('getProductCategoryData', getProductCategoryData);
+            console.log('getUserStatus', getStatus);
+            //setCar(getCarData);
+        } catch (error) {
+            console.error('Error get product category:', error);
+        }
+    }
+
+    const createProductCategory = async (data: any) => {
+        try {
+            const createProductCategoryResponse = await fetch(
+                `http://localhost:3001/api/product-categories/addProductCategory`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getProductCategoryData = await createProductCategoryResponse.json();
+            const getStatus = createProductCategoryResponse.status;
+            console.log('getProductCategoryData', getProductCategoryData);
+            console.log('getUserStatus', getStatus);
+            setCategories(getProductCategoryData);
+            return getProductCategoryData;
+        } catch (error) {
+            console.error('Error creating product category:', error);
+        }
+    };
+
+    const updateProductCategory = async (id: string, data: any) => {
+        try {
+            const updatedProductCategoryResponse = await fetch(
+                `http://localhost:3001/api/product-categories/${id}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify(data),
+                }
+            );
+            const getProductCategoryData = await updatedProductCategoryResponse.json();
+            const getStatus = updatedProductCategoryResponse.status;
+            console.log('getProductCategoryData', getProductCategoryData);
+            console.log('getUserStatus', getStatus);
+            setCategories(getProductCategoryData);
+            return getProductCategoryData;
+        } catch (error) {
+            console.error(`Error updating product category with ID ${id}:`, error);
+        }
+    };
+
+    const deleteProductCategory = async (id: string) => {
+        //TODO
+        try {
+            const deleteProductCategoryResponse = await fetch(
+                `http://localhost:3001/api/product-categories/${id}`,
+                {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getProductCategoryData = await deleteProductCategoryResponse.json();
+            const getStatus = deleteProductCategoryResponse.status;
+            console.log('getProductCategoryData', getProductCategoryData);
+            console.log('getUserStatus', getStatus);
+            setCategories(getProductCategoryData);
+            return getProductCategoryData;
+        } catch (error) {
+            console.error(`Error deleting product category with ID ${id}:`, error);
         }
     };
 

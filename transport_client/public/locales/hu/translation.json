@@ -35,7 +35,9 @@
     "LOGIN": "Bejelentkezés",
     "FILTER": "Szűrés",
     "CLEAR_FILTER": "Szűrés törlése",
-    "REMOVE_IMAGE": "Kép törlése"
+    "REMOVE_IMAGE": "Kép törlése",
+    "COMPANIES": "Partnerek",
+    "SERVICES": "Autószervízek"
   },
   "USER": {
     "ID": "Azonosító",
@@ -238,5 +240,23 @@
   },
   "ORDERS": {
     "ORDERS": "Megrendelések"
+  },
+  "COMPANIES": {
+    "ADD_NEW_COMPANY": "Új partner hozzáadása",
+    "COMPANY_NAME": "Cégnév"
+  },
+  "SERVICE_APPOINTMENTS": {
+    "CAR": "Gépjármű",
+    "REPARATION": "Javítás",
+    "DESCRIPTION": "Leírás",
+    "TITLE": "Title",
+    "VAT": "Adókulcs",
+    "NET_SUM_PRICE": "Nettó összes ár",
+    "GROSS_SUM_PRICE": "Bruttó összes ár",
+    "DATE_OF_RECORDING": "Rögzítés dátuma",
+    "DRIVER_NAME": "Sofőr neve",
+    "NAME_OF_SERVICE_COMPANY": "Szervíz neve",
+    "APPOINTMENT": "Szervíz időpontja",
+    "ADD_NEW_SERVICE_APPOINTMENT": "Új szervíz időpont hozzáadása"
   }
 }

@@ -14,6 +14,8 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import BubbleChartIcon from '@mui/icons-material/BubbleChart';
+import ApartmentRoundedIcon from '@mui/icons-material/ApartmentRounded';
+import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
 
 const iconProps = {
     sx: {
@@ -111,6 +113,22 @@ const Sidebar = () => {
                 </Tooltip>,
             label: t('TEXT.INVOICES'),
             route: '/invoices',
+        },
+        {
+            icon:
+                <Tooltip title={t('TEXT.COMPANIES')}>
+                    <ApartmentRoundedIcon {...iconProps} />
+                </Tooltip>,
+            label: t('TEXT.COMPANIES'),
+            route: '/companies',
+        },
+        {
+            icon:
+                <Tooltip title={t('TEXT.SERVICES')}>
+                    <BuildRoundedIcon {...iconProps} />
+                </Tooltip>,
+            label: t('TEXT.SERVICES'),
+            route: '/services',
         },
         {
             icon:

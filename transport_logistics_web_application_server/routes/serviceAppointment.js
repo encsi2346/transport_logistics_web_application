@@ -1,14 +1,17 @@
 import express from 'express';
-import {createService, deleteService, getAllServices, getService, updateService} from "../controllers/service.js";
+import {
+    createServiceAppointment,
+    deleteServiceAppointment, getAllServiceAppointments, getServiceAppointment, updateServiceAppointment
+} from "../controllers/serviceAppointment.js";
 
 const router = express.Router();
 
 /**
  * @swagger
- * /api/services:
+ * /api/serviceAppointments:
  *  get:
  *      summary: This get all services from mongodb
- *      tags: [Service]
+ *      tags: [ServiceAppointment]
  *      description: this api is used to fetch data from mongodb
  *      responses:
  *          200:
@@ -18,16 +21,16 @@ const router = express.Router();
  *                      schema:
  *                          type: array
  *                          items:
- *                              $ref: '#components/schemas/Service'
+ *                              $ref: '#components/schemas/ServiceAppointment'
  */
-router.get('/api/services', getAllServices);
+router.get('/api/services', getAllServiceAppointments);
 
 /**
  * @swagger
- * /api/services/{id}:
+ * /api/serviceAppointments/{id}:
  *   get:
  *     summary: Get a service by ID.
- *     tags: [Service]
+ *     tags: [ServiceAppointment]
  *     description: Retrieve a service based on its ID.
  *     parameters:
  *       - in: path
@@ -42,43 +45,43 @@ router.get('/api/services', getAllServices);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Service'
+ *               $ref: '#/components/schemas/ServiceAppointment'
  *       404:
- *         description: Service not found.
+ *         description: ServiceAppointment not found.
  */
-router.get('/api/services/:id', getService);
+router.get('/api/services/:id', getServiceAppointment);
 
 /**
  * @swagger
- * /api/services/addService:
+ * /api/serviceAppointments/addServiceAppointment:
  *   post:
- *     summary: Add a new service.
- *     tags: [Service]
+ *     summary: Add a new service Appointment.
+ *     tags: [ServiceAppointment]
  *     description: Add a new service to the database.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Service'
+ *             $ref: '#/components/schemas/ServiceAppointment'
  *     responses:
  *       201:
  *         description: The newly created service.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Service'
+ *               $ref: '#/components/schemas/ServiceAppointment'
  *       400:
  *         description: Bad request.
  */
-router.post('/api/services/addService', createService);
+router.post('/api/serviceAppointments/addServiceAppointment', createServiceAppointment);
 
 /**
  * @swagger
- * /api/services/{id}:
+ * /api/serviceAppointments/{id}:
  *   put:
- *     summary: Update a service.
- *     tags: [Service]
+ *     summary: Update a service Appointment.
+ *     tags: [ServiceAppointment]
  *     description: Update a service in the database.
  *     parameters:
  *       - in: path
@@ -92,27 +95,27 @@ router.post('/api/services/addService', createService);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Service'
+ *             $ref: '#/components/schemas/ServiceAppointment'
  *     responses:
  *       200:
  *         description: The updated service.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Service'
+ *               $ref: '#/components/schemas/ServiceAppointment'
  *       400:
  *         description: Bad request.
  *       404:
- *         description: Service not found.
+ *         description: ServiceAppointment not found.
  */
-router.put('/api/services/:id', updateService);
+router.put('/api/serviceAppointments/:id', updateServiceAppointment);
 
 /**
  * @swagger
- * /api/services/{id}:
+ * /api/serviceAppointments/{id}:
  *   delete:
- *     summary: Delete a service.
- *     tags: [Service]
+ *     summary: Delete a service Appointment.
+ *     tags: [ServiceAppointment]
  *     description: Delete a service from the database.
  *     parameters:
  *       - in: path
@@ -123,10 +126,10 @@ router.put('/api/services/:id', updateService);
  *           type: string
  *     responses:
  *       200:
- *         description: Service deleted successfully.
+ *         description: ServiceAppointment deleted successfully.
  *       404:
- *         description: Service not found.
+ *         description: ServiceAppointment not found.
  */
-router.delete('/api/services/:id', deleteService);
+router.delete('/api/serviceAppointments/:id', deleteServiceAppointment);
 
 export default router;

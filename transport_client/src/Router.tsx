@@ -13,6 +13,8 @@ import InvoiceRouting from "./pages/invoices/InvoiceRouting";
 import OrderRouting from "./pages/orders/OrderRouting";
 import Dashboard from "./pages/dashborad/Dashboard";
 import ResetPassword from './pages/login/ResetPassword';
+import CompaniesRouting from "./pages/companies/CompaniesRouting";
+import ServiceAppointmentRouting from "./pages/serviceAppointments/ServiceAppointmentRouting";
 
 const Router = () => {
     const isAuth = Boolean(useSelector((state) => state.token));
@@ -35,6 +37,8 @@ const Router = () => {
                     <Route path="requests/*" element={isAuth ? <RequestRouting /> : <Navigate to="/login" />} />
                     <Route path="documents/*" element={isAuth ? <DocumentRouting /> : <Navigate to="/login" />} />
                     <Route path="invoices/*" element={isAuth ? <InvoiceRouting /> : <Navigate to="/login" />} />
+                    <Route path="companies/*" element={isAuth ? <CompaniesRouting /> : <Navigate to="/login" />} />
+                    <Route path="services/*" element={isAuth ? <ServiceAppointmentRouting /> : <Navigate to="/login" />} />
                     <Route path="orders/*" element={isAuth ? <OrderRouting /> : <Navigate to="/login" />} />
                 </Route>
             </Route>

@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 import Car from "./Car.js";
 import {v4 as uuidv4} from "uuid";
 
-const serviceSchema = new mongoose.Schema({
-    serviceId: {
+const serviceAppointmentSchema = new mongoose.Schema({
+    serviceAppointmentId: {
         type: String,
         default: uuidv4,
     },
@@ -23,6 +23,6 @@ const serviceSchema = new mongoose.Schema({
     },
 });
 
-const Service = mongoose.model('Service', serviceSchema);
+const ServiceAppointment = mongoose.model('ServiceAppointment', serviceAppointmentSchema);
 
-export default Service;
+export default ServiceAppointment;

@@ -47,7 +47,7 @@ import requestRoutes from "./routes/request.js";
 import resultRoutes from "./routes/result.js";
 import routeRoutes from "./routes/route.js";
 import selectedProductRoutes from "./routes/selectedProduct.js";
-import serviceRoutes from "./routes/service.js";
+import serviceAppointmentRoutes from "./routes/serviceAppointment.js";
 import transportationRoutes from "./routes/transportation.js";
 import carTypeOfTransportationRoutes from "./routes/carTypeOfTransportation.js";
 import ImageDetails from "./models/ImageDetails.js";
@@ -135,7 +135,7 @@ app.use(requestRoutes);
 app.use(resultRoutes);
 app.use(routeRoutes);
 app.use(selectedProductRoutes);
-app.use(serviceRoutes);
+app.use(serviceAppointmentRoutes);
 app.use(transportationRoutes);
 app.use(carTypeOfTransportationRoutes);
 
