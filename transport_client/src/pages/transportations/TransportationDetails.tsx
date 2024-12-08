@@ -22,10 +22,13 @@ interface Props {
 const TransportationDetails = ({ setCurrentStep }: Props) => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
+    const { departureDockingPointId, arrivalDockingPointId, dockingPoints, setTransportation } = useTransportationStore();
     const thisStep = TransportationSteps.DETAILS;
     const currentStep = useTransportationStore((state) => state.currentStep);
     const isStepDone = currentStep > thisStep;
     const isActiveStep = thisStep === currentStep;
+    const [dockingPoints, setDockingPoints] = useState([]);
+    const [extraDockingPoints, setExtraDockingPoints] = useState([]);
     const [departureValues, setDepartureValues] = useState({
         dockingPointId: '',
         country: '',
@@ -61,9 +64,9 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
         passengers: '',
     });
 
-    const loadedTransportation = useTransportationStore((state) => state.loadedTransportation);
+    /*const loadedTransportation = useTransportationStore((state) => state.loadedTransportation);
 
-    const { control, isValid, preValidationError, onSubmit} = useTransportationDetails();
+    const { control, isValid, preValidationError, onSubmit} = useTransportationDetails();*/
 
     const handleCancelClicked = () => {
         setCurrentStep(0);

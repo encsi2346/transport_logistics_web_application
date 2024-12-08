@@ -10,19 +10,23 @@ const transportationSchema = new mongoose.Schema({
         type: String,
         default: uuidv4,
     },
-    selectedCarType: {
+    selectedTypeOfTransportationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CarTypeOfTransportation", // szállítási kategória
+    },
+    selectedCarTypeId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "CarType", // kategória
     },
-    selectedCar: {
+    selectedCarId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Car", // kategória
     },
-    departurePoint: {
+    departureDockingPointId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "DockingPoint", // kategória
     },
-    destinationPoint: {
+    arrivalDockingPointId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "DockingPoint", // kategória
     },
@@ -36,6 +40,16 @@ const transportationSchema = new mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "SelectedProduct", // kategória
+        },
+    ],
+    selectedDriverId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User", // kategória
+    },
+    selectedPassengers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User", // kategória
         },
     ],
     totalWeightsOfSelectedProducts: Number,

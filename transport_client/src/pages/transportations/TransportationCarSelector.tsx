@@ -30,17 +30,19 @@ interface Props {
 const TransportationCarSelector = ({ setCurrentStep }: Props) => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
+    const { selectedTypeOfTransportationId, selectedCarTypeId, selectedCarId, setTransportation } = useTransportationStore();
     const thisStep = TransportationSteps.CAR;
     const currentStep = useTransportationStore((state) => state.currentStep);
     const isStepDone = currentStep > thisStep;
     const isActiveStep = thisStep === currentStep;
     const [typeOfTransportationList, setTypeOfTransportationList] = useState([]);
-    const [carTypes, setCartTypes] = useState([]);
-    const [values, setValues] = useState({
+    const [carTypes, setCarTypes] = useState([]);
+    const [cars, setCars] = useState([]);
+    /*const [values, setValues] = useState({
         selectedTypeOfTransportationId: '',
         selectedCarTypeId: '',
         selectedCarId: '',
-    });
+    });*/
     const [selectedCarTypeData, setSelectedCarTypeData] = useState({
         carTypeId: '',
         brand: '',
@@ -73,20 +75,11 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
         totalTransport: 0,
         image: '',
     });
+    const { onSubmit } = useTransportationCar();
 
-    const loadedTransportation = useTransportationStore((state) => state.loadedTransportation);
+    /*const loadedTransportation = useTransportationStore((state) => state.loadedTransportation);
 
-    const { control, isValid, preValidationError, onSubmit} = useTransportationCar();
-
-    const handleCancelClicked = () => {
-        setCurrentStep(0);
-        navigate(-1);
-    };
-
-    const handleNextClicked  = () => {
-        onSubmit();
-        setCurrentStep(1);
-    };
+    const { control, isValid, preValidationError, onSubmit} = useTransportationCar();*/
 
     const handleLoadTypeOfTransportation = async () => {
         const getResponse = await fetch(
@@ -106,24 +99,25 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
 
     const handleLoadCarTypes = async () => {
         const getResponse = await fetch(
-            `http://localhost:3001/api/type-of-transportation/${values.selectedTypeOfTransportationId}/car-types`,
+            `http://localhost:3001/api/type-of-transportation/${selectedTypeOfTransportationId}/car-types`,
             {
                 method: "GET",
                 headers: { "Content-Type": "application/json"},
             }
         );
         const getCarTypesData = await getResponse.json();
-        setCartTypes(getCarTypesData);
+        setCarTypes(getCarTypesData);
     }
 
     useEffect(() => {
         handleLoadCarTypes();
-    }, [values.selectedTypeOfTransportationId]);
+    }, [selectedTypeOfTransportationId])
+
 
     const getSelectedCarType = async () => {
         try {
             const getCarTypeResponse = await fetch(
-                `http://localhost:3001/api/car-types/${values.selectedCarTypeId}`,
+                `http://localhost:3001/api/car-types/${selectedCarTypeId}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json"},
@@ -139,12 +133,12 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
 
     useEffect(() => {
         getSelectedCarType();
-    }, [values.selectedCarTypeId]);
+    }, [selectedCarTypeId])
 
     const getSelectedCar = async () => {
         try {
             const getCarResponse = await fetch(
-                `http://localhost:3001/api/cars/${values.selectedCarId}`,
+                `http://localhost:3001/api/cars/${selectedCarId}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json"},
@@ -159,15 +153,22 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
 
     useEffect(() => {
         getSelectedCar();
-    }, [values.selectedCarId]);
+    }, [selectedCarId])
 
     const handleChange = (prop: any) => (event: any) => {
-        setValues({...values, [prop]: event.target.value });
+        setTransportation({
+            [prop]: event.target.value
+        });
     };
 
-    const handleDateChange = (prop: any) => (date: any) => {
-        const value = date ? moment(date).toISOString() : null;
-        setValues({ ...values, [prop]: value as string });
+    const handleCancelClicked = () => {
+        setCurrentStep(0);
+        navigate(-1);
+    };
+
+    const handleNextClicked  = () => {
+        onSubmit();
+        setCurrentStep(1);
     };
 
     return (
@@ -193,7 +194,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                 label={t('TRANSPORTATIONS.SELECTED_TRANSPORTATION_TYPE')}
                                                 name='selectedTypeOfTransportationId'
                                                 data-testid='selected-type-of-transportation-id-input'
-                                                value={values.selectedTypeOfTransportationId ?? ''}
+                                                value={selectedTypeOfTransportationId ?? ''}
                                                 onChange={handleChange('selectedTypeOfTransportationId')}
                                                 required
                                                 sx={{
@@ -234,7 +235,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                 label={t('TRANSPORTATIONS.SELECTED_CAR_TYPE')}
                                                 name='selectedCarTypeId'
                                                 data-testid='selected-car-type-id-input'
-                                                value={values.selectedCarTypeId ?? ''}
+                                                value={selectedCarTypeId ?? ''}
                                                 onChange={handleChange('selectedCarTypeId')}
                                                 required
                                                 sx={{
@@ -283,7 +284,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         label={t('CAR_TYPES.DESIGN')}
                                                         name='design'
                                                         data-testid='design-input'
-                                                        value={selectedCarTypeData.design ?? ''}
+                                                        value={selectedCarTypeData?.design ?? ''}
                                                         disabled={true}
                                                         sx={{
                                                             backgroundColor: `#ffffff`,
@@ -321,7 +322,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('CAR_TYPES.PERFORMANCE')}
                                                         name='performance'
                                                         label={t('CAR_TYPES.PERFORMANCE')}
-                                                        value={selectedCarTypeData.performance}
+                                                        value={selectedCarTypeData?.performance}
                                                         disabled={true}
                                                         data-testid='performance-input'
                                                         sx={{
@@ -356,7 +357,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('CAR_TYPES.OWN_WEIGHT')}
                                                         name='selfWeight'
                                                         label={t('CAR_TYPES.OWN_WEIGHT')}
-                                                        value={selectedCarTypeData.selfWeight}
+                                                        value={selectedCarTypeData?.selfWeight}
                                                         disabled={true}
                                                         data-testid='self-weight-input'
                                                         sx={{
@@ -391,7 +392,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         label={t('CAR_TYPES.CAR_FUNCTIONAL_DESIGN')}
                                                         name='numberOfSeats'
                                                         data-testid='number-of-seats-input'
-                                                        value={selectedCarTypeData.numberOfSeats ?? ''}
+                                                        value={selectedCarTypeData?.numberOfSeats ?? ''}
                                                         disabled={true}
                                                         sx={{
                                                             backgroundColor: `#ffffff`,
@@ -433,7 +434,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         label={t('CAR_TYPES.FUEL')}
                                                         name='fuel'
                                                         data-testid='fuel-input'
-                                                        value={selectedCarTypeData.fuel ?? ''}
+                                                        value={selectedCarTypeData?.fuel ?? ''}
                                                         disabled={true}
                                                         sx={{
                                                             backgroundColor: `#ffffff`,
@@ -471,7 +472,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('CAR_TYPES.USEFUL_WEIGHT')}
                                                         name='usefulWeight'
                                                         label={t('CAR_TYPES.USEFUL_WEIGHT')}
-                                                        value={selectedCarTypeData.usefulWeight}
+                                                        value={selectedCarTypeData?.usefulWeight}
                                                         disabled={true}
                                                         data-testid='useful-weight-input'
                                                         sx={{
@@ -507,7 +508,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('CAR_TYPES.WIDTH')}
                                                         name='width'
                                                         label={t('CAR_TYPES.WIDTH')}
-                                                        value={selectedCarTypeData.width}
+                                                        value={selectedCarTypeData?.width}
                                                         disabled={true}
                                                         data-testid='width-input'
                                                         sx={{
@@ -540,7 +541,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('CAR_TYPES.TYPE_NAME')}
                                                         name='typeName'
                                                         label={t('CAR_TYPES.TYPE_NAME')}
-                                                        value={selectedCarTypeData.typeName}
+                                                        value={selectedCarTypeData?.typeName}
                                                         disabled={true}
                                                         data-testid='type-name-input'
                                                         sx={{
@@ -576,7 +577,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                     placeholder={t('CAR_TYPES.TOWING')}
                                                     name='towing'
                                                     label={t('CAR_TYPES.TOWING')}
-                                                    value={selectedCarTypeData.towing}
+                                                    value={selectedCarTypeData?.towing}
                                                     disabled={true}
                                                     data-testid='towing-input'
                                                     sx={{
@@ -609,7 +610,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                     placeholder={t('CAR_TYPES.HEIGHT')}
                                                     name='height'
                                                     label={t('CAR_TYPES.HEIGHT')}
-                                                    value={selectedCarTypeData.height}
+                                                    value={selectedCarTypeData?.height}
                                                     disabled={true}
                                                     data-testid='height-input'
                                                     sx={{
@@ -642,7 +643,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                     placeholder={t('CAR_TYPES.LONG')}
                                                     name='long'
                                                     label={t('CAR_TYPES.LONG')}
-                                                    value={selectedCarTypeData.long}
+                                                    value={selectedCarTypeData?.long}
                                                     disabled={true}
                                                     data-testid='long-input'
                                                     sx={{
@@ -675,7 +676,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                     placeholder={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
                                                     name='carTypeOfTransportationId'
                                                     label={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
-                                                    value={selectedCarTypeData.carTypeOfTransportationId}
+                                                    value={selectedCarTypeData?.carTypeOfTransportationId}
                                                     disabled={true}
                                                     data-testid='car-type-of-transportation-id-input'
                                                     sx={{
@@ -711,13 +712,13 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                         <FormControl required>
                                             <InputLabel>{t('TRANSPORTATIONS.SELECTED_CAR')}</InputLabel>
                                             <Select
-                                                id="selectedCar"
+                                                id="selectedCarId"
                                                 placeholder={t('TRANSPORTATIONS.SELECTED_CAR')}
                                                 label={t('TRANSPORTATIONS.SELECTED_CAR')}
-                                                name='selectedCar'
-                                                data-testid='selected-car-input'
-                                                value={values.selectedCarId ?? ''}
-                                                onChange={handleChange('selectedCar')}
+                                                name='selectedCarId'
+                                                data-testid='selected-car-id-input'
+                                                value={selectedCarId ?? ''}
+                                                onChange={handleChange('selectedCarId')}
                                                 required
                                                 sx={{
                                                     backgroundColor: `#ffffff`,
@@ -763,7 +764,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('CAR.LICENCE_PLATE')}
                                                         name='licencePlate'
                                                         label={t('CAR.LICENCE_PLATE')}
-                                                        value={selectedCarData.licencePlate}
+                                                        value={selectedCarData?.licencePlate}
                                                         disabled={true}
                                                         data-testid='licence-plate-input'
                                                         sx={{
@@ -796,7 +797,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')}
                                                         name='numberOfRegistrationLicence'
                                                         label={t('CAR.REGISTRATION_CERTIFICATION_NUMBER')}
-                                                        value={selectedCarData.numberOfRegistrationLicence}
+                                                        value={selectedCarData?.numberOfRegistrationLicence}
                                                         disabled={true}
                                                         data-testid='registration-certification-number-input'
                                                         sx={{
@@ -831,7 +832,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('CAR.CHASSIS_NUMBER')}
                                                         name='chassisNumber'
                                                         label={t('CAR.CHASSIS_NUMBER')}
-                                                        value={selectedCarData.chassisNumber}
+                                                        value={selectedCarData?.chassisNumber}
                                                         disabled={true}
                                                         data-testid='chassis-number-input'
                                                         sx={{
@@ -863,7 +864,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         name='yearOfProduction'
                                                         data-testid='year-of-production-input'
                                                         disabled={true}
-                                                        value={selectedCarData.yearOfProduction}
+                                                        value={selectedCarData?.yearOfProduction}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
                                                     />
@@ -885,7 +886,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         name='dateOfFirstRegistration'
                                                         data-testid='date-of-first-registration-input'
                                                         disabled={true}
-                                                        value={selectedCarData.dateOfFirstRegistration}
+                                                        value={selectedCarData?.dateOfFirstRegistration}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
                                                         //TODO: disabled format in css
@@ -907,7 +908,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('CAR.NAME')}
                                                         name='name'
                                                         label={t('CAR.NAME')}
-                                                        value={selectedCarData.name}
+                                                        value={selectedCarData?.name}
                                                         disabled={true}
                                                         data-testid='name-input'
                                                         sx={{
@@ -942,7 +943,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('CAR.TYPE')}
                                                         name='type'
                                                         label={t('CAR.TYPE')}
-                                                        value={selectedCarData.type}
+                                                        value={selectedCarData?.type}
                                                         disabled={true}
                                                         data-testid='type-input'
                                                         sx={{
@@ -974,7 +975,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                         name='dateOfDatabaseRegistration'
                                                         data-testid='date-of-database-registration-input'
                                                         disabled={true}
-                                                        value={selectedCarData.dateOfDatabaseRegistration}
+                                                        value={selectedCarData?.dateOfDatabaseRegistration}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
                                                     />
@@ -997,7 +998,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                     name='dateOfLastTechnicalExamination'
                                                     data-testid='date-of-last-technical-examination-input'
                                                     disabled={true}
-                                                    value={selectedCarData.dateOfLastTechnicalExamination}
+                                                    value={selectedCarData?.dateOfLastTechnicalExamination}
                                                     //dateFormat="dd/MM/yyyy"
                                                     className={'date-picker-class'}
                                                 />
@@ -1017,7 +1018,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                     name='dateOfLastService'
                                                     data-testid='date-of-last-service-input'
                                                     disabled={true}
-                                                    value={selectedCarData.dateOfLastService}
+                                                    value={selectedCarData?.dateOfLastService}
                                                     //dateFormat="dd/MM/yyyy"
                                                     className={'date-picker-class'}
                                                 />
@@ -1038,7 +1039,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                     placeholder={t('CAR.TOTAL_DRIVEN_KM')}
                                                     name='totalDrivenKm'
                                                     label={t('CAR.TOTAL_DRIVEN_KM')}
-                                                    value={selectedCarData.totalDrivenKm}
+                                                    value={selectedCarData?.totalDrivenKm}
                                                     disabled={true}
                                                     data-testid='total-driven-km-input'
                                                     sx={{
@@ -1071,7 +1072,7 @@ const TransportationCarSelector = ({ setCurrentStep }: Props) => {
                                                     placeholder={t('CAR.TOTAL_TRANSPORT')}
                                                     name='totalTransport'
                                                     label={t('CAR.TOTAL_TRANSPORT')}
-                                                    value={selectedCarData.totalTransport}
+                                                    value={selectedCarData?.totalTransport}
                                                     disabled={true}
                                                     data-testid='total-transport-input'
                                                     sx={{

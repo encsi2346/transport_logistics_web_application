@@ -6,22 +6,164 @@ interface TransportationState {
     currentStep: TransportationSteps;
     transportation: any; //string[];
     loadedTransportation: any; //string[];
-    submitCarForm: () => void;
+    setCurrentStep: (currentStep: TransportationSteps) => void;
+    setLoadedTransportation: (loadedTransportation: string[]) => void;
+    setTransportation: (data: Partial<TransportationState>) => void;
+    resetTransportation: () => void;
+    transportationId: '',
+    //carselector
+    selectedTypeOfTransportationId: '',
+    selectedCarTypeId: '',
+    /*selectedCarBrand: '',
+    selectedCarTypeTypeName: '',
+    selectedCarTypeDesign: '',
+    selectedCarTypePerformance: '',
+    selectedCarTypeSelfWeight: 0,
+    selectedCarTypeUsefulWeight: 0,
+    selectedCarTypeNumberOfSeats: 0,
+    selectedCarTypeFuel: '',
+    selectedCarTypeTowing: 0,
+    selectedCarTypeHeight: 0,
+    selectedCarTypeWidth: 0,
+    selectedCarTypeLong: 0,
+    selectedCarTypeTransportationId: '',*/
+    selectedCarId: '',
+    /*selectedCarName: '',
+    selectedCarType: '',
+    selectedCarLicencePlate: '',
+    selectedCarNumberOfRegistrationLicence: '',
+    selectedCarChassisNumber: '',
+    selectedCarYearOfProduction: '',
+    selectedCarDateOfFirstRegistration: '',
+    selectedCarDateOfDatabaseRegistration: '',
+    selectedCarDateOfLastTechnicalExamination: '',
+    selectedCarDateOfLastService: '',
+    selectedCarTotalDrivenKm: 0,
+    selectedCarTotalTransport: 0,
+    selectedCarImage: '',*/
+    //cardetails
+    departureDockingPointId: '',
+    /*departureCountry: '',
+    departurePostcode: '',
+    departureCity: '',
+    departureNameOfPublicArea: '',
+    departureTypeOfPublicArea: '',
+    departureHouseNumber: '',
+    departureDate: '',
+    departureTime: '',
+    departureDestinationDate: '',
+    departureDestinationTime: '',
+    departureIsItOwnLocation: '',
+    departureDriverId: '',
+    departureDriverName: '',
+    departurePassengers: '',*/
+    arrivalDockingPointId: '',
+    /*arrivalCountry: '',
+    arrivalPostcode: '',
+    arrivalCity: '',
+    arrivalNameOfPublicArea: '',
+    arrivalTypeOfPublicArea: '',
+    arrivalHouseNumber: '',
+    arrivalDepartureDate: '',
+    arrivalDepartureTime: '',
+    arrivalDestinationDate: '',
+    arrivalDestinationTime: '',
+    arrivalIsItOwnLocation: '',
+    arrivalDriverId: '',
+    arrivalDriverName: '',
+    arrivalPassengers: '',*/
+    dockingPoints: [],
+    //cardriver
+    selectedDriverId: '',
+    selectedPassengers: [],
+    //carshipment
+    selectedProducts: [],
+    totalWeightsOfSelectedProducts: '',
+    //remove
+    /*submitCarForm: () => void;
     submitDetailsForm: () => void;
     submitDriverForm: () => void;
     submitShipmentForm: () => void;
     submitOverviewForm: () => void;
-    setCurrentStep: (currentStep: TransportationSteps) => void;
-    setLoadedTransportation: (loadedTransportation: string[]) => void;
+    resetTransportation: () => void;
     setTransportation: (transportation: any) => void;
-    resetStore: () => void;
+    resetStore: () => void;*/
 }
 
 export const useTransportationStore = create<TransportationState>((set) => ({
     currentStep: TransportationSteps.CAR,
     transportation: {},
     loadedTransportation: { canModifyBaseData: true },
-    submitCarForm: () =>
+    transportationId: '',
+    //carselector
+    selectedTypeOfTransportationId: '',
+    selectedCarTypeId: '',
+    /*selectedCarBrand: '',
+    selectedCarTypeTypeName: '',
+    selectedCarTypeDesign: '',
+    selectedCarTypePerformance: '',
+    selectedCarTypeSelfWeight: 0,
+    selectedCarTypeUsefulWeight: 0,
+    selectedCarTypeNumberOfSeats: 0,
+    selectedCarTypeFuel: '',
+    selectedCarTypeTowing: 0,
+    selectedCarTypeHeight: 0,
+    selectedCarTypeWidth: 0,
+    selectedCarTypeLong: 0,
+    selectedCarTypeTransportationId: '',*/
+    selectedCarId: '',
+    /*selectedCarName: '',
+    selectedCarType: '',
+    selectedCarLicencePlate: '',
+    selectedCarNumberOfRegistrationLicence: '',
+    selectedCarChassisNumber: '',
+    selectedCarYearOfProduction: '',
+    selectedCarDateOfFirstRegistration: '',
+    selectedCarDateOfDatabaseRegistration: '',
+    selectedCarDateOfLastTechnicalExamination: '',
+    selectedCarDateOfLastService: '',
+    selectedCarTotalDrivenKm: 0,
+    selectedCarTotalTransport: 0,
+    selectedCarImage: '',*/
+    //cardetails
+    departureDockingPointId: '',
+    /*departureCountry: '',
+    departurePostcode: '',
+    departureCity: '',
+    departureNameOfPublicArea: '',
+    departureTypeOfPublicArea: '',
+    departureHouseNumber: '',
+    departureDate: '',
+    departureTime: '',
+    departureDestinationDate: '',
+    departureDestinationTime: '',
+    departureIsItOwnLocation: '',
+    departureDriverId: '',
+    departureDriverName: '',
+    departurePassengers: '',*/
+    arrivalDockingPointId: '',
+    /*arrivalCountry: '',
+    arrivalPostcode: '',
+    arrivalCity: '',
+    arrivalNameOfPublicArea: '',
+    arrivalTypeOfPublicArea: '',
+    arrivalHouseNumber: '',
+    arrivalDepartureDate: '',
+    arrivalDepartureTime: '',
+    arrivalDestinationDate: '',
+    arrivalDestinationTime: '',
+    arrivalIsItOwnLocation: '',
+    arrivalDriverId: '',
+    arrivalDriverName: '',
+    arrivalPassengers: '',*/
+    dockingPoints: [],
+    //cardriver
+    selectedDriverId: '',
+    selectedPassengers: [],
+    //carshipment
+    selectedProducts: [],
+    totalWeightsOfSelectedProducts: '',
+    /*submitCarForm: () =>
         set((state) => ({
             ...state,
             currentStep: TransportationSteps.DETAILS,
@@ -49,7 +191,7 @@ export const useTransportationStore = create<TransportationState>((set) => ({
         set((state) => ({
             ...state,
             transportation: { ...state.transportation },
-        })),
+        })),*/
     setCurrentStep: (currentStep) =>
         set((state) => ({
             ...state,
@@ -60,7 +202,82 @@ export const useTransportationStore = create<TransportationState>((set) => ({
             ...state,
             loadedTransportation,
         })),
-    setTransportation: (transportation) =>
+    setTransportation: (data) => set((state) => ({
+        ...state,
+        ...data
+    })),
+    resetTransportation: () => set({
+        transportationId: '',
+        //carselector
+        selectedTypeOfTransportationId: '',
+        selectedCarTypeId: '',
+        /*selectedCarBrand: '',
+        selectedCarTypeTypeName: '',
+        selectedCarTypeDesign: '',
+        selectedCarTypePerformance: '',
+        selectedCarTypeSelfWeight: 0,
+        selectedCarTypeUsefulWeight: 0,
+        selectedCarTypeNumberOfSeats: 0,
+        selectedCarTypeFuel: '',
+        selectedCarTypeTowing: 0,
+        selectedCarTypeHeight: 0,
+        selectedCarTypeWidth: 0,
+        selectedCarTypeLong: 0,
+        selectedCarTypeTransportationId: '',*/
+        selectedCarId: '',
+        /*selectedCarName: '',
+        selectedCarType: '',
+        selectedCarLicencePlate: '',
+        selectedCarNumberOfRegistrationLicence: '',
+        selectedCarChassisNumber: '',
+        selectedCarYearOfProduction: '',
+        selectedCarDateOfFirstRegistration: '',
+        selectedCarDateOfDatabaseRegistration: '',
+        selectedCarDateOfLastTechnicalExamination: '',
+        selectedCarDateOfLastService: '',
+        selectedCarTotalDrivenKm: 0,
+        selectedCarTotalTransport: 0,
+        selectedCarImage: '',*/
+        //cardetails
+        departureDockingPointId: '',
+        /*departureCountry: '',
+        departurePostcode: '',
+        departureCity: '',
+        departureNameOfPublicArea: '',
+        departureTypeOfPublicArea: '',
+        departureHouseNumber: '',
+        departureDate: '',
+        departureTime: '',
+        departureDestinationDate: '',
+        departureDestinationTime: '',
+        departureIsItOwnLocation: '',
+        departureDriverId: '',
+        departureDriverName: '',
+        departurePassengers: '',*/
+        arrivalDockingPointId: '',
+        /*arrivalCountry: '',
+        arrivalPostcode: '',
+        arrivalCity: '',
+        arrivalNameOfPublicArea: '',
+        arrivalTypeOfPublicArea: '',
+        arrivalHouseNumber: '',
+        arrivalDepartureDate: '',
+        arrivalDepartureTime: '',
+        arrivalDestinationDate: '',
+        arrivalDestinationTime: '',
+        arrivalIsItOwnLocation: '',
+        arrivalDriverId: '',
+        arrivalDriverName: '',
+        arrivalPassengers: '',*/
+        dockingPoints: [],
+        //cardriver
+        selectedDriverId: '',
+        selectedPassengers: [],
+        //carshipment
+        selectedProducts: [],
+        totalWeightsOfSelectedProducts: '',
+    }),
+    /*setTransportation: (transportation) =>
         set((state) => ({
             ...state,
             transportation,
@@ -70,5 +287,5 @@ export const useTransportationStore = create<TransportationState>((set) => ({
             currentStep: TransportationSteps.CAR,
             transportation: {},
             loadedTransportation: { canModifyBaseData: true },
-        })),
+        })),*/
 }));

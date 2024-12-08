@@ -184,7 +184,7 @@ const OrderList = () => {
                             })}
                     </Grid>
                     <Fab aria-label="add"
-                         onClick={openAddOrderDialog}
+                         onClick={() => navigate(`/orders/new`)}
                          sx={{
                              margin: 0,
                              top: 'auto',

@@ -17,7 +17,7 @@ const dockingPointSchema = new mongoose.Schema({
     departureTime: String,
     destinationDate: String,
     destinationTime: String,
-    isItOwnLocation: Boolean,
+    isItWarehouse: Boolean,
     driverId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User", // Reference to User model for driver
@@ -29,6 +29,7 @@ const dockingPointSchema = new mongoose.Schema({
             ref: "User", // Reference to User model for each passenger
         },
     ],
+    type: String, //TODO: enum departure, arrival vagy dockingpoint
 });
 
 const DockingPoint = mongoose.model('DockingPoint', dockingPointSchema);

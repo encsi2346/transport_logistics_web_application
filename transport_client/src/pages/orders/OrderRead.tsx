@@ -23,6 +23,7 @@ import CarTabService from "../cars/tabs/CarTabService";
 import OrderTabRoute from "./OrderTabRoute";
 import ActionsButton from "../../components/layout/ActionsButton";
 import MyBadge from "../../components/layout/MyBadge";
+import OrderTabPackages from "./OrderTabPackages";
 
 interface Props {
     isEditing?: boolean;
@@ -233,26 +234,9 @@ const OrderRead = ({ isEditing = false, isInputDisabled }: Props) => {
                             />
                         </TabPanel>
                         <TabPanel value="2">
-                            <CarTabService
-                                selectionModel={[]}
-                                onSelectionChange={handleSelectionChange}
-                                onDataChange={handleDataChange}
-                                allowSelection={false}
-                                allowNavigation={true}
-                                showActions={false}
-                                data={
-                                    serviceData
-                                        .filter((item) => {
-                                            return search.toLowerCase() === ''
-                                                ? item
-                                                : item.fullName.toLowerCase().includes(search);
-                                        })
-                                }
-                                defaultPagination={pagination}
-                                defaultSort={sort}
-                                onPageChange={handlePageChange}
-                                onPageSizeChange={handlePageSizeChange}
-                                onSortChange={handleSortChange}
+                            <OrderTabPackages
+                                data={data}
+                                showActions={true}
                             />
                         </TabPanel>
                         <TabPanel value="3">
