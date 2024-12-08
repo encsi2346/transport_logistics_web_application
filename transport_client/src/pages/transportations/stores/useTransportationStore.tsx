@@ -10,10 +10,10 @@ interface TransportationState {
     setLoadedTransportation: (loadedTransportation: string[]) => void;
     setTransportation: (data: Partial<TransportationState>) => void;
     resetTransportation: () => void;
-    transportationId: '',
+    transportationId: string,
     //carselector
-    selectedTypeOfTransportationId: '',
-    selectedCarTypeId: '',
+    selectedTypeOfTransportationId: string,
+    selectedCarTypeId: string,
     /*selectedCarBrand: '',
     selectedCarTypeTypeName: '',
     selectedCarTypeDesign: '',
@@ -27,7 +27,7 @@ interface TransportationState {
     selectedCarTypeWidth: 0,
     selectedCarTypeLong: 0,
     selectedCarTypeTransportationId: '',*/
-    selectedCarId: '',
+    selectedCarId: string,
     /*selectedCarName: '',
     selectedCarType: '',
     selectedCarLicencePlate: '',
@@ -42,7 +42,7 @@ interface TransportationState {
     selectedCarTotalTransport: 0,
     selectedCarImage: '',*/
     //cardetails
-    departureDockingPointId: '',
+    departureDockingPointId: string,
     /*departureCountry: '',
     departurePostcode: '',
     departureCity: '',
@@ -57,7 +57,7 @@ interface TransportationState {
     departureDriverId: '',
     departureDriverName: '',
     departurePassengers: '',*/
-    arrivalDockingPointId: '',
+    arrivalDockingPointId: string,
     /*arrivalCountry: '',
     arrivalPostcode: '',
     arrivalCity: '',
@@ -72,13 +72,13 @@ interface TransportationState {
     arrivalDriverId: '',
     arrivalDriverName: '',
     arrivalPassengers: '',*/
-    dockingPointIds: [],
+    dockingPointIds: string[],
     //cardriver
-    selectedDriverId: '',
-    selectedPassengers: [],
+    selectedDriverId: string,
+    selectedPassengers: string[],
     //carshipment
-    selectedProducts: [],
-    totalWeightsOfSelectedProducts: '',
+    selectedProducts: string[],
+    totalWeightsOfSelectedProducts: string,
     //remove
     /*submitCarForm: () => void;
     submitDetailsForm: () => void;

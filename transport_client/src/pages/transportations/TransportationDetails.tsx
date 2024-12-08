@@ -284,10 +284,10 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
         //navigate(-1);
     };
 
-    /*const handleNextClicked  = () => {
+    const handleNextClicked  = () => {
         onSubmit();
         setCurrentStep(2);
-    };*/
+    };
 
     const handleDepartureChange = (prop: any) => (event: any) => {
         setDepartureDockingPointData({...departureDockingPointData, [prop]: event.target.value });
@@ -978,7 +978,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                             <Headline text={t('TRANSPORTATIONS.ADD_LOADING_POINT')} />
                             <Grid item>
                                 {selectedDockingPointIds.map((point, index) => (
-                                    <Grid container>
+                                    <Grid key={index} container>
                                         <Typography sx={{
                                             fontWeight: 700,
                                             fontSize: '26px',
@@ -1352,7 +1352,8 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                         {!isStepDone && (
                             <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                                 <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
-                                <SaveButton text={t('TEXT.NEXT')}  /*disabled={!isValid || !isActiveStep}*/ onClick={saveDockingPoints}/>
+                                {/*TODO <SaveButton text={t('TEXT.NEXT')}  onClick={saveDockingPoints}/>*/}
+                                <SaveButton text={t('TEXT.NEXT')}  /*disabled={!isValid || !isActiveStep}*/ onClick={handleNextClicked}/>
                             </Box>
                         )}
 
