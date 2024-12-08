@@ -1,402 +1,267 @@
-import {Box, Grid} from "@mui/material";
-import NormalText from "../../components/text/NormalText";
+import {Box, FormControl, Grid, InputAdornment, InputLabel, MenuItem, Select, Tooltip} from "@mui/material";
+import {sharedDataGridProps} from "../../components/datatable/StyledDataGrid";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useTypeSafeTranslation} from "../../components/inputfield/hooks/useTypeSafeTranslation";
+import {GridActionsCellItem, GridActionsColDef, GridColDef, GridRowParams} from "@mui/x-data-grid";
+import OrderDataGrid from "../../components/datatable/OrderDataGrid";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ClearIcon from "@mui/icons-material/Clear";
+import React, {useState} from "react";
 
-const OrderTabRoute = () => {
+interface Props {
+    data?: any[];
+    showActions?: boolean;
+}
+
+const OrderTabRoute = ({
+    data,
+    showActions = true,
+}: Props) => {
+    const { id } = useParams();
+    const { t } = useTypeSafeTranslation();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [values, setValues] = useState({
+        routeId: '',
+        status: 'waiting',
+    });
+    const [rows, setRows] = useState(data || []);
+
+    const handleRowStateChange = (rowId: string | number, newStatus: string) => {
+        const updatedRows = rows.map((row) =>
+            row.id === rowId ? { ...row, status: newStatus } : row
+        );
+        setRows(updatedRows);
+    };
+
+    const handleChange = (prop: any) => (event: any) => {
+        setValues({...values, [prop]: event.target.value });
+    };
+
+    const columns: (GridColDef | GridActionsColDef)[] = [
+        {
+            field: 'id',
+            headerName: '',
+            width: 170,
+        },
+        {
+            field: 'plannedArriving',
+            headerName: 'Tervezett érkezés',
+            width: 150,
+        },
+        {
+            field: 'actualArriving',
+            headerName: 'Valós érkezés',
+            width: 150,
+        },
+        {
+            field: 'address',
+            headerName: 'Cím',
+            width: 250,
+        },
+        {
+            field: 'task',
+            headerName: 'Feladat',
+            width: 250,
+        },
+        {
+            field: 'km',
+            headerName: 'Levezetetett km',
+            width: 100,
+        },
+        {
+            field: 'time',
+            headerName: 'Levezetett óra',
+            width: 100,
+        },
+        {
+            field: 'plannedDeparture',
+            headerName: 'Tervezett indulás',
+            width: 150,
+        },
+        {
+            field: 'actualDeparture',
+            headerName: 'Valós indulás',
+            width: 150,
+        },
+        {
+            field: 'status',
+            headerName: 'Állapot',
+            width: 200,
+        },
+    ];
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+
+        let submitData = data as any;
+        console.log('submitData', submitData);
+    };
+
+    const options = [
+        {
+            value: "missing",
+            label: "Kihagyva",
+            style: {
+                fontWeight: 'normal',
+                fontSize: '18px',
+                color: '#ffffff',
+                backgroundColor: '#ff0000',
+                borderRadius: 45,
+                width: 120,
+                textAlign: 'center',
+                paddingTop: 1,
+                paddingBottom: 1,
+            },
+        },
+        {
+            value: "uploaded",
+            label: "Teljesítve",
+            style: {
+                fontWeight: 'normal',
+                fontSize: '18px',
+                color: '#ffffff',
+                backgroundColor: '#23ef00',
+                borderRadius: 45,
+                width: 120,
+                textAlign: 'center',
+                paddingTop: 1,
+                paddingBottom: 1,
+            },
+        },
+        {
+            value: "in_generation",
+            label: "Folyamatban",
+            style: {
+                fontWeight: 'normal',
+                fontSize: '18px',
+                color: '#ffffff',
+                backgroundColor: '#00d7e4',
+                borderRadius: 45,
+                width: 120,
+                textAlign: 'center',
+                paddingTop: 1,
+                paddingBottom: 1,
+            },
+        },
+        {
+            value: "waiting",
+            label: "Várakozás",
+            style: {
+                fontWeight: 'normal',
+                fontSize: '18px',
+                color: '#ffffff',
+                backgroundColor: '#A3A3A3',
+                borderRadius: 45,
+                width: 120,
+                textAlign: 'center',
+                paddingTop: 1,
+                paddingBottom: 1,
+            },
+        },
+    ];
+
+//TODO: selector
+    if (showActions) {
+        columns.push({
+            field: 'actions',
+            headerName: t('TEXT.ACTIONS'),
+            type: 'actions',
+            width: 200,
+            renderCell: (params: GridRowParams) => {
+                return (
+                    <form
+                        autoComplete='off'
+                        onSubmit={(e) => handleSubmit(e)}
+                    >
+                        <FormControl sx={{ width: '100%' }}>
+                            <InputLabel>{t('Állapot')}</InputLabel>
+                            <Select
+                                label={null}
+                                id="status"
+                                data-testid='status-input'
+                                value={values.status}
+                                onChange={handleChange('status')}
+                                sx={{
+                                    backgroundColor: '#ffffff',
+                                    borderRadius: 45,
+                                    color: '#000000',
+                                    height: 40,
+                                    width: 150,
+                                    fontSize: '18px',
+                                    padding: 0,
+                                    paddingTop: 1,
+                                    paddingBottom: 1,
+                                    fontWeight: 'normal',
+                                    '&:hover': {
+                                        backgroundColor: '#ececec',
+                                    },
+                                    '& fieldset': { border: 'none' },
+                                    '& .MuiSelect-icon': { display: 'none' },
+                                }}
+                                renderValue={(value) => {
+                                    const selectedOption = options.find(option => option.value === value);
+                                    return selectedOption ? (
+                                        <Box sx={selectedOption.style}>{selectedOption.label}</Box>
+                                    ) : null;
+                                }}
+                            >
+                                {options.map((option) => (
+                                    <MenuItem
+                                        key={option.value}
+                                        value={option.value}
+                                        sx={{
+                                            padding: 0,
+                                            marginBottom: 1,
+                                            border: 'none',
+                                            height: 40,
+                                            width: 120,
+                                            fontSize: '15px',
+                                            backgroundColor: option.style.backgroundColor,
+                                            color: option.style.color,
+                                            borderRadius: 45,
+                                            paddingTop: 1,
+                                            paddingBottom: 1,
+                                            fontWeight: 'normal',
+                                            '&:hover': {
+                                                backgroundColor: `${option.style.backgroundColor}b3`,
+                                                padding: 0,
+                                                width: 120,
+                                                textAlign: 'center',
+                                                paddingTop: 1,
+                                                paddingBottom: 1,
+                                                fontWeight: 'normal',
+                                                fontSize: '18px',
+                                            },
+                                            '&.Mui-selected': {
+                                                backgroundColor: `${option.style.backgroundColor}b3`,
+                                            },
+                                        }}
+                                    >
+                                        <Box sx={option.style}>{option.label}</Box>
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </form>
+                );
+            },
+        });
+    }
+
     return (
-        <Box>
-            <Grid item container direction="column" spacing={2}>
-                <Grid item container direction="row" xs={4} md={8} spacing={6} columns={36}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Tervezett érkezés'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Valós érkezés'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Cím'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Feladat'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Levezetetett km'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Levezetett óra'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Tervezett indulás'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Valós indulás'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={''} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                </Grid>
-                <Grid item container direction="row" xs={4} md={8} spacing={6} columns={36}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'08:00'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30.'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'08:00'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Raktár'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'1000 Budapest'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Moszkva utca 15.'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Bepakolás'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'0 km'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'0óra 0perc'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30.'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'08:10'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30.'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'08:15'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'TELJESÍTVE'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                </Grid>
-                <Grid item container direction="row" xs={4} md={8} spacing={6} columns={36}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'11:00'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30.'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'11:02'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2300 Debrecen'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Kiskikerics körút 112.'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Ki-Bepakolás'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'185 km'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'3óra 2perc'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30.'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'11:20'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30.'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'-'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'FOLYAMATBAN'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                </Grid>
-                <Grid item container direction="row" xs={4} md={8} spacing={6} columns={36}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'13:10'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30.'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'-'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2345 Kispusztafalu'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Petőfi utca 2.'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Kipakolás'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'0 km'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'0óra 0perc'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30.'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'13:45'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30.'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'-'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'VÁRAKOZÁS'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                </Grid>
-                <Grid item container direction="row" xs={4} md={8} spacing={6} columns={36}>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'16:00'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30.'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'-'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Raktár'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'1000 Budapest'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Moszkva utca 15.'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'Kipakolás'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'0 km'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'0óra 0perc'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30.'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'-'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'2024.01.30.'} />
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'-'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4} md={4}>
-                        <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', minWidth: 120 }}>
-                                <NormalText text={'VÁRAKOZÁS'} />
-                            </Box>
-                        </Box>
-                    </Grid>
-                </Grid>
-            </Grid>
+        <Box sx={{ height: '100%', display: 'flex', flexGrow: 1 }}>
+            <OrderDataGrid
+                {...sharedDataGridProps}
+                pagination
+                rows={data ?? []}
+                columns={columns}
+                rowHeight={data?.length ? 60 : 120}
+                rowCount={data?.length ?? 0}
+                data-testid='user-table'
+                pageSize={data?.length ?? 10}
+                sx={{ height: 600 }}
+            />
         </Box>
     );
 };

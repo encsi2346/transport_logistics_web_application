@@ -1,12 +1,10 @@
-import PageHeader from "../../components/text/PageHeader";
 import BackgroundCard from "../../components/layout/BackgroundCard";
 import {
     Box,
-    SelectChangeEvent,
+    SelectChangeEvent, Typography,
     useTheme
 } from "@mui/material";
 import {SyntheticEvent, useEffect, useState} from "react";
-import NormalText from "../../components/text/NormalText";
 import {useNavigate, useParams} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
@@ -19,12 +17,12 @@ import useSort from "../../components/inputField/hooks/useSort";
 import useSelection from "../../components/inputField/hooks/useSelection";
 import OrderTabMap from "./OrderTabMap";
 import OrderTabComments from "./OrderTabComments";
-import OrderTabInvoice from "./OrderTabInvoice";
 import OrderTabDocuments from "./OrderTabDocuments";
 import OrderTabDetails from "./OrderTabDetails";
 import CarTabService from "../cars/tabs/CarTabService";
-import SaveButton from "../../components/button/SaveButton";
 import OrderTabRoute from "./OrderTabRoute";
+import ActionsButton from "../../components/layout/ActionsButton";
+import MyBadge from "../../components/layout/MyBadge";
 
 interface Props {
     isEditing?: boolean;
@@ -38,6 +36,56 @@ const OrderRead = ({ isEditing = false, isInputDisabled }: Props) => {
     const [inputDisabled, setInputDisabled] = useState(isInputDisabled);
     const [isProfilePage, setIsProfilePage] = useState(true);
     const [t, i18n] = useTranslation();
+    const data = [
+        {
+            id: '1.',
+            plannedArriving: '2024.01.30 08:00',
+            actualArriving: '2024.01.30 08:00',
+            address: 'Raktár 1000 Budapest Moszkva utca 15.',
+            task: 'Bepakolás',
+            km: '0 km',
+            time: '0óra 0perc',
+            plannedDeparture: '2024.01.30. 08:10',
+            actualDeparture: '2024.01.30. 08:15',
+            status: 'TELJESÍTVE'
+        },
+        {
+            id: '2.',
+            plannedArriving: '2024.01.30 08:00',
+            actualArriving: '2024.01.30 08:00',
+            address: 'Raktár 1000 Budapest Moszkva utca 15.',
+            task: 'Bepakolás',
+            km: '0 km',
+            time: '0óra 0perc',
+            plannedDeparture: '2024.01.30. 08:10',
+            actualDeparture: '2024.01.30. 08:15',
+            status: 'TELJESÍTVE'
+        },
+        {
+            id: '3.',
+            plannedArriving: '2024.01.30 08:00',
+            actualArriving: '2024.01.30 08:00',
+            address: 'Raktár 1000 Budapest Moszkva utca 15.',
+            task: 'Bepakolás',
+            km: '0 km',
+            time: '0óra 0perc',
+            plannedDeparture: '2024.01.30. 08:10',
+            actualDeparture: '2024.01.30. 08:15',
+            status: 'TELJESÍTVE'
+        },
+        {
+            id: '4.',
+            plannedArriving: '2024.01.30 08:00',
+            actualArriving: '2024.01.30 08:00',
+            address: 'Raktár 1000 Budapest Moszkva utca 15.',
+            task: 'Bepakolás',
+            km: '0 km',
+            time: '0óra 0perc',
+            plannedDeparture: '2024.01.30. 08:10',
+            actualDeparture: '2024.01.30. 08:15',
+            status: 'TELJESÍTVE'
+        }
+    ]
 
     const theme = useTheme();
 
@@ -106,41 +154,83 @@ const OrderRead = ({ isEditing = false, isInputDisabled }: Props) => {
     return (
         <Box>
             <BackgroundCard>
-                <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'space-between'}}>
-                    <Box sx={{ display: 'block', justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 5}}>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-                            <PageHeader text={'#155'}/>
-                            <NormalText text={'folyamatban'} />
+                <Box sx={{display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}>
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        marginLeft: 10,
+                        marginTop: 5,
+                        marginBottom: 5,
+                    }}>
+                        <Box sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', marginRight: 170 }}>
+                                <Typography sx={{
+                                    fontWeight: '700',
+                                    fontSize: 40,
+                                    color: '#DD1C13',
+                                    marginRight: 5,
+                                    letterSpacing: 1,
+                                    textTransform: 'uppercase'
+                                }}>
+                                    #155
+                                </Typography>
+                                <MyBadge text={'folyamatban'} />
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <ActionsButton text={'Műveletek'} />
+                            </Box>
                         </Box>
-                        <Box sx={{ display: 'block', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-                            <NormalText text={'Vik Kft.'} />
-                            <NormalText text={'+3630111222'} />
-                            <NormalText text={'vikkft@email.hu'} />
-                        </Box>
-                    </Box>
-
-                    <Box sx={{ display: 'inline', paddingLeft: 120}}>
-                        <Box sx={{ display: 'inline', paddingLeft: 85}}>
-                            <SaveButton text={'Műveletek'} />
+                        <Box sx={{ marginTop: 2}}>
+                            <Typography sx={{
+                                color: '#A3A3A3',
+                                fontSize: 20,
+                                marginBottom: '2px'
+                            }}>
+                                Vik Kft.
+                            </Typography>
+                            <Typography sx={{
+                                color: '#A3A3A3',
+                                fontSize: 20,
+                                marginBottom: '2px'
+                            }}>
+                                +3630111222
+                            </Typography>
+                            <Typography sx={{
+                                color: '#A3A3A3',
+                                fontSize: 20,
+                                marginBottom: '2px'
+                            }}>
+                                vikkft@email.hu
+                            </Typography>
                         </Box>
                     </Box>
                 </Box>
 
                 <Box sx={{ width: '100%', typography: 'body1' }}>
                     <TabContext value={tabIndex}>
-                        <Box sx={{ borderTop: 1, borderColor: 'divider' }}>
-                            <TabList onChange={handleChange} aria-label="lab API tabs example">
-                                <Tab label="Útvonal" value="1" />
-                                <Tab label="Szállítmány" value="2" />
-                                <Tab label="Részletek" value="3" />
-                                <Tab label="Dokumentumok" value="4" />
-                                <Tab label="Számla" value="5" />
-                                <Tab label="Megjegyzések" value="6" />
-                                <Tab label="Térkép" value="7" />
+                        <Box sx={{ borderBottom: 2, borderColor: '#A3A3A3'}}>
+                            <TabList onChange={handleChange}>
+                                <Tab label="Útvonal" value="1" sx={{ fontSize: 25 , color: '#DD1C13', textTransform: 'capitalize', paddingLeft: 5, paddingRight: 5, letterSpacing: '-1px'}}/>
+                                <Tab label="Szállítmány" value="2" sx={{ fontSize: 25 , color: '#DD1C13', textTransform: 'capitalize', paddingLeft: 5, paddingRight: 5, letterSpacing: '-1px'}}/>
+                                <Tab label="Részletek" value="3" sx={{ fontSize: 25 , color: '#DD1C13', textTransform: 'capitalize', paddingLeft: 5, paddingRight: 5, letterSpacing: '-1px'}}/>
+                                <Tab label="Dokumentumok" value="4" sx={{ fontSize: 25 , color: '#DD1C13', textTransform: 'capitalize', paddingLeft: 5, paddingRight: 5, letterSpacing: '-1px'}}/>
+                                <Tab label="Megjegyzések" value="5" sx={{ fontSize: 25 , color: '#DD1C13', textTransform: 'capitalize', paddingLeft: 5, paddingRight: 5, letterSpacing: '-1px'}}/>
+                                <Tab label="Térkép" value="6" sx={{ fontSize: 25 , color: '#DD1C13', textTransform: 'capitalize', paddingLeft: 5, paddingRight: 5, letterSpacing: '-1px'}}/>
                             </TabList>
                         </Box>
                         <TabPanel value="1">
-                            <OrderTabRoute />
+                            <OrderTabRoute
+                                data={data}
+                                showActions={true}
+                            />
                         </TabPanel>
                         <TabPanel value="2">
                             <CarTabService
@@ -172,12 +262,9 @@ const OrderRead = ({ isEditing = false, isInputDisabled }: Props) => {
                             <OrderTabDocuments />
                         </TabPanel>
                         <TabPanel value="5">
-                            <OrderTabInvoice />
-                        </TabPanel>
-                        <TabPanel value="6">
                             <OrderTabComments />
                         </TabPanel>
-                        <TabPanel value="7">
+                        <TabPanel value="6">
                             <OrderTabMap />
                         </TabPanel>
                     </TabContext>
