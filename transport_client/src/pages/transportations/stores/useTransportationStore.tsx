@@ -72,7 +72,7 @@ interface TransportationState {
     arrivalDriverId: '',
     arrivalDriverName: '',
     arrivalPassengers: '',*/
-    dockingPoints: [],
+    dockingPointIds: [],
     //cardriver
     selectedDriverId: '',
     selectedPassengers: [],
@@ -156,7 +156,7 @@ export const useTransportationStore = create<TransportationState>((set) => ({
     arrivalDriverId: '',
     arrivalDriverName: '',
     arrivalPassengers: '',*/
-    dockingPoints: [],
+    dockingPointIds: [],
     //cardriver
     selectedDriverId: '',
     selectedPassengers: [],
@@ -269,7 +269,7 @@ export const useTransportationStore = create<TransportationState>((set) => ({
         arrivalDriverId: '',
         arrivalDriverName: '',
         arrivalPassengers: '',*/
-        dockingPoints: [],
+        dockingPointIds: [],
         //cardriver
         selectedDriverId: '',
         selectedPassengers: [],

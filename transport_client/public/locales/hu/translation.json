@@ -110,7 +110,9 @@
     "PRODUCT_CATEGORY": "Termékkategória",
     "SELECTED_TRANSPORTATION_TYPE": "Kiválasztott szállítási típus",
     "IS_IT_OWN_LOCATION": "Saját cím-e",
-    "PASSENGERS": "Utasok"
+    "PASSENGERS": "Utasok",
+    "DOCKING_POINT": "Rakodási pont",
+    "ADD_NEW_DOCKING_POINT": "Új rakodási pont hozzáadása"
   },
   "REQUEST": {
     "ID": "Azonosító",

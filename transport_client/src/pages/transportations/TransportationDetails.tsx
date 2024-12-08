@@ -1,7 +1,7 @@
 import BackgroundCard from "../../components/layout/BackgroundCard";
 import DataCard from "../../components/layout/DataCard";
 import Headline from "../../components/text/Headline";
-import {Box, FormControl, Grid, TextField} from "@mui/material";
+import {Box, Button, FormControl, Grid, MenuItem, Select, TextField, Typography} from "@mui/material";
 import NormalText from "../../components/text/NormalText";
 import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
@@ -9,11 +9,11 @@ import {useTypeSafeTranslation} from "../../components/inputField/hooks/useTypeS
 import {useNavigate} from "react-router-dom";
 import {TransportationSteps} from "./enums/transportation-steps";
 import {useTransportationStore} from "./stores/useTransportationStore";
-import useTransportationDetails from "./hooks/useTransportationDetails";
 import DatePicker from "react-datepicker";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import moment from "moment";
 import "./Transportations.css";
+import useTransportationCar from "./hooks/useTransportationCar";
 
 interface Props {
     setCurrentStep: (step: number) => void;
@@ -22,14 +22,19 @@ interface Props {
 const TransportationDetails = ({ setCurrentStep }: Props) => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
-    const { departureDockingPointId, arrivalDockingPointId, dockingPoints, setTransportation } = useTransportationStore();
+    const { departureDockingPointId, arrivalDockingPointId, dockingPointIds, setTransportation } = useTransportationStore();
+    const transportation = useTransportationStore((state) => state.transportation);
     const thisStep = TransportationSteps.DETAILS;
     const currentStep = useTransportationStore((state) => state.currentStep);
     const isStepDone = currentStep > thisStep;
     const isActiveStep = thisStep === currentStep;
-    const [dockingPoints, setDockingPoints] = useState([]);
-    const [extraDockingPoints, setExtraDockingPoints] = useState([]);
-    const [departureValues, setDepartureValues] = useState({
+    const [dockingPointList, setDockingPointList] = useState([]);
+    const [userList, setUserList] = useState([]);
+    //const [extraDockingPoints, setExtraDockingPoints] = useState([]);
+    const [departureId, setDepartureId] = useState(transportation.departureDockingPointId || '');
+    const [arrivalId, setArrivalId] = useState(transportation.arrivalDockingPointId || '');
+    const [selectedDockingPointIds, setSelectedDockingPointIds] = useState(transportation.dockingPointIds || []);
+    const [departureDockingPointData, setDepartureDockingPointData] = useState({
         dockingPointId: '',
         country: '',
         postcode: '',
@@ -46,7 +51,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
         driverName: '',
         passengers: '',
     });
-    const [arrivalValues, setArrivalValues] = useState({
+    const [arrivalDockingPointData, setArrivalDockingPointData] = useState({
         dockingPointId: '',
         country: '',
         postcode: '',
@@ -63,37 +68,243 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
         driverName: '',
         passengers: '',
     });
+
+    const { onSubmit } = useTransportationCar();
 
     /*const loadedTransportation = useTransportationStore((state) => state.loadedTransportation);
 
     const { control, isValid, preValidationError, onSubmit} = useTransportationDetails();*/
+
+    const handleDockingPointChange = (index: number, value: string) => {
+        setSelectedDockingPointIds((prev) => {
+            const updated = [...prev];
+            updated[index] = { ...updated[index], [field]: value };
+            return updated;
+        });
+    };
+
+    const addDockingPoint = () => {
+        setSelectedDockingPointIds((prev) => [...prev, {
+            dockingPointId: '',
+            country: '',
+            postcode: '',
+            city: '',
+            nameOfPublicArea: '',
+            typeOfPublicArea: '',
+            houseNumber: '',
+            departureDate: '',
+            departureTime: '',
+            destinationDate: '',
+            destinationTime: '',
+            isItOwnLocation: '',
+            driverId: '',
+            driverName: '',
+            passengers: '',
+        }]);
+    };
+
+    const removeDockingPoint = (index: number) => {
+        setSelectedDockingPointIds((prev) => prev.filter((_, i) => i !== index));
+    };
+
+
+    const handleLoadDockingPoints = async () => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/dockingPoints`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getAllDockingPointData = await getResponse.json();
+        setDockingPointList(getAllDockingPointData);
+    }
+
+    useEffect(() => {
+        handleLoadDockingPoints();
+    }, []);
+
+    const getDepartureDockingPoint = async () => {
+        try {
+            const getDepartureDockingPointResponse = await fetch(
+                `http://localhost:3001/api/dockingPoints/${departureDockingPointId}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getDepartureDockingPointData = await getDepartureDockingPointResponse.json();
+            const getStatus = getDepartureDockingPointResponse.status;
+            setDepartureDockingPointData(getDepartureDockingPointData);
+        } catch (error) {
+            console.error('Error get car type:', error);
+        }
+    }
+
+    useEffect(() => {
+        getDepartureDockingPoint();
+    }, [departureDockingPointId])
+
+    const getArrivalDockingPoint = async () => {
+        try {
+            const getArrivalDockingPointResponse = await fetch(
+                `http://localhost:3001/api/dockingPoints/${arrivalDockingPointId}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getArrivalDockingPointData = await getArrivalDockingPointResponse.json();
+            const getStatus = getArrivalDockingPointResponse.status;
+            setArrivalDockingPointData(getArrivalDockingPointData);
+        } catch (error) {
+            console.error('Error get car type:', error);
+        }
+    }
+
+    useEffect(() => {
+        getArrivalDockingPoint();
+    }, [arrivalDockingPointId])
+
+    const getUsers = async () => {
+        try {
+            const getUsersResponse = await fetch(
+                `http://localhost:3001/api/users`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json"},
+                }
+            );
+            const getUsersData = await getUsersResponse.json();
+            const getStatus = getUsersResponse.status;
+            setUserList(getUsersData);
+        } catch (error) {
+            console.error('Error get car type:', error);
+        }
+    }
+
+    useEffect(() => {
+        getUsers();
+    }, [])
+
+    /* const getDepartureDriver = async () => {
+         try {
+             const getDepartureDriverResponse = await fetch(
+                 `http://localhost:3001/api/users/${departureDockingPointData.driverId}`,
+                 {
+                     method: "GET",
+                     headers: { "Content-Type": "application/json"},
+                 }
+             );
+             const getDepartureDriverData = await getDepartureDriverResponse.json();
+             const getStatus = getDepartureDriverResponse.status;
+             //setSelectedCarTypeData(getDepartureDriverData);
+         } catch (error) {
+             console.error('Error get car type:', error);
+         }
+     }
+
+     useEffect(() => {
+         getDepartureDriver();
+     }, [departureDockingPointDa.driverId])
+
+     /*const getArrivalDriver = async () => {
+         try {
+             const getArrivalDriverResponse = await fetch(
+                 `http://localhost:3001/api/users/${arrivalDockingPointData.driverId}`,
+                 {
+                     method: "GET",
+                     headers: { "Content-Type": "application/json"},
+                 }
+             );
+             const getArrivalDriverData = await getArrivalDriverResponse.json();
+             const getStatus = getArrivalDriverResponse.status;
+             //setSelectedArrivalDriverData(getCarTypeData);
+         } catch (error) {
+             console.error('Error get car type:', error);
+         }
+     }
+
+     useEffect(() => {
+         getArrivalDriver();
+     }, [arrivalDockingPointData.driverId])*/
+
+
+    const saveDockingPoints = async () => {
+        try {
+            // Save or update departure
+            const departureResponse = await fetch(
+                `http://localhost:3001/api/dockingPoints/${transportation.departureId || ""}`,
+                {
+                    method: transportation.departureId ? "PUT" : "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ locationId: departureId }),
+                }
+            );
+            const departureData = await departureResponse.json();
+
+            // Save or update arrival
+            const arrivalResponse = await fetch(
+                `http://localhost:3001/api/dockingPoints/${transportation.arrivalId || ""}`,
+                {
+                    method: transportation.arrivalId ? "PUT" : "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ locationId: arrivalId }),
+                }
+            );
+            const arrivalData = await arrivalResponse.json();
+
+            // Save or update each docking point
+            const savedDockingPoints = await Promise.all(
+                selectedDockingPointIds.map((point) =>
+                    fetch(`http://localhost:3001/api/dockingPoints/${point.id || ""}`, {
+                        method: point.id ? "PUT" : "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ locationId: point.locationId }),
+                    }).then((response) => response.json())
+                )
+            );
+
+            // Update transportation store with saved or updated IDs
+            setTransportation({
+                ...transportation,
+                departureId: departureData.id,
+                arrivalId: arrivalData.id,
+                dockingPointIds: savedDockingPoints,
+            });
+
+            setCurrentStep(2); // Move to the next step
+        } catch (error) {
+            console.error("Error saving transportation details:", error);
+        }
+    };
 
     const handleCancelClicked = () => {
         setCurrentStep(0);
         //navigate(-1);
     };
 
-    const handleNextClicked  = () => {
+    /*const handleNextClicked  = () => {
         onSubmit();
         setCurrentStep(2);
-    };
+    };*/
 
     const handleDepartureChange = (prop: any) => (event: any) => {
-        setDepartureValues({...departureValues, [prop]: event.target.value });
+        setDepartureDockingPointData({...departureDockingPointData, [prop]: event.target.value });
     };
 
     const handleArrivalChange = (prop: any) => (event: any) => {
-        setArrivalValues({...arrivalValues, [prop]: event.target.value });
+        setArrivalDockingPointData({...arrivalDockingPointData, [prop]: event.target.value });
     };
 
     const handleDepartureDateChange = (prop: any) => (date: any) => {
         const value = date ? moment(date).toISOString() : null;
-        setDepartureValues({ ...departureValues, [prop]: value as string });
+        setDepartureDockingPointData({ ...departureDockingPointData, [prop]: value as string });
     };
 
     const handleArrivalDateChange = (prop: any) => (date: any) => {
         const value = date ? moment(date).toISOString() : null;
-        setArrivalValues({ ...arrivalValues, [prop]: value as string });
+        setArrivalDockingPointData({ ...arrivalDockingPointData, [prop]: value as string });
     };
 
     return (
@@ -120,7 +331,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('TRANSPORTATIONS.COUNTRY')}
                                                         name='country'
                                                         label={t('TRANSPORTATIONS.COUNTRY')}
-                                                        value={departureValues.country}
+                                                        value={departureDockingPointData.country}
                                                         onChange={handleDepartureChange('country')}
                                                         data-testid='country-input'
                                                         required
@@ -154,7 +365,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('TRANSPORTATIONS.POSTCODE')}
                                                         name='postcode'
                                                         label={t('TRANSPORTATIONS.POSTCODE')}
-                                                        value={departureValues.postcode}
+                                                        value={departureDockingPointData.postcode}
                                                         onChange={handleDepartureChange('postcode')}
                                                         data-testid='postcode-input'
                                                         required
@@ -190,7 +401,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('TRANSPORTATIONS.CITY')}
                                                         name='city'
                                                         label={t('TRANSPORTATIONS.CITY')}
-                                                        value={departureValues.city}
+                                                        value={departureDockingPointData.city}
                                                         onChange={handleDepartureChange('city')}
                                                         data-testid='city-input'
                                                         required
@@ -224,7 +435,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
                                                         name='nameOfPublicArea'
                                                         label={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
-                                                        value={departureValues.nameOfPublicArea}
+                                                        value={departureDockingPointData.nameOfPublicArea}
                                                         onChange={handleDepartureChange('nameOfPublicArea')}
                                                         data-testid='name-of-public-area-input'
                                                         required
@@ -260,7 +471,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
                                                         name='typeOfPublicArea'
                                                         label={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
-                                                        value={departureValues.typeOfPublicArea}
+                                                        value={departureDockingPointData.typeOfPublicArea}
                                                         onChange={handleDepartureChange('typeOfPublicArea')}
                                                         data-testid='type-of-public-area-input'
                                                         required
@@ -294,7 +505,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('TRANSPORTATIONS.HOUSE_NUMBER')}
                                                         name='houseNumber'
                                                         label={t('TRANSPORTATIONS.HOUSE_NUMBER')}
-                                                        value={departureValues.houseNumber}
+                                                        value={departureDockingPointData.houseNumber}
                                                         onChange={handleDepartureChange('houseNumber')}
                                                         data-testid='house-number-input'
                                                         required
@@ -329,7 +540,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         name='destinationDate'
                                                         data-testid='destination-date-input'
                                                         //disabled={inputDisabled}
-                                                        value={departureValues.destinationDate}
+                                                        value={departureDockingPointData.destinationDate}
                                                         onChange={handleDepartureChange('destinationDate')}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
@@ -350,7 +561,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         name='passengers'
                                                         data-testid='passengers-input'
                                                         //disabled={inputDisabled}
-                                                        value={departureValues.passengers}
+                                                        value={departureDockingPointData.passengers}
                                                         onChange={handleDepartureChange('passengers')}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
@@ -373,7 +584,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         name='destinationTime'
                                                         data-testid='destination-time-input'
                                                         //disabled={inputDisabled}
-                                                        value={departureValues.destinationTime}
+                                                        value={departureDockingPointData.destinationTime}
                                                         onChange={handleDepartureChange('destinationTime')}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
@@ -396,7 +607,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         name='isItOwnLocation'
                                                         data-testid='is-it-own-location-input'
                                                         //disabled={inputDisabled}
-                                                        value={departureValues.isItOwnLocation}
+                                                        value={departureDockingPointData.isItOwnLocation}
                                                         onChange={handleDepartureChange('isItOwnLocation')}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
@@ -419,7 +630,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         name='driverName'
                                                         data-testid='driver-name-input'
                                                         //disabled={inputDisabled}
-                                                        value={departureValues.driverName}
+                                                        value={departureDockingPointData.driverName}
                                                         onChange={handleDepartureChange('driverName')}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
@@ -451,7 +662,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('TRANSPORTATIONS.COUNTRY')}
                                                         name='country'
                                                         label={t('TRANSPORTATIONS.COUNTRY')}
-                                                        value={arrivalValues.country}
+                                                        value={arrivalDockingPointData.country}
                                                         onChange={handleArrivalChange('country')}
                                                         data-testid='country-input'
                                                         required
@@ -485,7 +696,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('TRANSPORTATIONS.POSTCODE')}
                                                         name='postcode'
                                                         label={t('TRANSPORTATIONS.POSTCODE')}
-                                                        value={arrivalValues.postcode}
+                                                        value={arrivalDockingPointData.postcode}
                                                         onChange={handleArrivalChange('postcode')}
                                                         data-testid='postcode-input'
                                                         required
@@ -521,7 +732,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('TRANSPORTATIONS.CITY')}
                                                         name='city'
                                                         label={t('TRANSPORTATIONS.CITY')}
-                                                        value={arrivalValues.city}
+                                                        value={arrivalDockingPointData.city}
                                                         onChange={handleArrivalChange('city')}
                                                         data-testid='city-input'
                                                         required
@@ -555,7 +766,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
                                                         name='nameOfPublicArea'
                                                         label={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
-                                                        value={arrivalValues.nameOfPublicArea}
+                                                        value={arrivalDockingPointData.nameOfPublicArea}
                                                         onChange={handleArrivalChange('nameOfPublicArea')}
                                                         data-testid='name-of-public-area-input'
                                                         required
@@ -591,7 +802,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
                                                         name='typeOfPublicArea'
                                                         label={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
-                                                        value={arrivalValues.typeOfPublicArea}
+                                                        value={arrivalDockingPointData.typeOfPublicArea}
                                                         onChange={handleArrivalChange('typeOfPublicArea')}
                                                         data-testid='type-of-public-area-input'
                                                         required
@@ -625,7 +836,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         placeholder={t('TRANSPORTATIONS.HOUSE_NUMBER')}
                                                         name='houseNumber'
                                                         label={t('TRANSPORTATIONS.HOUSE_NUMBER')}
-                                                        value={arrivalValues.houseNumber}
+                                                        value={arrivalDockingPointData.houseNumber}
                                                         onChange={handleArrivalChange('houseNumber')}
                                                         data-testid='house-number-input'
                                                         required
@@ -660,7 +871,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         name='destinationDate'
                                                         data-testid='destination-date-input'
                                                         //disabled={inputDisabled}
-                                                        value={arrivalValues.destinationDate}
+                                                        value={arrivalDockingPointData.destinationDate}
                                                         onChange={handleArrivalChange('destinationDate')}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
@@ -681,7 +892,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         name='passengers'
                                                         data-testid='passengers-input'
                                                         //disabled={inputDisabled}
-                                                        value={arrivalValues.passengers}
+                                                        value={arrivalDockingPointData.passengers}
                                                         onChange={handleArrivalChange('passengers')}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
@@ -704,7 +915,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         name='destinationTime'
                                                         data-testid='destination-time-input'
                                                         //disabled={inputDisabled}
-                                                        value={arrivalValues.destinationTime}
+                                                        value={arrivalDockingPointData.destinationTime}
                                                         onChange={handleArrivalChange('destinationTime')}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
@@ -727,7 +938,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         name='isItOwnLocation'
                                                         data-testid='is-it-own-location-input'
                                                         //disabled={inputDisabled}
-                                                        value={arrivalValues.isItOwnLocation}
+                                                        value={arrivalDockingPointData.isItOwnLocation}
                                                         onChange={handleArrivalChange('isItOwnLocation')}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
@@ -750,7 +961,7 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                         name='driverName'
                                                         data-testid='driver-name-input'
                                                         //disabled={inputDisabled}
-                                                        value={arrivalValues.driverName}
+                                                        value={arrivalDockingPointData.driverName}
                                                         onChange={handleArrivalChange('driverName')}
                                                         //dateFormat="dd/MM/yyyy"
                                                         className={'date-picker-class'}
@@ -765,12 +976,383 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
 
                         <DataCard>
                             <Headline text={t('TRANSPORTATIONS.ADD_LOADING_POINT')} />
+                            <Grid item>
+                                {selectedDockingPointIds.map((point, index) => (
+                                    <Grid container>
+                                        <Typography sx={{
+                                            fontWeight: 700,
+                                            fontSize: '26px',
+                                            lineHeight: '20px',
+                                            color: '#DD1C13',
+                                            marginTop: '40px',
+                                            marginBottom: '60px',
+                                            marginLeft: '10px',
+                                            marginRight: '10px'
+                                        }}>
+                                            {t('TRANSPORTATIONS.DOCKING_POINT')} {index + 1}.
+                                        </Typography>
+                                        <Grid key={index} container>
+                                            <Grid item container direction="row" spacing={2}>
+                                                <Grid item container direction="column" spacing={2} xs={3}>
+                                                    <Grid item>
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'flex-start'
+                                                        }}>
+                                                            <NormalText text={t('TRANSPORTATIONS.COUNTRY')}/>
+                                                            <FormControl required fullWidth>
+                                                                <TextField
+                                                                    id="country"
+                                                                    placeholder={t('TRANSPORTATIONS.COUNTRY')}
+                                                                    name='country'
+                                                                    label={t('TRANSPORTATIONS.COUNTRY')}
+                                                                    value={point.country || ''}
+                                                                    onChange={(e) =>
+                                                                        handleDockingPointChange(index, 'country')
+                                                                    }
+                                                                    data-testid='country-input'
+                                                                    required
+                                                                    sx={{
+                                                                        backgroundColor: `#ffffff`,
+                                                                        borderRadius: '18px',
+                                                                        color: `#000000`,
+                                                                        textDecoration: 'none',
+                                                                        height: 40,
+                                                                        width: 250,
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        fontSize: "15px",
+                                                                        "& fieldset": {border: 'none'},
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+                                                        </Box>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'flex-start'
+                                                        }}>
+                                                            <NormalText text={t('TRANSPORTATIONS.POSTCODE')}/>
+                                                            <FormControl required fullWidth>
+                                                                <TextField
+                                                                    id="postcode"
+                                                                    placeholder={t('TRANSPORTATIONS.POSTCODE')}
+                                                                    name='postcode'
+                                                                    label={t('TRANSPORTATIONS.POSTCODE')}
+                                                                    value={point.postcode || ''}
+                                                                    onChange={(e) =>
+                                                                        handleDockingPointChange(index, 'postcode')
+                                                                    }
+                                                                    data-testid='postcode-input'
+                                                                    required
+                                                                    sx={{
+                                                                        backgroundColor: `#ffffff`,
+                                                                        borderRadius: '18px',
+                                                                        color: `#000000`,
+                                                                        textDecoration: 'none',
+                                                                        height: 40,
+                                                                        width: 250,
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        fontSize: "15px",
+                                                                        "& fieldset": {border: 'none'},
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+                                                        </Box>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid item container direction="column" spacing={2} xs={3}>
+                                                    <Grid item>
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'flex-start'
+                                                        }}>
+                                                            <NormalText text={t('TRANSPORTATIONS.CITY')}/>
+                                                            <FormControl required fullWidth>
+                                                                <TextField
+                                                                    id="city"
+                                                                    placeholder={t('TRANSPORTATIONS.CITY')}
+                                                                    name='city'
+                                                                    label={t('TRANSPORTATIONS.CITY')}
+                                                                    value={point.city || ''}
+                                                                    onChange={(e) =>
+                                                                        handleDockingPointChange(index, 'city')
+                                                                    }
+                                                                    data-testid='city-input'
+                                                                    required
+                                                                    sx={{
+                                                                        backgroundColor: `#ffffff`,
+                                                                        borderRadius: '18px',
+                                                                        color: `#000000`,
+                                                                        textDecoration: 'none',
+                                                                        height: 40,
+                                                                        width: 250,
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        fontSize: "15px",
+                                                                        "& fieldset": {border: 'none'},
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+                                                        </Box>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'flex-start'
+                                                        }}>
+                                                            <NormalText text={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}/>
+                                                            <FormControl required fullWidth>
+                                                                <TextField
+                                                                    id="nameOfPublicArea"
+                                                                    placeholder={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
+                                                                    name='nameOfPublicArea'
+                                                                    label={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
+                                                                    value={point.nameOfPublicArea || ''}
+                                                                    onChange={(e) =>
+                                                                        handleDockingPointChange(index, 'nameOfPublicArea')
+                                                                    }
+                                                                    data-testid='name-of-public-area-input'
+                                                                    required
+                                                                    sx={{
+                                                                        backgroundColor: `#ffffff`,
+                                                                        borderRadius: '18px',
+                                                                        color: `#000000`,
+                                                                        textDecoration: 'none',
+                                                                        height: 40,
+                                                                        width: 250,
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        fontSize: "15px",
+                                                                        "& fieldset": {border: 'none'},
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+                                                        </Box>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid item container direction="column" spacing={2} xs={3}>
+                                                    <Grid item>
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'flex-start'
+                                                        }}>
+                                                            <NormalText text={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}/>
+                                                            <FormControl required fullWidth>
+                                                                <TextField
+                                                                    id="typeOfPublicArea"
+                                                                    placeholder={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
+                                                                    name='typeOfPublicArea'
+                                                                    label={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
+                                                                    value={point.typeOfPublicArea || ''}
+                                                                    onChange={(e) =>
+                                                                        handleDockingPointChange(index, 'typeOfPublicArea')
+                                                                    }
+                                                                    data-testid='type-of-public-area-input'
+                                                                    required
+                                                                    sx={{
+                                                                        backgroundColor: `#ffffff`,
+                                                                        borderRadius: '18px',
+                                                                        color: `#000000`,
+                                                                        textDecoration: 'none',
+                                                                        height: 40,
+                                                                        width: 250,
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        fontSize: "15px",
+                                                                        "& fieldset": {border: 'none'},
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+                                                        </Box>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'flex-start'
+                                                        }}>
+                                                            <NormalText text={t('TRANSPORTATIONS.HOUSE_NUMBER')}/>
+                                                            <FormControl required fullWidth>
+                                                                <TextField
+                                                                    id="houseNumber"
+                                                                    placeholder={t('TRANSPORTATIONS.HOUSE_NUMBER')}
+                                                                    name='houseNumber'
+                                                                    label={t('TRANSPORTATIONS.HOUSE_NUMBER')}
+                                                                    value={point.houseNumber || ''}
+                                                                    onChange={(e) =>
+                                                                        handleDockingPointChange(index, 'houseNumber')
+                                                                    }
+                                                                    data-testid='house-number-input'
+                                                                    required
+                                                                    sx={{
+                                                                        backgroundColor: `#ffffff`,
+                                                                        borderRadius: '18px',
+                                                                        color: `#000000`,
+                                                                        textDecoration: 'none',
+                                                                        height: 40,
+                                                                        width: 250,
+                                                                        display: 'flex',
+                                                                        justifyContent: 'center',
+                                                                        fontSize: "15px",
+                                                                        "& fieldset": {border: 'none'},
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+                                                        </Box>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid item container direction="column" spacing={2} xs={3}>
+                                                    <Grid item>
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'flex-start'
+                                                        }}>
+                                                            <NormalText text={t('TRANSPORTATIONS.DESTINATION_DATE')} required={false}/>
+                                                            <FormControl required>
+                                                                <DatePicker
+                                                                    name='destinationDate'
+                                                                    data-testid='destination-date-input'
+                                                                    //disabled={inputDisabled}
+                                                                    value={point.destinationDate || ''}
+                                                                    onChange={(e) =>
+                                                                        handleDockingPointChange(index, 'destinationDate')
+                                                                    }
+                                                                    //dateFormat="dd/MM/yyyy"
+                                                                    className={'date-picker-class'}
+                                                                />
+                                                            </FormControl>
+                                                        </Box>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'flex-start'
+                                                        }}>
+                                                            <NormalText text={t('TRANSPORTATIONS.PASSENGERS')} required={false}/>
+                                                            <FormControl required>
+                                                                <DatePicker
+                                                                    name='passengers'
+                                                                    data-testid='passengers-input'
+                                                                    //disabled={inputDisabled}
+                                                                    value={point.passengers || ''}
+                                                                    onChange={(e) =>
+                                                                        handleDockingPointChange(index, 'passengers')
+                                                                    }
+                                                                    //dateFormat="dd/MM/yyyy"
+                                                                    className={'date-picker-class'}
+                                                                />
+                                                            </FormControl>
+                                                        </Box>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid item container direction="column" spacing={2} xs={3}>
+                                                    <Grid item>
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'flex-start'
+                                                        }}>
+                                                            <NormalText text={t('TRANSPORTATIONS.DESTINATION_TIME')} required={false}/>
+                                                            <FormControl required>
+                                                                <DatePicker
+                                                                    name='destinationTime'
+                                                                    data-testid='destination-time-input'
+                                                                    //disabled={inputDisabled}
+                                                                    value={point.destinationTime || ''}
+                                                                    onChange={(e) =>
+                                                                        handleDockingPointChange(index, 'destinationTime')
+                                                                    }
+                                                                    //dateFormat="dd/MM/yyyy"
+                                                                    className={'date-picker-class'}
+                                                                />
+                                                            </FormControl>
+                                                        </Box>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid item container direction="column" spacing={2} xs={3}>
+                                                    <Grid item>
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'flex-start'
+                                                        }}>
+                                                            <NormalText text={t('TRANSPORTATIONS.IS_IT_OWN_LOCATION')} required={false}/>
+                                                            <FormControl required>
+                                                                <DatePicker
+                                                                    name='isItOwnLocation'
+                                                                    data-testid='is-it-own-location-input'
+                                                                    //disabled={inputDisabled}
+                                                                    value={point.isItOwnLocation || ''}
+                                                                    onChange={(e) =>
+                                                                        handleDockingPointChange(index, 'isItOwnLocation')
+                                                                    }
+                                                                    //dateFormat="dd/MM/yyyy"
+                                                                    className={'date-picker-class'}
+                                                                />
+                                                            </FormControl>
+                                                        </Box>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid item container direction="column" spacing={2} xs={3}>
+                                                    <Grid item>
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'flex-start'
+                                                        }}>
+                                                            <NormalText text={t('TRANSPORTATIONS.DRIVER_NAME')} required={false}/>
+                                                            <FormControl required>
+                                                                <DatePicker
+                                                                    name='driverName'
+                                                                    data-testid='driver-name-input'
+                                                                    //disabled={inputDisabled}
+                                                                    value={point.driverName || ''}
+                                                                    onChange={(e) =>
+                                                                        handleDockingPointChange(index, 'driverName')
+                                                                    }
+                                                                    //dateFormat="dd/MM/yyyy"
+                                                                    className={'date-picker-class'}
+                                                                />
+                                                            </FormControl>
+                                                        </Box>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid item>
+                                            <CancelButton text={t('TEXT.REMOVE')} onClick={() => removeDockingPoint(index)}/>
+                                        </Grid>
+                                    </Grid>
+                                ))}
+                                <SaveButton text={t("TRANSPORTATIONS.ADD_NEW_DOCKING_POINT")} onClick={addDockingPoint}/>
+                            </Grid>
                         </DataCard>
 
                         {!isStepDone && (
                             <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                                 <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
-                                <SaveButton text={t('TEXT.NEXT')}  /*disabled={!isValid || !isActiveStep}*/ onClick={handleNextClicked}/>
+                                <SaveButton text={t('TEXT.NEXT')}  /*disabled={!isValid || !isActiveStep}*/ onClick={saveDockingPoints}/>
                             </Box>
                         )}
 
