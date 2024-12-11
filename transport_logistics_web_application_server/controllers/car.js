@@ -171,7 +171,7 @@ export const updateTransportationTypeCounts = async () => {
             );
         }
 
-        console.log('Transportation type counts updated successfully.');
+        console.log('TransportationPlan type counts updated successfully.');
     } catch (error) {
         console.error('Error updating transportation type counts:', error);
     }

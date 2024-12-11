@@ -4,18 +4,17 @@ import {v4 as uuidv4} from "uuid";
 import {CommentType} from "./enums/CommentType.js";
 
 const companySchema = new mongoose.Schema({
-    companyId: {
-        type: String,
-        default: uuidv4,
-    },
     companyName: String, //megrendelő neve
     email: String, //megrendelő email címe
     phoneNumber: String, //megrendelő telefonszáma
-    address:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Address", //megrendelő címe
-    },
     contactPersonName: String, //kapcsolattartó
+    country: String, //ország
+    postcode: String, //irányítószám
+    city: String, //település
+    nameOfPublicArea: String, //közterület neve
+    typeOfPublicArea: String, //közterület jellege
+    houseNumber: String, //házszám
+    isItCarService: Boolean, //autószervíz e
 });
 
 const Company = mongoose.model('Company', companySchema);

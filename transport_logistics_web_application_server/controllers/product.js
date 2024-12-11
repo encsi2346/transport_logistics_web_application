@@ -157,3 +157,40 @@ export const paginatedProduct = async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+export const productsByCategory = async (req, res) => {
+    try {
+        const { featured, name, category } = req.query;
+        const query = {};
+
+        if (featured) {
+            query.featured = true;
+        }
+        if (category) {
+            try {
+                // Find the category by ID
+                const categoryData = await ProductCategory.findOne({ _id: category });
+
+                // Check if category data is found
+                if (!categoryData) {
+                    return res.status(400).json({ error: 'Category not found' });
+                }
+                query.category = categoryData._id;
+            } catch (err) {
+                console.error('Error while fetching category:', err);
+                return res.status(500).json({ error: 'Error retrieving category data' });
+            }
+        }
+        if (name) {
+            query.name = name;
+        }
+
+        const products = await Product.find(query, null).populate("category", "name");
+
+        return res.status(200).send(products);
+    } catch (error) {
+        console.error('Error in getPaginatedProducts middleware:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};

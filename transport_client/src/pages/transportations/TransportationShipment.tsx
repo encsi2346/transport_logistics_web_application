@@ -26,6 +26,7 @@ import ProductContainer from "../../components/dragAndDrop/ProductContainer";
 import PlusIcon from '@mui/icons-material/Add';
 import "../../App.css";
 import ItemContainer from "../../components/dragAndDrop/ItemContainer";
+import useTransportationCar from "./hooks/useTransportationCar";
 
 export type Id = string | number;
 
@@ -49,30 +50,71 @@ interface Props {
 const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
-    const [productCategories, setProductCategories] = useState([
-        {
-            label: `${t('TEXT.CATEGORY1')}`,
-            value: 1
-        },
-        {
-            label: `${t('TEXT.CATEGORY2')}`,
-            value: 2
-        },
-        {
-            label: `${t('TEXT.CATEGORY3')}`,
-            value: 2
-        }
-    ]);
+    const { selectedProducts, totalWeightsOfSelectedProducts, setTransportation } = useTransportationStore();
+    const [productCategories, setProductCategories] = useState([]);
+    const [products, setProducts] = useState([]);
     const thisStep = TransportationSteps.SHIPMENT;
     const currentStep = useTransportationStore((state) => state.currentStep);
     //const setCurrentStep = useTransportationStore((state) => state.setCurrentStep);
     const isStepDone = currentStep > thisStep;
     const isActiveStep = thisStep === currentStep;
-    const [values, setValues] = useState({
-        productCategory: '',
-    });
+    const [selectedProductCategory, setSelectedProductCategory] = useState('');
+    const [selectedProductsList, setSelectedProductsList] = useState([]);
 
-    const { control, isValid, preValidationError, onSubmit} = useTransportationShipment();
+   /* const { control, isValid, preValidationError, onSubmit} = useTransportationShipment();*/
+
+    const { onSubmit } = useTransportationCar();
+
+    const handleLoadProductCategories = async () => {
+        const getResponse = await fetch(
+            `http://localhost:3001/api/product-categories`,
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json"},
+            }
+        );
+        const getProductCategoriesData = await getResponse.json();
+        setProductCategories(getProductCategoriesData);
+    }
+
+    useEffect(() => {
+        handleLoadProductCategories();
+    }, []);
+
+    const handleLoadProducts = async (id) => {
+        try {
+            const params = new URLSearchParams({
+                category: id,
+            });
+
+            const response = await fetch(
+                `http://localhost:3001/api/product-categories/products?${params.toString()}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch products: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            setProducts(data.products || []);
+        } catch (error) {
+            console.error('Error loading paginated products:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (selectedProductCategory) {
+            handleLoadProducts(selectedProductCategory);
+        }
+    }, [selectedProductCategory]);
+
+    useEffect(() => {
+        console.log('products', products);
+    }, [productCategories, products])
 
     const handleCancelClicked = () => {
         setCurrentStep(2);
@@ -80,9 +122,31 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
     };
 
     const handleNextClicked  = () => {
-        onSubmit(); // Calls the `onSubmit` from the hook
+        //onSubmit(); // Calls the `onSubmit` from the hook
+        setTransportation(selectedProductsList);
         setCurrentStep(4); // Move to the next step
     };
+
+    // Handle changes in quantity for a selected product
+    const handleQuantityChange = (event, item) => {
+        const updatedItems = items.map((i) =>
+            i.id === item.id
+                ? { ...i, selectedNumberOfItems: event.target.value }
+                : i
+        );
+        setItems(updatedItems);
+    };
+
+    // Handle changes in weight for a selected product
+    const handleWeightChange = (event, item) => {
+        const updatedItems = items.map((i) =>
+            i.id === item.id
+                ? { ...i, weightOfSelectedItems: event.target.value }
+                : i
+        );
+        setItems(updatedItems);
+    };
+
 
     const [itemContainer, setItemContainer] = useState<Container>({
         id: "itemContainer",
@@ -115,44 +179,7 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
         },
     ]);
     const containersId = useMemo(() => containers.map((con) => con.id), [containers]);
-    const [items, setItems] = useState<Item[]>([
-        {
-            id: "1",
-            containerId: "itemContainer",
-            productName: "Termék0",
-            amountOfProduct: "1200/836",
-        },
-        {
-            id: "2",
-            containerId: "itemContainer",
-            productName: "Termék1",
-            amountOfProduct: "1200/836",
-        },
-        {
-            id: "3",
-            containerId: "itemContainer",
-            productName: "Termék2",
-            amountOfProduct: "1200/836",
-        },
-        {
-            id: "4",
-            containerId: "itemContainer",
-            productName: "Termék3",
-            amountOfProduct: "1200/836",
-        },
-        {
-            id: "5",
-            containerId: "itemContainer",
-            productName: "Termék4",
-            amountOfProduct: "1200/836",
-        },
-        {
-            id: "6",
-            containerId: "itemContainer",
-            productName: "Termék5",
-            amountOfProduct: "1200/836",
-        },
-    ]);
+    const [items, setItems] = useState<Item[]>([...products]);
 
     const [activeContainer, setActiveContainer] = useState<Container | null>(null);
 
@@ -196,6 +223,22 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
 
         const isActiveContainer = active.data.current?.type === "Container";
         if (!isActiveContainer) return;
+
+        const activeItem = items.find((item) => item.id === active.id);
+        if (!activeItem) return;
+
+        // Add the item to the selected products list
+        const newSelectedProduct = {
+            selectedProductId: generateId(), // uuidv4(),
+            productId: activeItem.productId,
+            productName: activeItem.productName,
+            //maxNumberOfItems: activeItem.maxNumberOfItems,
+            //currentNumberOfItems: activeItem.currentNumberOfItems,
+            selectedNumberOfItems: activeItem.selectedNumberOfItems,
+            weightOfSelectedItems: activeItem.weightOfSelectedItems,
+        };
+
+        setSelectedProductsList((prevList) => [...prevList, newSelectedProduct]);
 
         console.log("DRAG END");
 
@@ -290,10 +333,9 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
         addBackItem(id, removedItem[0].productName, removedItem[0].amountOfProduct);
     }
 
-    const handleChange = (prop: any) => (event: any) => {
-        setValues({...values, [prop]: event.target.value });
-        console.log('values', values);
-    };
+    useEffect(() =>  {
+        console.log('selectedproductcategory', selectedProductCategory);
+    }, [selectedProductCategory])
 
     return (
         <form autoComplete='off' noValidate onSubmit={(e) => e.preventDefault()}>
@@ -324,8 +366,8 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
                                                         label={t('TRANSPORTATIONS.PRODUCT_CATEGORY')}
                                                         name='productCategory'
                                                         data-testid='product-category-input'
-                                                        value={values.productCategory ?? ''}
-                                                        onChange={handleChange('productCategory')}
+                                                        value={selectedProductCategory ?? ''}
+                                                        onChange={(e) => setSelectedProductCategory(e.target.value)}
                                                         sx={{
                                                             backgroundColor: `#ffffff`,
                                                             borderRadius: '18px',
@@ -340,8 +382,8 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
                                                         }}
                                                     >
                                                         {Object.values(productCategories).map((cat) => (
-                                                            <MenuItem key={cat.value} value={cat.value}>
-                                                                {cat.label}
+                                                            <MenuItem key={cat._id} value={cat._id}>
+                                                                {cat.name}
                                                             </MenuItem>
                                                         ))}
                                                     </Select>
@@ -390,13 +432,15 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
                                                     <Box sx={{ width: 600, height: 350, backgroundColor: '#9e9e9e', borderColor: '#ff0000', borderStyle: 'dashed', borderWidth: 3}}>
                                                         <Grid item container direction="row">
                                                             <SortableContext items={containersId}>
-                                                                {containers.map((con) => (
+                                                                {containers.map((container) => (
                                                                     <ProductContainer
-                                                                        key={con.id}
-                                                                        container={con}
+                                                                        key={container.id}
+                                                                        container={container}
                                                                         deleteContainer={deleteContainer}
                                                                         deleteItem={deleteItem}
-                                                                        items={items.filter((item) => item.containerId === con.id)}
+                                                                        items={items.filter((item) => item.containerId === container.id)}
+                                                                        handleQuantityChange={handleQuantityChange}
+                                                                        handleWeightChange={handleWeightChange}
                                                                     />
                                                                 ))}
                                                             </SortableContext>
@@ -408,6 +452,8 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
                                                                             container={activeContainer}
                                                                             deleteContainer={deleteContainer}
                                                                             deleteItem={deleteItem}
+                                                                            handleQuantityChange={handleQuantityChange}
+                                                                            handleWeightChange={handleWeightChange}
                                                                             items={items.filter(
                                                                                 (item) => item.containerId === activeContainer.id
                                                                             )}
@@ -426,7 +472,7 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
                                             {!isStepDone && (
                                                 <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                                                     <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
-                                                    <SaveButton text={t('TEXT.NEXT')}  disabled={!isValid || !isActiveStep} onClick={handleNextClicked}/>
+                                                    <SaveButton text={t('TEXT.NEXT')}  /*disabled={!isValid || !isActiveStep}*/ onClick={handleNextClicked}/>
                                                 </Box>
                                             )}
                                         </BackgroundCard>

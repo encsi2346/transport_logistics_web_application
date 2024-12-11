@@ -4,25 +4,25 @@ import {DocumentType} from "./enums/DocumentType.js";
 import {v4 as uuidv4} from "uuid";
 
 const documentSchema = new mongoose.Schema({
-    documentId: {
-        type: String,
-        default: uuidv4,
-    }, //azonosító
-    documentType:{
+    documentType: {
         type: String,
         enum: Object.values(DocumentType), //dokumentum típus
     },
     title: String, //dokumentum neve -- ez lesz a feltöltött valami
-    timeStamp: String, //létrehozás dátuma
-    status: {
+    timeStampOfUploading: String, //létrehozás dátuma
+    statusOfDocumentUploading: {
         type: String,
         enum: Object.values(DocumentStatus), //állapot
     },
     creator: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User", // Reference to User model for driver
+        ref: "User",
     },
-    size: Number, //méret
+    size: Number,
+    carId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Car",
+    },
 });
 
 const Document = mongoose.model('Document', documentSchema);

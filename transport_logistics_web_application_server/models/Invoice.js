@@ -3,16 +3,22 @@ import {InvoiceStatus} from "./states/InvoiceStatus.js";
 import {v4 as uuidv4} from "uuid";
 
 const invoiceSchema = new mongoose.Schema({
-    invoiceId: {
-        type: String,
-        default: uuidv4,
-    }, //számla azonosító
-    orderId: String, //rendelés azonosító
-    companyId: String, //megrendelő azonosító
+    orderId:  {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
+    },
+    companyId:  {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Company",
+    },
+    transportationPlanId:  {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "TransportationPlan",
+    },
     dateOfCreation: Date, //létrehozás dátuma
     deadlineForPayment: Date, //fizetési határidő
     price: String, //összeg
-    status:{
+    statusOfInvoice: {
         type: String,
         enum: Object.values(InvoiceStatus), //állapot
     },

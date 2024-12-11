@@ -3,20 +3,24 @@ import { CSS } from "@dnd-kit/utilities";
 import { useMemo, useState } from "react";
 import ItemCard from "./ItemCard";
 import {Container, Id, Item} from "@/pages/transportations/TransportationShipment";
-import {Box, Grid} from "@mui/material";
+import {Box, Grid, TextField} from "@mui/material";
 
 interface Props {
     container: Container;
     deleteContainer: (id: Id) => void;
     deleteItem: (id: Id) => void;
     items: Item[];
+    handleQuantityChange: (event: React.ChangeEvent<HTMLInputElement>, item: Item) => void;
+    handleWeightChange: (event: React.ChangeEvent<HTMLInputElement>, item: Item) => void;
 }
 
 const ProductContainer = ({
-     container,
-     deleteContainer,
-     items,
-     deleteItem
+      container,
+      deleteContainer,
+      items,
+      deleteItem,
+      handleQuantityChange,
+      handleWeightChange
  }: Props) => {
     const [editMode, setEditMode] = useState(false);
 
@@ -58,21 +62,37 @@ const ProductContainer = ({
                     <div {...attributes} {...listeners} >
                         <SortableContext items={itemsIds}>
                             {items.map((item) => (
-                                <Box sx={{ marginLeft: 1, paddingLeft: -3, paddingTop: 2 }}>
+                                <Box key={item.id} sx={{ marginLeft: 1, paddingLeft: -3, paddingTop: 2 }}>
                                     <ItemCard
                                         key={item.id}
                                         item={item}
                                         deleteItem={deleteItem}
                                     />
+
+                                    <Box sx={{ display: 'flex'}}>
+                                        <Box sx={{ display: 'flex', width: 50, height: 20, borderRadius: '5px', backgroundColor: '#cccccc', marginLeft: 3, marginTop: 2 }}>
+                                            <TextField
+                                                label="Quantity"
+                                                type="number"
+                                                value={item.selectedNumberOfItems || ''}
+                                                onChange={(e) => handleQuantityChange(e, item)}
+                                                sx={{ width: '45%' }}
+                                            />
+                                        </Box>
+                                        <Box sx={{ display: 'flex', width: 50, height: 20, borderRadius: '5px', backgroundColor: '#cccccc', marginLeft: 12, marginTop: -2}}>
+                                            <TextField
+                                                label="Weight"
+                                                type="number"
+                                                value={item.weightOfSelectedItems || ''}
+                                                onChange={(e) => handleWeightChange(e, item)}
+                                                sx={{ width: '45%' }}
+                                            />
+                                        </Box>
+                                    </Box>
                                 </Box>
                             ))}
                         </SortableContext>
                     </div>
-                    {/*TODO*/}
-                    <Box sxx={{ display: 'flex'}}>
-                        <Box sx={{ display: 'flex', width: 50, height: 20, borderRadius: '5px', backgroundColor: '#cccccc', marginLeft: 3, marginTop: 2 }}/>
-                        <Box sx={{ display: 'flex', width: 50, height: 20, borderRadius: '5px', backgroundColor: '#cccccc', marginLeft: 12, marginTop: -2}}/>
-                    </Box>
                 </Box>
             </Grid>
         </div>

@@ -6,7 +6,10 @@ const selectedProductSchema = new mongoose.Schema({
         type: String,
         default: uuidv4,
     },
-    productId: String,
+    productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+    },
     productName: String,
     maxNumberOfItems: Number,
     currentNumberOfItems: Number,

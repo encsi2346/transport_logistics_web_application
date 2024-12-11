@@ -4,7 +4,7 @@ import {
     deleteProduct,
     getAllProduct,
     getProduct,
-    paginatedProduct,
+    paginatedProduct, productsByCategory,
     updateProduct
 } from "../controllers/product.js";
 
@@ -138,5 +138,6 @@ router.delete('/api/products/:id', deleteProduct);
 
 
 router.get("/api/paginated-products", paginatedProduct);
+router.get("/api/product-categories/products", productsByCategory);
 
 export default router;

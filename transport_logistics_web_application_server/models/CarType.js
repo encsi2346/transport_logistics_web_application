@@ -1,34 +1,36 @@
 import mongoose from 'mongoose';
 import {FuelType} from "./enums/FuelType.js";
 import {v4 as uuidv4} from "uuid";
+import {GearboxType} from "./enums/GearboxType.js";
+import {StatusOfDockingPoint} from "./states/StatusOfDockingPoint.js";
 
 const carTypeSchema = new mongoose.Schema({
-    carTypeId: {
-        type: String,
-        default: uuidv4,
-    },
     brand: String, //márka
-    typeName: String, //típus neve
+    model: String, //modell
     design: String, //kivitel
-    performance: String, //teljesítmény
-    selfWeight: Number, //saját tömeg
-    usefulWeight: Number, //hasznos teher
-    numberOfSeats: Number, //ülések száma
-    fuel: {
+    gearbox:{
         type: String,
-        enum: Object.values(FuelType), //üzemanyag
+        enum: Object.values(GearboxType),
     },
-    towing: Number, //vontatas
-    height: Number, //magasság
-    width: Number, //szelesseg
-    long: Number, //hosszúság
-    carTypeOfTransportationId: {
+    selfWeight: Number, //saját tömeg
+    totalWeight: Number, //együttes tömeg
+    payloadWeight: Number, //hasznos teher
+    numberOfSeats: Number, //ülések száma
+    fuel:{
+        type: String,
+        enum: Object.values(FuelType),
+    },
+    heightOfCargoArea: Number, //raktér magassága
+    widthOfCargoArea: Number, //raktér szélessege
+    lengthOfCargoArea: Number, //raktér hosszúsága
+    volumeOfCargoArea: Number, //raktér térfogata
+    typeOfTransport: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "CarTypeOfTransportation", //kiválasztott szállítás típus
+        ref: "CarTypeOfTransportation", //kiválasztott szállítási típus
     },
     countOfCars: {
         type: Number,
-        default: 0, // Initialize countOfCars to 0
+        default: 0,
     },
 });
 

@@ -8,7 +8,7 @@ const router = express.Router();
  * /api/transportations:
  *  get:
  *      summary: This get all cars from mongodb
- *      tags: [Transportation]
+ *      tags: [TransportationPlan]
  *      description: this api is used to fetch data from mongodb
  *      responses:
  *          200:
@@ -18,7 +18,7 @@ const router = express.Router();
  *                      schema:
  *                          type: array
  *                          items:
- *                              $ref: '#components/schemas/Transportation'
+ *                              $ref: '#components/schemas/TransportationPlan'
  */
 router.get('/api/transportations', getAllTransportations);
 
@@ -27,7 +27,7 @@ router.get('/api/transportations', getAllTransportations);
  * /api/transportations/{id}:
  *   get:
  *     summary: Get a transportation by ID.
- *     tags: [Transportation]
+ *     tags: [TransportationPlan]
  *     description: Retrieve a transportation based on its ID.
  *     parameters:
  *       - in: path
@@ -42,9 +42,9 @@ router.get('/api/transportations', getAllTransportations);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Transportation'
+ *               $ref: '#/components/schemas/TransportationPlan'
  *       404:
- *         description: Transportation not found.
+ *         description: TransportationPlan not found.
  */
 router.get('/api/transportations/:id', getTransportation);
 
@@ -53,21 +53,21 @@ router.get('/api/transportations/:id', getTransportation);
  * /api/transportations/addTransportation:
  *   post:
  *     summary: Add a new transportation.
- *     tags: [Transportation]
+ *     tags: [TransportationPlan]
  *     description: Add a new transportation to the database.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Transportation'
+ *             $ref: '#/components/schemas/TransportationPlan'
  *     responses:
  *       201:
  *         description: The newly created transportation.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Transportation'
+ *               $ref: '#/components/schemas/TransportationPlan'
  *       400:
  *         description: Bad request.
  */
@@ -78,7 +78,7 @@ router.post('/api/transportations/addTransportation', createTransportation);
  * /api/transportations/{id}:
  *   put:
  *     summary: Update a transportation.
- *     tags: [Transportation]
+ *     tags: [TransportationPlan]
  *     description: Update a transportation in the database.
  *     parameters:
  *       - in: path
@@ -92,18 +92,18 @@ router.post('/api/transportations/addTransportation', createTransportation);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Transportation'
+ *             $ref: '#/components/schemas/TransportationPlan'
  *     responses:
  *       200:
  *         description: The updated transportation.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Transportation'
+ *               $ref: '#/components/schemas/TransportationPlan'
  *       400:
  *         description: Bad request.
  *       404:
- *         description: Transportation not found.
+ *         description: TransportationPlan not found.
  */
 router.put('/api/transportations/:id', updateTransportation);
 
@@ -112,7 +112,7 @@ router.put('/api/transportations/:id', updateTransportation);
  * /api/transportations/{id}:
  *   delete:
  *     summary: Delete a transportation.
- *     tags: [Transportation]
+ *     tags: [TransportationPlan]
  *     description: Delete a transportation from the database.
  *     parameters:
  *       - in: path
@@ -123,9 +123,9 @@ router.put('/api/transportations/:id', updateTransportation);
  *           type: string
  *     responses:
  *       200:
- *         description: Transportation deleted successfully.
+ *         description: TransportationPlan deleted successfully.
  *       404:
- *         description: Transportation not found.
+ *         description: TransportationPlan not found.
  */
 router.delete('/api/transportations/:id', deleteTransportation);
 

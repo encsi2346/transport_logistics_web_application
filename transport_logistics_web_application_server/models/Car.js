@@ -4,12 +4,7 @@ import {v4 as uuidv4} from "uuid";
 import CarTypeOfTransportation from "./CarTypeOfTransportation.js";
 
 const carSchema = new mongoose.Schema({
-    carId: {
-        type: String,
-        default: uuidv4,
-    },
-    name: String,
-    type: {
+    carType: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "CarType", //kiválasztott típus
     },
@@ -18,13 +13,18 @@ const carSchema = new mongoose.Schema({
     chassisNumber: String, //alvázszám
     yearOfProduction: Date, //gyártási év //TODO: date vagy int?
     dateOfFirstRegistration: Date, //első nyilvántartásba vétel
-    //images: [String], //képek
+    image: String, //kép
     dateOfDatabaseRegistration: Date, //adatbázis regisztráció dátuma
     dateOfLastTechnicalExamination: Date, //legutóbbi műszaki vizsga időpontja
+    countOfTransport: Number, //összes végrehajtott szállítás
     dateOfLastService: Date, //legutóbbi szervíz időpontja
-    totalDrivenKm: Number, //összes megtett km
-    totalTransport: Number, //összes végrehajtott szállítás
-    image: String, //kép
+    dateOfTechnicalValidation: Date, //műszaki érvényesség
+    engineCode: String, //motorkód
+    cylinderCapacity: Number, //hengerűrtartalom
+    environmentalClassification: String, //környezetvédelmi osztály
+    mileage: Number, //óraállás
+    mileageRecordingDate: Date, //óraállás rögzítés dátuma
+    power: Number, //teljesítmény
 });
 
 const Car = mongoose.model('Car', carSchema);

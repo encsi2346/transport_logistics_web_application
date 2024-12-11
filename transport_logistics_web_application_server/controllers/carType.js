@@ -124,7 +124,7 @@ export const paginatedCarType = async (req, res) => {
 
                 // Check if category data is found
                 if (!typeOfTransportationData) {
-                    return res.status(400).json({ error: 'Transportation type not found' });
+                    return res.status(400).json({ error: 'TransportationPlan type not found' });
                 }
                 query.carTypeOfTransportationId = typeOfTransportationData._id;
             } catch (err) {

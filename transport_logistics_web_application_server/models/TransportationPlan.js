@@ -55,6 +55,6 @@ const transportationSchema = new mongoose.Schema({
     totalWeightsOfSelectedProducts: Number,
 });
 
-const Transportation = mongoose.model('Transportation', transportationSchema);
+const TransportationPlan = mongoose.model('TransportationPlan', transportationSchema);
 
-export default Transportation;
+export default TransportationPlan;

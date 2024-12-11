@@ -1,8 +1,8 @@
-import Transportation from '../models/Transportation.js';
+import TransportationPlan from '../models/TransportationPlan.js';
 
 export const getAllTransportations = async (req, res) => {
     try {
-        const transportations = await Transportation.find();
+        const transportations = await TransportationPlan.find();
         res.status(200).json(transportations);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -12,7 +12,7 @@ export const getAllTransportations = async (req, res) => {
 export const getTransportation = async (req, res) => {
     try {
         const { id } = req.params;
-        const transportation = await Transportation.findById(id);
+        const transportation = await TransportationPlan.findById(id);
         res.status(200).json(transportation);
     } catch (err) {
         res.status(404).json({ message: err.message });
@@ -32,7 +32,7 @@ export const createTransportation = async (req, res) => {
             selectedProducts,
             totalWeightsOfSelectedProducts,
         } = req.body;
-        const newTransportation = new Transportation({
+        const newTransportation = new TransportationPlan({
             transportationId,
             selectedCarType,
             selectedCar,
@@ -52,9 +52,9 @@ export const createTransportation = async (req, res) => {
 export const updateTransportation = async (req, res) => {
     try {
         const { id } = req.params;
-        const transportation = await Transportation.findById(id);
+        const transportation = await TransportationPlan.findById(id);
         if (!transportation) {
-            return res.status(404).json({ message: 'Transportation not found' });
+            return res.status(404).json({ message: 'TransportationPlan not found' });
         }
         if (req.body.transportationId) {
             transportation.transportationId = req.body.transportationId;
@@ -76,11 +76,11 @@ export const updateTransportation = async (req, res) => {
 export const deleteTransportation = async (req, res) => {
     try {
         const { id } = req.params;
-        const transportation = await Transportation.findById(id);
+        const transportation = await TransportationPlan.findById(id);
         if (!transportation) {
-            return res.status(404).json({ message: 'Transportation not found' });
+            return res.status(404).json({ message: 'TransportationPlan not found' });
         }await transportation.deleteOne();
-        res.json({ message: 'Transportation deleted' });
+        res.json({ message: 'TransportationPlan deleted' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

@@ -1,35 +1,47 @@
 import mongoose from 'mongoose';
 import User from "./User.js";
 import {v4 as uuidv4} from "uuid";
+import {DocumentType} from "./enums/DocumentType.js";
+import {TypeOfDockingPoint} from "./enums/TypeOfDockingPoint.js";
+import {StatusOfDockingPoint} from "./states/StatusOfDockingPoint.js";
 
 const dockingPointSchema = new mongoose.Schema({
-    dockingPointId: {
-        type: String,
-        default: uuidv4,
-    },
     country: String,
     postcode: String,
     city: String,
     nameOfPublicArea: String,
     typeOfPublicArea: String,
     houseNumber: String,
-    departureDate: String,
-    departureTime: String,
-    destinationDate: String,
-    destinationTime: String,
+    plannedDepartureDate: String,
+    plannedDepartureTime: String,
+    plannedArrivalDate: String,
+    plannedArrivalTime: String,
+    realDepartureDate: String,
+    realDepartureTime: String,
+    realArrivalDate: String,
+    realArrivalTime: String,
     isItWarehouse: Boolean,
+    task: String,
+    drivenKms: Number,
+    drivenHours: Number,
+    statusOfDockingPoint:  {
+        type: String,
+        enum: Object.values(StatusOfDockingPoint),
+    },
     driverId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User", // Reference to User model for driver
+        ref: "User",
     },
-    driverName: String,
-    passengers: [
+    passengersId: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User", // Reference to User model for each passenger
+            ref: "User",
         },
     ],
-    type: String, //TODO: enum departure, arrival vagy dockingpoint
+    typeOfDockingPoint: {
+        type: String,
+        enum: Object.values(TypeOfDockingPoint),
+    },
 });
 
 const DockingPoint = mongoose.model('DockingPoint', dockingPointSchema);

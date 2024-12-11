@@ -3,15 +3,15 @@ import {FuelType} from "./enums/FuelType.js";
 import {v4 as uuidv4} from "uuid";
 
 const carTypeOfTransportationSchema = new mongoose.Schema({
-    carTypeOfTransportationId: {
-        type: String,
-        default: uuidv4,
+    nameOfType: String,
+    countOfCarTypes: {
+        type: Number,
+        default: 0,
     },
-    type: String, //típus neve
     countOfCars: {
         type: Number,
-        default: 0, // Initialize countOfCars to 0
-    }, //ilyen típusú autók száma
+        default: 0,
+    },
 });
 
 const CarTypeOfTransportation = mongoose.model('CarTypeOfTransportation', carTypeOfTransportationSchema);
