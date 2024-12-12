@@ -325,27 +325,39 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.COUNTRY')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl required
+                                                     sx={{
+                                                         width: { xs: '100%', sm: '250px' },
+                                                         backgroundColor: 'rgb(255, 255, 255)',
+                                                         borderRadius: '8px',
+                                                     }}
+                                                >
                                                     <TextField
                                                         id="country"
                                                         placeholder={t('TRANSPORTATIONS.COUNTRY')}
                                                         name='country'
-                                                        label={t('TRANSPORTATIONS.COUNTRY')}
+                                                        //label={t('TRANSPORTATIONS.COUNTRY')}
                                                         value={departureDockingPointData.country}
                                                         onChange={handleDepartureChange('country')}
                                                         data-testid='country-input'
                                                         required
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
                                                             height: 40,
-                                                            width: 250,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
                                                         }}
                                                     />
                                                 </FormControl>
@@ -359,27 +371,39 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.POSTCODE')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <TextField
                                                         id="postcode"
                                                         placeholder={t('TRANSPORTATIONS.POSTCODE')}
                                                         name='postcode'
-                                                        label={t('TRANSPORTATIONS.POSTCODE')}
+                                                        //label={t('TRANSPORTATIONS.POSTCODE')}
                                                         value={departureDockingPointData.postcode}
                                                         onChange={handleDepartureChange('postcode')}
                                                         data-testid='postcode-input'
                                                         required
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
                                                             height: 40,
-                                                            width: 250,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
                                                         }}
                                                     />
                                                 </FormControl>
@@ -395,27 +419,39 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.CITY')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <TextField
                                                         id="city"
                                                         placeholder={t('TRANSPORTATIONS.CITY')}
                                                         name='city'
-                                                        label={t('TRANSPORTATIONS.CITY')}
+                                                        //label={t('TRANSPORTATIONS.CITY')}
                                                         value={departureDockingPointData.city}
                                                         onChange={handleDepartureChange('city')}
                                                         data-testid='city-input'
                                                         required
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
                                                             height: 40,
-                                                            width: 250,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
                                                         }}
                                                     />
                                                 </FormControl>
@@ -429,27 +465,39 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <TextField
                                                         id="nameOfPublicArea"
                                                         placeholder={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
                                                         name='nameOfPublicArea'
-                                                        label={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
+                                                        //label={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
                                                         value={departureDockingPointData.nameOfPublicArea}
                                                         onChange={handleDepartureChange('nameOfPublicArea')}
                                                         data-testid='name-of-public-area-input'
                                                         required
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
                                                             height: 40,
-                                                            width: 250,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
                                                         }}
                                                     />
                                                 </FormControl>
@@ -465,27 +513,39 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <TextField
                                                         id="typeOfPublicArea"
                                                         placeholder={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
                                                         name='typeOfPublicArea'
-                                                        label={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
+                                                        //label={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
                                                         value={departureDockingPointData.typeOfPublicArea}
                                                         onChange={handleDepartureChange('typeOfPublicArea')}
                                                         data-testid='type-of-public-area-input'
                                                         required
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
                                                             height: 40,
-                                                            width: 250,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
                                                         }}
                                                     />
                                                 </FormControl>
@@ -499,27 +559,39 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.HOUSE_NUMBER')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <TextField
                                                         id="houseNumber"
                                                         placeholder={t('TRANSPORTATIONS.HOUSE_NUMBER')}
                                                         name='houseNumber'
-                                                        label={t('TRANSPORTATIONS.HOUSE_NUMBER')}
+                                                        //label={t('TRANSPORTATIONS.HOUSE_NUMBER')}
                                                         value={departureDockingPointData.houseNumber}
                                                         onChange={handleDepartureChange('houseNumber')}
                                                         data-testid='house-number-input'
                                                         required
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
                                                             height: 40,
-                                                            width: 250,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
                                                         }}
                                                     />
                                                 </FormControl>
@@ -535,7 +607,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.DESTINATION_DATE')} required={false}/>
-                                                <FormControl required>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <DatePicker
                                                         name='destinationDate'
                                                         data-testid='destination-date-input'
@@ -556,7 +634,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.PASSENGERS')} required={false}/>
-                                                <FormControl required>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <DatePicker
                                                         name='passengers'
                                                         data-testid='passengers-input'
@@ -579,7 +663,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.DESTINATION_TIME')} required={false}/>
-                                                <FormControl required>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <DatePicker
                                                         name='destinationTime'
                                                         data-testid='destination-time-input'
@@ -602,7 +692,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.IS_IT_OWN_LOCATION')} required={false}/>
-                                                <FormControl required>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <DatePicker
                                                         name='isItOwnLocation'
                                                         data-testid='is-it-own-location-input'
@@ -625,7 +721,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.DRIVER_NAME')} required={false}/>
-                                                <FormControl required>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <DatePicker
                                                         name='driverName'
                                                         data-testid='driver-name-input'
@@ -656,27 +758,39 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.COUNTRY')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <TextField
                                                         id="country"
                                                         placeholder={t('TRANSPORTATIONS.COUNTRY')}
                                                         name='country'
-                                                        label={t('TRANSPORTATIONS.COUNTRY')}
+                                                        //label={t('TRANSPORTATIONS.COUNTRY')}
                                                         value={arrivalDockingPointData.country}
                                                         onChange={handleArrivalChange('country')}
                                                         data-testid='country-input'
                                                         required
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
                                                             height: 40,
-                                                            width: 250,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
                                                         }}
                                                     />
                                                 </FormControl>
@@ -690,27 +804,39 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.POSTCODE')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <TextField
                                                         id="postcode"
                                                         placeholder={t('TRANSPORTATIONS.POSTCODE')}
                                                         name='postcode'
-                                                        label={t('TRANSPORTATIONS.POSTCODE')}
+                                                        //label={t('TRANSPORTATIONS.POSTCODE')}
                                                         value={arrivalDockingPointData.postcode}
                                                         onChange={handleArrivalChange('postcode')}
                                                         data-testid='postcode-input'
                                                         required
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
                                                             height: 40,
-                                                            width: 250,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
                                                         }}
                                                     />
                                                 </FormControl>
@@ -726,27 +852,39 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.CITY')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <TextField
                                                         id="city"
                                                         placeholder={t('TRANSPORTATIONS.CITY')}
                                                         name='city'
-                                                        label={t('TRANSPORTATIONS.CITY')}
+                                                        //label={t('TRANSPORTATIONS.CITY')}
                                                         value={arrivalDockingPointData.city}
                                                         onChange={handleArrivalChange('city')}
                                                         data-testid='city-input'
                                                         required
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
                                                             height: 40,
-                                                            width: 250,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
                                                         }}
                                                     />
                                                 </FormControl>
@@ -760,27 +898,39 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <TextField
                                                         id="nameOfPublicArea"
                                                         placeholder={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
                                                         name='nameOfPublicArea'
-                                                        label={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
+                                                        //label={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
                                                         value={arrivalDockingPointData.nameOfPublicArea}
                                                         onChange={handleArrivalChange('nameOfPublicArea')}
                                                         data-testid='name-of-public-area-input'
                                                         required
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
                                                             height: 40,
-                                                            width: 250,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
                                                         }}
                                                     />
                                                 </FormControl>
@@ -796,27 +946,39 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <TextField
                                                         id="typeOfPublicArea"
                                                         placeholder={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
                                                         name='typeOfPublicArea'
-                                                        label={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
+                                                        //label={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
                                                         value={arrivalDockingPointData.typeOfPublicArea}
                                                         onChange={handleArrivalChange('typeOfPublicArea')}
                                                         data-testid='type-of-public-area-input'
                                                         required
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
                                                             height: 40,
-                                                            width: 250,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
                                                         }}
                                                     />
                                                 </FormControl>
@@ -830,27 +992,39 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.HOUSE_NUMBER')}/>
-                                                <FormControl required fullWidth>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <TextField
                                                         id="houseNumber"
                                                         placeholder={t('TRANSPORTATIONS.HOUSE_NUMBER')}
                                                         name='houseNumber'
-                                                        label={t('TRANSPORTATIONS.HOUSE_NUMBER')}
+                                                        //label={t('TRANSPORTATIONS.HOUSE_NUMBER')}
                                                         value={arrivalDockingPointData.houseNumber}
                                                         onChange={handleArrivalChange('houseNumber')}
                                                         data-testid='house-number-input'
                                                         required
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
                                                             height: 40,
-                                                            width: 250,
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
                                                         }}
                                                     />
                                                 </FormControl>
@@ -866,7 +1040,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.DESTINATION_DATE')} required={false}/>
-                                                <FormControl required>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <DatePicker
                                                         name='destinationDate'
                                                         data-testid='destination-date-input'
@@ -887,7 +1067,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.PASSENGERS')} required={false}/>
-                                                <FormControl required>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <DatePicker
                                                         name='passengers'
                                                         data-testid='passengers-input'
@@ -910,7 +1096,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.DESTINATION_TIME')} required={false}/>
-                                                <FormControl required>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <DatePicker
                                                         name='destinationTime'
                                                         data-testid='destination-time-input'
@@ -933,7 +1125,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.IS_IT_OWN_LOCATION')} required={false}/>
-                                                <FormControl required>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <DatePicker
                                                         name='isItOwnLocation'
                                                         data-testid='is-it-own-location-input'
@@ -956,7 +1154,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 alignItems: 'flex-start'
                                             }}>
                                                 <NormalText text={t('TRANSPORTATIONS.DRIVER_NAME')} required={false}/>
-                                                <FormControl required>
+                                                <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                >
                                                     <DatePicker
                                                         name='driverName'
                                                         data-testid='driver-name-input'
@@ -979,18 +1183,23 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                             <Grid item>
                                 {selectedDockingPointIds.map((point, index) => (
                                     <Grid key={index} container>
-                                        <Typography sx={{
-                                            fontWeight: 700,
-                                            fontSize: '26px',
-                                            lineHeight: '20px',
-                                            color: '#DD1C13',
-                                            marginTop: '40px',
-                                            marginBottom: '60px',
+                                        <Grid container sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
                                             marginLeft: '10px',
-                                            marginRight: '10px'
+                                            marginRight: '10px',
+                                            gap: 2
                                         }}>
-                                            {t('TRANSPORTATIONS.DOCKING_POINT')} {index + 1}.
-                                        </Typography>
+                                            <Typography sx={{
+                                                fontWeight: 700,
+                                                fontSize: '26px',
+                                                lineHeight: '20px',
+                                                color: '#DD1C13',
+                                            }}>
+                                                {t('TRANSPORTATIONS.DOCKING_POINT')} {index + 1}.
+                                            </Typography>
+                                            <CancelButton text={t('TEXT.REMOVE')} onClick={() => removeDockingPoint(index)}/>
+                                        </Grid>
                                         <Grid key={index} container>
                                             <Grid item container direction="row" spacing={2}>
                                                 <Grid item container direction="column" spacing={2} xs={3}>
@@ -1002,12 +1211,18 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                             alignItems: 'flex-start'
                                                         }}>
                                                             <NormalText text={t('TRANSPORTATIONS.COUNTRY')}/>
-                                                            <FormControl required fullWidth>
+                                                            <FormControl required
+                                                                         sx={{
+                                                                             width: { xs: '100%', sm: '250px' },
+                                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                                             borderRadius: '8px',
+                                                                         }}
+                                                            >
                                                                 <TextField
                                                                     id="country"
                                                                     placeholder={t('TRANSPORTATIONS.COUNTRY')}
                                                                     name='country'
-                                                                    label={t('TRANSPORTATIONS.COUNTRY')}
+                                                                    //label={t('TRANSPORTATIONS.COUNTRY')}
                                                                     value={point.country || ''}
                                                                     onChange={(e) =>
                                                                         handleDockingPointChange(index, 'country')
@@ -1015,16 +1230,22 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                                     data-testid='country-input'
                                                                     required
                                                                     sx={{
-                                                                        backgroundColor: `#ffffff`,
-                                                                        borderRadius: '18px',
+                                                                        backgroundColor: `rgb(255, 255, 255)`,
+                                                                        borderRadius: '8px',
                                                                         color: `#000000`,
                                                                         textDecoration: 'none',
                                                                         height: 40,
-                                                                        width: 250,
-                                                                        display: 'flex',
-                                                                        justifyContent: 'center',
-                                                                        fontSize: "15px",
-                                                                        "& fieldset": {border: 'none'},
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        "& .MuiInputBase-input": {
+                                                                            fontSize: '14px',
+                                                                            //fontWeight: '600',
+                                                                            padding: '10px 14px', // Controls padding inside the box
+                                                                        },
+                                                                        "& fieldset": {
+                                                                            border: '#ffffff',
+                                                                            borderWidth: '5px',
+                                                                        },
                                                                     }}
                                                                 />
                                                             </FormControl>
@@ -1038,12 +1259,18 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                             alignItems: 'flex-start'
                                                         }}>
                                                             <NormalText text={t('TRANSPORTATIONS.POSTCODE')}/>
-                                                            <FormControl required fullWidth>
+                                                            <FormControl required
+                                                                         sx={{
+                                                                             width: { xs: '100%', sm: '250px' },
+                                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                                             borderRadius: '8px',
+                                                                         }}
+                                                            >
                                                                 <TextField
                                                                     id="postcode"
                                                                     placeholder={t('TRANSPORTATIONS.POSTCODE')}
                                                                     name='postcode'
-                                                                    label={t('TRANSPORTATIONS.POSTCODE')}
+                                                                    //label={t('TRANSPORTATIONS.POSTCODE')}
                                                                     value={point.postcode || ''}
                                                                     onChange={(e) =>
                                                                         handleDockingPointChange(index, 'postcode')
@@ -1051,16 +1278,22 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                                     data-testid='postcode-input'
                                                                     required
                                                                     sx={{
-                                                                        backgroundColor: `#ffffff`,
-                                                                        borderRadius: '18px',
+                                                                        backgroundColor: `rgb(255, 255, 255)`,
+                                                                        borderRadius: '8px',
                                                                         color: `#000000`,
                                                                         textDecoration: 'none',
                                                                         height: 40,
-                                                                        width: 250,
-                                                                        display: 'flex',
-                                                                        justifyContent: 'center',
-                                                                        fontSize: "15px",
-                                                                        "& fieldset": {border: 'none'},
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        "& .MuiInputBase-input": {
+                                                                            fontSize: '14px',
+                                                                            //fontWeight: '600',
+                                                                            padding: '10px 14px', // Controls padding inside the box
+                                                                        },
+                                                                        "& fieldset": {
+                                                                            border: '#ffffff',
+                                                                            borderWidth: '5px',
+                                                                        },
                                                                     }}
                                                                 />
                                                             </FormControl>
@@ -1076,12 +1309,18 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                             alignItems: 'flex-start'
                                                         }}>
                                                             <NormalText text={t('TRANSPORTATIONS.CITY')}/>
-                                                            <FormControl required fullWidth>
+                                                            <FormControl required
+                                                                         sx={{
+                                                                             width: { xs: '100%', sm: '250px' },
+                                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                                             borderRadius: '8px',
+                                                                         }}
+                                                            >
                                                                 <TextField
                                                                     id="city"
                                                                     placeholder={t('TRANSPORTATIONS.CITY')}
                                                                     name='city'
-                                                                    label={t('TRANSPORTATIONS.CITY')}
+                                                                    //label={t('TRANSPORTATIONS.CITY')}
                                                                     value={point.city || ''}
                                                                     onChange={(e) =>
                                                                         handleDockingPointChange(index, 'city')
@@ -1089,16 +1328,22 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                                     data-testid='city-input'
                                                                     required
                                                                     sx={{
-                                                                        backgroundColor: `#ffffff`,
-                                                                        borderRadius: '18px',
+                                                                        backgroundColor: `rgb(255, 255, 255)`,
+                                                                        borderRadius: '8px',
                                                                         color: `#000000`,
                                                                         textDecoration: 'none',
                                                                         height: 40,
-                                                                        width: 250,
-                                                                        display: 'flex',
-                                                                        justifyContent: 'center',
-                                                                        fontSize: "15px",
-                                                                        "& fieldset": {border: 'none'},
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        "& .MuiInputBase-input": {
+                                                                            fontSize: '14px',
+                                                                            //fontWeight: '600',
+                                                                            padding: '10px 14px', // Controls padding inside the box
+                                                                        },
+                                                                        "& fieldset": {
+                                                                            border: '#ffffff',
+                                                                            borderWidth: '5px',
+                                                                        },
                                                                     }}
                                                                 />
                                                             </FormControl>
@@ -1112,12 +1357,18 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                             alignItems: 'flex-start'
                                                         }}>
                                                             <NormalText text={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}/>
-                                                            <FormControl required fullWidth>
+                                                            <FormControl required
+                                                                         sx={{
+                                                                             width: { xs: '100%', sm: '250px' },
+                                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                                             borderRadius: '8px',
+                                                                         }}
+                                                            >
                                                                 <TextField
                                                                     id="nameOfPublicArea"
                                                                     placeholder={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
                                                                     name='nameOfPublicArea'
-                                                                    label={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
+                                                                    //label={t('TRANSPORTATIONS.NAME_OF_PUBLIC_AREA')}
                                                                     value={point.nameOfPublicArea || ''}
                                                                     onChange={(e) =>
                                                                         handleDockingPointChange(index, 'nameOfPublicArea')
@@ -1125,16 +1376,22 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                                     data-testid='name-of-public-area-input'
                                                                     required
                                                                     sx={{
-                                                                        backgroundColor: `#ffffff`,
-                                                                        borderRadius: '18px',
+                                                                        backgroundColor: `rgb(255, 255, 255)`,
+                                                                        borderRadius: '8px',
                                                                         color: `#000000`,
                                                                         textDecoration: 'none',
                                                                         height: 40,
-                                                                        width: 250,
-                                                                        display: 'flex',
-                                                                        justifyContent: 'center',
-                                                                        fontSize: "15px",
-                                                                        "& fieldset": {border: 'none'},
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        "& .MuiInputBase-input": {
+                                                                            fontSize: '14px',
+                                                                            //fontWeight: '600',
+                                                                            padding: '10px 14px', // Controls padding inside the box
+                                                                        },
+                                                                        "& fieldset": {
+                                                                            border: '#ffffff',
+                                                                            borderWidth: '5px',
+                                                                        },
                                                                     }}
                                                                 />
                                                             </FormControl>
@@ -1150,12 +1407,18 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                             alignItems: 'flex-start'
                                                         }}>
                                                             <NormalText text={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}/>
-                                                            <FormControl required fullWidth>
+                                                            <FormControl required
+                                                                         sx={{
+                                                                             width: { xs: '100%', sm: '250px' },
+                                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                                             borderRadius: '8px',
+                                                                         }}
+                                                            >
                                                                 <TextField
                                                                     id="typeOfPublicArea"
                                                                     placeholder={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
                                                                     name='typeOfPublicArea'
-                                                                    label={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
+                                                                    //label={t('TRANSPORTATIONS.TYPE_OF_PUBLIC_AREA')}
                                                                     value={point.typeOfPublicArea || ''}
                                                                     onChange={(e) =>
                                                                         handleDockingPointChange(index, 'typeOfPublicArea')
@@ -1163,16 +1426,22 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                                     data-testid='type-of-public-area-input'
                                                                     required
                                                                     sx={{
-                                                                        backgroundColor: `#ffffff`,
-                                                                        borderRadius: '18px',
+                                                                        backgroundColor: `rgb(255, 255, 255)`,
+                                                                        borderRadius: '8px',
                                                                         color: `#000000`,
                                                                         textDecoration: 'none',
                                                                         height: 40,
-                                                                        width: 250,
-                                                                        display: 'flex',
-                                                                        justifyContent: 'center',
-                                                                        fontSize: "15px",
-                                                                        "& fieldset": {border: 'none'},
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        "& .MuiInputBase-input": {
+                                                                            fontSize: '14px',
+                                                                            //fontWeight: '600',
+                                                                            padding: '10px 14px', // Controls padding inside the box
+                                                                        },
+                                                                        "& fieldset": {
+                                                                            border: '#ffffff',
+                                                                            borderWidth: '5px',
+                                                                        },
                                                                     }}
                                                                 />
                                                             </FormControl>
@@ -1186,12 +1455,18 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                             alignItems: 'flex-start'
                                                         }}>
                                                             <NormalText text={t('TRANSPORTATIONS.HOUSE_NUMBER')}/>
-                                                            <FormControl required fullWidth>
+                                                            <FormControl required
+                                                                         sx={{
+                                                                             width: { xs: '100%', sm: '250px' },
+                                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                                             borderRadius: '8px',
+                                                                         }}
+                                                            >
                                                                 <TextField
                                                                     id="houseNumber"
                                                                     placeholder={t('TRANSPORTATIONS.HOUSE_NUMBER')}
                                                                     name='houseNumber'
-                                                                    label={t('TRANSPORTATIONS.HOUSE_NUMBER')}
+                                                                    //label={t('TRANSPORTATIONS.HOUSE_NUMBER')}
                                                                     value={point.houseNumber || ''}
                                                                     onChange={(e) =>
                                                                         handleDockingPointChange(index, 'houseNumber')
@@ -1199,16 +1474,22 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                                     data-testid='house-number-input'
                                                                     required
                                                                     sx={{
-                                                                        backgroundColor: `#ffffff`,
-                                                                        borderRadius: '18px',
+                                                                        backgroundColor: `rgb(255, 255, 255)`,
+                                                                        borderRadius: '8px',
                                                                         color: `#000000`,
                                                                         textDecoration: 'none',
                                                                         height: 40,
-                                                                        width: 250,
-                                                                        display: 'flex',
-                                                                        justifyContent: 'center',
-                                                                        fontSize: "15px",
-                                                                        "& fieldset": {border: 'none'},
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        "& .MuiInputBase-input": {
+                                                                            fontSize: '14px',
+                                                                            //fontWeight: '600',
+                                                                            padding: '10px 14px', // Controls padding inside the box
+                                                                        },
+                                                                        "& fieldset": {
+                                                                            border: '#ffffff',
+                                                                            borderWidth: '5px',
+                                                                        },
                                                                     }}
                                                                 />
                                                             </FormControl>
@@ -1224,7 +1505,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                             alignItems: 'flex-start'
                                                         }}>
                                                             <NormalText text={t('TRANSPORTATIONS.DESTINATION_DATE')} required={false}/>
-                                                            <FormControl required>
+                                                            <FormControl required
+                                                                         sx={{
+                                                                             width: { xs: '100%', sm: '250px' },
+                                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                                             borderRadius: '8px',
+                                                                         }}
+                                                            >
                                                                 <DatePicker
                                                                     name='destinationDate'
                                                                     data-testid='destination-date-input'
@@ -1247,7 +1534,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                             alignItems: 'flex-start'
                                                         }}>
                                                             <NormalText text={t('TRANSPORTATIONS.PASSENGERS')} required={false}/>
-                                                            <FormControl required>
+                                                            <FormControl required
+                                                                         sx={{
+                                                                             width: { xs: '100%', sm: '250px' },
+                                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                                             borderRadius: '8px',
+                                                                         }}
+                                                            >
                                                                 <DatePicker
                                                                     name='passengers'
                                                                     data-testid='passengers-input'
@@ -1272,7 +1565,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                             alignItems: 'flex-start'
                                                         }}>
                                                             <NormalText text={t('TRANSPORTATIONS.DESTINATION_TIME')} required={false}/>
-                                                            <FormControl required>
+                                                            <FormControl required
+                                                                         sx={{
+                                                                             width: { xs: '100%', sm: '250px' },
+                                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                                             borderRadius: '8px',
+                                                                         }}
+                                                            >
                                                                 <DatePicker
                                                                     name='destinationTime'
                                                                     data-testid='destination-time-input'
@@ -1297,7 +1596,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                             alignItems: 'flex-start'
                                                         }}>
                                                             <NormalText text={t('TRANSPORTATIONS.IS_IT_OWN_LOCATION')} required={false}/>
-                                                            <FormControl required>
+                                                            <FormControl required
+                                                                         sx={{
+                                                                             width: { xs: '100%', sm: '250px' },
+                                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                                             borderRadius: '8px',
+                                                                         }}
+                                                            >
                                                                 <DatePicker
                                                                     name='isItOwnLocation'
                                                                     data-testid='is-it-own-location-input'
@@ -1322,7 +1627,13 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                             alignItems: 'flex-start'
                                                         }}>
                                                             <NormalText text={t('TRANSPORTATIONS.DRIVER_NAME')} required={false}/>
-                                                            <FormControl required>
+                                                            <FormControl required
+                                                                         sx={{
+                                                                             width: { xs: '100%', sm: '250px' },
+                                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                                             borderRadius: '8px',
+                                                                         }}
+                                                            >
                                                                 <DatePicker
                                                                     name='driverName'
                                                                     data-testid='driver-name-input'
@@ -1340,12 +1651,11 @@ const TransportationDetails = ({ setCurrentStep }: Props) => {
                                                 </Grid>
                                             </Grid>
                                         </Grid>
-                                        <Grid item>
-                                            <CancelButton text={t('TEXT.REMOVE')} onClick={() => removeDockingPoint(index)}/>
-                                        </Grid>
                                     </Grid>
                                 ))}
-                                <SaveButton text={t("TRANSPORTATIONS.ADD_NEW_DOCKING_POINT")} onClick={addDockingPoint}/>
+                                <Grid container item sx={{marginTop: 7, marginLeft: -2}}>
+                                    <SaveButton text={t("TRANSPORTATIONS.ADD_NEW_DOCKING_POINT")} onClick={addDockingPoint}/>
+                                </Grid>
                             </Grid>
                         </DataCard>
 

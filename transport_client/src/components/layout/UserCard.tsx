@@ -28,7 +28,6 @@ const textStyleThird: SxProps<Theme> = {
     fontSize: '11px',
     color: '#5d5d5d',
     marginTop: '12px',
-    textTransform: 'capitalize',
     letterSpacing: '1px'
 }
 
@@ -37,7 +36,6 @@ const textStyleFourth: SxProps<Theme> = {
     fontSize: '11px',
     color: '#5d5d5d',
     marginTop: '3px',
-    textTransform: 'capitalize',
     letterSpacing: '1px'
 }
 

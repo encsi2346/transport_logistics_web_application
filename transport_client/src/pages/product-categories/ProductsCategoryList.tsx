@@ -2,7 +2,7 @@ import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import {Box, Fab, FormControl, Grid, Input, InputAdornment, TextField, Tooltip, useTheme} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
-import GoodsTypeCard from "../../components/layout/GoodsTypeCard";
+import ProductCategoryCard from "../../components/layout/ProductCategoryCard";
 import {useTypeSafeTranslation} from "../../components/inputfield/hooks/useTypeSafeTranslation";
 import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
@@ -309,8 +309,8 @@ const ProductsCategoryList = () => {
                             })
                             .map((item, index) => {
                                 return (
-                                    <Grid item xs={3} key={item.id}>
-                                        <GoodsTypeCard
+                                    <Grid item xs={4} key={item.id}>
+                                        <ProductCategoryCard
                                             onClick={() => navigate(`/products-categories/${item._id}/products`)}
                                             id={item._id}
                                             name={item.name}

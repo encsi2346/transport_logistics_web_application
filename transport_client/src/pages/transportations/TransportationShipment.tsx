@@ -1,4 +1,4 @@
-import {Box, FormControl, Grid, InputLabel, MenuItem, Select} from "@mui/material";
+import {Box, FormControl, Grid, InputLabel, MenuItem, Select, useTheme} from "@mui/material";
 import BackgroundCard from "../../components/layout/BackgroundCard";
 import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
@@ -48,6 +48,7 @@ interface Props {
 }
 
 const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
+    const theme = useTheme();
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const { selectedProducts, totalWeightsOfSelectedProducts, setTransportation } = useTransportationStore();
@@ -350,35 +351,73 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
                         >
                             <Grid item container direction="row">
                                 <Grid item xs={4} md={3}>
-                                    <Box sx={{ width: 300, height: 600}}>
-                                        <BackgroundCard>
+                                    <Box sx={{ width: 310, height: 800, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Box sx={{
+                                            backgroundColor: `${theme.palette.component.lightMin}`,
+                                            paddingLeft: '10px',
+                                            paddingRight: '10px',
+                                            paddingTop: '10px',
+                                            paddingBottom: '10px',
+                                            //marginBottom: '10px',
+                                            marginTop: '10px',
+                                            marginLeft: '20px',
+                                            marginRight: '20px',
+                                            height: '100%',
+                                            borderRadius: '19px',
+                                            boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                        }}>
                                             <Box sx={{
                                                 display: 'flex',
                                                 flexDirection: 'row',
                                                 justifyContent: 'space-between',
                                                 alignItems: 'center'
                                             }}>
-                                                <FormControl>
-                                                    <InputLabel>{t('TRANSPORTATIONS.PRODUCT_CATEGORY')}</InputLabel>
+                                                <FormControl
+                                                    sx={{
+                                                        width: { xs: '100%', sm: '250px' },
+                                                        backgroundColor: 'rgb(255, 255, 255)',
+                                                        borderRadius: '8px',
+                                                    }}
+                                                >
+                                                    <InputLabel
+                                                        sx={{
+                                                            fontSize: '14px',
+                                                            color: '#8f8f8f',
+                                                            transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                            left: 0,
+                                                            "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                            },
+                                                        }}
+                                                    >{t('TRANSPORTATIONS.PRODUCT_CATEGORY')}</InputLabel>
                                                     <Select
                                                         id="productCategory"
                                                         placeholder={t('TRANSPORTATIONS.PRODUCT_CATEGORY')}
-                                                        label={t('TRANSPORTATIONS.PRODUCT_CATEGORY')}
+                                                        //label={t('TRANSPORTATIONS.PRODUCT_CATEGORY')}
                                                         name='productCategory'
                                                         data-testid='product-category-input'
                                                         value={selectedProductCategory ?? ''}
                                                         onChange={(e) => setSelectedProductCategory(e.target.value)}
                                                         sx={{
-                                                            backgroundColor: `#ffffff`,
-                                                            borderRadius: '18px',
+                                                            backgroundColor: `rgba(232, 227, 227, 0.76)`,
+                                                            borderRadius: '8px',
                                                             color: `#000000`,
                                                             textDecoration: 'none',
-                                                            height: 40,
-                                                            width: 250,
+                                                            height: 50,
+                                                            width: { xs: '100%', sm: '250px' },
                                                             display: 'flex',
                                                             justifyContent: 'center',
-                                                            fontSize: "15px",
-                                                            "& fieldset": {border: 'none'},
+                                                            fontSize: "14px",
+                                                            boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                                            //fontWeight: "600",
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px'
+                                                            },
                                                         }}
                                                     >
                                                         {Object.values(productCategories).map((cat) => (
@@ -397,39 +436,141 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
                                                     items={items.filter((item) => item.containerId === itemContainer.id)}
                                                 />
                                             </SortableContext>
-                                        </BackgroundCard>
+                                        </Box>
                                     </Box>
                                 </Grid>
 
                                 <Grid item xs={4} md={9}>
-                                    <Box sx={{ width: 1140, height: 600, marginLeft: -6, display: 'grid'}}>
-                                        <BackgroundCard>
-                                            <Grid item container direction="row" sx={{ marginTop: 5, marginLeft: 15}}>
-                                                <Grid item xs={4} md={3} sx={{ marginRight: -8}}>
-                                                    <Box sx={{ width: 200, height: 350, backgroundColor: '#9e9e9e'}}>
+                                    <Box sx={{ width: 1140, height: 800, marginLeft: 4, display: 'grid', position: 'relative'}}>
+                                        <Box sx={{
+                                            backgroundColor: `${theme.palette.component.lightMin}`,
+                                            paddingLeft: '10px',
+                                            paddingRight: '10px',
+                                            paddingTop: '10px',
+                                            paddingBottom: '10px',
+                                            //marginBottom: '10px',
+                                            marginTop: '10px',
+                                            marginLeft: '20px',
+                                            marginRight: '20px',
+                                            height: '100%',
+                                            borderRadius: '19px',
+                                            boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                        }}>
+                                            <Grid item container direction="row" sx={{
+                                                marginTop: 20,
+                                                marginLeft: 10
+                                            }}>
+                                                <Grid item xs={4} md={3} sx={{ marginRight: 0}}>
+                                                    <Box
+                                                        sx={{
+                                                            width: 250,
+                                                            height: 350,
+                                                            backgroundColor: '#8f8f8f',
+                                                            borderTopLeftRadius: 80,
+                                                            borderTopRightRadius: 5, // Round the top-right corner
+                                                            borderBottomLeftRadius: 80,
+                                                            borderBottomRightRadius: 5,
+                                                            paddingLeft: 3,
+                                                            paddingBottom: 3,
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                            boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                                            marginRight: 20
+                                                        }}
+                                                    >
                                                         <Grid item container direction="column">
-                                                            <Grid item container direction="column">
-                                                                <Grid item xs={4} md={3}>
-                                                                    <Box sx={{ width: 170, height: 80, borderRadius: '17px', backgroundColor: '#4d4d4d', marginTop: 5, marginBottom: 1, marginLeft: 2}}>
-
-                                                                    </Box>
-                                                                </Grid>
-                                                                <Grid item xs={4} md={3}>
-                                                                    <Box sx={{ width: 170, height: 80, borderRadius: '17px', backgroundColor: '#4d4d4d', marginTop: 1, marginBottom: 1, marginLeft: 2}}>
-
-                                                                    </Box>
-                                                                </Grid>
-                                                                <Grid item xs={4} md={3}>
-                                                                    <Box sx={{ width: 170, height: 80, borderRadius: '17px', backgroundColor: '#4d4d4d', marginTop: 1, marginBottom: 1, marginLeft: 2}}>
-
-                                                                    </Box>
-                                                                </Grid>
+                                                            <Grid item xs={4} md={3}>
+                                                                <Box
+                                                                    sx={{
+                                                                        width: 190,
+                                                                        height: 80,
+                                                                        borderRadius: '17px',
+                                                                        backgroundColor: '#4d4d4d',
+                                                                        marginTop: 5,
+                                                                        marginBottom: 1,
+                                                                        marginLeft: 1,
+                                                                        border: '2px solid rgba(255, 255, 255, .2)',
+                                                                        backdropFilter: 'blur(30px)',
+                                                                        boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                                                        position: 'relative', // Ensure the circles are behind the card content
+                                                                        zIndex: 1, // Set a higher z-index for the card itself
+                                                                        overflow: 'hidden',
+                                                                        display: 'flex',
+                                                                        alignItems: 'center',
+                                                                        justifyContent: 'center',
+                                                                        gap: 1
+                                                                    }}
+                                                                />
+                                                            </Grid>
+                                                            <Grid item xs={4} md={3}>
+                                                                <Box
+                                                                    sx={{
+                                                                        width: 190,
+                                                                        height: 80,
+                                                                        borderRadius: '17px',
+                                                                        backgroundColor: '#4d4d4d',
+                                                                        marginTop: 1,
+                                                                        marginBottom: 1,
+                                                                        marginLeft: 1,
+                                                                        border: '2px solid rgba(255, 255, 255, .2)',
+                                                                        backdropFilter: 'blur(30px)',
+                                                                        boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                                                        position: 'relative', // Ensure the circles are behind the card content
+                                                                        zIndex: 1, // Set a higher z-index for the card itself
+                                                                        overflow: 'hidden',
+                                                                        display: 'flex',
+                                                                        alignItems: 'center',
+                                                                        justifyContent: 'center',
+                                                                        gap: 1
+                                                                    }}
+                                                                />
+                                                            </Grid>
+                                                            <Grid item xs={4} md={3}>
+                                                                <Box
+                                                                    sx={{
+                                                                        width: 190,
+                                                                        height: 80,
+                                                                        borderRadius: '17px',
+                                                                        backgroundColor: '#4d4d4d',
+                                                                        marginTop: 1,
+                                                                        marginBottom: 1,
+                                                                        marginLeft: 1,
+                                                                        border: '2px solid rgba(255, 255, 255, .2)',
+                                                                        backdropFilter: 'blur(30px)',
+                                                                        boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                                                        position: 'relative', // Ensure the circles are behind the card content
+                                                                        zIndex: 1, // Set a higher z-index for the card itself
+                                                                        overflow: 'hidden',
+                                                                        display: 'flex',
+                                                                        alignItems: 'center',
+                                                                        justifyContent: 'center',
+                                                                        gap: 1
+                                                                    }}
+                                                                />
                                                             </Grid>
                                                         </Grid>
                                                     </Box>
                                                 </Grid>
                                                 <Grid item xs={4} md={6}>
-                                                    <Box sx={{ width: 600, height: 350, backgroundColor: '#9e9e9e', borderColor: '#ff0000', borderStyle: 'dashed', borderWidth: 3}}>
+                                                    <Box
+                                                        sx={{
+                                                            width: 600,
+                                                            height: 350,
+                                                            borderTopLeftRadius: 5,
+                                                            borderTopRightRadius: 5,
+                                                            borderBottomLeftRadius: 5,
+                                                            borderBottomRightRadius: 5,
+                                                            boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                                            backgroundColor: '#c4c4c4',
+                                                            borderColor: '#ff0000',
+                                                            borderStyle: 'dashed',
+                                                            borderWidth: 3,
+                                                        }}
+                                                    >
                                                         <Grid item container direction="row">
                                                             <SortableContext items={containersId}>
                                                                 {containers.map((container) => (
@@ -475,7 +616,7 @@ const TransportationShipment = ({ setCurrentStep }: { setCurrentStep: (step: num
                                                     <SaveButton text={t('TEXT.NEXT')}  /*disabled={!isValid || !isActiveStep}*/ onClick={handleNextClicked}/>
                                                 </Box>
                                             )}
-                                        </BackgroundCard>
+                                        </Box>
                                     </Box>
                                 </Grid>
                             </Grid>

@@ -120,9 +120,9 @@ const UserList = () => {
         /*if(isUsersFetching) {
             fetchUsers(limit, page + 1);
         }*/
-        if (!isLoading) {
+        /*if (!isLoading) {
             fetchUsers();
-        }
+        }*/
     };
 
     const resetUsers = () => {
@@ -158,8 +158,8 @@ const UserList = () => {
     }, [values]);
 
     useEffect(() => {
-        console.log('usersList', usersList);
-    }, [usersList]);
+        console.log('isLoaading', isLoading);
+    }, [isLoading]);
 
     return (
         <Box sx={{ padding: { xs: 2, sm: 3, md: 4 } }}>
@@ -289,40 +289,43 @@ const UserList = () => {
                 <Box sx={{display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
                     <ContentCard>
                         <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                            {usersList.length > 0 ? (
-                                    <InfiniteScroll
-                                        useWindow={false}
-                                        loadMore={loadMoreMessage}
-                                        hasMore={!isLast && !isLoading}
-                                        dataLength={usersList.length}
-                                        next={loadMoreMessage}
-                                        loader={<ThreeDots fill="#DD1C13" strokeOpacity={.125} speed={.75} width={80}/>}
-                                    >
-                                        <Grid container rowSpacing={3}>
-                                            {usersList.map((user) => (
-                                                <Grid item xs={3} key={Math.random()}>
-                                                    <UserCard
-                                                        onClick={() => navigate(`/users/${user._id}`)}
-                                                        id={user._id}
-                                                        firstName={user.firstName}
-                                                        familyName={user.familyName}
-                                                        email={user.email}
-                                                        position={user.position}
-                                                        status={user.status}
-                                                        phoneNumber={user.phoneNumber}
-                                                        image={user.image}
-                                                    />
-                                                </Grid>
-                                            ))}
-                                            {isLoading && (
-                                                <div style={{ textAlign: 'center', width: '100%' }}>
-                                                    <ThreeDots fill="#DD1C13" strokeOpacity={.125} speed={.75} width={80} />
-                                                </div>
-                                            )}
-                                        </Grid>
-                                    </InfiniteScroll>
-                                )  : (
-                                    //TODO
+                            {isLoading && usersList.length === 0 ? (
+                                <div style={{ textAlign: 'center', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                    <ThreeDots fill="#DD1C13" strokeOpacity={0.125} speed={0.75} width={80} />
+                                </div>
+                            ) : usersList.length > 0 ? (
+                                <InfiniteScroll
+                                    dataLength={usersList.length}
+                                    next={loadMoreMessage}
+                                    hasMore={!isLast && !isLoading}
+                                    loader={
+                                        isLoading && (
+                                            <div style={{ textAlign: 'center', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                <ThreeDots fill="#DD1C13" strokeOpacity={0.125} speed={0.75} width={80} />
+                                            </div>
+                                        )
+                                    }
+                                    useWindow={false}
+                                >
+                                    <Grid container rowSpacing={3}>
+                                        {usersList.map((user) => (
+                                            <Grid item xs={3} key={user._id}>
+                                                <UserCard
+                                                    onClick={() => navigate(`/users/${user._id}`)}
+                                                    id={user._id}
+                                                    firstName={user.firstName}
+                                                    familyName={user.familyName}
+                                                    email={user.email}
+                                                    position={user.position}
+                                                    status={user.status}
+                                                    phoneNumber={user.phoneNumber}
+                                                    image={user.image}
+                                                />
+                                            </Grid>
+                                        ))}
+                                    </Grid>
+                                </InfiniteScroll>
+                            ) : (
                                 <div>No users found</div>
                             )}
                         </Box>

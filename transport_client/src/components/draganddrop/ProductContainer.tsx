@@ -58,7 +58,20 @@ const ProductContainer = ({
     return (
         <div ref={setNodeRef} style={style} >
             <Grid item xs={4} md={3}>
-                <Box sx={{ display: "block", width: 170, height: 120, borderRadius: '4px', backgroundColor: '#4d4d4d', marginTop: 4, marginBottom: 1, marginLeft: 2}}>
+                <Box sx={{
+                    display: "block",
+                    width: 170,
+                    height: 120,
+                    borderRadius: '4px',
+                    backgroundColor: 'rgba(255,255,255,0.43)',
+                    border: '2px solid rgba(255, 255, 255, .2)',
+                    backdropFilter: 'blur(30px)',
+                    boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                    marginTop: 4,
+                    marginBottom: 1,
+                    marginLeft: 2,
+                    cursor: 'pointer'
+                }}>
                     <div {...attributes} {...listeners} >
                         <SortableContext items={itemsIds}>
                             {items.map((item) => (
@@ -70,7 +83,15 @@ const ProductContainer = ({
                                     />
 
                                     <Box sx={{ display: 'flex'}}>
-                                        <Box sx={{ display: 'flex', width: 50, height: 20, borderRadius: '5px', backgroundColor: '#cccccc', marginLeft: 3, marginTop: 2 }}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            width: 50,
+                                            height: 20,
+                                            borderRadius: '5px',
+                                            backgroundColor: '#cccccc',
+                                            marginLeft: 3,
+                                            marginTop: 2
+                                        }}>
                                             <TextField
                                                 label="Quantity"
                                                 type="number"
@@ -79,7 +100,15 @@ const ProductContainer = ({
                                                 sx={{ width: '45%' }}
                                             />
                                         </Box>
-                                        <Box sx={{ display: 'flex', width: 50, height: 20, borderRadius: '5px', backgroundColor: '#cccccc', marginLeft: 12, marginTop: -2}}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            width: 50,
+                                            height: 20,
+                                            borderRadius: '5px',
+                                            backgroundColor: '#cccccc',
+                                            marginLeft: 12,
+                                            marginTop: -2
+                                        }}>
                                             <TextField
                                                 label="Weight"
                                                 type="number"

@@ -1,4 +1,15 @@
-import {Box, FormControl, Grid, InputLabel, MenuItem, Select, Typography, Button} from "@mui/material";
+import {
+    Box,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    Typography,
+    Button,
+    useTheme,
+    Tooltip
+} from "@mui/material";
 import BackgroundCard from "../../components/layout/BackgroundCard";
 import CancelButton from "../../components/button/CancelButton";
 import SaveButton from "../../components/button/SaveButton";
@@ -11,6 +22,9 @@ import SelectInput from "../../components/inputField/SelectInput";
 import React, {useEffect, useState} from "react";
 import NormalText from "../../components/text/NormalText";
 import useTransportationCar from "./hooks/useTransportationCar";
+import UniqueIconButton from "../../components/button/UniqueIconButton";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import EditIcon from "@mui/icons-material/Edit";
 //TODO
 
 interface Props {
@@ -18,6 +32,7 @@ interface Props {
 }
 
 const TransportationDriver = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
+    const theme = useTheme();
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const { selectedDriverId, selectedPassengers, setTransportation } = useTransportationStore();
@@ -47,11 +62,6 @@ const TransportationDriver = ({ setCurrentStep }: { setCurrentStep: (step: numbe
     const [selectedPosition, setSelectedPosition] = useState('');
     const [driverId, setDriverId] = useState('');
     const [passengersId, setPassengersId] = useState([]);
-
-    //const setCurrentStep = useTransportationStore((state) => state.setCurrentStep);
-    /*const loadedTransportation = useTransportationStore((state) => state.loadedTransportation);
-
-    const { control, isValid, preValidationError, onSubmit} = useTransportationDriver();*/
 
     const { onSubmit } = useTransportationCar();
 
@@ -216,35 +226,73 @@ const TransportationDriver = ({ setCurrentStep }: { setCurrentStep: (step: numbe
                 <Box>
                     <Grid item container direction="row">
                         <Grid item xs={4} md={3}>
-                            <Box sx={{ width: 300, height: 500}}>
-                                <BackgroundCard>
+                            <Box sx={{ width: 310, height: 800, alignItems: 'center', justifyContent: 'center'}}>
+                                <Box sx={{
+                                    backgroundColor: `${theme.palette.component.lightMin}`,
+                                    paddingLeft: '10px',
+                                    paddingRight: '10px',
+                                    paddingTop: '10px',
+                                    paddingBottom: '10px',
+                                    //marginBottom: '10px',
+                                    marginTop: '10px',
+                                    marginLeft: '20px',
+                                    marginRight: '20px',
+                                    height: '100%',
+                                    borderRadius: '19px',
+                                    boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                }}>
                                     <Box sx={{
                                         display: 'flex',
                                         flexDirection: 'row',
                                         justifyContent: 'space-between',
                                         alignItems: 'center'
                                     }}>
-                                        <FormControl>
-                                            <InputLabel>{t('TRANSPORTATIONS.POSITION')}</InputLabel>
+                                        <FormControl
+                                            sx={{
+                                                width: { xs: '100%', sm: '250px' },
+                                                backgroundColor: 'rgb(255, 255, 255)',
+                                                borderRadius: '8px',
+                                            }}
+                                        >
+                                            <InputLabel
+                                                sx={{
+                                                    fontSize: '14px',
+                                                    color: '#8f8f8f',
+                                                    transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                    left: 0,
+                                                    "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                        transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                    },
+                                                }}
+                                            >{t('TRANSPORTATIONS.POSITION')}</InputLabel>
                                             <Select
                                                 id="userPosition"
                                                 placeholder={t('TRANSPORTATIONS.POSITION')}
-                                                label={t('TRANSPORTATIONS.POSITION')}
+                                                //label={t('TRANSPORTATIONS.POSITION')}
                                                 name='userPosition'
                                                 data-testid='user-position-input'
                                                 value={selectedPosition ?? ''}
                                                 onChange={handleChange('userPosition')}
                                                 sx={{
-                                                    backgroundColor: `#ffffff`,
-                                                    borderRadius: '18px',
+                                                    backgroundColor: `rgba(232, 227, 227, 0.76)`,
+                                                    borderRadius: '8px',
                                                     color: `#000000`,
                                                     textDecoration: 'none',
-                                                    height: 40,
-                                                    width: 250,
+                                                    height: 50,
+                                                    width: { xs: '100%', sm: '250px' },
                                                     display: 'flex',
                                                     justifyContent: 'center',
-                                                    fontSize: "15px",
-                                                    "& fieldset": {border: 'none'},
+                                                    fontSize: "14px",
+                                                    boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                                    //fontWeight: "600",
+                                                    "& .MuiInputBase-input": {
+                                                        fontSize: '14px',
+                                                        //fontWeight: '600',
+                                                    },
+                                                    "& fieldset": {
+                                                        border: '#ffffff',
+                                                        borderWidth: '5px'
+                                                    },
                                                 }}
                                             >
                                                 {Object.values(positions).map((pos) => (
@@ -255,76 +303,165 @@ const TransportationDriver = ({ setCurrentStep }: { setCurrentStep: (step: numbe
                                             </Select>
                                         </FormControl>
                                     </Box>
-                                </BackgroundCard>
-                                <Grid item container direction="column" sx={{ marginTop: -53, marginLeft: 7, gap: 2}}>
-                                    {
-                                        userList.map((user, index) => (
-                                            <Grid item key={user._id} xs={4} md={3}>
-                                                <Box
-                                                    onDragStart={(event) => dragStartHandler(event, { id: user._id, name: `${user.firstName} ${user.familyName}` })}
-                                                    draggable={true}
-                                                    sx={{
-                                                        width: 190,
-                                                        height: 60,
-                                                        borderRadius: '17px',
-                                                        backgroundColor: '#c8c8c8',
-                                                    }}
-                                                >
-                                                    <Box sx={{ width: 15, height: 15, backgroundColor: '#07ea00', borderRadius: '30px', marginLeft: 2}}/>
-                                                    <Typography sx={{ marginLeft: 7, marginTop: 1}}>{user.firstName}{user.familyName}</Typography>
-                                                </Box>
-                                            </Grid>
-                                        ))
-                                    }
-                                </Grid>
+                                    <Grid item container direction="column" sx={{
+                                        marginTop: 5,
+                                        gap: 2,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}>
+                                        {
+                                            userList.map((user, index) => (
+                                                <Grid item key={user._id} xs={4} md={3}>
+                                                    <Box
+                                                        onDragStart={(event) => dragStartHandler(event, { id: user._id, name: `${user.firstName} ${user.familyName}` })}
+                                                        draggable={true}
+                                                        sx={{
+                                                            width: 230,
+                                                            height: 80,
+                                                            borderRadius: '17px',
+                                                            backgroundColor: '#c8c8c8',
+                                                            background: 'transparent',
+                                                            border: '2px solid rgba(255, 255, 255, .2)',
+                                                            backdropFilter: 'blur(30px)',
+                                                            boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                                            cursor: 'pointer',
+                                                            position: 'relative', // Ensure the circles are behind the card content
+                                                            zIndex: 1, // Set a higher z-index for the card itself
+                                                            overflow: 'hidden',
+                                                            '&:hover': {
+                                                                paddingTop: '5px',
+                                                                paddingBottom: '5px',
+                                                                paddingLeft: '5px',
+                                                                paddingRight: '5px',
+                                                            },
+                                                        }}
+                                                    >
+                                                        <Box
+                                                            sx={{
+                                                                position: 'absolute',
+                                                                top: '0px',
+                                                                left: '10px',
+                                                                width: '150px',
+                                                                height: '150px',
+                                                                borderRadius: '50%',
+                                                                backgroundColor: '#e3e3e3',
+                                                                filter: 'blur(30px)',
+                                                                zIndex: -1,
+                                                            }}
+                                                        />
+                                                        <Box
+                                                            sx={{
+                                                                position: 'absolute',
+                                                                top: '100px',
+                                                                right: '-40px',
+                                                                width: '130px',
+                                                                height: '130px',
+                                                                borderRadius: '50%',
+                                                                backgroundColor: '#c4c4c4',
+                                                                filter: 'blur(50px)',
+                                                                zIndex: -1,
+                                                            }}
+                                                        />
+                                                        <Box
+                                                            sx={{
+                                                                position: 'absolute',
+                                                                top: '110px',
+                                                                right: '40px',
+                                                                width: '150px',
+                                                                height: '150px',
+                                                                borderRadius: '50%',
+                                                                backgroundColor: '#e3e3e3',
+                                                                filter: 'blur(30px)',
+                                                                zIndex: -1,
+                                                            }}
+                                                        />
+                                                        <Box
+                                                            sx={{
+                                                                position: 'absolute',
+                                                                top: '80px',
+                                                                right: '190px',
+                                                                width: '150px',
+                                                                height: '150px',
+                                                                borderRadius: '50%',
+                                                                backgroundColor: '#e3e3e3',
+                                                                filter: 'blur(60px)',
+                                                                zIndex: -1,
+                                                            }}
+                                                        />
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            flexDirection: 'row',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'start',
+                                                            marginTop: 2
+                                                        }}>
+                                                            <Box sx={{
+                                                                width: 15,
+                                                                height: 15,
+                                                                backgroundColor: '#07ea00',
+                                                                borderRadius: '30px',
+                                                                marginLeft: 2
+                                                            }}/>
+                                                            <Typography sx={{
+                                                                marginLeft: 2,
+                                                                marginTop: 0
+                                                            }}>
+                                                                {user.firstName}{user.familyName}
+                                                            </Typography>
+                                                        </Box>
+                                                    </Box>
+                                                </Grid>
+                                            ))
+                                        }
+                                    </Grid>
+                                </Box>
                             </Box>
                         </Grid>
                         <Grid item xs={4} md={9}>
-                            <Box sx={{ width: 1140, height: 500, marginLeft: -7, display: 'grid'}}>
-                                {/*<BackgroundCard>
-                                    <Grid container direction="row" sx={{ marginTop: 5 }}>
-                                        {[contentFirst, contentSecond, contentThird].map((content, index) => (
-                                            <Grid item key={index} xs={4} md={3} sx={{ marginRight: -8 }}>
-                                                <Box
-                                                    onDragOver={allowDrop}
-                                                    onDrop={(event) => {
-                                                        if (index === 0) dropHandlerFirst(event, setContentFirst);
-                                                        if (index === 1) dropHandlerSecond(event, setContentSecond);
-                                                        if (index === 2) dropHandlerThird(event, setContentThird);
-                                                    }}
-                                                    sx={{
-                                                    width: 170,
-                                                    height: 80,
-                                                    borderRadius: '17px',
-                                                    backgroundColor: '#4d4d4d',
-                                                    marginTop: 5,
-                                                    marginBottom: 1,
-                                                    marginLeft: 2
-                                                }}
-                                                >
-                                                    <Typography>{content.id}</Typography>
-                                                </Box>
-                                            </Grid>
-                                        ))}
-                                    </Grid>
-                                    {!isStepDone && (
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                            <CancelButton text={t('TEXT.BACK')} onClick={handleCancelClicked} />
-                                            <SaveButton text={t('TEXT.NEXT')} onClick={handleNextClicked} />
-                                        </Box>
-                                    )}
-                                </BackgroundCard> */}
-                                <BackgroundCard>
-                                    <Grid item container direction="row" sx={{ marginTop: 5, marginLeft: 15}}>
-                                        <Grid item xs={4} md={3} sx={{ marginRight: -8}}>
+                            <Box sx={{ width: 1140, height: 800, marginLeft: -7, display: 'grid', position: 'relative'}}>
+                                <Box sx={{
+                                    backgroundColor: `${theme.palette.component.lightMin}`,
+                                    paddingLeft: '10px',
+                                    paddingRight: '10px',
+                                    paddingTop: '10px',
+                                    paddingBottom: '10px',
+                                    //marginBottom: '10px',
+                                    marginTop: '10px',
+                                    marginLeft: '20px',
+                                    marginRight: '20px',
+                                    height: '100%',
+                                    borderRadius: '19px',
+                                    boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
+                                }}>
+                                    <Grid item container direction="row" sx={{
+                                        marginTop: 20,
+                                        marginLeft: 10
+                                    }}>
+                                        <Grid item xs={4} md={3} sx={{ marginRight: 0}}>
                                             <Box
                                                 sx={{
-                                                    width: 200,
+                                                    width: 250,
                                                     height: 350,
-                                                    backgroundColor: '#9e9e9e',
+                                                    backgroundColor: '#c4c4c4',
                                                     borderColor: '#ff0000',
                                                     borderStyle: 'dashed',
-                                                    borderWidth: 3
+                                                    borderWidth: 3,
+                                                    borderTopLeftRadius: 80,
+                                                    borderTopRightRadius: 5, // Round the top-right corner
+                                                    borderBottomLeftRadius: 80,
+                                                    borderBottomRightRadius: 5,
+                                                    paddingLeft: 3,
+                                                    paddingBottom: 3,
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                                    marginRight: 20
                                                 }}
                                             >
                                                 <Grid item container direction="column">
@@ -333,29 +470,32 @@ const TransportationDriver = ({ setCurrentStep }: { setCurrentStep: (step: numbe
                                                             onDragOver={allowDrop}
                                                             onDrop={() => dropHandlerFirst(event, setContentFirst)}
                                                             sx={{
-                                                                width: 170,
+                                                                width: 190,
                                                                 height: 80,
                                                                 borderRadius: '17px',
-                                                                backgroundColor: '#4d4d4d',
+                                                                backgroundColor: 'rgba(255,255,255,0.43)',
                                                                 marginTop: 5,
                                                                 marginBottom: 1,
-                                                                marginLeft: 2
+                                                                marginLeft: 1,
+                                                                border: '2px solid rgba(255, 255, 255, .2)',
+                                                                backdropFilter: 'blur(30px)',
+                                                                boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                                                cursor: 'pointer',
+                                                                position: 'relative', // Ensure the circles are behind the card content
+                                                                zIndex: 1, // Set a higher z-index for the card itself
+                                                                overflow: 'hidden',
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                justifyContent: 'center',
+                                                                gap: 1
                                                             }}>
                                                             {contentFirst.id && (
-                                                                <Button
-                                                                    onClick={removeContentFirst}
-                                                                    sx={{
-                                                                        color: 'white',
-                                                                        border: 'none',
-                                                                        borderRadius: '18px',
-                                                                        width: 20,
-                                                                        height: 20,
-                                                                        cursor: 'pointer',
-                                                                        backgroundColor: '#ff0000'
-                                                                    }}
-                                                                >
-                                                                    X
-                                                                </Button>
+                                                                <Tooltip title={t('TEXT.REMOVE_PASSENGER')}>
+                                                                    <UniqueIconButton
+                                                                        onClick={removeContentFirst}
+                                                                        width={32}
+                                                                        icon={<ClearRoundedIcon sx={{width: 25, height: 25}} /> }/>
+                                                                </Tooltip>
                                                             )}
                                                             <Typography>{contentFirst.name}</Typography>
                                                         </Box>
@@ -365,30 +505,33 @@ const TransportationDriver = ({ setCurrentStep }: { setCurrentStep: (step: numbe
                                                             onDragOver={allowDrop}
                                                             onDrop={() => dropHandlerSecond(event, setContentSecond)}
                                                             sx={{
-                                                                width: 170,
+                                                                width: 190,
                                                                 height: 80,
                                                                 borderRadius: '17px',
-                                                                backgroundColor: '#4d4d4d',
+                                                                backgroundColor: 'rgba(255,255,255,0.43)',
                                                                 marginTop: 1,
                                                                 marginBottom: 1,
-                                                                marginLeft: 2
+                                                                marginLeft: 1,
+                                                                border: '2px solid rgba(255, 255, 255, .2)',
+                                                                backdropFilter: 'blur(30px)',
+                                                                boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                                                cursor: 'pointer',
+                                                                position: 'relative', // Ensure the circles are behind the card content
+                                                                zIndex: 1, // Set a higher z-index for the card itself
+                                                                overflow: 'hidden',
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                justifyContent: 'center',
+                                                                gap: 1
                                                             }}
                                                         >
                                                             {contentSecond.id && (
-                                                                <Button
-                                                                    onClick={removeContentSecond}
-                                                                    sx={{
-                                                                        color: 'white',
-                                                                        border: 'none',
-                                                                        borderRadius: '18px',
-                                                                        width: 20,
-                                                                        height: 20,
-                                                                        cursor: 'pointer',
-                                                                        backgroundColor: '#ff0000'
-                                                                    }}
-                                                                >
-                                                                    X
-                                                                </Button>
+                                                                <Tooltip title={t('TEXT.REMOVE_PASSENGER')}>
+                                                                    <UniqueIconButton
+                                                                        onClick={removeContentSecond}
+                                                                        width={32}
+                                                                        icon={<ClearRoundedIcon sx={{width: 25, height: 25}} /> }/>
+                                                                </Tooltip>
                                                             )}
                                                             <Typography>{contentSecond.name}</Typography>
                                                         </Box>
@@ -398,30 +541,33 @@ const TransportationDriver = ({ setCurrentStep }: { setCurrentStep: (step: numbe
                                                             onDragOver={allowDrop}
                                                             onDrop={() => dropHandlerThird(event, setContentThird)}
                                                             sx={{
-                                                                width: 170,
+                                                                width: 190,
                                                                 height: 80,
                                                                 borderRadius: '17px',
-                                                                backgroundColor: '#4d4d4d',
+                                                                backgroundColor: 'rgba(255,255,255,0.43)',
                                                                 marginTop: 1,
                                                                 marginBottom: 1,
-                                                                marginLeft: 2
+                                                                marginLeft: 1,
+                                                                border: '2px solid rgba(255, 255, 255, .2)',
+                                                                backdropFilter: 'blur(30px)',
+                                                                boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                                                cursor: 'pointer',
+                                                                position: 'relative', // Ensure the circles are behind the card content
+                                                                zIndex: 1, // Set a higher z-index for the card itself
+                                                                overflow: 'hidden',
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                justifyContent: 'center',
+                                                                gap: 1
                                                             }}
                                                         >
                                                             {contentThird.id && (
-                                                                <Button
-                                                                    onClick={removeContentThird}
-                                                                    sx={{
-                                                                        color: 'white',
-                                                                        border: 'none',
-                                                                        borderRadius: '18px',
-                                                                        width: 20,
-                                                                        height: 20,
-                                                                        cursor: 'pointer',
-                                                                        backgroundColor: '#ff0000'
-                                                                    }}
-                                                                >
-                                                                    X
-                                                                </Button>
+                                                                <Tooltip title={t('TEXT.REMOVE_DRIVER')}>
+                                                                    <UniqueIconButton
+                                                                        onClick={removeContentThird}
+                                                                        width={32}
+                                                                        icon={<ClearRoundedIcon sx={{width: 25, height: 25}} /> }/>
+                                                                </Tooltip>
                                                             )}
                                                             <Typography>{contentThird.name}</Typography>
                                                         </Box>
@@ -430,18 +576,25 @@ const TransportationDriver = ({ setCurrentStep }: { setCurrentStep: (step: numbe
                                             </Box>
                                         </Grid>
                                         <Grid item xs={4} md={6}>
-                                            <Box sx={{ width: 600, height: 350, backgroundColor: '#9e9e9e'}}>
-
-                                            </Box>
+                                            <Box sx={{
+                                                width: 600,
+                                                height: 350,
+                                                backgroundColor: '#8f8f8f',
+                                                borderTopLeftRadius: 5,
+                                                borderTopRightRadius: 5,
+                                                borderBottomLeftRadius: 5,
+                                                borderBottomRightRadius: 5,
+                                                boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
+                                            }}/>
                                         </Grid>
                                     </Grid>
                                     {!isStepDone && (
-                                        <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                                        <Box sx={{display: 'flex', justifyContent: 'flex-end', marginTop: '20px'}}>
                                             <CancelButton text={t('TEXT.BACK')} disabled={!isActiveStep} onClick={handleCancelClicked}/>
                                             <SaveButton text={t('TEXT.NEXT')}  /*disabled={!isValid || !isActiveStep}*/ onClick={handleNextClicked}/>
                                         </Box>
                                     )}
-                                </BackgroundCard>
+                                </Box>
                             </Box>
                         </Grid>
                     </Grid>
