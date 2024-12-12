@@ -1,4 +1,4 @@
-import {Box, Fab, FormControl, Input, InputAdornment, TextField} from "@mui/material";
+import {Box, Fab, FormControl, Input, InputAdornment, TextField, useTheme} from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
 import ContentCard from "../../components/layout/ContentCard";
@@ -21,6 +21,7 @@ import NewDocumentAddDialog from "./NewDocumentAddDialog";
 import TabComponent from "../../components/layout/TabComponent";
 
 const DocumentList = () => {
+    const theme = useTheme();
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const addNewDocumentDialog = useModal(NewDocumentAddDialog);
@@ -253,14 +254,14 @@ const DocumentList = () => {
     };
 
     return (
-        <Box>
+        <Box sx={{ padding: { xs: 2, sm: 3, md: 4 } }}>
             <PageHeader text={t('DOCUMENTS.DOCUMENTS')}/>
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10}}>
                 <TabComponent />
             </Box>
 
             <ContentCard>
-            <Box sx={{display: 'flex', marginTop: 2, marginBottom: 10, height: 900}}>
+            <Box sx={{display: 'flex', marginTop: 2, marginBottom: 10, height: 550}}>
                     <DocumentTableQuery
                         searchResults={
                             documents
@@ -276,17 +277,17 @@ const DocumentList = () => {
                      sx={{
                          margin: 0,
                          top: 'auto',
-                         right: '40px',
-                         bottom: '40px',
+                         bottom: { xs: 16, sm: 32 },
+                         right: { xs: 16, sm: 32 },
                          left: 'auto',
                          position: 'fixed',
-                         width: '70px',
-                         height: '70px',
-                         backgroundColor: '#a40500',
+                         width: { xs: '50px', sm: '60px' },
+                         height: { xs: '50px', sm: '60px' },
+                         backgroundColor: '#DD1C13' || `${theme.palette.component.dark}`,
                          color: '#ffffff'
                      }}
                 >
-                    <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                    <AddIcon sx={{ width: { xs: '24px', sm: '40px' }, height: { xs: '24px', sm: '40px' } }}/>
                 </Fab>
                 </Box>
             </ContentCard>

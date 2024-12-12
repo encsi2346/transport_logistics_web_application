@@ -1,6 +1,6 @@
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
-import {Box, Fab, FormControl, Grid, Input, InputAdornment, TextField, Tooltip} from "@mui/material";
+import {Box, Fab, FormControl, Grid, Input, InputAdornment, TextField, Tooltip, useTheme} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
 import React, {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
@@ -14,6 +14,7 @@ import {useTypeSafeTranslation} from "../../hooks/useTypeSafeTranslation";
 import ServiceAppointmentAddDialog from "./ServiceAppointmentAddDialog";
 
 const ServiceAppointmentList = () => {
+    const theme = useTheme();
     const { id } = useParams();
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
@@ -157,7 +158,7 @@ const ServiceAppointmentList = () => {
     };
 
     return (
-        <Box>
+        <Box sx={{ padding: { xs: 2, sm: 3, md: 4 } }}>
             <PageHeader text={t('TEXT.SERVICES')}/>
             <FilterCard>
                 <form
@@ -170,7 +171,7 @@ const ServiceAppointmentList = () => {
                 >
                     <Box sx={{
                         display: 'flex',
-                        flexDirection: 'row',
+                        flexDirection: { xs: 'column', sm: 'row' },
                         alignItems: 'center',
                         justifyContent: 'flex-start',
                         gap: 3
@@ -180,7 +181,7 @@ const ServiceAppointmentList = () => {
                             marginBottom: 5,
                             marginLeft: 2,
                             display: 'flex',
-                            flexDirection: 'row',
+                            flexDirection: { xs: 'column', sm: 'row' },
                             alignItems: 'center',
                             gap: 4
                         }}>
@@ -210,18 +211,18 @@ const ServiceAppointmentList = () => {
                                                         cursor: 'pointer'
                                                     }}
                                                 >
-                                                    <SearchIcon sx={{color: '#e0e0e0'}}/>
+                                                    <SearchIcon sx={{color: '#ffffff'}}/>
                                                 </Box>
                                             </InputAdornment>
                                         )
                                     }}
                                     sx={{
-                                        backgroundColor: `rgba(255, 255, 255, 0.76)`,
+                                        backgroundColor: `rgba(232, 227, 227, 0.76)`,
                                         borderRadius: '8px',
                                         color: `#000000`,
                                         textDecoration: 'none',
                                         height: 50,
-                                        width: 350,
+                                        width: { xs: '100%', sm: '350px' },
                                         display: 'flex',
                                         justifyContent: 'center',
                                         fontSize: "14px",
@@ -239,7 +240,7 @@ const ServiceAppointmentList = () => {
                             </FormControl>
                             <div style={{display: 'flex', alignItems: 'center'}}>
                                 <Tooltip title={t('TEXT.CLEAR_FILTER')}>
-                                    <UniqueIconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '50px'}}/>}/>
+                                    <UniqueIconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '25px', height: '25px' }}/>}/>
                                 </Tooltip>
                             </div>
                         </Box>
@@ -274,17 +275,17 @@ const ServiceAppointmentList = () => {
                          sx={{
                              margin: 0,
                              top: 'auto',
-                             right: '40px',
-                             bottom: '40px',
+                             bottom: { xs: 16, sm: 32 },
+                             right: { xs: 16, sm: 32 },
                              left: 'auto',
                              position: 'fixed',
-                             width: '70px',
-                             height: '70px',
-                             backgroundColor: '#a40500',
+                             width: { xs: '50px', sm: '60px' },
+                             height: { xs: '50px', sm: '60px' },
+                             backgroundColor: '#DD1C13' || `${theme.palette.component.dark}`,
                              color: '#ffffff'
                          }}
                     >
-                        <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                        <AddIcon sx={{ width: { xs: '24px', sm: '40px' }, height: { xs: '24px', sm: '40px' } }}/>
                     </Fab>
                 </Box>
             </ContentCard>
