@@ -54,8 +54,20 @@ export const themeSettings = (mode) => {
             fontFamily: ["Koulen", "sans-serif"].join(","),
             fontSize: 12,
             h1: {
-                fontFamily: ["Rubik", "sans-serif"].join(","),
-                fontSize: 40,
+                fontSize: '2rem',
+                fontWeight: 700,
+            },
+            body1: {
+                fontSize: '1rem',
+            },
+        },
+        breakpoints: {
+            values: {
+                xs: 0,
+                sm: 600,
+                md: 900,
+                lg: 1200,
+                xl: 1536,
             },
         },
     };

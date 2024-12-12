@@ -7,7 +7,7 @@ import {
     TextField,
     InputLabel,
     MenuItem,
-    Fab, Tooltip
+    Fab, Tooltip, useTheme
 } from "@mui/material";
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
@@ -27,6 +27,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import UniqueIconButton from "../../components/button/UniqueIconButton";
 
 const UserList = () => {
+    const theme = useTheme();
     const { t } = useTypeSafeTranslation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -68,6 +69,7 @@ const UserList = () => {
     const submitData = async () => {
         try {
             setFiltersReset(false);
+            setIsLoading(true);
             const getResponse = await fetch(
             `http://localhost:3001/api/users/search?name=${values.name}&position=${values.position}`,
             {
@@ -77,8 +79,10 @@ const UserList = () => {
             );
             const searchUsersQuery = await getResponse.json();
             setUsersList(searchUsersQuery.content || []);
+            setIsLoading(false);
         } catch (error) {
             console.error('Error submitting form:', error);
+            setIsLoading(false);
         }
     };
 
@@ -101,7 +105,11 @@ const UserList = () => {
             //setIsLast(users.isLast);
             //setPage(users.number);
             setUsersList(getUserList);
-        } catch {}
+            setIsLoading(false); // End loading
+        } catch (error) {
+            setIsLoading(false); // End loading on error
+            console.error('Error fetching users:', error);
+        }
     }
 
     useEffect(() => {
@@ -112,6 +120,9 @@ const UserList = () => {
         /*if(isUsersFetching) {
             fetchUsers(limit, page + 1);
         }*/
+        if (!isLoading) {
+            fetchUsers();
+        }
     };
 
     const resetUsers = () => {
@@ -151,7 +162,7 @@ const UserList = () => {
     }, [usersList]);
 
     return (
-        <Box>
+        <Box sx={{ padding: { xs: 2, sm: 3, md: 4 } }}>
             <PageHeader text={t('TEXT.USERS')}/>
             <FilterCard>
                 <form
@@ -164,7 +175,7 @@ const UserList = () => {
                 >
                     <Box sx={{
                         display: 'flex',
-                        flexDirection: 'row',
+                        flexDirection: { xs: 'column', sm: 'row' },
                         alignItems: 'center',
                         marginTop: 1,
                         marginBottom: 5,
@@ -172,7 +183,7 @@ const UserList = () => {
                         gap: 4,
                         paddingRight: 5
                     }}>
-                        <FormControl>
+                        <FormControl sx={{ width: { xs: '100%', sm: 'auto' } }}>
                             <TextField
                                 id="name"
                                 placeholder='Példa Éva'
@@ -198,18 +209,18 @@ const UserList = () => {
                                                     cursor: 'pointer'
                                                 }}
                                             >
-                                                <SearchIcon sx={{color: '#e0e0e0'}}/>
+                                                <SearchIcon sx={{color: '#ffffff'}}/>
                                             </Box>
                                         </InputAdornment>
                                     )
                                 }}
                                 sx={{
-                                    backgroundColor: `rgba(255, 255, 255, 0.76)`,
+                                    backgroundColor: `rgba(232, 227, 227, 0.76)`,
                                     borderRadius: '8px',
                                     color: `#000000`,
                                     textDecoration: 'none',
                                     height: 50,
-                                    width: 350,
+                                    width: { xs: '100%', sm: '350px' },
                                     display: 'flex',
                                     justifyContent: 'center',
                                     fontSize: "14px",
@@ -235,12 +246,12 @@ const UserList = () => {
                                 value={values.position ?? ''}
                                 onChange={handleChange('position')}
                                 sx={{
-                                    backgroundColor: `rgba(255, 255, 255, 0.76)`,
+                                    backgroundColor: `rgba(232, 227, 227, 0.76)`,
                                     borderRadius: '8px',
                                     color: `#000000`,
                                     textDecoration: 'none',
                                     height: 50,
-                                    width: 350,
+                                    width: { xs: '100%', sm: '350px' },
                                     display: 'flex',
                                     justifyContent: 'center',
                                     fontSize: "14px",
@@ -267,7 +278,7 @@ const UserList = () => {
                         </FormControl>
                         <div style={{display: 'flex', alignItems: 'center'}}>
                             <Tooltip title={t('TEXT.CLEAR_FILTER')}>
-                                <UniqueIconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '50px'}}/>}/>
+                                <UniqueIconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '25px', height: '25px' }}/>}/>
                             </Tooltip>
                         </div>
                     </Box>
@@ -285,7 +296,7 @@ const UserList = () => {
                                         hasMore={!isLast && !isLoading}
                                         dataLength={usersList.length}
                                         next={loadMoreMessage}
-                                        loader={<div />}
+                                        loader={<ThreeDots fill="#DD1C13" strokeOpacity={.125} speed={.75} width={80}/>}
                                     >
                                         <Grid container rowSpacing={3}>
                                             {usersList.map((user) => (
@@ -303,48 +314,34 @@ const UserList = () => {
                                                     />
                                                 </Grid>
                                             ))}
-                                            {isLoading && <ThreeDots fill="#DD1C13" strokeOpacity={.125} speed={.75} width={80}/>}
+                                            {isLoading && (
+                                                <div style={{ textAlign: 'center', width: '100%' }}>
+                                                    <ThreeDots fill="#DD1C13" strokeOpacity={.125} speed={.75} width={80} />
+                                                </div>
+                                            )}
                                         </Grid>
                                     </InfiniteScroll>
-                                ) : (
-                                    <div>
-                                        <Grid container rowSpacing={3} columnSpacing={-38} >
-                                            {usersList.map((user) => (
-                                                <Grid item xs={4} key={user._id}>
-                                                    <UserCard
-                                                        onClick={() => navigate(`/users/${user._id}`)}
-                                                        id={user._id}
-                                                        firstName={user.firstName}
-                                                        familyName={user.familyName}
-                                                        email={user.email}
-                                                        position={user.position}
-                                                        status={user.status}
-                                                        phoneNumber={user.phoneNumber}
-                                                        image={user.image}
-                                                    />
-                                                </Grid>
-                                            ))}
-                                            {isLoading && <ThreeDots fill="#DD1C13" strokeOpacity={.125} speed={.75} width={80}/>}
-                                        </Grid>
-                                    </div>
-                                )}
+                                )  : (
+                                    //TODO
+                                <div>No users found</div>
+                            )}
                         </Box>
                         <Fab aria-label="add"
                              onClick={() => navigate(`/users/new`)}
                              sx={{
                                  margin: 0,
                                  top: 'auto',
-                                 right: '40px',
-                                 bottom: '40px',
+                                 bottom: { xs: 16, sm: 32 },
+                                 right: { xs: 16, sm: 32 },
                                  left: 'auto',
                                  position: 'fixed',
-                                 width: '70px',
-                                 height: '70px',
-                                 backgroundColor: '#DD1C13',
+                                 width: { xs: '50px', sm: '60px' },
+                                 height: { xs: '50px', sm: '60px' },
+                                 backgroundColor: '#DD1C13' || `${theme.palette.component.dark}`,
                                  color: '#ffffff'
                              }}
                         >
-                            <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                            <AddIcon sx={{ width: { xs: '24px', sm: '40px' }, height: { xs: '24px', sm: '40px' } }}/>
                         </Fab>
                     </ContentCard>
                 </Box>

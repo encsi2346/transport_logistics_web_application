@@ -1,5 +1,5 @@
 import PageHeader from "../../components/text/PageHeader";
-import {Box, Fab, Grid, Tooltip} from "@mui/material";
+import {Box, Fab, Grid, Tooltip, useTheme} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
 import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -13,6 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 const CarTypeOfTransportationList = () => {
+    const theme = useTheme();
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const location = useLocation();
@@ -113,13 +114,13 @@ const CarTypeOfTransportationList = () => {
     };
 
     return (
-        <Box>
+        <Box sx={{ padding: { xs: 2, sm: 3, md: 4 } }}>
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <PageHeader text={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATIONS')}/>
                 <Tooltip title={t('TEXT.EDIT')}>
                     <UniqueIconButton
                         onClick={() => setIsEditing(!isEditing)}
-                        icon={isEditing ? <ClearRoundedIcon sx={{width: 30, height: 30}} /> : <EditIcon sx={{width: 30, height: 30}}/>}/>
+                        icon={isEditing ? <ClearRoundedIcon sx={{width: 25, height: 25}} /> : <EditIcon sx={{width: 25, height: 25}}/>}/>
                 </Tooltip>
             </Box>
             <ContentCard>
@@ -146,17 +147,17 @@ const CarTypeOfTransportationList = () => {
                          sx={{
                              margin: 0,
                              top: 'auto',
-                             right: '40px',
-                             bottom: '40px',
+                             bottom: { xs: 16, sm: 32 },
+                             right: { xs: 16, sm: 32 },
                              left: 'auto',
                              position: 'fixed',
-                             width: '70px',
-                             height: '70px',
-                             backgroundColor: '#a40500',
+                             width: { xs: '50px', sm: '60px' },
+                             height: { xs: '50px', sm: '60px' },
+                             backgroundColor: '#DD1C13' || `${theme.palette.component.dark}`,
                              color: '#ffffff'
                          }}
                     >
-                        <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                        <AddIcon sx={{ width: { xs: '24px', sm: '40px' }, height: { xs: '24px', sm: '40px' } }}/>
                     </Fab>
                 </Box>
             </ContentCard>

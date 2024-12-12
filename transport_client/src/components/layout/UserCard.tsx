@@ -6,37 +6,38 @@ import Genie from "@/assets/genie.png";
 
 const textStyleFirst: SxProps<Theme> = {
     fontWeight: '400',
-    fontSize: '18px',
+    fontSize: '15px',
     color: '#262626',
-    marginTop: '20px',
-    textTransform: 'camelcase',
-    letterSpacing: '1px'
+    textTransform: 'capitalize',
+    letterSpacing: '1px',
+    wordBreak: 'break-word',
+    display: 'inline-block',
 }
 
 const textStyleSecond: SxProps<Theme> = {
     fontWeight: '600',
-    fontSize: '15px',
+    fontSize: '13px',
     color: '#262626',
-    marginTop: '20px',
-    textTransform: 'camelcase',
+    marginTop: '12px',
+    textTransform: 'capitalize',
     letterSpacing: '1px'
 }
 
 const textStyleThird: SxProps<Theme> = {
     fontWeight: '400',
-    fontSize: '15px',
+    fontSize: '11px',
     color: '#5d5d5d',
-    marginTop: '20px',
-    textTransform: 'camelcase',
+    marginTop: '12px',
+    textTransform: 'capitalize',
     letterSpacing: '1px'
 }
 
 const textStyleFourth: SxProps<Theme> = {
     fontWeight: '400',
-    fontSize: '15px',
+    fontSize: '11px',
     color: '#5d5d5d',
-    marginTop: '10px',
-    textTransform: 'camelcase',
+    marginTop: '3px',
+    textTransform: 'capitalize',
     letterSpacing: '1px'
 }
 
@@ -73,17 +74,18 @@ const UserCard = ({ onClick, id, firstName, familyName, email, position, status,
                 border: '2px solid rgba(255, 255, 255, .2)',
                 backdropFilter: 'blur(30px)',
                 borderRadius: '19px',
-                marginRight: '60px',
+                //marginRight: '60px',
                 marginBottom: '40px',
-                paddingTop: '20px',
+                paddingTop: '10px',
                 paddingBottom: '20px',
-                paddingLeft: '20px',
+                paddingLeft: '25px',
                 paddingRight: '20px',
                 boxShadow: `0 0 10px rgba(0,0,0,0.2)`,
                 cursor: 'pointer', //TODO: create hover-effect
                 display: 'flex',
-                width: 400,
-                height: 250,
+                flexDirection: 'row',
+                width: '100%',
+                height: 'auto',
                 position: 'relative', // Ensure the circles are behind the card content
                 zIndex: 1, // Set a higher z-index for the card itself
                 overflow: 'hidden',
@@ -92,6 +94,10 @@ const UserCard = ({ onClick, id, firstName, familyName, email, position, status,
                     paddingBottom: '15px',
                     paddingLeft: '15px',
                     paddingRight: '15px',
+                },
+                [theme.breakpoints.up('sm')]: {
+                    width: 370,
+                    height: 200,
                 }
             }}
         >
@@ -104,7 +110,7 @@ const UserCard = ({ onClick, id, firstName, familyName, email, position, status,
                     width: '150px',
                     height: '150px',
                     borderRadius: '50%',
-                    backgroundColor: '#e6c5b7',
+                    backgroundColor: '#e3e3e3',
                     filter: 'blur(30px)',
                     zIndex: -1,
                 }}
@@ -117,7 +123,7 @@ const UserCard = ({ onClick, id, firstName, familyName, email, position, status,
                     width: '130px',
                     height: '130px',
                     borderRadius: '50%',
-                    backgroundColor: '#d4a89b',
+                    backgroundColor: '#e3e3e3',
                     filter: 'blur(50px)',
                     zIndex: -1,
                 }}
@@ -131,7 +137,7 @@ const UserCard = ({ onClick, id, firstName, familyName, email, position, status,
                     width: '150px',
                     height: '150px',
                     borderRadius: '50%',
-                    backgroundColor: '#e6c5b7',
+                    backgroundColor: '#c4c4c4',
                     filter: 'blur(30px)',
                     zIndex: -1,
                 }}
@@ -145,7 +151,7 @@ const UserCard = ({ onClick, id, firstName, familyName, email, position, status,
                     width: '150px',
                     height: '150px',
                     borderRadius: '50%',
-                    backgroundColor: '#d4a89b',
+                    backgroundColor: '#c4c4c4',
                     filter: 'blur(60px)',
                     zIndex: -1,
                 }}
@@ -156,13 +162,15 @@ const UserCard = ({ onClick, id, firstName, familyName, email, position, status,
                 align: 'center',
                 justifyContent: 'center',
                 backgroundColor: '#ececec',
-                height: 110,
-                width: 110,
-                borderRadius: 90,
+                height: 80,
+                width: 80,
+                borderRadius: '50%',
                 marginRight: 3,
-                overflow: 'hidden'
+                overflow: 'hidden',
+                marginBottom: '20px',
+                marginTop: '10px'
             }}>
-                <Avatar sx={{ display: 'flex', width: 110, height: 110 }}>
+                <Avatar sx={{ display: 'flex', width: 80, height: 80, borderRadius: '50%', overflow: 'hidden'}}>
                     <img
                         src={Genie}
                         alt="logo"
@@ -176,7 +184,7 @@ const UserCard = ({ onClick, id, firstName, familyName, email, position, status,
                 </Avatar>
                 {/*<PersonIcon sx={iconStyle}/>*/}
             </Box>
-            <Box sx={{display: 'flex', flexDirection: 'column'}}>
+            <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', flexGrow: 1}}>
                 <Typography sx={textStyleFirst}>
                     {familyName} {firstName}
                 </Typography>

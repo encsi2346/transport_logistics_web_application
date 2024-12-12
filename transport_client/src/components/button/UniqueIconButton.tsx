@@ -28,8 +28,25 @@ const UniqueIconButton = ({ type, onClick, disabled, icon, backgroundColor, colo
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minWidth: '50px',
-                height: '50px',
+                minWidth: '45px',
+                height: '45px',
+                // Responsive styles using MUI's breakpoints
+                [theme.breakpoints.down("sm")]: {
+                    minWidth: "40px", // Smaller width for small screens
+                    height: "40px", // Smaller height for small screens
+                    paddingTop: "4px", // Reduced padding for small screens
+                    paddingBottom: "4px",
+                    paddingLeft: "4px",
+                    paddingRight: "4px",
+                },
+                [theme.breakpoints.down("xs")]: {
+                    minWidth: "35px", // Even smaller width for extra small screens
+                    height: "35px", // Smaller height for extra small screens
+                    paddingTop: "3px", // Further reduced padding for extra small screens
+                    paddingBottom: "3px",
+                    paddingLeft: "3px",
+                    paddingRight: "3px",
+                },
             }}
             onClick={() => !disabled && onClick && onClick()}
         >

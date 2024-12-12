@@ -5,7 +5,7 @@ import type { NavigateFunction } from 'react-router-dom';
 import {useSelector} from "react-redux";
 import CustomPagination from "@/components/datatable/CustomPagination";
 
-const StyledDataGrid = styled(DataGrid)(() => ({
+const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
 
     '& .MuiDataGrid-iconSeparator': {
@@ -17,7 +17,7 @@ const StyledDataGrid = styled(DataGrid)(() => ({
     '& .MuiDataGrid-columnHeaders': {
         //backgroundColor:  useSelector((state) => state.mode) === 'light' ? '#DD1C13' : "#a40500" ,
         border: 'none',
-        paddingLeft: 20,
+        paddingLeft: theme.spacing(2.5),
         display: 'block',
         justifyContent: 'center',
         textAlign: 'center',
@@ -28,7 +28,7 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         lineHeight: 1.2,
         color: '#000000', //color: useSelector((state) => state.mode) === 'light' ? '#ffffff' : 'rgb(255,255,255)',
         fontWeight: '500',
-        fontSize: 18,
+        fontSize: theme.breakpoints.down('sm') ? 16 : 14,
         textTransform: 'camelCase',
     },
     '& .MuiDataGrid-columnHeader': {
@@ -52,7 +52,7 @@ const StyledDataGrid = styled(DataGrid)(() => ({
     },
     '& .MuiDataGrid-cell': {
         border: 'none',
-        padding: '0 16px',
+        padding: theme.spacing(0, 2),
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -61,15 +61,13 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         backgroundColor: useSelector((state) => state.mode) === 'light' ? '#ffffff' : "#c5c5c5",
         borderRadius: '8px',
         width: '1500px',
-        paddingTop: 35,
-        paddingBottom: 35,
-        paddingLeft: 20,
-        marginTop: 30,
+        padding: theme.spacing(3, 2),
+        marginTop: theme.spacing(3.75),
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         color: '#000000',
-        fontSize: 17,
+        fontSize: theme.breakpoints.down('sm') ? 15 : 14,
         cursor: 'pointer',
         fontWeight: '500',
         transition: 'all 0.3s ease',
@@ -78,8 +76,7 @@ const StyledDataGrid = styled(DataGrid)(() => ({
     "& .MuiDataGrid-row:hover": {
         backgroundColor: "#d73f3b", //'linear-gradient(to bottom, #d73f3b, #a40500)',
         borderRadius: '8px',
-        paddingTop: 40,
-        paddingBottom: 40,
+        padding: theme.spacing(4, 2),
         transform: 'translateY(-10px)',
         color: '#ffffff',
         cursor: 'pointer',

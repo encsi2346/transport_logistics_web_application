@@ -19,8 +19,8 @@ import BuildRoundedIcon from '@mui/icons-material/BuildRounded';
 
 const iconProps = {
     sx: {
-        width: '40px',
-        height: '40px',
+        width: '30px',
+        height: '30px',
         color: '#e0e0e0',
         '&:hover': {
             color: '#7c0000',

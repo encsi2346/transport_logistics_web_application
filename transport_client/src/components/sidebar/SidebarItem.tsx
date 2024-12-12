@@ -33,12 +33,12 @@ const SidebarItem = ({ link, removeSelectionStyles = false }: Props) => {
             display="flex"
             alignItems="center"
             justifyContent={'center'}
-            minHeight="40px"
-            height="40px"
+            minHeight="30px"
+            height="30px"
             marginTop={4}
             padding={isActive ? "15px" : "25px"}
-            paddingTop={isActive ? "30px" : "25px"}
-            paddingBottom={isActive ? "30px" : "25px"}
+            paddingTop={isActive ? "25px" : "19px"}
+            paddingBottom={isActive ? "25px" : "19px"}
             bgcolor={isActive ? '#ffffff' : 'inherit'}
             borderRadius={isActive ? '10px' : 0}
             sx={{

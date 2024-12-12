@@ -11,15 +11,15 @@ const textStyle: SxProps<Theme> = {
 
 const smallTextStyle: SxProps<Theme> = {
     fontWeight: 'normal',
-    fontSize: '15px',
+    fontSize: '12px',
     color: '#A3A3A3',
 }
 
 const iconStyle: SxProps<Theme> = {
-    fontSize: 120,
+    fontSize: 100,
     color: '#A3A3A3',
     marginLeft: '40px',
-    marginRight: '70px',
+    marginRight: '50px',
 }
 
 interface Props {
@@ -85,11 +85,11 @@ const CarTypeOfTransportationCard = ({ onClick, id, type, countOfCars, isEditing
                     backgroundColor: `${theme.palette.component.lightMin}`,
                     borderRadius: '19px',
                     marginRight: '60px',
-                    marginBottom: '40px',
-                    paddingTop: '20px',
-                    paddingBottom: '20px',
-                    paddingLeft: '20px',
-                    paddingRight: '20px',
+                    marginBottom: '60px',
+                    paddingTop: '15px',
+                    paddingBottom: '15px',
+                    paddingLeft: '15px',
+                    paddingRight: '15px',
                     boxShadow: `5px 7px 10px rgba(0,0,0,0.25)`,
                     cursor: 'pointer', //TODO: create hover-effect
                     justifyContent: 'center'

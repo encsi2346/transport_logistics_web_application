@@ -5,7 +5,7 @@ import StyledDataGrid, {handleDataGridCellClick, sharedDataGridProps} from "../.
 import {Pagination} from "../../components/inputField/hooks/usePagination";
 import {Sort} from "../../components/inputField/hooks/useSort";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {Box, Tooltip} from "@mui/material";
+import {Box, Tooltip, useTheme} from "@mui/material";
 import {GridActionsCellItem, GridRowParams} from "@mui/x-data-grid";
 import EditIcon from '@mui/icons-material/Edit'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -44,6 +44,7 @@ const TransportationTable = ({
    onSelectionChange,
     onHandleDelete,
 }: Props) => {
+    const theme = useTheme();
     const { id } = useParams();
     const { t } = useTypeSafeTranslation();
     const location = useLocation();
