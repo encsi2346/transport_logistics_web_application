@@ -8,15 +8,15 @@ import {
     DialogTitle,
     FormControl,
     Grid,
-    TextField,
+    TextField, useTheme,
 } from '@mui/material';
 import type {SxProps, Theme} from '@mui/material';
 import {useNavigate, useParams} from "react-router-dom";
-import BackgroundCard from "../../components/layout/BackgroundCard";
 import { useTypeSafeTranslation } from '../../components/inputfield/hooks/useTypeSafeTranslation';
-import DataCard from "@/components/layout/DataCard";
 import React, {useState} from "react";
 import NormalText from "../../components/text/NormalText";
+import DataCard from '../../components/layout/DataCard';
+import CardBoardBox from "../../assets/cardboard_box_2.png";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -69,6 +69,7 @@ const cancelTitleStyle: SxProps<Theme> = {
 const ProductCategoryAddDialog = NiceModal.create(
     (props: { title: string; acceptText: string; resolveText: string }) => {
         const modal = useModal();
+        const theme = useTheme();
         const { t } = useTypeSafeTranslation();
         const { id } = useParams();
         const navigate = useNavigate();
@@ -107,87 +108,151 @@ const ProductCategoryAddDialog = NiceModal.create(
                 </DialogTitle>
 
                 <DialogContent>
-                    <Box>
-                        <BackgroundCard>
-                            <form autoComplete='off'>
-                                <DataCard>
-                                    <Grid item container direction="column" spacing={2} m={10}>
-                                        <Grid item container direction="column" xs={4} md={10} spacing={15}>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_NAME')}/>
-                                                    <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="name"
-                                                            placeholder={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_NAME')}
-                                                            name='name'
-                                                            label={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_NAME')}
-                                                            value={values.name}
-                                                            onChange={handleChange('name')}
-                                                            data-testid='product-category-name-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item container direction="column" xs={4} md={10} spacing={15}>
-                                            <Grid item xs={4} md={5}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'start'
-                                                }}>
-                                                    <NormalText text={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_DESCRIPTION')}/>
-                                                    <FormControl required fullWidth>
-                                                        <TextField
-                                                            id="description"
-                                                            placeholder={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_DESCRIPTION')}
-                                                            name='description'
-                                                            label={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_DESCRIPTION')}
-                                                            value={values.description}
-                                                            onChange={handleChange('description')}
-                                                            data-testid='product-description-input'
-                                                            required
-                                                            sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
-                                                                color: `#000000`,
-                                                                textDecoration: 'none',
-                                                                height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                </Box>
-                                            </Grid>
+                    <Box
+                        sx={{
+                            backgroundColor: `${theme.palette.component.lightMin}`,
+                            paddingLeft: '10px',
+                            paddingRight: '10px',
+                            paddingTop: '10px',
+                            paddingBottom: '10px',
+                            //marginBottom: '10px',
+                            //marginTop: '10px',
+                            //marginLeft: '20px',
+                            //marginRight: '20px',
+                            height: 450,
+                            width: 600,
+                            borderRadius: '19px'
+                        }}
+                    >
+                        <form autoComplete='off'>
+                            <Box
+                                sx={{
+                                    backgroundColor: `${theme.palette.component.medium}`,
+                                    paddingLeft: '10px',
+                                    paddingRight: '10px',
+                                    paddingTop: '10px',
+                                    paddingBottom: '40px',
+                                    height: '100%',
+                                    borderRadius: '19px',
+                                    boxShadow: `0 0 10px rgba(0,0,0,0.3)`,
+                                    position: 'relative',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'start',
+                                }}
+                            >
+                                <Grid item container direction="column" spacing={2} marginTop={1} marginLeft={5} marginBottom={15}>
+                                    <Grid item container direction="column" xs={4} md={10} spacing={5}>
+                                        <Grid item xs={4} md={5}>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'start'
+                                            }}>
+                                                <NormalText text={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_NAME')}/>
+                                                <FormControl required
+                                                     sx={{
+                                                         width: { xs: '100%', sm: '250px' },
+                                                         backgroundColor: 'rgb(255, 255, 255)',
+                                                         borderRadius: '8px',
+                                                     }}
+                                                >
+                                                    <TextField
+                                                        id="name"
+                                                        placeholder={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_NAME')}
+                                                        name='name'
+                                                        //label={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_NAME')}
+                                                        value={values.name}
+                                                        onChange={handleChange('name')}
+                                                        data-testid='product-category-name-input'
+                                                        required
+                                                        sx={{
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Box>
                                         </Grid>
                                     </Grid>
-                                </DataCard>
-                            </form>
-                        </BackgroundCard>
+                                    <Grid item container direction="column" xs={4} md={10} spacing={5}>
+                                        <Grid item xs={4} md={5}>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'start'
+                                            }}>
+                                                <NormalText text={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_DESCRIPTION')}/>
+                                                <FormControl required
+                                                     sx={{
+                                                         width: { xs: '100%', sm: '250px' },
+                                                         backgroundColor: 'rgb(255, 255, 255)',
+                                                         borderRadius: '8px',
+                                                     }}
+                                                >
+                                                    <TextField
+                                                        id="description"
+                                                        placeholder={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_DESCRIPTION')}
+                                                        name='description'
+                                                        //label={t('PRODUCT_CATEGORIES.PRODUCT_CATEGORY_DESCRIPTION')}
+                                                        value={values.description}
+                                                        onChange={handleChange('description')}
+                                                        data-testid='product-description-input'
+                                                        required
+                                                        sx={{
+                                                            backgroundColor: `rgb(255, 255, 255)`,
+                                                            borderRadius: '8px',
+                                                            color: `#000000`,
+                                                            textDecoration: 'none',
+                                                            height: 40,
+                                                            fontSize: '14px',
+                                                            //fontWeight: '600',
+                                                            "& .MuiInputBase-input": {
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                padding: '10px 14px', // Controls padding inside the box
+                                                            },
+                                                            "& fieldset": {
+                                                                border: '#ffffff',
+                                                                borderWidth: '5px',
+                                                            },
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Box sx={{
+                                    position: 'absolute',
+                                    bottom: -5,
+                                    right: 50,
+                                }}>
+                                    <img
+                                        src={CardBoardBox}
+                                        style={{ height: "180px", width: "180px", objectFit: "cover"}}
+                                        alt="van"
+                                    />
+                                </Box>
+                            </Box>
+                        </form>
                     </Box>
                 </DialogContent>
 
