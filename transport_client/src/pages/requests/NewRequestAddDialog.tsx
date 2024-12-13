@@ -7,7 +7,7 @@ import {
     DialogContent,
     DialogTitle, FormControl, Grid,
     IconButton,
-    InputAdornment, InputLabel, Select, TextField
+    InputAdornment, InputLabel, Select, TextField, useTheme
 } from '@mui/material';
 import type {SxProps, Theme} from '@mui/material';
 import type { GridSelectionModel } from '@mui/x-data-grid';
@@ -25,6 +25,7 @@ import DataCard from "@/components/layout/DataCard";
 import React, {useEffect, useState} from "react";
 import NormalText from "../../components/text/NormalText";
 import ClearIcon from "@mui/icons-material/Clear";
+import Envelope from "../../assets/envelope.png";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -77,6 +78,7 @@ const cancelTitleStyle: SxProps<Theme> = {
 const NewRequestAddDialog = NiceModal.create(
     (props: { title: string; acceptText: string; defaultSelected: GridSelectionModel; handleEmployeeAdded: () => void }) => {
         const modal = useModal();
+        const theme = useTheme();
         const { t } = useTypeSafeTranslation();
         const { id } = useParams();
         const navigate = useNavigate();
@@ -243,14 +245,44 @@ const NewRequestAddDialog = NiceModal.create(
                 </DialogTitle>
 
                 <DialogContent>
-                    <Box>
-                        <BackgroundCard>
+                    <Box
+                        sx={{
+                            backgroundColor: `${theme.palette.component.lightMin}`,
+                            paddingLeft: '10px',
+                            paddingRight: '10px',
+                            paddingTop: '10px',
+                            paddingBottom: '10px',
+                            //marginBottom: '10px',
+                            //marginTop: '10px',
+                            //marginLeft: '20px',
+                            //marginRight: '20px',
+                            height: 650,
+                            width: 800,
+                            borderRadius: '19px'
+                        }}
+                    >
                             <form
                                 autoComplete='off'
                                 onSubmit={(e) => handleSubmit(e)}
                             >
-                                <DataCard>
-                                    <Grid item container direction="column" spacing={2}>
+                                <Box
+                                    sx={{
+                                        backgroundColor: `${theme.palette.component.medium}`,
+                                        paddingLeft: '10px',
+                                        paddingRight: '10px',
+                                        paddingTop: '10px',
+                                        paddingBottom: '10px',
+                                        height: '100%',
+                                        borderRadius: '19px',
+                                        boxShadow: `0 0 10px rgba(0,0,0,0.3)`,
+                                        position: 'relative',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'start',
+                                    }}
+                                >
+                                    <Grid item container direction="column" spacing={2} marginTop={1} marginLeft={5} marginBottom={15}>
                                         <Grid item container direction="row" xs={4} md={10} spacing={15}>
                                             <Grid item xs={4} md={5}>
                                                 <Box sx={{
@@ -260,27 +292,39 @@ const NewRequestAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('REQUEST.TITLE')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="title"
                                                             placeholder='Példa Éva'
                                                             name='title'
-                                                            label={t('REQUEST.TITLE')}
+                                                            //label={t('REQUEST.TITLE')}
                                                             value={values.title}
                                                             onChange={handleChange('title')}
                                                             data-testid='title-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -294,13 +338,29 @@ const NewRequestAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('REQUEST.TYPE_OF_REQUEST')} required={true}/>
-                                                    <FormControl>
-                                                        <InputLabel>{t('REQUEST.TYPE_OF_REQUEST')}</InputLabel>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('REQUEST.TYPE_OF_REQUEST')}</InputLabel>
                                                         <Select
                                                             id="typeOfRequest"
                                                             placeholder={t('REQUEST.TYPE_OF_REQUEST')}
                                                             name='typeOfRequest'
-                                                            label={t('REQUEST.TYPE_OF_REQUEST')}
+                                                            //label={t('REQUEST.TYPE_OF_REQUEST')}
                                                             data-testid='typeOfRequest'
                                                             disabled={inputDisabled}
                                                             required
@@ -317,16 +377,22 @@ const NewRequestAddDialog = NiceModal.create(
                                                                 )
                                                             }}
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
+                                                                backgroundColor: `rgb(255, 255, 255)`,
                                                                 borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         >
                                                             {/*Object.values(genderList).map((gender) => (
@@ -348,27 +414,39 @@ const NewRequestAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('REQUEST.SELECTED_DATE')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="selectedDate"
                                                             placeholder='Példa Éva'
                                                             name='selectedDate'
-                                                            label={t('REQUEST.SELECTED_DATE')}
+                                                            //label={t('REQUEST.SELECTED_DATE')}
                                                             value={values.selectedDate}
                                                             onChange={handleChange('selectedDate')}
                                                             data-testid='selected-date-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -382,27 +460,39 @@ const NewRequestAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('REQUEST.REASON')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="reason"
                                                             placeholder='Példa Éva'
                                                             name='reason'
-                                                            label={t('REQUEST.REASON')}
+                                                            //label={t('REQUEST.REASON')}
                                                             value={values.reason}
                                                             onChange={handleChange('reason')}
                                                             data-testid='reason-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -418,13 +508,29 @@ const NewRequestAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('REQUEST.STATUS')} required={true}/>
-                                                    <FormControl>
-                                                        <InputLabel>{t('REQUEST.STATUS')}</InputLabel>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('REQUEST.STATUS')}</InputLabel>
                                                         <Select
                                                             id="status"
                                                             placeholder={t('REQUEST.STATUS')}
                                                             name='status'
-                                                            label={t('REQUEST.STATUS')}
+                                                            //label={t('REQUEST.STATUS')}
                                                             data-testid='status'
                                                             disabled={inputDisabled}
                                                             required
@@ -441,16 +547,22 @@ const NewRequestAddDialog = NiceModal.create(
                                                                 )
                                                             }}
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
+                                                                backgroundColor: `rgb(255, 255, 255)`,
                                                                 borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         >
                                                             {/*Object.values(genderList).map((gender) => (
@@ -470,27 +582,39 @@ const NewRequestAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('REQUEST.ANSWER')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="answerId"
                                                             placeholder='Példa Éva'
                                                             name='answerId'
-                                                            label={t('REQUEST.ANSWER')}
+                                                            //label={t('REQUEST.ANSWER')}
                                                             value={values.answerId}
                                                             onChange={handleChange('answerId')}
                                                             data-testid='answer-id-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -506,27 +630,39 @@ const NewRequestAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('REQUEST.USER')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="userId"
                                                             placeholder='Példa Éva'
                                                             name='userId'
-                                                            label={t('REQUEST.USER')}
+                                                            //label={t('REQUEST.USER')}
                                                             value={values.userId}
                                                             onChange={handleChange('userId')}
                                                             data-testid='user-id-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -534,9 +670,19 @@ const NewRequestAddDialog = NiceModal.create(
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                </DataCard>
+                                    <Box sx={{
+                                        position: 'absolute',
+                                        bottom: 20,
+                                        right: 100,
+                                    }}>
+                                        <img
+                                            src={Envelope}
+                                            style={{ height: "180px", width: "180px", objectFit: "cover"}}
+                                            alt="van"
+                                        />
+                                    </Box>
+                                </Box>
                             </form>
-                        </BackgroundCard>
                     </Box>
                 </DialogContent>
 
