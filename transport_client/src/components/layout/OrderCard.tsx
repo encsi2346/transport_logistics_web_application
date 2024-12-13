@@ -5,6 +5,7 @@ import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CircleIcon from '@mui/icons-material/Circle';
+import React from "react";
 
 const mainTextStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -50,9 +51,9 @@ const OrderCard = ({ onClick, id, status, company }: Props) => {
         <Box
             onClick={onClick}
             sx={{
-                backgroundColor: `${theme.palette.component.lightMin}`,
+                //backgroundColor: `${theme.palette.component.lightMin}`,
                 borderRadius: '19px',
-                border: 1,
+                border: '1px solid rgba(255, 255, 255, .2)',
                 borderColor: "#A3A3A3",
                 marginRight: '60px',
                 marginBottom: '40px',
@@ -73,10 +74,68 @@ const OrderCard = ({ onClick, id, status, company }: Props) => {
                  width: '100%',
                  paddingTop: '15px',
                  paddingLeft: '20px',
-                 marginBottom: '10px',
-                 backgroundColor: '#F1F1F1',
-                 borderRadius: '19px 0 0 19px'
+                 marginBottom: '15px',
+                 backgroundColor: '#ffffff', //`${theme.palette.component.lightMin}`,
+                 background: 'transparent',
+                 backdropFilter: 'blur(30px)',
+                 borderRadius: '19px 0 0 19px',
+                 zIndex: 1, // Set a higher z-index for the card itself
+                 overflow: 'hidden',
              }}>
+                 <Box
+                     sx={{
+                         position: 'absolute',
+                         top: '-40px',
+                         left: '60px',
+                         width: '300px',
+                         height: '300px',
+                         borderRadius: '50%',
+                         backgroundColor: '#e3e3e3',
+                         filter: 'blur(30px)',
+                         zIndex: -1,
+                     }}
+                 />
+                 <Box
+                     sx={{
+                         position: 'absolute',
+                         top: '100px',
+                         right: '-40px',
+                         width: '300px',
+                         height: '300px',
+                         borderRadius: '50%',
+                         backgroundColor: '#e3e3e3',
+                         filter: 'blur(50px)',
+                         zIndex: -1,
+                     }}
+                 />
+
+                 <Box
+                     sx={{
+                         position: 'absolute',
+                         top: '-140px',
+                         right: '-40px',
+                         width: '300px',
+                         height: '300px',
+                         borderRadius: '50%',
+                         backgroundColor: '#e3e3e3',
+                         filter: 'blur(30px)',
+                         zIndex: -1,
+                     }}
+                 />
+
+                 <Box
+                     sx={{
+                         position: 'absolute',
+                         top: '130px',
+                         right: '350px',
+                         width: '300px',
+                         height: '300px',
+                         borderRadius: '50%',
+                         backgroundColor: '#e3e3e3',
+                         filter: 'blur(60px)',
+                         zIndex: -1,
+                     }}
+                 />
                  <Box sx={{
                      display: 'flex',
                      flexDirection: 'row',
@@ -87,7 +146,6 @@ const OrderCard = ({ onClick, id, status, company }: Props) => {
                      paddingLeft: '20px',
                      marginBottom: '40px'
                  }}>
-                     <CheckBoxOutlineBlankIcon sx={checkBoxStyle}/>
                      <Typography sx={{ width: '150px', color: '#262626', fontSize: '25px', fontWeight: 'lighter'}}>#123456</Typography>
                      <Typography sx={{ width: '120px', color: '#ffffff', backgroundColor: '#23ef00', borderRadius: '19px', fontSize: '15px', letterSpacing: '2px', textAlign: 'center', marginRight: '50px'}}>teljesített</Typography>
                      <Typography sx={{ width: '200px', color: '#000000', fontSize: '25px', fontWeight: 'normal', letterSpacing: '1px'}}>BME Trans Zrt.</Typography>
@@ -147,14 +205,20 @@ const OrderCard = ({ onClick, id, status, company }: Props) => {
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
+                justifyContent: 'center',
                 alignSelf: 'flex-start',
                 alignItems: 'flex-start',
-                width: '500px',
-                paddingLeft: '35px',
-                paddingTop: '30px',
+                width: '450px',
+                paddingLeft: '45px',
+                paddingTop: '40px',
+                paddingBottom: '59px',
                 paddingRight: '15px',
-                backgroundColor: '#F9F9F9',
-                borderRadius: '0 19px 19px 0'
+                borderRadius: '0 19px 19px 0',
+                backgroundColor: 'rgba(255,255,255,0)', //`${theme.palette.component.lightMin}`,
+                background: 'transparent',
+                backdropFilter: 'blur(30px)',
+                zIndex: 1, // Set a higher z-index for the card itself
+                overflow: 'hidden',
             }}>
                 <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', flexGrow: 1}}>
                     <LocalShippingIcon sx={iconStyle}/>

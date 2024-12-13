@@ -153,7 +153,7 @@ const OrderRead = ({ isEditing = false, isInputDisabled }: Props) => {
     }, [serviceData]);
 
     return (
-        <Box>
+        <Box sx={{ padding: { xs: 2, sm: 3, md: 4 } }}>
             <BackgroundCard>
                 <Box sx={{display: 'flex',
                     flexDirection: 'row',
