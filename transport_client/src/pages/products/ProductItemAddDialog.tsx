@@ -7,7 +7,7 @@ import {
     DialogContent,
     DialogTitle, FormControl, Grid,
     IconButton,
-    InputAdornment, InputLabel, Select, TextField
+    InputAdornment, InputLabel, Select, TextField, Tooltip, useTheme
 } from '@mui/material';
 import type {SxProps, Theme} from '@mui/material';
 import type { GridSelectionModel } from '@mui/x-data-grid';
@@ -26,6 +26,11 @@ import NormalText from "../../components/text/NormalText";
 import React, {useEffect, useState} from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import axios from 'axios';
+import CardBoardBox from "../../assets/cardboard_box_2.png";
+import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
+import UniqueIconButton from "../../components/button/UniqueIconButton";
+import UploadIcon from "@mui/icons-material/Upload";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function convertToBase64(file){
     return new Promise((resolve, reject) => {
@@ -88,9 +93,19 @@ const cancelTitleStyle: SxProps<Theme> = {
     textTransform: 'none',
 }
 
+const iconStyle: SxProps<Theme> = {
+    fontSize: 100,
+    color: '#A3A3A3',
+    marginLeft: '40px',
+    marginRight: '40px',
+    marginTop: '20px',
+    marginBottom: '10px',
+}
+
 const NewProductItemAddDialog = NiceModal.create(
     (props: { title: string; acceptText: string; defaultSelected: GridSelectionModel; handleEmployeeAdded: () => void }) => {
         const modal = useModal();
+        const theme = useTheme();
         const { t } = useTypeSafeTranslation();
         const { id } = useParams();
         const navigate = useNavigate();
@@ -332,14 +347,43 @@ const NewProductItemAddDialog = NiceModal.create(
                 </DialogTitle>
 
                 <DialogContent>
-                    <Box>
-                        <BackgroundCard>
+                    <Box
+                        sx={{
+                            backgroundColor: `${theme.palette.component.lightMin}`,
+                            paddingLeft: '10px',
+                            paddingRight: '10px',
+                            paddingTop: '10px',
+                            paddingBottom: '10px',
+                            //marginBottom: '10px',
+                            //marginTop: '10px',
+                            //marginLeft: '20px',
+                            //marginRight: '20px',
+                            height: 650,
+                            width: 1000,
+                            borderRadius: '19px'
+                        }}>
                             <form
                                 autoComplete='off'
                                 onSubmit={(e) => handleSubmit(e)}
                             >
-                                <DataCard>
-                                    <Grid item container direction="column" spacing={2} ml={5} mr={5}>
+                                <Box
+                                    sx={{
+                                        backgroundColor: `${theme.palette.component.medium}`,
+                                        paddingLeft: '10px',
+                                        paddingRight: '10px',
+                                        paddingTop: '10px',
+                                        paddingBottom: '100px',
+                                        height: '100%',
+                                        borderRadius: '19px',
+                                        boxShadow: `0 0 10px rgba(0,0,0,0.3)`,
+                                        position: 'relative',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'start',
+                                    }}
+                                >
+                                    <Grid item container direction="column" spacing={2} marginTop={1} marginLeft={5} marginBottom={15}>
                                         <Grid item container direction="row" xs={4} md={10} spacing={15}>
                                             <Grid item xs={4} md={5}>
                                                 <Box sx={{
@@ -349,27 +393,39 @@ const NewProductItemAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('PRODUCTS.NAME')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="name"
                                                             placeholder='Példa Éva'
                                                             name='name'
-                                                            label={t('PRODUCTS.NAME')}
+                                                            //label={t('PRODUCTS.NAME')}
                                                             value={values.name}
                                                             onChange={handleChange('name')}
                                                             data-testid='name-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -383,27 +439,39 @@ const NewProductItemAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('PRODUCTS.DESCRIPTION')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="description"
                                                             placeholder='Példa Éva'
                                                             name='description'
-                                                            label={t('PRODUCTS.DESCRIPTION')}
+                                                            //label={t('PRODUCTS.DESCRIPTION')}
                                                             value={values.description}
                                                             onChange={handleChange('description')}
                                                             data-testid='description-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -419,13 +487,29 @@ const NewProductItemAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('PRODUCTS.CATEGORY')} required={true}/>
-                                                    <FormControl>
-                                                        <InputLabel>{t('PRODUCTS.CATEGORY')}</InputLabel>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('PRODUCTS.CATEGORY')}</InputLabel>
                                                         <Select
                                                             id="category"
                                                             placeholder={t('PRODUCTS.CATEGORY')}
                                                             name='category'
-                                                            label={t('PRODUCTS.CATEGORY')}
+                                                            //label={t('PRODUCTS.CATEGORY')}
                                                             data-testid='category'
                                                             disabled={inputDisabled}
                                                             required
@@ -442,16 +526,22 @@ const NewProductItemAddDialog = NiceModal.create(
                                                                 )
                                                             }}
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
+                                                                backgroundColor: `rgb(255, 255, 255)`,
                                                                 borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         >
                                                             {/*Object.values(genderList).map((gender) => (
@@ -471,27 +561,39 @@ const NewProductItemAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('PRODUCTS.ARTICLE_NUMBER')} required={true}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="articleNumber"
                                                             placeholder='Példa Éva'
                                                             name='articleNumber'
-                                                            label={t('PRODUCTS.ARTICLE_NUMBER')}
+                                                            //label={t('PRODUCTS.ARTICLE_NUMBER')}
                                                             value={values.articleNumber}
                                                             onChange={handleChange('articleNumber')}
                                                             data-testid='article-number-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -507,27 +609,39 @@ const NewProductItemAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('PRODUCTS.BARCODE')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="barcode"
                                                             placeholder='Példa Éva'
                                                             name='barcode'
-                                                            label={t('PRODUCTS.BARCODE')}
+                                                            //label={t('PRODUCTS.BARCODE')}
                                                             value={values.barcode}
                                                             onChange={handleChange('barcode')}
                                                             data-testid='barcode-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -541,27 +655,39 @@ const NewProductItemAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('PRODUCTS.SELF_WEIGHT')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="selfWeight"
                                                             placeholder='Példa Éva'
                                                             name='selfWeight'
-                                                            label={t('PRODUCTS.SELF_WEIGHT')}
+                                                            //label={t('PRODUCTS.SELF_WEIGHT')}
                                                             value={values.selfWeight}
                                                             onChange={handleChange('selfWeight')}
                                                             data-testid='self-weight-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -577,27 +703,39 @@ const NewProductItemAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('PRODUCTS.CURRENT_NUMBER_OF_ITEMS')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="currentNumberOfItems"
                                                             placeholder='Példa Éva'
                                                             name='currentNumberOfItems'
-                                                            label={t('PRODUCTS.CURRENT_NUMBER_OF_ITEMS')}
+                                                            //label={t('PRODUCTS.CURRENT_NUMBER_OF_ITEMS')}
                                                             value={values.currentNumberOfItems}
                                                             onChange={handleChange('currentNumberOfItems')}
                                                             data-testid='current-number-of-items-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -611,27 +749,39 @@ const NewProductItemAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('PRODUCTS.SZAZALEK')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="szazalek"
                                                             placeholder='Példa Éva'
                                                             name='szazalek'
-                                                            label={t('PRODUCTS.SZAZALEK')}
+                                                            //label={t('PRODUCTS.SZAZALEK')}
                                                             value={values.szazalek}
                                                             onChange={handleChange('szazalek')}
                                                             data-testid='szazalek-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -647,13 +797,29 @@ const NewProductItemAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('PRODUCTS.STATUS')} required={true}/>
-                                                    <FormControl>
-                                                        <InputLabel>{t('PRODUCTS.STATUS')}</InputLabel>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('PRODUCTS.STATUS')}</InputLabel>
                                                         <Select
                                                             id="status"
                                                             placeholder={t('PRODUCTS.STATUS')}
                                                             name='status'
-                                                            label={t('PRODUCTS.STATUS')}
+                                                            //label={t('PRODUCTS.STATUS')}
                                                             data-testid='status'
                                                             disabled={inputDisabled}
                                                             required
@@ -670,16 +836,22 @@ const NewProductItemAddDialog = NiceModal.create(
                                                                 )
                                                             }}
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
+                                                                backgroundColor: `rgb(255, 255, 255)`,
                                                                 borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         >
                                                             {/*Object.values(genderList).map((gender) => (
@@ -693,50 +865,70 @@ const NewProductItemAddDialog = NiceModal.create(
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                </DataCard>
-                            </form>
-
-                            <Grid container direction="column" spacing={2}>
-                                <Grid item>
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            backgroundColor: '#ffffff',
-                                            width: 250,
-                                            height: 250,
-                                            borderRadius: 4,
-                                            cursor: 'pointer'
-                                        }}
-                                    >
-                                        <Box>
-                                            {/* TODO: Add image picker component */}
-                                            <form onSubmit={handleSubmitImage}>
-                                                {/*<PhotoLibraryIcon sx={iconStyle} onChange={onInputChange}/>
-                                                        <Typography sx={textStyle}>
-                                                            {t('USER.UPLOAD_IMAGE')}
-                                                        </Typography>*/}
-                                                <input
-                                                    type="file"
-                                                    label="Image"
-                                                    name="myFile"
-                                                    id='file-upload'
-                                                    accept='.jpeg, .png, .jpg'
-                                                    onChange={(e) => handleFileUpload(e)}
-                                                />
-                                                <img
-                                                    src={allImage !== null ? (image.image || allImage[0]?.image) : ""}
-                                                    alt="" height={100}
-                                                    width={100}/>
-                                                <button type='submit'>Submit</button>
-                                            </form>
-                                            <button onClick={handleDeleteImage}>Delete Image</button>
-                                        </Box>
+                                    <Box sx={{
+                                        position: 'absolute',
+                                        bottom: -25,
+                                        right: 210,
+                                        marginBottom: 10
+                                    }}>
+                                        <form onSubmit={handleSubmitImage}>
+                                            <Box sx={{display: 'flex', marginBottom: '10px'}}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    backgroundColor: '#ffffff',
+                                                    width: 200,
+                                                    height: 200,
+                                                    borderRadius: 4,
+                                                    cursor: 'pointer'
+                                                }}>
+                                                    {allImage?.length > 0 ? (
+                                                        <img
+                                                            src={allImage?.length > 0 ? (image.image || allImage[0]?.image) : ""}
+                                                            alt=""
+                                                            height={150}
+                                                            width={150}
+                                                        />
+                                                    ) : (
+                                                        <PhotoLibraryIcon sx={iconStyle}/>
+                                                    )}
+                                                </Box>
+                                                <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                                                    <Box sx={{display: 'flex', marginBottom: '10px'}}>
+                                                        <Tooltip title={t('TEXT.SAVE')}>
+                                                            <UniqueIconButton
+                                                                type='submit'
+                                                                icon={<UploadIcon sx={{width: '30px'}}/>}
+                                                                color='#ffffff'
+                                                                backgroundColor='#A3A3A3'
+                                                            />
+                                                        </Tooltip>
+                                                    </Box>
+                                                    <Box sx={{display: 'flex'}}>
+                                                        <Tooltip title={t('TEXT.REMOVE_IMAGE')}>
+                                                            <UniqueIconButton
+                                                                onClick={handleDeleteImage}
+                                                                icon={<DeleteIcon sx={{width: '30px'}}/>}
+                                                                color='#A3A3A3'
+                                                                backgroundColor='#ffffff'
+                                                            />
+                                                        </Tooltip>
+                                                    </Box>
+                                                </Box>
+                                            </Box>
+                                            <input
+                                                type="file"
+                                                name="myFile"
+                                                id='file-upload'
+                                                accept='.jpeg, .png, .jpg'
+                                                onChange={(e) => handleFileUpload(e)}
+                                            />
+                                        </form>
                                     </Box>
-                                </Grid>
-                            </Grid>
-                        </BackgroundCard>
+                                </Box>
+                            </form>
                     </Box>
                 </DialogContent>
 
