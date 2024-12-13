@@ -7,7 +7,7 @@ import {
     DialogContent,
     DialogTitle, FormControl, Grid,
     IconButton,
-    InputAdornment, InputLabel, MenuItem, Select, TextField
+    InputAdornment, InputLabel, MenuItem, Select, TextField, useTheme
 } from '@mui/material';
 import type {SxProps, Theme} from '@mui/material';
 import type { GridSelectionModel } from '@mui/x-data-grid';
@@ -79,6 +79,7 @@ const cancelTitleStyle: SxProps<Theme> = {
 const CarTypeAddDialog = NiceModal.create(
     (props: { title: string; acceptText: string; defaultSelected: GridSelectionModel; handleEmployeeAdded: () => void }) => {
         const modal = useModal();
+        const theme = useTheme();
         const { t } = useTypeSafeTranslation();
         const { id } = useParams();
         const navigate = useNavigate();
@@ -260,16 +261,46 @@ const CarTypeAddDialog = NiceModal.create(
                 </DialogTitle>
 
                 <DialogContent>
-                    <Box>
-                        <BackgroundCard>
-                            <FormProvider children={''} {...methods}>
+                    <Box
+                        sx={{
+                            backgroundColor: `${theme.palette.component.lightMin}`,
+                            paddingLeft: '10px',
+                            paddingRight: '10px',
+                            paddingTop: '10px',
+                            paddingBottom: '10px',
+                            //marginBottom: '10px',
+                            //marginTop: '10px',
+                            //marginLeft: '20px',
+                            //marginRight: '20px',
+                            height: 650,
+                            width: 1000,
+                            borderRadius: '19px'
+                        }}
+                    >
+                        {/*<FormProvider children={''} {...methods}>*/}
                                 <form
                                     autoComplete='off'
                                     onSubmit={handleSubmit(onSubmit)}
                                 >
-                                    <DataCard>
-                                        <Grid item container direction="column" spacing={2} mt={1} mb={1} mr={5} ml={5}>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                    <Box
+                                        sx={{
+                                            backgroundColor: `${theme.palette.component.medium}`,
+                                            paddingLeft: '10px',
+                                            paddingRight: '10px',
+                                            paddingTop: '10px',
+                                            paddingBottom: '40px',
+                                            height: '100%',
+                                            borderRadius: '19px',
+                                            boxShadow: `0 0 10px rgba(0,0,0,0.3)`,
+                                            position: 'relative',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'start'
+                                        }}
+                                    >
+                                        <Grid item container direction="column" spacing={2} marginTop={1} marginLeft={5} marginBottom={15}>
+                                            <Grid item container direction="row" xs={4} md={10} spacing={5}>
                                                 <Grid item xs={4} md={5}>
                                                     <Box sx={{
                                                         display: 'flex',
@@ -278,13 +309,29 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.BRAND')} required={true}/>
-                                                        <FormControl>
-                                                            <InputLabel>{t('CAR_TYPES.BRAND')}</InputLabel>
+                                                        <FormControl
+                                                            sx={{
+                                                                width: { xs: '100%', sm: '250px' },
+                                                                backgroundColor: 'rgb(255, 255, 255)',
+                                                                borderRadius: '8px',
+                                                            }}
+                                                        >
+                                                            <InputLabel
+                                                                sx={{
+                                                                    fontSize: '14px',
+                                                                    color: '#8f8f8f',
+                                                                    transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                    left: 0,
+                                                                    "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                        transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                    },
+                                                                }}
+                                                            >{t('CAR_TYPES.BRAND')}</InputLabel>
                                                             <Select
                                                                 id="brand"
                                                                 placeholder={t('CAR_TYPES.BRAND')}
                                                                 name='brand'
-                                                                label={t('CAR_TYPES.BRAND')}
+                                                                //label={t('CAR_TYPES.BRAND')}
                                                                 data-testid='brand'
                                                                 disabled={inputDisabled}
                                                                 required
@@ -304,16 +351,22 @@ const CarTypeAddDialog = NiceModal.create(
                                                                     )
                                                                 }}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
                                                                     borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             >
                                                                 {/*Object.values(genderList).map((gender) => (
@@ -333,12 +386,18 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.CAR_TYPE_NAME')}/>
-                                                        <FormControl required fullWidth>
+                                                        <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                        >
                                                             <TextField
                                                                 id="typeName"
                                                                 placeholder='Példa Éva'
                                                                 name='typeName'
-                                                                label={t('CAR_TYPES.CAR_TYPE_NAME')}
+                                                                //label={t('CAR_TYPES.CAR_TYPE_NAME')}
                                                                 //value={values.typeName}
                                                                 //onChange={handleChange('typeName')}
                                                                 data-testid='car-type-name-input'
@@ -346,23 +405,29 @@ const CarTypeAddDialog = NiceModal.create(
                                                                 errors={isValid}
                                                                 control={control}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
+                                                                    borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             />
                                                         </FormControl>
                                                     </Box>
                                                 </Grid>
                                             </Grid>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item container direction="row" xs={4} md={10} spacing={5}>
                                                 <Grid item xs={4} md={5}>
                                                     <Box sx={{
                                                         display: 'flex',
@@ -371,13 +436,29 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.DESIGN')} required={true}/>
-                                                        <FormControl>
-                                                            <InputLabel>{t('CAR_TYPES.DESIGN')}</InputLabel>
+                                                        <FormControl
+                                                            sx={{
+                                                                width: { xs: '100%', sm: '250px' },
+                                                                backgroundColor: 'rgb(255, 255, 255)',
+                                                                borderRadius: '8px',
+                                                            }}
+                                                        >
+                                                            <InputLabel
+                                                                sx={{
+                                                                    fontSize: '14px',
+                                                                    color: '#8f8f8f',
+                                                                    transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                    left: 0,
+                                                                    "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                        transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                    },
+                                                                }}
+                                                            >{t('CAR_TYPES.DESIGN')}</InputLabel>
                                                             <Select
                                                                 id="design"
                                                                 placeholder={t('CAR_TYPES.DESIGN')}
                                                                 name='design'
-                                                                label={t('CAR_TYPES.DESIGN')}
+                                                                //label={t('CAR_TYPES.DESIGN')}
                                                                 data-testid='design'
                                                                 disabled={inputDisabled}
                                                                 required
@@ -396,16 +477,22 @@ const CarTypeAddDialog = NiceModal.create(
                                                                     )
                                                                 }}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
                                                                     borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             >
                                                                 {/*Object.values(genderList).map((gender) => (
@@ -425,12 +512,18 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.PERFORMANCE')}/>
-                                                        <FormControl required fullWidth>
+                                                        <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                        >
                                                             <TextField
                                                                 id="performance"
                                                                 placeholder='Példa Éva'
                                                                 name='performance'
-                                                                label={t('CAR_TYPES.PERFORMANCE')}
+                                                                //label={t('CAR_TYPES.PERFORMANCE')}
                                                                 //value={values.performance}
                                                                 //onChange={handleChange('performance')}
                                                                 data-testid='performance-input'
@@ -438,23 +531,29 @@ const CarTypeAddDialog = NiceModal.create(
                                                                 errors={isValid}
                                                                 control={control}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
+                                                                    borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             />
                                                         </FormControl>
                                                     </Box>
                                                 </Grid>
                                             </Grid>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item container direction="row" xs={4} md={10} spacing={5}>
                                                 <Grid item xs={4} md={5}>
                                                     <Box sx={{
                                                         display: 'flex',
@@ -463,12 +562,18 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.OWN_WEIGHT')}/>
-                                                        <FormControl required fullWidth>
+                                                        <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                        >
                                                             <TextField
                                                                 id="selfWeight"
                                                                 placeholder='Példa Éva'
                                                                 name='selfWeight'
-                                                                label={t('CAR_TYPES.OWN_WEIGHT')}
+                                                                //label={t('CAR_TYPES.OWN_WEIGHT')}
                                                                 //value={values.selfWeight}
                                                                 //onChange={handleChange('selfWeight')}
                                                                 data-testid='self-weight-input'
@@ -476,16 +581,22 @@ const CarTypeAddDialog = NiceModal.create(
                                                                 errors={isValid}
                                                                 control={control}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
+                                                                    borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             />
                                                         </FormControl>
@@ -499,12 +610,18 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.USEFUL_WEIGHT')}/>
-                                                        <FormControl required fullWidth>
+                                                        <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                        >
                                                             <TextField
                                                                 id="usefulWeight"
                                                                 placeholder='Példa Éva'
                                                                 name='usefulWeight'
-                                                                label={t('CAR_TYPES.USEFUL_WEIGHT')}
+                                                                //label={t('CAR_TYPES.USEFUL_WEIGHT')}
                                                                 //value={values.usefulWeight}
                                                                 //onChange={handleChange('usefulWeight')}
                                                                 data-testid='useful-weight-input'
@@ -512,23 +629,29 @@ const CarTypeAddDialog = NiceModal.create(
                                                                 errors={isValid}
                                                                 control={control}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
+                                                                    borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             />
                                                         </FormControl>
                                                     </Box>
                                                 </Grid>
                                             </Grid>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item container direction="row" xs={4} md={10} spacing={5}>
                                                 <Grid item xs={4} md={5}>
                                                     <Box sx={{
                                                         display: 'flex',
@@ -537,13 +660,29 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.NUMBER_OF_SEATS')} required={true}/>
-                                                        <FormControl>
-                                                            <InputLabel>{t('CAR_TYPES.NUMBER_OF_SEATS')}</InputLabel>
+                                                        <FormControl
+                                                            sx={{
+                                                                width: { xs: '100%', sm: '250px' },
+                                                                backgroundColor: 'rgb(255, 255, 255)',
+                                                                borderRadius: '8px',
+                                                            }}
+                                                        >
+                                                            <InputLabel
+                                                                sx={{
+                                                                    fontSize: '14px',
+                                                                    color: '#8f8f8f',
+                                                                    transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                    left: 0,
+                                                                    "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                        transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                    },
+                                                                }}
+                                                            >{t('CAR_TYPES.NUMBER_OF_SEATS')}</InputLabel>
                                                             <Select
                                                                 id="numberOfSeats"
                                                                 placeholder={t('CAR_TYPES.NUMBER_OF_SEATS')}
                                                                 name='numberOfSeats'
-                                                                label={t('CAR_TYPES.NUMBER_OF_SEATS')}
+                                                                //label={t('CAR_TYPES.NUMBER_OF_SEATS')}
                                                                 data-testid='numberOfSeats'
                                                                 disabled={inputDisabled}
                                                                 required
@@ -562,16 +701,22 @@ const CarTypeAddDialog = NiceModal.create(
                                                                     )
                                                                 }}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
                                                                     borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             >
                                                                 {/*Object.values(genderList).map((gender) => (
@@ -591,13 +736,29 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.FUEL')} required={true}/>
-                                                        <FormControl>
-                                                            <InputLabel>{t('CAR_TYPES.FUEL')}</InputLabel>
+                                                        <FormControl
+                                                            sx={{
+                                                                width: { xs: '100%', sm: '250px' },
+                                                                backgroundColor: 'rgb(255, 255, 255)',
+                                                                borderRadius: '8px',
+                                                            }}
+                                                        >
+                                                            <InputLabel
+                                                                sx={{
+                                                                    fontSize: '14px',
+                                                                    color: '#8f8f8f',
+                                                                    transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                    left: 0,
+                                                                    "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                        transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                    },
+                                                                }}
+                                                            >{t('CAR_TYPES.FUEL')}</InputLabel>
                                                             <Select
                                                                 id="fuel"
                                                                 placeholder={t('CAR_TYPES.FUEL')}
                                                                 name='fuel'
-                                                                label={t('CAR_TYPES.FUEL')}
+                                                                //label={t('CAR_TYPES.FUEL')}
                                                                 data-testid='fuel'
                                                                 disabled={inputDisabled}
                                                                 required
@@ -616,16 +777,22 @@ const CarTypeAddDialog = NiceModal.create(
                                                                     )
                                                                 }}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
                                                                     borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             >
                                                                 {/*Object.values(genderList).map((gender) => (
@@ -638,7 +805,7 @@ const CarTypeAddDialog = NiceModal.create(
                                                     </Box>
                                                 </Grid>
                                             </Grid>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item container direction="row" xs={4} md={10} spacing={5}>
                                                 <Grid item xs={4} md={5}>
                                                     <Box sx={{
                                                         display: 'flex',
@@ -647,12 +814,18 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.VONTATAS')}/>
-                                                        <FormControl required fullWidth>
+                                                        <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                        >
                                                             <TextField
                                                                 id="vontatas"
                                                                 placeholder='Példa Éva'
                                                                 name='vontatas'
-                                                                label={t('CAR_TYPES.VONTATAS')}
+                                                                //label={t('CAR_TYPES.VONTATAS')}
                                                                 //value={values.vontatas}
                                                                 //onChange={handleChange('vontatas')}
                                                                 data-testid='vontatas-input'
@@ -660,16 +833,22 @@ const CarTypeAddDialog = NiceModal.create(
                                                                 errors={isValid}
                                                                 control={control}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
+                                                                    borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             />
                                                         </FormControl>
@@ -683,12 +862,18 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.HEIGHT')}/>
-                                                        <FormControl required fullWidth>
+                                                        <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                        >
                                                             <TextField
                                                                 id="height"
                                                                 placeholder='Példa Éva'
                                                                 name='height'
-                                                                label={t('CAR_TYPES.HEIGHT')}
+                                                                //label={t('CAR_TYPES.HEIGHT')}
                                                                 //value={values.height}
                                                                 //onChange={handleChange('height')}
                                                                 data-testid='height-input'
@@ -696,23 +881,29 @@ const CarTypeAddDialog = NiceModal.create(
                                                                 errors={isValid}
                                                                 control={control}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
+                                                                    borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             />
                                                         </FormControl>
                                                     </Box>
                                                 </Grid>
                                             </Grid>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item container direction="row" xs={4} md={10} spacing={5}>
                                                 <Grid item xs={4} md={5}>
                                                     <Box sx={{
                                                         display: 'flex',
@@ -721,12 +912,18 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.SZELESSEG')}/>
-                                                        <FormControl required fullWidth>
+                                                        <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                        >
                                                             <TextField
                                                                 id="szelesseg"
                                                                 placeholder='Példa Éva'
                                                                 name='szelesseg'
-                                                                label={t('CAR_TYPES.SZELESSEG')}
+                                                                //label={t('CAR_TYPES.SZELESSEG')}
                                                                 //value={values.szelesseg}
                                                                 //onChange={handleChange('szelesseg')}
                                                                 data-testid='szelesseg-input'
@@ -734,16 +931,22 @@ const CarTypeAddDialog = NiceModal.create(
                                                                 errors={isValid}
                                                                 control={control}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
+                                                                    borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             />
                                                         </FormControl>
@@ -757,12 +960,18 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.LONG')}/>
-                                                        <FormControl required fullWidth>
+                                                        <FormControl required
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                        >
                                                             <TextField
                                                                 id="long"
                                                                 placeholder='Példa Éva'
                                                                 name='long'
-                                                                label={t('CAR_TYPES.LONG')}
+                                                                //label={t('CAR_TYPES.LONG')}
                                                                 //value={values.long}
                                                                 //onChange={handleChange('long')}
                                                                 data-testid='long-input'
@@ -770,23 +979,29 @@ const CarTypeAddDialog = NiceModal.create(
                                                                 errors={isValid}
                                                                 control={control}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
+                                                                    borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             />
                                                         </FormControl>
                                                     </Box>
                                                 </Grid>
                                             </Grid>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item container direction="row" xs={4} md={10} spacing={5}>
                                                 <Grid item xs={4} md={5}>
                                                     <Box sx={{
                                                         display: 'flex',
@@ -795,13 +1010,29 @@ const CarTypeAddDialog = NiceModal.create(
                                                         alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')} required={true}/>
-                                                        <FormControl>
-                                                            <InputLabel>{t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}</InputLabel>
+                                                        <FormControl
+                                                            sx={{
+                                                                width: { xs: '100%', sm: '250px' },
+                                                                backgroundColor: 'rgb(255, 255, 255)',
+                                                                borderRadius: '8px',
+                                                            }}
+                                                        >
+                                                            <InputLabel
+                                                                sx={{
+                                                                    fontSize: '14px',
+                                                                    color: '#8f8f8f',
+                                                                    transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                    left: 0,
+                                                                    "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                        transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                    },
+                                                                }}
+                                                            >{t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}</InputLabel>
                                                             <Select
                                                                 id="carTypeOfTransportationId"
                                                                 placeholder={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
                                                                 name='carTypeOfTransportationId'
-                                                                label={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
+                                                                //label={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
                                                                 data-testid='carTypeOfTransportationId'
                                                                 disabled={inputDisabled}
                                                                 required
@@ -820,16 +1051,22 @@ const CarTypeAddDialog = NiceModal.create(
                                                                     )
                                                                 }}
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
                                                                     borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             >
                                                                 {/*Object.values(genderList).map((gender) => (
@@ -843,10 +1080,11 @@ const CarTypeAddDialog = NiceModal.create(
                                                 </Grid>
                                             </Grid>
                                         </Grid>
-                                    </DataCard>
+                                    </Box>
                                 </form>
-                            </FormProvider>
-                        </BackgroundCard>
+                        {/*</FormProvider>
+                        TODO
+                        */}
                     </Box>
                 </DialogContent>
 

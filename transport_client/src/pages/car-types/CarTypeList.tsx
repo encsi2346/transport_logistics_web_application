@@ -1,6 +1,6 @@
 import PageHeader from "../../components/text/PageHeader";
 import FilterCard from "../../components/layout/FilterCard";
-import {Box, Fab, FormControl, Grid, Input, InputAdornment, TextField, Tooltip} from "@mui/material";
+import {Box, Fab, FormControl, Grid, Input, InputAdornment, TextField, Tooltip, useTheme} from "@mui/material";
 import ContentCard from "../../components/layout/ContentCard";
 import React, {useEffect, useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
@@ -18,6 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 const CarTypeList = () => {
     const { id } = useParams();
+    const theme = useTheme();
     const { t } = useTypeSafeTranslation();
     const navigate = useNavigate();
     const location = useLocation();
@@ -164,7 +165,7 @@ const CarTypeList = () => {
     };
 
     return (
-        <Box>
+        <Box sx={{ padding: { xs: 2, sm: 3, md: 4 } }}>
             <PageHeader text={t('TEXT.CAR_TYPES')}/>
             <FilterCard>
                 <form
@@ -177,21 +178,15 @@ const CarTypeList = () => {
                 >
                     <Box sx={{
                         display: 'flex',
-                        flexDirection: 'row',
+                        flexDirection: { xs: 'column', sm: 'row' },
                         alignItems: 'center',
-                        justifyContent: 'flex-start',
-                        gap: 3
+                        marginTop: 1,
+                        marginBottom: 5,
+                        marginLeft: 2,
+                        gap: 4,
+                        paddingRight: 5
                     }}>
-                        <Box sx={{
-                            marginTop: 1,
-                            marginBottom: 5,
-                            marginLeft: 2,
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            gap: 4
-                        }}>
-                            <FormControl>
+                            <FormControl sx={{ width: { xs: '100%', sm: 'auto' } }}>
                                 <TextField
                                     id="brand"
                                     placeholder={t('CAR_TYPES.BRAND')}
@@ -217,18 +212,18 @@ const CarTypeList = () => {
                                                         cursor: 'pointer'
                                                     }}
                                                 >
-                                                    <SearchIcon sx={{color: '#e0e0e0'}}/>
+                                                    <SearchIcon sx={{color: '#ffffff'}}/>
                                                 </Box>
                                             </InputAdornment>
                                         )
                                     }}
                                     sx={{
-                                        backgroundColor: `rgba(255, 255, 255, 0.76)`,
+                                        backgroundColor: `rgba(232, 227, 227, 0.76)`,
                                         borderRadius: '8px',
                                         color: `#000000`,
                                         textDecoration: 'none',
                                         height: 50,
-                                        width: 350,
+                                        width: { xs: '100%', sm: '350px' },
                                         display: 'flex',
                                         justifyContent: 'center',
                                         fontSize: "14px",
@@ -246,10 +241,9 @@ const CarTypeList = () => {
                             </FormControl>
                             <div style={{display: 'flex', alignItems: 'center'}}>
                                 <Tooltip title={t('TEXT.CLEAR_FILTER')}>
-                                    <UniqueIconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '50px'}}/>}/>
+                                    <UniqueIconButton onClick={onReset} icon={<DeleteIcon sx={{ width: '25px', height: '25px' }}/>}/>
                                 </Tooltip>
                             </div>
-                        </Box>
                     </Box>
                 </form>
             </FilterCard>
@@ -279,19 +273,19 @@ const CarTypeList = () => {
                     <Fab aria-label="add"
                          onClick={openAddCarTypeDialog}
                          sx={{
-                            margin: 0,
-                            top: 'auto',
-                            right: '40px',
-                            bottom: '40px',
-                            left: 'auto',
-                            position: 'fixed',
-                            width: '70px',
-                            height: '70px',
-                            backgroundColor: '#a40500',
-                            color: '#ffffff'
-                        }}
+                             margin: 0,
+                             top: 'auto',
+                             bottom: { xs: 16, sm: 32 },
+                             right: { xs: 16, sm: 32 },
+                             left: 'auto',
+                             position: 'fixed',
+                             width: { xs: '50px', sm: '60px' },
+                             height: { xs: '50px', sm: '60px' },
+                             backgroundColor: '#DD1C13' || `${theme.palette.component.dark}`,
+                             color: '#ffffff'
+                         }}
                     >
-                        <AddIcon sx={{ width: '40px', height: '40px'}}/>
+                        <AddIcon sx={{ width: { xs: '24px', sm: '40px' }, height: { xs: '24px', sm: '40px' } }}/>
                     </Fab>
                 </Box>
             </ContentCard>
