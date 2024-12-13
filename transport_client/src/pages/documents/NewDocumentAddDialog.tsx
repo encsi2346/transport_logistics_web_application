@@ -7,7 +7,7 @@ import {
     DialogContent,
     DialogTitle, FormControl, Grid,
     IconButton,
-    InputAdornment, InputLabel, Select, TextField
+    InputAdornment, InputLabel, Select, TextField, useTheme
 } from '@mui/material';
 import type {SxProps, Theme} from '@mui/material';
 import type { GridSelectionModel } from '@mui/x-data-grid';
@@ -27,6 +27,7 @@ import moment from "moment/moment";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./NewDocumentAddDialog.css";
+import DocumentImage from "../../assets/document.png";
 
 function convertToBase64(file){
     return new Promise((resolve, reject) => {
@@ -92,6 +93,7 @@ const cancelTitleStyle: SxProps<Theme> = {
 const NewDocumentAddDialog = NiceModal.create(
     (props: { title: string; acceptText: string; defaultSelected: GridSelectionModel; handleEmployeeAdded: () => void }) => {
         const modal = useModal();
+        const theme = useTheme();
         const { t } = useTypeSafeTranslation();
         const { id } = useParams();
         const navigate = useNavigate();
@@ -296,14 +298,44 @@ const NewDocumentAddDialog = NiceModal.create(
                 </DialogTitle>
 
                 <DialogContent>
-                    <Box>
-                        <BackgroundCard>
+                    <Box
+                        sx={{
+                            backgroundColor: `${theme.palette.component.lightMin}`,
+                            paddingLeft: '10px',
+                            paddingRight: '10px',
+                            paddingTop: '10px',
+                            paddingBottom: '10px',
+                            //marginBottom: '10px',
+                            //marginTop: '10px',
+                            //marginLeft: '20px',
+                            //marginRight: '20px',
+                            height: 550,
+                            width: 800,
+                            borderRadius: '19px'
+                        }}
+                    >
                             <form
                                 autoComplete='off'
                                 onSubmit={(e) => handleSubmit(e)}
                             >
-                                <DataCard>
-                                    <Grid item container direction="column" spacing={2} ml={5} mr={5}>
+                                <Box
+                                    sx={{
+                                        backgroundColor: `${theme.palette.component.medium}`,
+                                        paddingLeft: '10px',
+                                        paddingRight: '10px',
+                                        paddingTop: '10px',
+                                        paddingBottom: '1px',
+                                        height: '100%',
+                                        borderRadius: '19px',
+                                        boxShadow: `0 0 10px rgba(0,0,0,0.3)`,
+                                        position: 'relative',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'start',
+                                    }}
+                                >
+                                    <Grid item container direction="column" spacing={2} marginTop={1} marginLeft={5} marginBottom={15}>
                                         <Grid item container direction="row" xs={4} md={10} spacing={15}>
                                             <Grid item xs={4} md={5}>
                                                 <Box sx={{
@@ -313,13 +345,29 @@ const NewDocumentAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('DOCUMENTS.DOCUMENT_TYPE')} required={true}/>
-                                                    <FormControl>
-                                                        <InputLabel>{t('DOCUMENTS.DOCUMENT_TYPE')}</InputLabel>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('DOCUMENTS.DOCUMENT_TYPE')}</InputLabel>
                                                         <Select
                                                             id="documentType"
                                                             placeholder={t('DOCUMENTS.DOCUMENT_TYPE')}
                                                             name='documentType'
-                                                            label={t('DOCUMENTS.DOCUMENT_TYPE')}
+                                                            //label={t('DOCUMENTS.DOCUMENT_TYPE')}
                                                             data-testid='documentType'
                                                             disabled={inputDisabled}
                                                             required
@@ -339,16 +387,22 @@ const NewDocumentAddDialog = NiceModal.create(
                                                                 )
                                                             }}
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
+                                                                backgroundColor: `rgb(255, 255, 255)`,
                                                                 borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         >
                                                             {/*Object.values(genderList).map((gender) => (
@@ -404,7 +458,13 @@ const NewDocumentAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('DOCUMENTS.TIMESTAMP')} required={true}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <DatePicker
                                                             name='timeStamp'
                                                             data-testid='timestamp-input'
@@ -425,8 +485,24 @@ const NewDocumentAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('DOCUMENTS.STATUS')} required={true}/>
-                                                    <FormControl>
-                                                        <InputLabel>{t('DOCUMENTS.STATUS')}</InputLabel>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('DOCUMENTS.STATUS')}</InputLabel>
                                                         <Select
                                                             id="status"
                                                             placeholder={t('DOCUMENTS.STATUS')}
@@ -451,16 +527,22 @@ const NewDocumentAddDialog = NiceModal.create(
                                                                 )
                                                             }}
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
+                                                                backgroundColor: `rgb(255, 255, 255)`,
                                                                 borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         >
                                                             {/*Object.values(genderList).map((gender) => (
@@ -482,8 +564,24 @@ const NewDocumentAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('DOCUMENTS.CREATOR')} required={true}/>
-                                                    <FormControl>
-                                                        <InputLabel>{t('DOCUMENTS.CREATOR')}</InputLabel>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('DOCUMENTS.CREATOR')}</InputLabel>
                                                         <Select
                                                             id="creator"
                                                             placeholder={t('DOCUMENTS.CREATOR')}
@@ -508,16 +606,22 @@ const NewDocumentAddDialog = NiceModal.create(
                                                                 )
                                                             }}
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
+                                                                backgroundColor: `rgb(255, 255, 255)`,
                                                                 borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         >
                                                             {/*Object.values(genderList).map((gender) => (
@@ -537,7 +641,13 @@ const NewDocumentAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('DOCUMENTS.SIZE')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="size"
                                                             placeholder='Példa Éva'
@@ -548,25 +658,37 @@ const NewDocumentAddDialog = NiceModal.create(
                                                             data-testid='size-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
                                                 </Box>
                                             </Grid>
                                         </Grid>
-                                        <Grid container direction="column" spacing={2}>
-                                            <Grid item>
-                                                <Box>
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start',
+                                                    marginTop: 5
+                                                }}>
                                                     <input
                                                         type="file"
                                                         label="Title"
@@ -579,9 +701,19 @@ const NewDocumentAddDialog = NiceModal.create(
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                </DataCard>
+                                    <Box sx={{
+                                        position: 'absolute',
+                                        bottom: 10,
+                                        right: 130,
+                                    }}>
+                                        <img
+                                            src={DocumentImage}
+                                            style={{ height: "180px", width: "180px", objectFit: "cover"}}
+                                            alt="van"
+                                        />
+                                    </Box>
+                                </Box>
                             </form>
-                        </BackgroundCard>
                     </Box>
                 </DialogContent>
 
