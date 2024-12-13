@@ -278,9 +278,10 @@ const InvoiceList = () => {
                             marginTop: 1,
                             marginBottom: 5,
                             marginLeft: 2,
-                            display: { xs: 'column', sm: 'row' },
-                            flexDirection: 'row',
-                            gap: 2
+                            display: 'flex',
+                            flexDirection: { xs: 'column', sm: 'row' },
+                            alignItems: 'center',
+                            gap: 4
                         }}>
                             <FormControl>
                                 <TextField
@@ -360,22 +361,6 @@ const InvoiceList = () => {
                         onSelectionChange={handleSelectionChange}
                         onDataChange={handleDataChange}
                     />
-                    <Fab aria-label="add"
-                         sx={{
-                             margin: 0,
-                             top: 'auto',
-                             bottom: { xs: 16, sm: 32 },
-                             right: { xs: 16, sm: 32 },
-                             left: 'auto',
-                             position: 'fixed',
-                             width: { xs: '50px', sm: '60px' },
-                             height: { xs: '50px', sm: '60px' },
-                             backgroundColor: '#DD1C13' || `${theme.palette.component.dark}`,
-                             color: '#ffffff'
-                         }}
-                    >
-                        <AddIcon sx={{ width: { xs: '24px', sm: '40px' }, height: { xs: '24px', sm: '40px' } }}/>
-                    </Fab>
                 </Box>
             </ContentCard>
         </Box>
