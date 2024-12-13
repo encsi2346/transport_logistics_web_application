@@ -8,15 +8,14 @@ import {
     DialogTitle,
     FormControl,
     Grid,
-    TextField
+    TextField, useTheme
 } from '@mui/material';
-import type {SxProps, Theme} from '@mui/material';
-import {useNavigate, useParams} from "react-router-dom";
-import BackgroundCard from "../../components/layout/BackgroundCard";
+import type {SxProps, Theme} from '@mui/material';;
 import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation';
-import DataCard from "@/components/layout/DataCard";
 import NormalText from "../../components/text/NormalText";
 import React, {useState} from "react";
+import CardBoardBox from "../../assets/cardboard_box_2.png";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -66,9 +65,17 @@ const cancelTitleStyle: SxProps<Theme> = {
     textTransform: 'none',
 }
 
+const iconStyle: SxProps<Theme> = {
+    fontSize: 100,
+    color: '#A3A3A3',
+    width: 180,
+    height: 180
+}
+
 const NewTypeOfTransportationAddDialog = NiceModal.create(
     (props: { title: string; acceptText: string; resolveText: string }) => {
         const modal = useModal();
+        const theme = useTheme();
         const { t } = useTypeSafeTranslation();
         const [isEditing, setIsEditing] = useState(true);
         const [values, setValues] = useState({
@@ -91,7 +98,7 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
                         "& .MuiPaper-root": {
                             width: "100%",
                             maxWidth: "700px",
-                            height: "600px",
+                            height: "700px",
                             borderRadius: '19px',
                             display: 'flex',
                             alignItems: 'center',
@@ -105,84 +112,132 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
                 </DialogTitle>
 
                 <DialogContent>
-                    <Box>
-                        <BackgroundCard>
+                    <Box
+                        sx={{
+                            backgroundColor: `${theme.palette.component.lightMin}`,
+                            paddingLeft: '10px',
+                            paddingRight: '10px',
+                            paddingTop: '10px',
+                            paddingBottom: '10px',
+                            //marginBottom: '10px',
+                            //marginTop: '10px',
+                            //marginLeft: '20px',
+                            //marginRight: '20px',
+                            height: 650,
+                            width: 650,
+                            borderRadius: '19px'
+                        }}
+                    >
                             <form autoComplete='off'>
-                                <DataCard>
-                                    <Grid item container direction="column" spacing={2}>
-                                        <Grid item container direction="column" xs={4} md={10} spacing={15}>
+                                <Box
+                                    sx={{
+                                        backgroundColor: `${theme.palette.component.medium}`,
+                                        paddingLeft: '10px',
+                                        paddingRight: '10px',
+                                        paddingTop: '10px',
+                                        paddingBottom: '40px',
+                                        height: '100%',
+                                        borderRadius: '19px',
+                                        boxShadow: `0 0 10px rgba(0,0,0,0.3)`,
+                                        position: 'relative',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'start',
+                                    }}
+                                >
+                                    <Grid item container direction="column" spacing={2} marginTop={1} marginLeft={5} marginBottom={15}>
+                                        <Grid item container direction="column" xs={4} md={10} spacing={5}>
                                             <Grid item xs={4} md={5}>
                                                 <Box sx={{
                                                     display: 'flex',
                                                     flexDirection: 'column',
                                                     justifyContent: 'space-between',
-                                                    alignItems: 'start',
-                                                    marginTop: '60px',
-                                                    marginBottom: '60px',
-                                                    marginLeft: '100px',
-                                                    marginRight: '100px'
+                                                    alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="type"
                                                             placeholder={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}
                                                             name='type'
-                                                            label={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}
+                                                            //label={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}
                                                             value={values.type}
                                                             onChange={handleChange('type')}
                                                             data-testid='type-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '13px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
                                                 </Box>
                                             </Grid>
+                                        </Grid>
+                                        <Grid item container direction="column" xs={4} md={10} spacing={5}>
                                             {!isEditing && (
                                                 <Grid item xs={4} md={5}>
                                                     <Box sx={{
                                                         display: 'flex',
                                                         flexDirection: 'column',
                                                         justifyContent: 'space-between',
-                                                        alignItems: 'start',
-                                                        marginTop: '30px',
-                                                        marginBottom: '30px',
-                                                        marginLeft: '100px',
-                                                        marginRight: '100px'
+                                                        alignItems: 'start'
                                                     }}>
                                                         <NormalText text={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}/>
-                                                        <FormControl required fullWidth>
+                                                        <FormControl
+                                                             sx={{
+                                                                 width: { xs: '100%', sm: '250px' },
+                                                                 backgroundColor: 'rgb(255, 255, 255)',
+                                                                 borderRadius: '8px',
+                                                             }}
+                                                        >
                                                             <TextField
                                                                 id="type"
                                                                 placeholder={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}
                                                                 name='type'
-                                                                label={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}
+                                                                //label={t('TYPE_OF_TRANSPORTATION.TYPE_OF_TRANSPORTATION_NAME')}
                                                                 value={values.type}
                                                                 onChange={handleChange('type')}
                                                                 data-testid='type-input'
                                                                 required
                                                                 sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '13px',
+                                                                    backgroundColor: `rgb(255, 255, 255)`,
+                                                                    borderRadius: '8px',
                                                                     color: `#000000`,
                                                                     textDecoration: 'none',
                                                                     height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    "& .MuiInputBase-input": {
+                                                                        fontSize: '14px',
+                                                                        //fontWeight: '600',
+                                                                        padding: '10px 14px', // Controls padding inside the box
+                                                                    },
+                                                                    "& fieldset": {
+                                                                        border: '#ffffff',
+                                                                        borderWidth: '5px',
+                                                                    },
                                                                 }}
                                                             />
                                                         </FormControl>
@@ -191,9 +246,15 @@ const NewTypeOfTransportationAddDialog = NiceModal.create(
                                             )}
                                         </Grid>
                                     </Grid>
-                                </DataCard>
+                                    <Box sx={{
+                                        position: 'absolute',
+                                        bottom: -5,
+                                        right: 60,
+                                    }}>
+                                        <LocalShippingIcon sx={iconStyle}/>
+                                    </Box>
+                                </Box>
                             </form>
-                        </BackgroundCard>
                     </Box>
                 </DialogContent>
 
