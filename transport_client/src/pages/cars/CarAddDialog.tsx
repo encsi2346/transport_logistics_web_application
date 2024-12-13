@@ -6,15 +6,13 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle, FormControl, Grid,
-    IconButton,
-    InputAdornment, InputLabel, Select, TextField
+    InputAdornment, InputLabel, Select, TextField, useTheme
 } from '@mui/material';
 import type {SxProps, Theme} from '@mui/material';
 import type { GridSelectionModel } from '@mui/x-data-grid';
 import {useNavigate, useParams} from "react-router-dom";
-import BackgroundCard from "../../components/layout/BackgroundCard";
+import Van from "@/assets/van.png";
 import { useTypeSafeTranslation } from '../../components/inputField/hooks/useTypeSafeTranslation';
-import DataCard from "../../components/layout/DataCard";
 import NormalText from "../../components/text/NormalText";
 import React, {useState} from "react";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -24,6 +22,7 @@ import moment from "moment/moment";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./CarAddDialog.css";
+import CardBoardBox from "../../assets/cardboard_box_2.png";
 
 const titleStyle: SxProps<Theme> = {
     fontWeight: 'bold',
@@ -76,6 +75,7 @@ const cancelTitleStyle: SxProps<Theme> = {
 const NewCarAddDialog = NiceModal.create(
     (props: { title: string; acceptText: string; defaultSelected: GridSelectionModel; handleEmployeeAdded: () => void }) => {
         const modal = useModal();
+        const theme = useTheme();
         const { t } = useTypeSafeTranslation();
         const { id } = useParams();
         const navigate = useNavigate();
@@ -228,708 +228,239 @@ const NewCarAddDialog = NiceModal.create(
                 </DialogTitle>
 
                 <DialogContent>
-                    <Box>
-                        <BackgroundCard>
-                            <form
-                                autoComplete='off'
-                                onSubmit={(e) => handleSubmit(e)}
-                            >
-                                <Box sx={{ display: 'flex', flexDirection: 'row'}}>
-                                    <Box sx={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'start'
-                                    }}>
-                                        <NormalText text={t('CAR.SELECTED_CAR_TYPE')} />
-                                        <FormControl>
-                                            <InputLabel>{t('CAR.SELECTED_CAR_TYPE')}</InputLabel>
-                                            <Select
-                                                id="type"
-                                                placeholder={t('CAR.TYPE')}
-                                                name='type'
-                                                label={t('CAR.TYPE')}
-                                                data-testid='type'
-                                                disabled={inputDisabled}
-                                                required
-                                                value={values.type ?? ''}
-                                                onChange={handleChange('type')}
-                                                InputProps={{
-                                                    endAdornment: (
-                                                        <InputAdornment position="end">
-                                                            <ClearIcon
-                                                                sx={{color: '#000000', cursor: 'pointer'}}
-                                                                onClick={() => setValues({...values, type: '' })}
-                                                            />
-                                                        </InputAdornment>
-                                                    )
-                                                }}
-                                                sx={{
-                                                    backgroundColor: `#ffffff`,
-                                                    borderRadius: '8px',
-                                                    color: `#000000`,
-                                                    textDecoration: 'none',
-                                                    height: 40,
-                                                    width: 250,
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    fontSize: "15px",
-                                                    "& fieldset": {border: 'none'},
-                                                }}
-                                            >
-                                                {/*Object.values(genderList).map((gender) => (
-                                                                <MenuItem key={gender.value} value={gender.value}>
-                                                                    {gender.label}
-                                                                </MenuItem>
-                                                            ))*/}
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
+                    <Box
+                        sx={{
+                            backgroundColor: `${theme.palette.component.lightMin}`,
+                            paddingLeft: '10px',
+                            paddingRight: '10px',
+                            paddingTop: '10px',
+                            paddingBottom: '10px',
+                            //marginBottom: '10px',
+                            //marginTop: '10px',
+                            //marginLeft: '20px',
+                            //marginRight: '20px',
+                            height: 650,
+                            width: 1000,
+                            borderRadius: '19px'
+                        }}
+                    >
+                        <form
+                            autoComplete='off'
+                            onSubmit={(e) => handleSubmit(e)}
+                        >
+                            <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+                                <Box sx={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'start',
+                                    marginBottom: 3
+                                }}>
+                                    <NormalText text={t('CAR.SELECTED_CAR_TYPE')} />
+                                    <FormControl sx={{ width: { xs: '100%', sm: 'auto' } }}>
+                                        <InputLabel
+                                            sx={{
+                                                fontSize: '14px',
+                                                color: '#8f8f8f',
+                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                left: 0,
+                                                marginRight: 3,
+                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                },
+                                            }}
+                                        >{t('CAR.SELECTED_CAR_TYPE')}</InputLabel>
+                                        <Select
+                                            id="type"
+                                            placeholder={t('CAR.TYPE')}
+                                            name='type'
+                                            label={t('CAR.TYPE')}
+                                            data-testid='type'
+                                            disabled={inputDisabled}
+                                            required
+                                            value={values.type ?? ''}
+                                            onChange={handleChange('type')}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <ClearIcon
+                                                            sx={{color: '#000000', cursor: 'pointer'}}
+                                                            onClick={() => setValues({...values, type: '' })}
+                                                        />
+                                                    </InputAdornment>
+                                                )
+                                            }}
+                                            sx={{
+                                                backgroundColor: `rgba(232, 227, 227, 0.76)`,
+                                                borderRadius: '8px',
+                                                color: `#000000`,
+                                                textDecoration: 'none',
+                                                height: 50,
+                                                width: { xs: '100%', sm: '350px' },
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                fontSize: "14px",
+                                                //fontWeight: "600",
+                                                "& .MuiInputBase-input": {
+                                                    fontSize: '14px',
+                                                    //fontWeight: '600',
+                                                },
+                                                "& fieldset": {
+                                                    border: '#ffffff',
+                                                    borderWidth: '5px'
+                                                },
+                                            }}
+                                        >
+                                            {/*Object.values(genderList).map((gender) => (
+                                                            <MenuItem key={gender.value} value={gender.value}>
+                                                                {gender.label}
+                                                            </MenuItem>
+                                                        ))*/}
+                                        </Select>
+                                    </FormControl>
                                 </Box>
-                                <DataCard>
-                                    <Headline text={t('CAR_TYPES.CAR_TYPE_DATA')} />
-                                    <Box sx={{display: 'flex', flexDirection: 'column', marginLeft: 5, marginRight: 5}}>
-                                        <Grid item container direction="column" spacing={2} mt={1} mb={1} mr={5} ml={5}>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.BRAND')} required={true}/>
-                                                        <FormControl>
-                                                            <InputLabel>{t('CAR_TYPES.BRAND')}</InputLabel>
-                                                            <Select
-                                                                id="brand"
-                                                                placeholder={t('CAR_TYPES.BRAND')}
-                                                                name='brand'
-                                                                label={t('CAR_TYPES.BRAND')}
-                                                                data-testid='brand'
-                                                                disabled={inputDisabled}
-                                                                required
-                                                                value={values.design ?? ''}
-                                                                onChange={handleChange('brand')}
-                                                                InputProps={{
-                                                                    endAdornment: (
-                                                                        <InputAdornment position="end">
-                                                                            <ClearIcon
-                                                                                sx={{color: '#000000', cursor: 'pointer'}}
-                                                                                onClick={() => setValues({...values, brand: '' })}
-                                                                            />
-                                                                        </InputAdornment>
-                                                                    )
-                                                                }}
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '8px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            >
-                                                                {/*Object.values(genderList).map((gender) => (
-                                                                <MenuItem key={gender.value} value={gender.value}>
-                                                                    {gender.label}
-                                                                </MenuItem>
-                                                            ))*/}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.CAR_TYPE_NAME')}/>
-                                                        <FormControl required fullWidth>
-                                                            <TextField
-                                                                id="typeName"
-                                                                placeholder='Példa Éva'
-                                                                name='typeName'
-                                                                label={t('CAR_TYPES.CAR_TYPE_NAME')}
-                                                                value={values.typeName}
-                                                                onChange={handleChange('typeName')}
-                                                                data-testid='car-type-name-input'
-                                                                required
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            />
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
+                            </Box>
+                            <Box
+                                sx={{
+                                    backgroundColor: `${theme.palette.component.medium}`,
+                                    paddingLeft: '10px',
+                                    paddingRight: '10px',
+                                    paddingTop: '10px',
+                                    paddingBottom: '40px',
+                                    height: '100%',
+                                    borderRadius: '19px',
+                                    boxShadow: `0 0 10px rgba(0,0,0,0.3)`,
+                                    position: 'relative',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'start',
+                                }}
+                            >
+                                <Headline text={t('CAR_TYPES.CAR_TYPE_DATA')} />
+                                <Box sx={{display: 'flex', flexDirection: 'column', marginLeft: 0, marginRight: 5}}>
+                                    <Grid item container direction="column" spacing={2} marginTop={1} marginLeft={5} marginBottom={15}>
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR_TYPES.BRAND')} required={true}/>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                marginRight: 3,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('CAR_TYPES.BRAND')}</InputLabel>
+                                                        <Select
+                                                            id="brand"
+                                                            placeholder={t('CAR_TYPES.BRAND')}
+                                                            name='brand'
+                                                            label={t('CAR_TYPES.BRAND')}
+                                                            data-testid='brand'
+                                                            disabled={inputDisabled}
+                                                            required
+                                                            value={values.design ?? ''}
+                                                            onChange={handleChange('brand')}
+                                                            InputProps={{
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <ClearIcon
+                                                                            sx={{color: '#000000', cursor: 'pointer'}}
+                                                                            onClick={() => setValues({...values, brand: '' })}
+                                                                        />
+                                                                    </InputAdornment>
+                                                                )
+                                                            }}
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        >
+                                                            {/*Object.values(genderList).map((gender) => (
+                                                            <MenuItem key={gender.value} value={gender.value}>
+                                                                {gender.label}
+                                                            </MenuItem>
+                                                        ))*/}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
                                             </Grid>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.DESIGN')} required={true}/>
-                                                        <FormControl>
-                                                            <InputLabel>{t('CAR_TYPES.DESIGN')}</InputLabel>
-                                                            <Select
-                                                                id="design"
-                                                                placeholder={t('CAR_TYPES.DESIGN')}
-                                                                name='design'
-                                                                label={t('CAR_TYPES.DESIGN')}
-                                                                data-testid='design'
-                                                                disabled={inputDisabled}
-                                                                required
-                                                                value={values.design ?? ''}
-                                                                onChange={handleChange('design')}
-                                                                InputProps={{
-                                                                    endAdornment: (
-                                                                        <InputAdornment position="end">
-                                                                            <ClearIcon
-                                                                                sx={{color: '#000000', cursor: 'pointer'}}
-                                                                                onClick={() => setValues({...values, design: '' })}
-                                                                            />
-                                                                        </InputAdornment>
-                                                                    )
-                                                                }}
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '8px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            >
-                                                                {/*Object.values(genderList).map((gender) => (
-                                                                <MenuItem key={gender.value} value={gender.value}>
-                                                                    {gender.label}
-                                                                </MenuItem>
-                                                            ))*/}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.PERFORMANCE')}/>
-                                                        <FormControl required fullWidth>
-                                                            <TextField
-                                                                id="performance"
-                                                                placeholder='Példa Éva'
-                                                                name='performance'
-                                                                label={t('CAR_TYPES.PERFORMANCE')}
-                                                                value={values.performance}
-                                                                onChange={handleChange('performance')}
-                                                                data-testid='performance-input'
-                                                                required
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            />
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                            </Grid>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.OWN_WEIGHT')}/>
-                                                        <FormControl required fullWidth>
-                                                            <TextField
-                                                                id="selfWeight"
-                                                                placeholder='Példa Éva'
-                                                                name='selfWeight'
-                                                                label={t('CAR_TYPES.OWN_WEIGHT')}
-                                                                value={values.selfWeight}
-                                                                onChange={handleChange('selfWeight')}
-                                                                data-testid='self-weight-input'
-                                                                required
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            />
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.USEFUL_WEIGHT')}/>
-                                                        <FormControl required fullWidth>
-                                                            <TextField
-                                                                id="usefulWeight"
-                                                                placeholder='Példa Éva'
-                                                                name='usefulWeight'
-                                                                label={t('CAR_TYPES.USEFUL_WEIGHT')}
-                                                                value={values.usefulWeight}
-                                                                onChange={handleChange('usefulWeight')}
-                                                                data-testid='useful-weight-input'
-                                                                required
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            />
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                            </Grid>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.NUMBER_OF_SEATS')} required={true}/>
-                                                        <FormControl>
-                                                            <InputLabel>{t('CAR_TYPES.NUMBER_OF_SEATS')}</InputLabel>
-                                                            <Select
-                                                                id="numberOfSeats"
-                                                                placeholder={t('CAR_TYPES.NUMBER_OF_SEATS')}
-                                                                name='numberOfSeats'
-                                                                label={t('CAR_TYPES.NUMBER_OF_SEATS')}
-                                                                data-testid='numberOfSeats'
-                                                                disabled={inputDisabled}
-                                                                required
-                                                                value={values.numberOfSeats ?? ''}
-                                                                onChange={handleChange('numberOfSeats')}
-                                                                InputProps={{
-                                                                    endAdornment: (
-                                                                        <InputAdornment position="end">
-                                                                            <ClearIcon
-                                                                                sx={{color: '#000000', cursor: 'pointer'}}
-                                                                                onClick={() => setValues({...values, numberOfSeats: '' })}
-                                                                            />
-                                                                        </InputAdornment>
-                                                                    )
-                                                                }}
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '8px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            >
-                                                                {/*Object.values(genderList).map((gender) => (
-                                                                <MenuItem key={gender.value} value={gender.value}>
-                                                                    {gender.label}
-                                                                </MenuItem>
-                                                            ))*/}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.FUEL')} required={true}/>
-                                                        <FormControl>
-                                                            <InputLabel>{t('CAR_TYPES.FUEL')}</InputLabel>
-                                                            <Select
-                                                                id="fuel"
-                                                                placeholder={t('CAR_TYPES.FUEL')}
-                                                                name='fuel'
-                                                                label={t('CAR_TYPES.FUEL')}
-                                                                data-testid='fuel'
-                                                                disabled={inputDisabled}
-                                                                required
-                                                                value={values.fuel ?? ''}
-                                                                onChange={handleChange('fuel')}
-                                                                InputProps={{
-                                                                    endAdornment: (
-                                                                        <InputAdornment position="end">
-                                                                            <ClearIcon
-                                                                                sx={{color: '#000000', cursor: 'pointer'}}
-                                                                                onClick={() => setValues({...values, fuel: '' })}
-                                                                            />
-                                                                        </InputAdornment>
-                                                                    )
-                                                                }}
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '8px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            >
-                                                                {/*Object.values(genderList).map((gender) => (
-                                                                <MenuItem key={gender.value} value={gender.value}>
-                                                                    {gender.label}
-                                                                </MenuItem>
-                                                            ))*/}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                            </Grid>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.VONTATAS')}/>
-                                                        <FormControl required fullWidth>
-                                                            <TextField
-                                                                id="vontatas"
-                                                                placeholder='Példa Éva'
-                                                                name='vontatas'
-                                                                label={t('CAR_TYPES.VONTATAS')}
-                                                                value={values.vontatas}
-                                                                onChange={handleChange('vontatas')}
-                                                                data-testid='vontatas-input'
-                                                                required
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            />
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.HEIGHT')}/>
-                                                        <FormControl required fullWidth>
-                                                            <TextField
-                                                                id="height"
-                                                                placeholder='Példa Éva'
-                                                                name='height'
-                                                                label={t('CAR_TYPES.HEIGHT')}
-                                                                value={values.height}
-                                                                onChange={handleChange('height')}
-                                                                data-testid='height-input'
-                                                                required
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            />
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                            </Grid>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.SZELESSEG')}/>
-                                                        <FormControl required fullWidth>
-                                                            <TextField
-                                                                id="szelesseg"
-                                                                placeholder='Példa Éva'
-                                                                name='szelesseg'
-                                                                label={t('CAR_TYPES.SZELESSEG')}
-                                                                value={values.szelesseg}
-                                                                onChange={handleChange('szelesseg')}
-                                                                data-testid='szelesseg-input'
-                                                                required
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            />
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.LONG')}/>
-                                                        <FormControl required fullWidth>
-                                                            <TextField
-                                                                id="long"
-                                                                placeholder='Példa Éva'
-                                                                name='long'
-                                                                label={t('CAR_TYPES.LONG')}
-                                                                value={values.long}
-                                                                onChange={handleChange('long')}
-                                                                data-testid='long-input'
-                                                                required
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            />
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                            </Grid>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')} required={true}/>
-                                                        <FormControl>
-                                                            <InputLabel>{t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}</InputLabel>
-                                                            <Select
-                                                                id="carTypeOfTransportationId"
-                                                                placeholder={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
-                                                                name='carTypeOfTransportationId'
-                                                                label={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
-                                                                data-testid='carTypeOfTransportationId'
-                                                                disabled={inputDisabled}
-                                                                required
-                                                                value={values.carTypeOfTransportationId ?? ''}
-                                                                onChange={handleChange('carTypeOfTransportationId')}
-                                                                InputProps={{
-                                                                    endAdornment: (
-                                                                        <InputAdornment position="end">
-                                                                            <ClearIcon
-                                                                                sx={{color: '#000000', cursor: 'pointer'}}
-                                                                                onClick={() => setValues({...values, carTypeOfTransportationId: '' })}
-                                                                            />
-                                                                        </InputAdornment>
-                                                                    )
-                                                                }}
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '8px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            >
-                                                                {/*Object.values(genderList).map((gender) => (
-                                                                <MenuItem key={gender.value} value={gender.value}>
-                                                                    {gender.label}
-                                                                </MenuItem>
-                                                            ))*/}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    </Box>
-                                </DataCard>
-                                <DataCard>
-                                    <Headline text={t('CAR.CAR_DATA')} />
-                                    <Box sx={{display: 'flex', flexDirection: 'column', marginLeft: 5, marginRight: 5}}>
-                                        <Grid item container direction="column" spacing={2}>
-                                            <Grid item container direction="row" xs={4} md={10} spacing={15}>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR.NAME')}/>
-                                                        <FormControl required fullWidth>
-                                                            <TextField
-                                                                id="name"
-                                                                placeholder='Példa Éva'
-                                                                name='name'
-                                                                label={t('CAR.NAME')}
-                                                                value={values.name}
-                                                                onChange={handleChange('name')}
-                                                                data-testid='name-input'
-                                                                required
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '18px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            />
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
-                                                <Grid item xs={4} md={5}>
-                                                    <Box sx={{
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'space-between',
-                                                        alignItems: 'start'
-                                                    }}>
-                                                        <NormalText text={t('CAR.TYPE')} required={true}/>
-                                                        <FormControl>
-                                                            <InputLabel>{t('CAR.TYPE')}</InputLabel>
-                                                            <Select
-                                                                id="type"
-                                                                placeholder={t('CAR.TYPE')}
-                                                                name='type'
-                                                                label={t('CAR.TYPE')}
-                                                                data-testid='type'
-                                                                disabled={inputDisabled}
-                                                                required
-                                                                value={values.type ?? ''}
-                                                                onChange={handleChange('type')}
-                                                                InputProps={{
-                                                                    endAdornment: (
-                                                                        <InputAdornment position="end">
-                                                                            <ClearIcon
-                                                                                sx={{color: '#000000', cursor: 'pointer'}}
-                                                                                onClick={() => setValues({...values, type: '' })}
-                                                                            />
-                                                                        </InputAdornment>
-                                                                    )
-                                                                }}
-                                                                sx={{
-                                                                    backgroundColor: `#ffffff`,
-                                                                    borderRadius: '8px',
-                                                                    color: `#000000`,
-                                                                    textDecoration: 'none',
-                                                                    height: 40,
-                                                                    width: 250,
-                                                                    display: 'flex',
-                                                                    justifyContent: 'center',
-                                                                    fontSize: "15px",
-                                                                    "& fieldset": {border: 'none'},
-                                                                }}
-                                                            >
-                                                                {/*Object.values(genderList).map((gender) => (
-                                                                    <MenuItem key={gender.value} value={gender.value}>
-                                                                        {gender.label}
-                                                                    </MenuItem>
-                                                                ))*/}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </Box>
-                                                </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR_TYPES.CAR_TYPE_NAME')}/>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
+                                                        <TextField
+                                                            id="typeName"
+                                                            placeholder='Példa Éva'
+                                                            name='typeName'
+                                                            label={t('CAR_TYPES.CAR_TYPE_NAME')}
+                                                            value={values.typeName}
+                                                            onChange={handleChange('typeName')}
+                                                            data-testid='car-type-name-input'
+                                                            required
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </Box>
                                             </Grid>
                                         </Grid>
                                         <Grid item container direction="row" xs={4} md={10} spacing={15}>
@@ -940,8 +471,796 @@ const NewCarAddDialog = NiceModal.create(
                                                     justifyContent: 'space-between',
                                                     alignItems: 'start'
                                                 }}>
+                                                    <NormalText text={t('CAR_TYPES.DESIGN')} required={true}/>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                marginRight: 3,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('CAR_TYPES.DESIGN')}</InputLabel>
+                                                        <Select
+                                                            id="design"
+                                                            placeholder={t('CAR_TYPES.DESIGN')}
+                                                            name='design'
+                                                            label={t('CAR_TYPES.DESIGN')}
+                                                            data-testid='design'
+                                                            disabled={inputDisabled}
+                                                            required
+                                                            value={values.design ?? ''}
+                                                            onChange={handleChange('design')}
+                                                            InputProps={{
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <ClearIcon
+                                                                            sx={{color: '#000000', cursor: 'pointer'}}
+                                                                            onClick={() => setValues({...values, design: '' })}
+                                                                        />
+                                                                    </InputAdornment>
+                                                                )
+                                                            }}
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        >
+                                                            {/*Object.values(genderList).map((gender) => (
+                                                            <MenuItem key={gender.value} value={gender.value}>
+                                                                {gender.label}
+                                                            </MenuItem>
+                                                        ))*/}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR_TYPES.PERFORMANCE')}/>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
+                                                        <TextField
+                                                            id="performance"
+                                                            placeholder='Példa Éva'
+                                                            name='performance'
+                                                            label={t('CAR_TYPES.PERFORMANCE')}
+                                                            value={values.performance}
+                                                            onChange={handleChange('performance')}
+                                                            data-testid='performance-input'
+                                                            required
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR_TYPES.OWN_WEIGHT')}/>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
+                                                        <TextField
+                                                            id="selfWeight"
+                                                            placeholder='Példa Éva'
+                                                            name='selfWeight'
+                                                            label={t('CAR_TYPES.OWN_WEIGHT')}
+                                                            value={values.selfWeight}
+                                                            onChange={handleChange('selfWeight')}
+                                                            data-testid='self-weight-input'
+                                                            required
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR_TYPES.USEFUL_WEIGHT')}/>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
+                                                        <TextField
+                                                            id="usefulWeight"
+                                                            placeholder='Példa Éva'
+                                                            name='usefulWeight'
+                                                            label={t('CAR_TYPES.USEFUL_WEIGHT')}
+                                                            value={values.usefulWeight}
+                                                            onChange={handleChange('usefulWeight')}
+                                                            data-testid='useful-weight-input'
+                                                            required
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR_TYPES.NUMBER_OF_SEATS')} required={true}/>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                marginRight: 3,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('CAR_TYPES.NUMBER_OF_SEATS')}</InputLabel>
+                                                        <Select
+                                                            id="numberOfSeats"
+                                                            placeholder={t('CAR_TYPES.NUMBER_OF_SEATS')}
+                                                            name='numberOfSeats'
+                                                            label={t('CAR_TYPES.NUMBER_OF_SEATS')}
+                                                            data-testid='numberOfSeats'
+                                                            disabled={inputDisabled}
+                                                            required
+                                                            value={values.numberOfSeats ?? ''}
+                                                            onChange={handleChange('numberOfSeats')}
+                                                            InputProps={{
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <ClearIcon
+                                                                            sx={{color: '#000000', cursor: 'pointer'}}
+                                                                            onClick={() => setValues({...values, numberOfSeats: '' })}
+                                                                        />
+                                                                    </InputAdornment>
+                                                                )
+                                                            }}
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        >
+                                                            {/*Object.values(genderList).map((gender) => (
+                                                            <MenuItem key={gender.value} value={gender.value}>
+                                                                {gender.label}
+                                                            </MenuItem>
+                                                        ))*/}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR_TYPES.FUEL')} required={true}/>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                marginRight: 3,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('CAR_TYPES.FUEL')}</InputLabel>
+                                                        <Select
+                                                            id="fuel"
+                                                            placeholder={t('CAR_TYPES.FUEL')}
+                                                            name='fuel'
+                                                            label={t('CAR_TYPES.FUEL')}
+                                                            data-testid='fuel'
+                                                            disabled={inputDisabled}
+                                                            required
+                                                            value={values.fuel ?? ''}
+                                                            onChange={handleChange('fuel')}
+                                                            InputProps={{
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <ClearIcon
+                                                                            sx={{color: '#000000', cursor: 'pointer'}}
+                                                                            onClick={() => setValues({...values, fuel: '' })}
+                                                                        />
+                                                                    </InputAdornment>
+                                                                )
+                                                            }}
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        >
+                                                            {/*Object.values(genderList).map((gender) => (
+                                                            <MenuItem key={gender.value} value={gender.value}>
+                                                                {gender.label}
+                                                            </MenuItem>
+                                                        ))*/}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR_TYPES.VONTATAS')}/>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
+                                                        <TextField
+                                                            id="vontatas"
+                                                            placeholder='Példa Éva'
+                                                            name='vontatas'
+                                                            label={t('CAR_TYPES.VONTATAS')}
+                                                            value={values.vontatas}
+                                                            onChange={handleChange('vontatas')}
+                                                            data-testid='vontatas-input'
+                                                            required
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR_TYPES.HEIGHT')}/>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
+                                                        <TextField
+                                                            id="height"
+                                                            placeholder='Példa Éva'
+                                                            name='height'
+                                                            label={t('CAR_TYPES.HEIGHT')}
+                                                            value={values.height}
+                                                            onChange={handleChange('height')}
+                                                            data-testid='height-input'
+                                                            required
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR_TYPES.SZELESSEG')}/>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
+                                                        <TextField
+                                                            id="szelesseg"
+                                                            placeholder='Példa Éva'
+                                                            name='szelesseg'
+                                                            label={t('CAR_TYPES.SZELESSEG')}
+                                                            value={values.szelesseg}
+                                                            onChange={handleChange('szelesseg')}
+                                                            data-testid='szelesseg-input'
+                                                            required
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR_TYPES.LONG')}/>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
+                                                        <TextField
+                                                            id="long"
+                                                            placeholder='Példa Éva'
+                                                            name='long'
+                                                            label={t('CAR_TYPES.LONG')}
+                                                            value={values.long}
+                                                            onChange={handleChange('long')}
+                                                            data-testid='long-input'
+                                                            required
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')} required={true}/>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                marginRight: 3,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}</InputLabel>
+                                                        <Select
+                                                            id="carTypeOfTransportationId"
+                                                            placeholder={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
+                                                            name='carTypeOfTransportationId'
+                                                            label={t('CAR_TYPES.CAR_TYPE_OF_TRANSPORTATION')}
+                                                            data-testid='carTypeOfTransportationId'
+                                                            disabled={inputDisabled}
+                                                            required
+                                                            value={values.carTypeOfTransportationId ?? ''}
+                                                            onChange={handleChange('carTypeOfTransportationId')}
+                                                            InputProps={{
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <ClearIcon
+                                                                            sx={{color: '#000000', cursor: 'pointer'}}
+                                                                            onClick={() => setValues({...values, carTypeOfTransportationId: '' })}
+                                                                        />
+                                                                    </InputAdornment>
+                                                                )
+                                                            }}
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        >
+                                                            {/*Object.values(genderList).map((gender) => (
+                                                            <MenuItem key={gender.value} value={gender.value}>
+                                                                {gender.label}
+                                                            </MenuItem>
+                                                        ))*/}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Box>
+                            </Box>
+                            <Box
+                                sx={{
+                                    backgroundColor: `${theme.palette.component.medium}`,
+                                    paddingLeft: '10px',
+                                    paddingRight: '10px',
+                                    paddingTop: '10px',
+                                    paddingBottom: '40px',
+                                    height: '100%',
+                                    borderRadius: '19px',
+                                    boxShadow: `0 0 10px rgba(0,0,0,0.3)`,
+                                    position: 'relative',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'start',
+                                    marginTop: 10
+                                }}
+                            >
+                                <Headline text={t('CAR.CAR_DATA')} />
+                                <Box sx={{display: 'flex', flexDirection: 'column', marginLeft: 0, marginRight: 5}}>
+                                    <Grid item container direction="column" spacing={2} marginTop={1} marginLeft={5} marginBottom={15}>
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR.NAME')}/>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
+                                                        <TextField
+                                                            id="name"
+                                                            placeholder='Példa Éva'
+                                                            name='name'
+                                                            label={t('CAR.NAME')}
+                                                            value={values.name}
+                                                            onChange={handleChange('name')}
+                                                            data-testid='name-input'
+                                                            required
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
+                                                    <NormalText text={t('CAR.TYPE')} required={true}/>
+                                                    <FormControl
+                                                        sx={{
+                                                            width: { xs: '100%', sm: '250px' },
+                                                            backgroundColor: 'rgb(255, 255, 255)',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    >
+                                                        <InputLabel
+                                                            sx={{
+                                                                fontSize: '14px',
+                                                                color: '#8f8f8f',
+                                                                transform: 'translate(14px, 12px) scale(1)', // Ensures proper placement when not focused
+                                                                left: 0,
+                                                                marginRight: 3,
+                                                                "&.Mui-focused, &.MuiFormLabel-filled": {
+                                                                    transform: 'translate(14px, -6px) scale(0.75)', // Scaled position when focused
+                                                                },
+                                                            }}
+                                                        >{t('CAR.TYPE')}</InputLabel>
+                                                        <Select
+                                                            id="type"
+                                                            placeholder={t('CAR.TYPE')}
+                                                            name='type'
+                                                            label={t('CAR.TYPE')}
+                                                            data-testid='type'
+                                                            disabled={inputDisabled}
+                                                            required
+                                                            value={values.type ?? ''}
+                                                            onChange={handleChange('type')}
+                                                            InputProps={{
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <ClearIcon
+                                                                            sx={{color: '#000000', cursor: 'pointer'}}
+                                                                            onClick={() => setValues({...values, type: '' })}
+                                                                        />
+                                                                    </InputAdornment>
+                                                                )
+                                                            }}
+                                                            sx={{
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
+                                                                color: `#000000`,
+                                                                textDecoration: 'none',
+                                                                height: 40,
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
+                                                            }}
+                                                        >
+                                                            {/*Object.values(genderList).map((gender) => (
+                                                                <MenuItem key={gender.value} value={gender.value}>
+                                                                    {gender.label}
+                                                                </MenuItem>
+                                                            ))*/}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+
+                                        <Grid item container direction="row" xs={4} md={10} spacing={15}>
+                                            <Grid item xs={4} md={5}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'start'
+                                                }}>
                                                     <NormalText text={t('CAR.LICENCE_PLATE')} required={true}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="licencePlate"
                                                             placeholder='Példa Éva'
@@ -952,16 +1271,22 @@ const NewCarAddDialog = NiceModal.create(
                                                             data-testid='licence-plate-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -975,7 +1300,13 @@ const NewCarAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('CAR.NUMBER_OF_REGISTRATION_LICENCE')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <DatePicker
                                                             name='numberOfRegistrationLicence'
                                                             data-testid='number-of-registration-licence-input'
@@ -998,7 +1329,13 @@ const NewCarAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('CAR.CHASSIS_NUMBER')} required={true}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="chassisNumber"
                                                             placeholder='Példa Éva'
@@ -1009,16 +1346,22 @@ const NewCarAddDialog = NiceModal.create(
                                                             data-testid='chassis-number-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -1032,7 +1375,13 @@ const NewCarAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('CAR.YEAR_OF_PRODUCTION')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="yearOfProduction"
                                                             placeholder='Példa Éva'
@@ -1043,16 +1392,22 @@ const NewCarAddDialog = NiceModal.create(
                                                             data-testid='year-of-production-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -1068,7 +1423,13 @@ const NewCarAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('CAR.DATE_OF_FIRST_REGISTRATION')} required={true}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <DatePicker
                                                             name='dateOfFirstRegistration'
                                                             data-testid='date-of-first-registration-input'
@@ -1091,7 +1452,13 @@ const NewCarAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('CAR.DATE_OF_DATABASE_REGISTRATION')} required={true}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <DatePicker
                                                             name='dateOfDatabaseRegistration'
                                                             data-testid='date-of-database-registration-input'
@@ -1112,7 +1479,13 @@ const NewCarAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('CAR.DATE_OF_LAST_TECHNICAL_EXAMINATION')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <DatePicker
                                                             name='dateOfLastTechnicalExamination'
                                                             data-testid='date-of-last-technical-examination-input'
@@ -1135,7 +1508,13 @@ const NewCarAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('CAR.DATE_OF_LAST_SERVICE')} required={true}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <DatePicker
                                                             name='dateOfLastService'
                                                             data-testid='date-of-last-service-input'
@@ -1156,27 +1535,39 @@ const NewCarAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('CAR.TOTAL_DRIVEN_KM')}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="totalDrivenKm"
                                                             placeholder='Példa Éva'
                                                             name='totalDrivenKm'
-                                                            label={t('CAR.TOTAL_DRIVEN_KM')}
+                                                            //label={t('CAR.TOTAL_DRIVEN_KM')}
                                                             value={values.totalDrivenKm}
                                                             onChange={handleChange('totalDrivenKm')}
                                                             data-testid='total-driven-km-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
@@ -1192,37 +1583,61 @@ const NewCarAddDialog = NiceModal.create(
                                                     alignItems: 'start'
                                                 }}>
                                                     <NormalText text={t('CAR.TOTAL_TRANSPORT')} required={true}/>
-                                                    <FormControl required fullWidth>
+                                                    <FormControl required
+                                                         sx={{
+                                                             width: { xs: '100%', sm: '250px' },
+                                                             backgroundColor: 'rgb(255, 255, 255)',
+                                                             borderRadius: '8px',
+                                                         }}
+                                                    >
                                                         <TextField
                                                             id="totalTransport"
                                                             placeholder='Példa Éva'
                                                             name='totalTransport'
-                                                            label={t('CAR.TOTAL_TRANSPORT')}
+                                                            //label={t('CAR.TOTAL_TRANSPORT')}
                                                             value={values.totalTransport}
                                                             onChange={handleChange('totalTransport')}
                                                             data-testid='total-transport-input'
                                                             required
                                                             sx={{
-                                                                backgroundColor: `#ffffff`,
-                                                                borderRadius: '18px',
+                                                                backgroundColor: `rgb(255, 255, 255)`,
+                                                                borderRadius: '8px',
                                                                 color: `#000000`,
                                                                 textDecoration: 'none',
                                                                 height: 40,
-                                                                width: 250,
-                                                                display: 'flex',
-                                                                justifyContent: 'center',
-                                                                fontSize: "15px",
-                                                                "& fieldset": {border: 'none'},
+                                                                fontSize: '14px',
+                                                                //fontWeight: '600',
+                                                                "& .MuiInputBase-input": {
+                                                                    fontSize: '14px',
+                                                                    //fontWeight: '600',
+                                                                    padding: '10px 14px', // Controls padding inside the box
+                                                                },
+                                                                "& fieldset": {
+                                                                    border: '#ffffff',
+                                                                    borderWidth: '5px',
+                                                                },
                                                             }}
                                                         />
                                                     </FormControl>
                                                 </Box>
                                             </Grid>
                                         </Grid>
+                                    </Grid>
+                                    <Box sx={{
+                                        position: "absolute",
+                                        bottom: 20,
+                                        right: -380,
+                                        overflow: "hidden"
+                                    }}>
+                                        <img
+                                            src={Van}
+                                            style={{ height: "45%", width: "45%", objectFit: "cover", objectPosition: "right"}}
+                                            alt="van"
+                                        />
                                     </Box>
-                                </DataCard>
-                            </form>
-                        </BackgroundCard>
+                                </Box>
+                            </Box>
+                        </form>
                     </Box>
                 </DialogContent>
 
