@@ -102,16 +102,14 @@ export const paginatedProduct = async (req, res) => {
     try {
         const { featured, name, category, sortBy, priceRange, page = 1, limit = 10 } = req.query;
         const query = {};
-        //query.quantity = { $gte: 1 }
+
         if (featured) {
             query.featured = true;
         }
         if (category) {
             try {
-                // Find the category by ID
                 const categoryData = await ProductCategory.findOne({ _id: category });
 
-                // Check if category data is found
                 if (!categoryData) {
                     return res.status(400).json({ error: 'Category not found' });
                 }
@@ -138,7 +136,7 @@ export const paginatedProduct = async (req, res) => {
             sort: sortBy === "asc" ? { name: 1 } : { name: -1 },
         };
 
-        const products = await Product.find(query, null, options).populate("category", "name");
+        const products = await Product.find(query, null, options).populate({ path: 'category', select: 'name', strictPopulate: false });
         const total = await Product.countDocuments(query);
         const totalPublished = await Product.countDocuments({ isDisplayed: true, ...query });
 
@@ -186,7 +184,7 @@ export const productsByCategory = async (req, res) => {
             query.name = name;
         }
 
-        const products = await Product.find(query, null).populate("category", "name");
+        const products = await Product.find(query, null).populate({ path: 'category', select: 'name', strictPopulate: false });
 
         return res.status(200).send(products);
     } catch (error) {

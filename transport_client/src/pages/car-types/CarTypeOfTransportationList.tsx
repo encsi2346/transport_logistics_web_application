@@ -143,6 +143,7 @@ const CarTypeOfTransportationList = () => {
                             })}
                     </Grid>
                     <Fab aria-label="add"
+                         data-testid='new-type-of-transportation-button'
                          onClick={openAddTypeOfTransportationDialog}
                          sx={{
                              margin: 0,

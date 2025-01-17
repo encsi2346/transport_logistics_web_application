@@ -106,11 +106,11 @@ export const deleteCar = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
+/*
 export const updateCountOfCars = async () => {
     try {
         // Step 1: For each Car document, increment the countOfCars in the corresponding CarType
-        const cars = await Car.find().populate('type');
+        const cars = await Car.find().populate({ path: 'type', strictPopulate: false });
         const carTypesCountMap = {};
 
         // Create a map to count the cars per CarType
@@ -142,7 +142,7 @@ export const updateCountOfCars = async () => {
 export const updateTransportationTypeCounts = async () => {
     try {
         // Step 1: Get all cars with populated 'type' (which refers to CarType)
-        const cars = await Car.find().populate('type');
+        const cars = await Car.find().populate({ path: 'type', strictPopulate: false });
 
         // Create a map to store the count of cars for each transportation type
         const transportationTypeCounts = {};
@@ -213,7 +213,7 @@ export const paginatedCar = async (req, res) => {
             sort: sortBy === "asc" ? { name: 1 } : { name: -1 },
         };
 
-        const cars = await Car.find(query, null, options).populate("type", "name");
+        const cars = await Car.find(query, null, options).populate({ path: 'type', select: 'name', strictPopulate: false });
         const total = await Car.countDocuments(query);
         const totalPublished = await Car.countDocuments({ isDisplayed: true, ...query });
 
@@ -231,4 +231,4 @@ export const paginatedCar = async (req, res) => {
         console.error('Error in getPaginatedCars middleware:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
-};
+};*/

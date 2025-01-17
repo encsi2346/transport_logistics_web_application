@@ -139,7 +139,7 @@ const ProductsItemList = () => {
         if (products.length > 0) {
             products.map((product) => {
                 if (product.status === 'out_of_stock') {
-                    notify( { text:'OUT OF STOCK!', type: 'error'});
+                    notify( { text:'Készlethiány!', type: 'error'});
                 }
             })
         }
@@ -286,6 +286,7 @@ const ProductsItemList = () => {
                     />
 
                     <Fab aria-label="add"
+                         data-testid='add-new-product-button'
                          onClick={openAddProductsItemDialog}
                          sx={{
                              margin: 0,

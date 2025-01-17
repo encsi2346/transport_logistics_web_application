@@ -1,5 +1,5 @@
 import express from 'express';
-import {createCar, deleteCar, getAllCars, getCar, paginatedCar, updateCar} from "../controllers/car.js";
+import {createCar, deleteCar, getAllCars, getCar, updateCar} from "../controllers/car.js";
 
 const router = express.Router();
 
@@ -129,5 +129,5 @@ router.put('/api/cars/:id', updateCar);
  */
 router.delete('/api/cars/:id', deleteCar);
 
-router.get("/api/paginated-cars", paginatedCar);
+//router.get("/api/paginated-cars", paginatedCar);
 export default router;

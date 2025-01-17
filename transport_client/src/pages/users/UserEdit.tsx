@@ -475,11 +475,13 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                         <Box sx={{
                             display: 'block',
                             justifyContent: 'flex-start',
-                            alignItems: 'flex-start',
+                            alignItems: 'center',
                             marginLeft: 5
                         }}>
-                            <Box sx={{display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-                                <NormalText text={t('TEXT.SELECT_MODE')}/>
+                            <Box sx={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                                <Box sx={{ width: 200}}>
+                                    <NormalText text={t('TEXT.SELECT_MODE')}/>
+                                </Box>
                                 <IconButton onClick={() => dispatch(setMode())} data-testid='mode-selector'>
                                     {theme.palette.mode === "dark" ? (
                                         <DarkModeRoundedIcon sx={{color: `#000000`, fontSize: "25px"}}/>
@@ -492,10 +494,13 @@ const UserEdit = ({ isEditing = false, isInputDisabled }: Props) => {
                             <Box sx={{
                                 display: 'flex',
                                 justifyContent: 'flex-start',
-                                alignItems: 'flex-start',
-                                minWidth: 120
+                                alignItems: 'center',
+                                minWidth: 400,
+                                gap: 2
                             }}>
-                                <NormalText text={t('TEXT.SELECT_LANGUAGE')}/>
+                                <Box sx={{ width: 300}}>
+                                    <NormalText text={t('TEXT.SELECT_LANGUAGE')}/>
+                                </Box>
                                 <FormControl fullWidth>
                                     <InputLabel>{t('TEXT.SELECT_LANGUAGE')}</InputLabel>
                                     <Select

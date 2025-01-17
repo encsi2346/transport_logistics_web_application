@@ -51,7 +51,8 @@ import serviceAppointmentRoutes from "./routes/serviceAppointment.js";
 import transportationRoutes from "./routes/transportation.js";
 import carTypeOfTransportationRoutes from "./routes/carTypeOfTransportation.js";
 import ImageDetails from "./models/ImageDetails.js";
-import {updateCountOfCars, updateTransportationTypeCounts} from "./controllers/car.js";
+//import {updateCountOfCars, updateTransportationTypeCounts} from "./controllers/car.js";
+import User from "./models/User.js";
 
 
 /*CONFIGURATIONS*/
@@ -284,7 +285,9 @@ mongoose.connect(process.env.MONGO_URL, {
     //ProductCategory.insertMany(books);
 
     // Run the script
-    updateCountOfCars();
-    updateTransportationTypeCounts();
+    //updateCountOfCars();
+    //updateTransportationTypeCounts();
 
 }).catch((error) => console.log(`${error} did not connect`));
+
+export default app;

@@ -321,6 +321,7 @@ const ProductsCategoryList = () => {
                             })}
                     </Grid>
                     <Fab aria-label="add"
+                         data-testid='add-new-product-category-button'
                          onClick={openAddProductCategoryDialog}
                          sx={{
                              margin: 0,

@@ -129,7 +129,7 @@ carSchema.post('remove', async function() {
     }
 });
 
-// Pre hook to update countOfCars when car type changes
+// Pre hook to u.populapdate countOfCars when car type changes
 carSchema.pre('save', async function(next) {
     if (this.isModified('type')) {
         try {

@@ -52,9 +52,9 @@ const TransportationDriver = ({ setCurrentStep }: { setCurrentStep: (step: numbe
         contentSecond: null,
         contentThird: null,
     });
-    const [contentFirst, setContentFirst] = useState({ id: '', name: 'Drop Something Here' });
-    const [contentSecond, setContentSecond] = useState({ id: '', name: 'Drop Something Here' });
-    const [contentThird, setContentThird] = useState({ id: '', name: 'Drop Something Here' });
+    const [contentFirst, setContentFirst] = useState({ id: '', name: 'Húzd ide az utast' });
+    const [contentSecond, setContentSecond] = useState({ id: '', name: 'Húzd ide az utast' });
+    const [contentThird, setContentThird] = useState({ id: '', name: 'Húzd ide az sofőrt' });
     const thisStep = TransportationSteps.DRIVER;
     const currentStep = useTransportationStore((state) => state.currentStep);
     const isStepDone = currentStep > thisStep;
@@ -408,7 +408,7 @@ const TransportationDriver = ({ setCurrentStep }: { setCurrentStep: (step: numbe
                                                                 marginLeft: 2,
                                                                 marginTop: 0
                                                             }}>
-                                                                {user.firstName}{user.familyName}
+                                                                {user.firstName} {user.familyName}
                                                             </Typography>
                                                         </Box>
                                                     </Box>

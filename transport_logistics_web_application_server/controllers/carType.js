@@ -145,7 +145,7 @@ export const paginatedCarType = async (req, res) => {
             sort: sortBy === "asc" ? { typeName: 1 } : { typeName: -1 },
         };
 
-        const carTypes = await CarType.find(query, null, options).populate("carTypeOfTransportationId", "typeName");
+        const carTypes = await CarType.find(query, null, options).populate({ path: 'carTypeOfTransportationId', select: 'typeName', strictPopulate: false });
         const total = await CarType.countDocuments(query);
         const totalPublished = await CarType.countDocuments({ isDisplayed: true, ...query });
 
